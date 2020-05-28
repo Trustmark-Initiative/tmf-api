@@ -1,0 +1,285 @@
+{
+  "trustmarkDefinitions" : [
+    {
+      "$TMF_VERSION" : "1.2",
+      "$Type": "TrustmarkDefinition",
+      "Metadata" : {
+        "Identifier": "https://trustmark.gtri.gatech.edu/operational-pilot/trustmark-definitions/test_001/0.1-SNAPSHOT/",
+        "TrustmarkReferenceAttributeName" : "https://trustmark.gtri.gatech.edu/operational-pilot/trustmark-definitions/test_001/0.1-SNAPSHOT/trustmark-reference/",
+        "Name" : "Test 001",
+        "Version" : "0.1-SNAPSHOT",
+        "Description" : "Test Description",
+        "PublicationDateTime" : "2016-09-08T10:00:00Z",
+        "TrustmarkDefiningOrganization" : {
+          "Identifier" : "http://tdo.example/",
+          "Name" : "Trustmark Defining Organization",
+          "Contact" : {
+            "Kind" : "PRIMARY",
+            "Email" : "TrustmarkFeedback@gtri.gatech.edu"
+          }
+        },
+        "LegalNotice" : "This document and the information contained herein is provided on an \"AS IS\" basis, and the Georgia Tech Research Institute disclaims all warranties, express or implied, including but not limited to any warranty that the use of the information herein will not infringe any rights or any implied warranties or merchantability or fitness for a particular purpose. In addition, the Georgia Tech Research Institute disclaims legal liability for any loss incurred as a result of the use or reliance on the document or the information contained herein.",
+        "Notes" : "The Georgia Tech Research Institute (GTRI) has published this document with the support of the National Strategy for Trusted Identities in Cyberspace (NSTIC) via the National Institute of Standards and Technology (NIST). The views expressed herein do not necessarily reflect the official policies of GTRI, NIST or NSTIC; nor does mention of trade names, commercial practices, or organizations imply endorsement by the U.S. Government."
+      },
+
+      "ConformanceCriteria" : [
+        {
+          "$id" : "criterion1",
+          "Number" : 1,
+          "Name" : "Criterion 1",
+          "Description" : "A description of Criterion 1"
+        }
+      ],
+      "AssessmentSteps" : [
+        {
+          "$id" : "Step1",
+          "Number" : 1,
+          "Name" : "Step 1",
+          "Description" : "A description of Step 1",
+          "ConformanceCriteria" : [ {"$ref": "#criterion1"} ]
+        }
+
+      ],
+
+      "IssuanceCriteria" : "yes(all)"
+    },
+    {
+      "$TMF_VERSION" : "1.2",
+      "$Type": "TrustmarkDefinition",
+      "Metadata" : {
+        "Identifier": "https://trustmark.gtri.gatech.edu/operational-pilot/trustmark-definitions/test_002/0.1-SNAPSHOT/",
+        "TrustmarkReferenceAttributeName" : "https://trustmark.gtri.gatech.edu/operational-pilot/trustmark-definitions/test_002/0.1-SNAPSHOT/trustmark-reference/",
+        "Name" : "Test 002",
+        "Version" : "0.1-SNAPSHOT",
+        "Description" : "Test Description",
+        "PublicationDateTime" : "2016-09-08T10:00:00Z",
+        "TrustmarkDefiningOrganization" : {
+          "Identifier" : "http://tdo.example/",
+          "Name" : "Trustmark Defining Organization",
+          "Contact" : {
+            "Kind" : "PRIMARY",
+            "Email" : "TrustmarkFeedback@gtri.gatech.edu"
+          }
+        },
+        "LegalNotice" : "This document and the information contained herein is provided on an \"AS IS\" basis, and the Georgia Tech Research Institute disclaims all warranties, express or implied, including but not limited to any warranty that the use of the information herein will not infringe any rights or any implied warranties or merchantability or fitness for a particular purpose. In addition, the Georgia Tech Research Institute disclaims legal liability for any loss incurred as a result of the use or reliance on the document or the information contained herein.",
+        "Notes" : "The Georgia Tech Research Institute (GTRI) has published this document with the support of the National Strategy for Trusted Identities in Cyberspace (NSTIC) via the National Institute of Standards and Technology (NIST). The views expressed herein do not necessarily reflect the official policies of GTRI, NIST or NSTIC; nor does mention of trade names, commercial practices, or organizations imply endorsement by the U.S. Government."
+      },
+
+      "ConformanceCriteria" : [
+        {
+          "$id" : "criterion1",
+          "Number" : 1,
+          "Name" : "Criterion 1",
+          "Description" : "A description of Criterion 1"
+        }
+      ],
+      "AssessmentSteps" : [
+        {
+          "$id" : "Step1",
+          "Number" : 1,
+          "Name" : "Step 1",
+          "Description" : "A description of Step 1",
+          "ConformanceCriteria" : [ {"$ref": "#criterion1"} ]
+        }
+
+      ],
+
+      "IssuanceCriteria" : "yes(Step1)"
+    },
+    {
+      "$TMF_VERSION" : "1.2",
+      "$Type": "TrustmarkDefinition",
+      "Metadata" : {
+        "Identifier": "https://trustmark.gtri.gatech.edu/operational-pilot/trustmark-definitions/test_003/0.1-SNAPSHOT/",
+        "TrustmarkReferenceAttributeName" : "https://trustmark.gtri.gatech.edu/operational-pilot/trustmark-definitions/test_003/0.1-SNAPSHOT/trustmark-reference/",
+        "Name" : "Test 003",
+        "Version" : "0.1-SNAPSHOT",
+        "Description" : "Test Description",
+        "PublicationDateTime" : "2016-09-08T10:00:00Z",
+        "TrustmarkDefiningOrganization" : {
+          "Identifier" : "http://tdo.example/",
+          "Name" : "Trustmark Defining Organization",
+          "Contact" : {
+            "Kind" : "PRIMARY",
+            "Email" : "TrustmarkFeedback@gtri.gatech.edu"
+          }
+        },
+        "LegalNotice" : "This document and the information contained herein is provided on an \"AS IS\" basis, and the Georgia Tech Research Institute disclaims all warranties, express or implied, including but not limited to any warranty that the use of the information herein will not infringe any rights or any implied warranties or merchantability or fitness for a particular purpose. In addition, the Georgia Tech Research Institute disclaims legal liability for any loss incurred as a result of the use or reliance on the document or the information contained herein.",
+        "Notes" : "The Georgia Tech Research Institute (GTRI) has published this document with the support of the National Strategy for Trusted Identities in Cyberspace (NSTIC) via the National Institute of Standards and Technology (NIST). The views expressed herein do not necessarily reflect the official policies of GTRI, NIST or NSTIC; nor does mention of trade names, commercial practices, or organizations imply endorsement by the U.S. Government."
+      },
+
+      "ConformanceCriteria" : [
+        {
+          "$id" : "criterion1",
+          "Number" : 1,
+          "Name" : "Criterion 1",
+          "Description" : "A description of Criterion 1"
+        },
+        {
+          "$id" : "criterion2",
+          "Number" : 2,
+          "Name" : "Criterion 2",
+          "Description" : "A description of Criterion 2"
+        }
+      ],
+      "AssessmentSteps" : [
+        {
+          "$id" : "Step1",
+          "Number" : 1,
+          "Name" : "Step 1",
+          "Description" : "A description of Step 1",
+          "ConformanceCriteria" : [ {"$ref": "#criterion1"} ]
+        },
+        {
+          "$id" : "Step2",
+          "Number" : 2,
+          "Name" : "Step 2",
+          "Description" : "A description of Step 2",
+          "ConformanceCriteria" : [ {"$ref": "#criterion2"} ]
+        }
+
+      ],
+
+      "IssuanceCriteria" : "yes(Step1, Step2)"
+    },
+    {
+      "$TMF_VERSION" : "1.2",
+      "$Type": "TrustmarkDefinition",
+      "Metadata" : {
+        "Identifier": "https://trustmark.gtri.gatech.edu/operational-pilot/trustmark-definitions/test_004/0.1-SNAPSHOT/",
+        "TrustmarkReferenceAttributeName" : "https://trustmark.gtri.gatech.edu/operational-pilot/trustmark-definitions/test_004/0.1-SNAPSHOT/trustmark-reference/",
+        "Name" : "Test 004",
+        "Version" : "0.1-SNAPSHOT",
+        "Description" : "Test Description",
+        "PublicationDateTime" : "2016-09-08T10:00:00Z",
+        "TrustmarkDefiningOrganization" : {
+          "Identifier" : "http://tdo.example/",
+          "Name" : "Trustmark Defining Organization",
+          "Contact" : {
+            "Kind" : "PRIMARY",
+            "Email" : "TrustmarkFeedback@gtri.gatech.edu"
+          }
+        },
+        "LegalNotice" : "This document and the information contained herein is provided on an \"AS IS\" basis, and the Georgia Tech Research Institute disclaims all warranties, express or implied, including but not limited to any warranty that the use of the information herein will not infringe any rights or any implied warranties or merchantability or fitness for a particular purpose. In addition, the Georgia Tech Research Institute disclaims legal liability for any loss incurred as a result of the use or reliance on the document or the information contained herein.",
+        "Notes" : "The Georgia Tech Research Institute (GTRI) has published this document with the support of the National Strategy for Trusted Identities in Cyberspace (NSTIC) via the National Institute of Standards and Technology (NIST). The views expressed herein do not necessarily reflect the official policies of GTRI, NIST or NSTIC; nor does mention of trade names, commercial practices, or organizations imply endorsement by the U.S. Government."
+      },
+
+      "ConformanceCriteria" : [
+        {
+          "$id" : "criterion1",
+          "Number" : 1,
+          "Name" : "Criterion 1",
+          "Description" : "A description of Criterion 1"
+        },
+        {
+          "$id" : "criterion2",
+          "Number" : 2,
+          "Name" : "Criterion 2",
+          "Description" : "A description of Criterion 2"
+        },
+        {
+          "$id" : "criterion3",
+          "Number" : 3,
+          "Name" : "Criterion 3",
+          "Description" : "A description of Criterion 3"
+        }
+      ],
+      "AssessmentSteps" : [
+        {
+          "$id" : "Step1",
+          "Number" : 1,
+          "Name" : "Step 1",
+          "Description" : "A description of Step 1",
+          "ConformanceCriteria" : [ {"$ref": "#criterion1"} ]
+        },
+        {
+          "$id" : "Step2",
+          "Number" : 2,
+          "Name" : "Step 2",
+          "Description" : "A description of Step 2",
+          "ConformanceCriteria" : [ {"$ref": "#criterion2"} ]
+        },
+        {
+          "$id" : "Step3",
+          "Number" : 3,
+          "Name" : "Step 3",
+          "Description" : "A description of Step 3",
+          "ConformanceCriteria" : [ {"$ref": "#criterion3"} ]
+        }
+
+      ],
+
+      "IssuanceCriteria" : "yes(Step1, Step2, Step3)"
+    },
+    {
+      "$TMF_VERSION" : "1.2",
+      "$Type": "TrustmarkDefinition",
+      "Metadata" : {
+        "Identifier": "https://trustmark.gtri.gatech.edu/operational-pilot/trustmark-definitions/test_005/0.1-SNAPSHOT/",
+        "TrustmarkReferenceAttributeName" : "https://trustmark.gtri.gatech.edu/operational-pilot/trustmark-definitions/test_005/0.1-SNAPSHOT/trustmark-reference/",
+        "Name" : "Test 005",
+        "Version" : "0.1-SNAPSHOT",
+        "Description" : "Test Description",
+        "PublicationDateTime" : "2016-09-08T10:00:00Z",
+        "TrustmarkDefiningOrganization" : {
+          "Identifier" : "http://tdo.example/",
+          "Name" : "Trustmark Defining Organization",
+          "Contact" : {
+            "Kind" : "PRIMARY",
+            "Email" : "TrustmarkFeedback@gtri.gatech.edu"
+          }
+        },
+        "LegalNotice" : "This document and the information contained herein is provided on an \"AS IS\" basis, and the Georgia Tech Research Institute disclaims all warranties, express or implied, including but not limited to any warranty that the use of the information herein will not infringe any rights or any implied warranties or merchantability or fitness for a particular purpose. In addition, the Georgia Tech Research Institute disclaims legal liability for any loss incurred as a result of the use or reliance on the document or the information contained herein.",
+        "Notes" : "The Georgia Tech Research Institute (GTRI) has published this document with the support of the National Strategy for Trusted Identities in Cyberspace (NSTIC) via the National Institute of Standards and Technology (NIST). The views expressed herein do not necessarily reflect the official policies of GTRI, NIST or NSTIC; nor does mention of trade names, commercial practices, or organizations imply endorsement by the U.S. Government."
+      },
+
+      "ConformanceCriteria" : [
+        {
+          "$id" : "criterion1",
+          "Number" : 1,
+          "Name" : "Criterion 1",
+          "Description" : "A description of Criterion 1"
+        },
+        {
+          "$id" : "criterion2",
+          "Number" : 2,
+          "Name" : "Criterion 2",
+          "Description" : "A description of Criterion 2"
+        },
+        {
+          "$id" : "criterion3",
+          "Number" : 3,
+          "Name" : "Criterion 3",
+          "Description" : "A description of Criterion 3"
+        }
+      ],
+      "AssessmentSteps" : [
+        {
+          "$id" : "Step1",
+          "Number" : 1,
+          "Name" : "Step 1",
+          "Description" : "A description of Step 1",
+          "ConformanceCriteria" : [ {"$ref": "#criterion1"} ]
+        },
+        {
+          "$id" : "Step2",
+          "Number" : 2,
+          "Name" : "Step 2",
+          "Description" : "A description of Step 2",
+          "ConformanceCriteria" : [ {"$ref": "#criterion2"} ]
+        },
+        {
+          "$id" : "Step3",
+          "Number" : 3,
+          "Name" : "Step 3",
+          "Description" : "A description of Step 3",
+          "ConformanceCriteria" : [ {"$ref": "#criterion3"} ]
+        }
+
+      ],
+
+      "IssuanceCriteria" : "yes(Step1...Step3)"
+    }
+  ],
+  "trustInteroperabilityProfiles" : []
+}

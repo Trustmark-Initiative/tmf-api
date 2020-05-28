@@ -1,0 +1,30 @@
+{
+  "Name" : "Trust Expressions with Identifiers",
+  "Description" : "Performs tests with TD identifiers given.",
+  "TestType" : "IdentifierTest",
+
+  "IdentifierTests" : [
+    {
+      "Description" : "Valid Token Tests",
+      "TrustExpression" : [
+        "td1",
+        "td1 and td2",
+        "td1 and td2 and td3",
+        "(td1 or td2) and (td3 or td4)",
+        "(td1.field == td2.field or td2.f1 < 123.3) and (td3.stringField == \"TEST\" or td4.booleanField)"
+      ],
+      "Identifiers" : ["td1", "td2", "td3", "td4"]
+    },
+
+    {
+      "Description" : "Invalid Token Tests",
+      "Note" : "Invalid because td4 is declared, but not given as an identifier.",
+      "TrustExpression" : [
+        "(td1 or td2) and (td3 or td4)",
+        "(td1.field == td2.field or td2.f1 < 123.3) and (td3.stringField == \"TEST\" or td4.booleanField)"
+      ],
+      "Invalid" : true,
+      "Identifiers" : ["td1", "td2", "td3"]
+    }
+  ]
+}

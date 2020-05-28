@@ -1,0 +1,45 @@
+{
+  "$Type": "AdioTest1",
+  "$TMF_VERSION": "1.3",
+  "NonCdataValueNode1": "Text-A",
+  "NonCdataValueNode2": "Text-B",
+  "CdataValueNode1": "Text-C",
+  "CdataValueNode2": "<![CDATA[Text-D]]>",
+  "ElementNode1": {
+    "ChildNonCdataValueNode1": "Text-E",
+    "ChildNonCdataValueNode2": "Text-F",
+    "ChildCdataValueNode1": "Text-G",
+    "ChildCdataValueNode2": "Text-H"
+  },
+  "ElementNode2": {
+    "id": "identifier1",
+    "ChildNonCdataValueNode3": "Text-I",
+    "ChildNonCdataValueNode4": "Text-J",
+    "ChildCdataValueNode3": "<b>Text-K</b>",
+    "ChildCdataValueNode4": "Text-L"
+  },
+  "SequenceNode1": [
+    {
+      "ChildNonCdataValueNode5": "Text-M1",
+      "ElementNode2": {
+        "$ref": "#identifier1"
+      }
+    },
+    {
+      "ChildNonCdataValueNode5": "Text-M2",
+      "ElementNode2": {
+        "id": "identifier2",
+        "ChildNonCdataValueNode3": "Text-N",
+        "ChildNonCdataValueNode4": "Text-O",
+        "ChildCdataValueNode3": "Text-P",
+        "ChildCdataValueNode4": "Text-Q"
+      }
+    },
+    {
+      "ChildNonCdataValueNode5": "Text-M3",
+      "ElementNode2": {
+        "$ref": "#identifier2"
+      }
+    }
+  ]
+}

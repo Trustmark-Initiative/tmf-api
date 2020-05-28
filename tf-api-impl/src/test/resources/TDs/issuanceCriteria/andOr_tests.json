@@ -1,0 +1,33 @@
+{
+  "name" : "AndOrTests",
+  "description" : "Tests that the parser handles 'and' and 'or' cases correctly.",
+  "resultSet" : [
+    {"result" : "yes"},
+    {"result" : "no"},
+    {"result" : "yes"},
+    {"result" : "no"}
+  ],
+  "testSet" : [
+    {"expression" : "yes(1) and no(2)", "satisfies" : true},
+    {"expression" : "yes(1) and no(2) and yes(3)", "satisfies" : true},
+    {"expression" : "yes(1) and no(2) and yes(3) and no(4)", "satisfies" : true},
+    {"expression" : "yes(1) and yes(2)", "satisfies" : false},
+    {"expression" : "(yes(1) and no(2)) and yes(3)", "satisfies" : true},
+    {"expression" : "(yes(1) and no(2)) and (yes(3) and no(4))", "satisfies" : true},
+
+    {"expression" : "yes(1) or no(2)", "satisfies" : true},
+    {"expression" : "yes(1) or yes(2)", "satisfies" : true},
+    {"expression" : "no(1) or no(2)", "satisfies" : true},
+    {"expression" : "yes(1) or no(2) or yes(3)", "satisfies" : true},
+    {"expression" : "yes(1) or no(2) or yes(3) or no(4)", "satisfies" : true},
+    {"expression" : "no(1) or yes(2)", "satisfies" : false},
+
+    {"expression" : "(yes(1) and no(2)) or no(3)", "satisfies" : true},
+    {"expression" : "(yes(1) and yes(2)) or yes(3)", "satisfies" : true},
+    {"expression" : "(yes(1) and no(2)) or (no(3) and no(4))", "satisfies" : true},
+    {"expression" : "(yes(1) and yes(2)) or (yes(3) and no(4))", "satisfies" : true}
+
+
+
+  ]
+}

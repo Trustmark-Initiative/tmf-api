@@ -1,0 +1,4 @@
+edu.gatech.gtri.trustmark.v1_0.impl.util.diff.CheckMajorMetadataIdFieldsTDDiff
+edu.gatech.gtri.trustmark.v1_0.impl.util.diff.CheckMinorMetadataIdFieldsTDDiff
+edu.gatech.gtri.trustmark.v1_0.impl.util.diff.ConformanceCritTDDiff
+edu.gatech.gtri.trustmark.v1_0.impl.util.diff.AssessmentStepTDDiff

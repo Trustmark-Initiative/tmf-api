@@ -1,0 +1,4 @@
+edu.gatech.gtri.trustmark.v1_0.impl.util.diff.CheckMajorMetadataIdFieldsTIPDiff
+edu.gatech.gtri.trustmark.v1_0.impl.util.diff.CheckMinorMetadataIdFieldsTIPDiff
+edu.gatech.gtri.trustmark.v1_0.impl.util.diff.IssuerCompareTIPDiff
+edu.gatech.gtri.trustmark.v1_0.impl.util.diff.ReferencesTIPDiff

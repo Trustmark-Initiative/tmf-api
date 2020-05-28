@@ -1,0 +1,5 @@
+{
+  "status": "SUCCESS",
+  "message": "Successfully started building a Zip File.",
+  "monitorUrl": "https://trustmark.example.org/test/downloadAll/monitor/VS_20170411_1?format=json"
+}

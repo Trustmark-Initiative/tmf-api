@@ -1,0 +1,145 @@
+{
+  "_links": {
+    "_formats": [
+      {
+        "format": "json",
+        "href": "https://trustmark.example.org/test/search?queryString=test&format=json"
+      }
+    ]
+  },
+  "queryString": "test",
+  "terms": [
+    "test"
+  ],
+  "tdCountTotal": 599,
+  "tipCountTotal": 229,
+  "versionSetId": "VS_20170415",
+  "results": {
+    "tdCount": 4,
+    "tipCount": 1,
+    "tds": [
+      {
+        "Type": "TrustmarkDefinition",
+        "Identifier": "https://trustmark.example.org/test/trustmark-definitions/system-contingency-plan-testing/1.0/",
+        "Name": "System Contingency Plan Testing",
+        "Version": "1.0",
+        "Description": "This Trustmark Definition defines conformance and assessment criteria for compliance with minimum security requirements for system contingency plan testing as related to overall contingency planning requirements.",
+        "Deprecated": false,
+        "_links": {
+          "_formats": [
+            {
+              "format": "json",
+              "href": "https://trustmark.example.org/test/trustmark-definitions/system-contingency-plan-testing/1.0/?format=json"
+            },
+            {
+              "format": "html",
+              "href": "https://trustmark.example.org/test/trustmark-definitions/system-contingency-plan-testing/1.0/?format=html"
+            },
+            {
+              "format": "xml",
+              "href": "https://trustmark.example.org/test/trustmark-definitions/system-contingency-plan-testing/1.0/?format=xml"
+            }
+          ]
+        }
+      },
+      {
+        "Type": "TrustmarkDefinition",
+        "Identifier": "https://trustmark.example.org/test/trustmark-definitions/corrective-actions-based-on-system-contingency-plan-test-results/1.0/",
+        "Name": "Corrective Actions Based on System Contingency Plan Test Results",
+        "Version": "1.0",
+        "Description": "This Trustmark Definition defines conformance and assessment criteria for compliance with minimum security requirements for corrective actions based on system contingency plan test results as related to overall contingency planning requirements.",
+        "Deprecated": false,
+        "_links": {
+          "_formats": [
+            {
+              "format": "json",
+              "href": "https://trustmark.example.org/test/trustmark-definitions/corrective-actions-based-on-system-contingency-plan-test-results/1.0/?format=json"
+            },
+            {
+              "format": "html",
+              "href": "https://trustmark.example.org/test/trustmark-definitions/corrective-actions-based-on-system-contingency-plan-test-results/1.0/?format=html"
+            },
+            {
+              "format": "xml",
+              "href": "https://trustmark.example.org/test/trustmark-definitions/corrective-actions-based-on-system-contingency-plan-test-results/1.0/?format=xml"
+            }
+          ]
+        }
+      },
+      {
+        "Type": "TrustmarkDefinition",
+        "Identifier": "https://trustmark.example.org/test/trustmark-definitions/testing-of-flaw-remediation-updates/1.0/",
+        "Name": "Testing of Flaw Remediation Updates",
+        "Version": "1.0",
+        "Description": "This Trustmark Definition defines conformance and assessment criteria for compliance with minimum security requirements for testing of flaw remediation updates as related to overall system and information integrity requirements.",
+        "Deprecated": false,
+        "_links": {
+          "_formats": [
+            {
+              "format": "json",
+              "href": "https://trustmark.example.org/test/trustmark-definitions/testing-of-flaw-remediation-updates/1.0/?format=json"
+            },
+            {
+              "format": "html",
+              "href": "https://trustmark.example.org/test/trustmark-definitions/testing-of-flaw-remediation-updates/1.0/?format=html"
+            },
+            {
+              "format": "xml",
+              "href": "https://trustmark.example.org/test/trustmark-definitions/testing-of-flaw-remediation-updates/1.0/?format=xml"
+            }
+          ]
+        }
+      },
+      {
+        "Type": "TrustmarkDefinition",
+        "Identifier": "https://trustmark.example.org/test/trustmark-definitions/review-of-system-contingency-plan-test-results/1.0/",
+        "Name": "Review of System Contingency Plan Test Results",
+        "Version": "1.0",
+        "Description": "This Trustmark Definition defines conformance and assessment criteria for compliance with minimum security requirements for review of system contingency plan test results as related to overall contingency planning requirements.",
+        "Deprecated": false,
+        "_links": {
+          "_formats": [
+            {
+              "format": "json",
+              "href": "https://trustmark.example.org/test/trustmark-definitions/review-of-system-contingency-plan-test-results/1.0/?format=json"
+            },
+            {
+              "format": "html",
+              "href": "https://trustmark.example.org/test/trustmark-definitions/review-of-system-contingency-plan-test-results/1.0/?format=html"
+            },
+            {
+              "format": "xml",
+              "href": "https://trustmark.example.org/test/trustmark-definitions/review-of-system-contingency-plan-test-results/1.0/?format=xml"
+            }
+          ]
+        }
+      }
+    ],
+    "tips": [
+      {
+        "Type": "TrustInteroperabilityProfile",
+        "Identifier": "https://trustmark.example.org/test/trustmark-definitions/corrective-actions-based-on-system-contingency-plan-test-results/1.0/",
+        "Name": "Corrective Actions Based on System Contingency Plan Test Results",
+        "Version": "1.0",
+        "Description": "This Trustmark Definition defines conformance and assessment criteria for compliance with minimum security requirements for corrective actions based on system contingency plan test results as related to overall contingency planning requirements.",
+        "Deprecated": false,
+        "_links": {
+          "_formats": [
+            {
+              "format": "json",
+              "href": "https://trustmark.example.org/test/trustmark-definitions/corrective-actions-based-on-system-contingency-plan-test-results/1.0/?format=json"
+            },
+            {
+              "format": "html",
+              "href": "https://trustmark.example.org/test/trustmark-definitions/corrective-actions-based-on-system-contingency-plan-test-results/1.0/?format=html"
+            },
+            {
+              "format": "xml",
+              "href": "https://trustmark.example.org/test/trustmark-definitions/corrective-actions-based-on-system-contingency-plan-test-results/1.0/?format=xml"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

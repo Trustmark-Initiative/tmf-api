@@ -1,0 +1,11 @@
+{
+  "status": "SUCCESS",
+  "message": "The latest ZIP file is available from: /binary/view/831",
+  "url": "https://trustmark.example.org/test/binary/view/831",
+  "versionSet": {
+    "name": "VS_20170410"
+  },
+  "size": 3382644,
+  "humanSize": "3 MB",
+  "createDate": "2017-04-10 17:13"
+}

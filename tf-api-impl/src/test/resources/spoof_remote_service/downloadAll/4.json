@@ -1,0 +1,7 @@
+{
+  "executing": false,
+  "status": "COMPLETE",
+  "message": "Successfully built an artifact containing ALL data from VersionSet VS_20170410.",
+  "percentage": -1,
+  "latestDownloadInfoURL": "https://trustmark.example.org/test/downloadAll/getLatestDownload/VS_20170411_1.json"
+}

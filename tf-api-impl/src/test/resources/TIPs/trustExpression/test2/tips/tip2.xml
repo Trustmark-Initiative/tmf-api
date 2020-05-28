@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tf:TrustInteroperabilityProfile
+        tf:id="test1_tip1"
+        xmlns:tf="https://trustmarkinitiative.org/specifications/trustmark-framework/1.3/schema/"
+        xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="https://trustmarkinitiative.org/specifications/trustmark-framework/1.3/schema/ ../../../../../../main/resources/META-INF/xml-schema/tf.xsd">
+    <tf:Identifier>http://tip.example/tip</tf:Identifier>
+    <tf:PublicationDateTime>2014-01-01T00:00:00</tf:PublicationDateTime>
+    <tf:Issuer>
+        <tf:Identifier>http://tip.example/</tf:Identifier>
+        <tf:Name>Trust Interoperability Profile Issuer</tf:Name>
+        <tf:Contact>
+            <tf:Kind>PRIMARY</tf:Kind>
+            <tf:Email>TrustmarkFeedback@gtri.gatech.edu</tf:Email>
+        </tf:Contact>
+    </tf:Issuer>  
+    <tf:References>
+        <tf:TrustmarkDefinitionRequirement tf:id="td1">
+            <tf:TrustmarkDefinitionReference>
+                <tf:Identifier>td1</tf:Identifier>
+            </tf:TrustmarkDefinitionReference>
+            <tf:ProviderReference>
+                <tf:Identifier>org2</tf:Identifier>
+            </tf:ProviderReference>
+        </tf:TrustmarkDefinitionRequirement>
+        <tf:TrustmarkDefinitionRequirement tf:id="td2">
+            <tf:TrustmarkDefinitionReference>
+                <tf:Identifier>td2</tf:Identifier>
+            </tf:TrustmarkDefinitionReference>
+        </tf:TrustmarkDefinitionRequirement>
+    </tf:References>
+    <tf:TrustExpression><![CDATA[td1 and td2]]></tf:TrustExpression>
+</tf:TrustInteroperabilityProfile>

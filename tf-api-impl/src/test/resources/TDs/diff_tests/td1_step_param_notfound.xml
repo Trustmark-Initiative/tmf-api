@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tf:TrustmarkDefinition
+        xmlns:tf="https://trustmarkinitiative.org/specifications/trustmark-framework/1.2/schema/"
+        xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="https://trustmarkinitiative.org/specifications/trustmark-framework/1.2/schema/ ../../../../main/resources/META-INF/xml-schema/tf.xsd">
+    <tf:Metadata>
+        <tf:Identifier>http://tdo.example/td</tf:Identifier>
+        <tf:TrustmarkReferenceAttributeName>
+            TrustmarkReferenceAttributeName
+        </tf:TrustmarkReferenceAttributeName>
+        <tf:Name>Trustmark Definition Name</tf:Name>
+        <tf:Version>1.0.0</tf:Version>
+        <tf:Description>
+            This is a description of this Trustmark Definition.
+        </tf:Description>
+        <tf:PublicationDateTime>2014-01-01T00:00:00</tf:PublicationDateTime>
+        <tf:TrustmarkDefiningOrganization>
+            <tf:Identifier>http:///tdo.example</tf:Identifier>
+            <tf:Name>Trustmark Defining Organization</tf:Name>
+            <tf:Contact>
+                <tf:Kind>PRIMARY</tf:Kind>
+                <tf:Email>TrustmarkFeedback@gtri.gatech.edu</tf:Email>
+            </tf:Contact>
+        </tf:TrustmarkDefiningOrganization>
+    </tf:Metadata>
+    <tf:ConformanceCriteria>
+        <tf:ConformanceCriterion tf:id="criterion">
+            <tf:Number>1</tf:Number>
+            <tf:Name>Name</tf:Name>
+            <tf:Description>
+                This is a description of the conformance criterion.
+            </tf:Description>
+        </tf:ConformanceCriterion>
+    </tf:ConformanceCriteria>
+    <tf:AssessmentSteps>
+        <tf:AssessmentStep tf:id="step">
+            <tf:Number>1</tf:Number>
+            <tf:Name>Name</tf:Name>
+            <tf:Description>
+                This is a description of the assessment step.
+            </tf:Description>
+            <tf:ConformanceCriterion tf:ref="criterion" xsi:nil="true"/>
+        </tf:AssessmentStep>
+    </tf:AssessmentSteps>
+    <tf:IssuanceCriteria>
+        <![CDATA[yes(all)]]>
+    </tf:IssuanceCriteria>
+</tf:TrustmarkDefinition>

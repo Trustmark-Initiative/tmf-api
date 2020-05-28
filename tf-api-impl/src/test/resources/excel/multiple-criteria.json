@@ -1,0 +1,175 @@
+{
+  "trustmarkDefinitions" : [
+    {
+      "$TMF_VERSION" : "1.2",
+      "$Type": "TrustmarkDefinition",
+      "Metadata" : {
+        "Identifier": "https://trustmark.gtri.gatech.edu/operational-pilot/trustmark-definitions/test_001/0.1-SNAPSHOT/",
+        "TrustmarkReferenceAttributeName" : "https://trustmark.gtri.gatech.edu/operational-pilot/trustmark-definitions/test_001/0.1-SNAPSHOT/trustmark-reference/",
+        "Name" : "Test 1",
+        "Version" : "0.1-SNAPSHOT",
+        "Description" : "Just a simple TD to show how to make one.  Demonstration only.",
+        "PublicationDateTime" : "2016-09-08T10:00:00Z",
+        "TrustmarkDefiningOrganization" : {
+          "Identifier" : "http://tdo.example/",
+          "Name" : "Trustmark Defining Organization",
+          "Contact" : {
+            "Kind" : "PRIMARY",
+            "Email" : "TrustmarkFeedback@gtri.gatech.edu"
+          }
+        },
+        "LegalNotice" : "This document and the information contained herein is provided on an \"AS IS\" basis, and the Georgia Tech Research Institute disclaims all warranties, express or implied, including but not limited to any warranty that the use of the information herein will not infringe any rights or any implied warranties or merchantability or fitness for a particular purpose. In addition, the Georgia Tech Research Institute disclaims legal liability for any loss incurred as a result of the use or reliance on the document or the information contained herein.",
+        "Notes" : "The Georgia Tech Research Institute (GTRI) has published this document with the support of the National Strategy for Trusted Identities in Cyberspace (NSTIC) via the National Institute of Standards and Technology (NIST). The views expressed herein do not necessarily reflect the official policies of GTRI, NIST or NSTIC; nor does mention of trade names, commercial practices, or organizations imply endorsement by the U.S. Government."
+      },
+      "Terms" : [
+        {
+          "Name" : "TEST",
+          "Abbreviations" : ["T"],
+          "Definition" : "A test term."
+        }
+      ],
+      "Sources" : [
+        {
+          "$id" : "source1",
+          "Identifier" : "TEST1",
+          "Reference" : "A simple test source"
+        }
+      ],
+
+      "ConformanceCriteria" : [
+        {
+          "$id" : "c1",
+          "Number" : 1,
+          "Name" : "TD 1 Crit 1",
+          "Description" : "A description of Criterion 1",
+          "Citations" : [
+            {
+              "Source" : { "$ref" : "#source1" },
+              "Description" : "Page 2"
+            }
+          ]
+        },
+        {
+          "$id" : "c2",
+          "Number" : 2,
+          "Name" : "TD 1 Crit 2",
+          "Description" : "A description of Crit 2",
+          "Citations" : [
+            {
+              "Source" : { "$ref" : "#source1" },
+              "Description" : "Page 3"
+            }
+          ]
+        },
+        {
+          "$id" : "c3",
+          "Number" : 3,
+          "Name" : "TD 1 Crit 3",
+          "Description" : "A description of Crit 3",
+          "Citations" : [
+            {
+              "Source" : { "$ref" : "#source1" },
+              "Description" : "Page 4"
+            }
+          ]
+        },
+        {
+          "$id" : "c4",
+          "Number" : 4,
+          "Name" : "TD 1 Crit 4",
+          "Description" : "A description of Crit 4",
+          "Citations" : [
+            {
+              "Source" : { "$ref" : "#source1" },
+              "Description" : "Page 5"
+            }
+          ]
+        }
+      ],
+
+      "AssessmentSteps" : [
+        {
+          "$id" : "step1",
+          "Number" : 1,
+          "Name" : "TD1 Step 1",
+          "Description" : "A description of Step 1",
+          "ConformanceCriteria" : [ {"$ref": "#c1"}, {"$ref": "#c2"} ]
+        },
+        {
+          "$id" : "step2",
+          "Number" : 2,
+          "Name" : "TD1 Step 2",
+          "Description" : "A description of Step 2",
+          "ConformanceCriteria" : [ {"$ref": "#c3"}, {"$ref": "#c4"} ]
+        }
+      ],
+
+      "IssuanceCriteria" : "yes(all)"
+    },
+    {
+      "$TMF_VERSION" : "1.2",
+      "$Type": "TrustmarkDefinition",
+      "Metadata" : {
+        "Identifier": "https://trustmark.gtri.gatech.edu/operational-pilot/trustmark-definitions/test_002/0.1-SNAPSHOT/",
+        "TrustmarkReferenceAttributeName" : "https://trustmark.gtri.gatech.edu/operational-pilot/trustmark-definitions/test_002/0.1-SNAPSHOT/trustmark-reference/",
+        "Name" : "Test 2",
+        "Version" : "0.1-SNAPSHOT",
+        "Description" : "Just a simple TD to show how to make one.  Demonstration only.",
+        "PublicationDateTime" : "2016-09-08T10:00:00Z",
+        "TrustmarkDefiningOrganization" : {
+          "Identifier" : "http://tdo.example/",
+          "Name" : "Trustmark Defining Organization",
+          "Contact" : {
+            "Kind" : "PRIMARY",
+            "Email" : "TrustmarkFeedback@gtri.gatech.edu"
+          }
+        },
+        "LegalNotice" : "This document and the information contained herein is provided on an \"AS IS\" basis, and the Georgia Tech Research Institute disclaims all warranties, express or implied, including but not limited to any warranty that the use of the information herein will not infringe any rights or any implied warranties or merchantability or fitness for a particular purpose. In addition, the Georgia Tech Research Institute disclaims legal liability for any loss incurred as a result of the use or reliance on the document or the information contained herein.",
+        "Notes" : "The Georgia Tech Research Institute (GTRI) has published this document with the support of the National Strategy for Trusted Identities in Cyberspace (NSTIC) via the National Institute of Standards and Technology (NIST). The views expressed herein do not necessarily reflect the official policies of GTRI, NIST or NSTIC; nor does mention of trade names, commercial practices, or organizations imply endorsement by the U.S. Government."
+
+      },
+      "Terms" : [
+        {
+          "Name" : "TEST",
+          "Abbreviations" : ["T"],
+          "Definition" : "A test term."
+        }
+      ],
+      "Sources" : [
+        {
+          "$id" : "source1",
+          "Identifier" : "TEST2",
+          "Reference" : "Another simple test source"
+        }
+      ],
+
+      "ConformanceCriteria" : [
+        {
+          "$id" : "c1",
+          "Number" : 1,
+          "Name" : "TD 2 Crit 1",
+          "Description" : "A description of Criterion 1",
+          "Citations" : [
+            {
+              "Source" : { "$ref" : "#source1" },
+              "Description" : "Page 2"
+            }
+          ]
+        }
+      ],
+
+      "AssessmentSteps" : [
+        {
+          "$id" : "step1",
+          "Number" : 1,
+          "Name" : "TD2 Step 1",
+          "Description" : "A description of Step 1",
+          "ConformanceCriteria" : [ {"$ref": "#c1"} ]
+        }
+      ],
+
+      "IssuanceCriteria" : "yes(all)"
+    }
+  ],
+  "trustInteroperabilityProfiles" : []
+}

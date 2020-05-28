@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tf:TrustInteroperabilityProfile
+    tf:id="_334057023407234"
+    xmlns:tf="https://trustmarkinitiative.org/specifications/trustmark-framework/1.3/schema/"
+    xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="https://trustmarkinitiative.org/specifications/trustmark-framework/1.3/schema/ ../../../../main/resources/META-INF/xml-schema/tf.xsd">
+    <tf:Identifier>http://tip.example/tip</tf:Identifier>
+    <tf:Name>Trust Interoperability Profile Example</tf:Name>
+    <tf:Version>1.0.0</tf:Version>
+    <tf:Description>
+        This is a description of a Trust Interoperability Profile.
+    </tf:Description>
+    <tf:PublicationDateTime>2014-01-01T00:00:00</tf:PublicationDateTime>
+    <tf:LegalNotice>
+        This is the legal notice.
+    </tf:LegalNotice>
+    <tf:Notes>
+        Notes
+    </tf:Notes>
+    <tf:Issuer>
+        <tf:Identifier>http://tip.example/</tf:Identifier>
+        <tf:Name>Trust Interoperability Profile Issuer</tf:Name>
+        <tf:Contact>
+            <tf:Kind>PRIMARY</tf:Kind>
+            <tf:Responder>George P. Burdell</tf:Responder>
+            <tf:Email>TrustmarkFeedback@gtri.gatech.edu</tf:Email>
+            <tf:Telephone>404-555-1234</tf:Telephone>
+            <tf:Telephone>404-555-2345</tf:Telephone>
+            <tf:PhysicalAddress>
+                75 5th Street NW, Suite 900, Atlanta GA 30308
+            </tf:PhysicalAddress>
+            <tf:MailingAddress>
+                Trustmark Feedback, 75 5th Street NW, Suite 900, Atlanta GA 30308
+            </tf:MailingAddress>
+            <tf:WebsiteURL>http://trustmark.gtri.gatech.edu/</tf:WebsiteURL>  
+            <tf:WebsiteURL>http://www.gtri.gatech.edu/</tf:WebsiteURL>  
+            <tf:Notes>
+                The responder may change.
+            </tf:Notes>
+        </tf:Contact>
+        <tf:Contact>
+            <tf:Kind>OTHER</tf:Kind>
+            <tf:Email>test@example.org</tf:Email>
+            <tf:Email>test2@example.org</tf:Email>
+            <tf:Telephone>404-555-5555</tf:Telephone>
+        </tf:Contact>
+    </tf:Issuer>
+    <tf:Supersessions>
+        <tf:Supersedes>
+            <tf:Identifier>https://example.org/tip1-supersedes</tf:Identifier>
+        </tf:Supersedes>
+        <tf:Supersedes>
+            <tf:Identifier>https://example.org/tip2-supersedes</tf:Identifier>
+        </tf:Supersedes>
+        <tf:SupersededBy>
+            <tf:Identifier>https://example.org/tip1-supersededBy</tf:Identifier>
+        </tf:SupersededBy>
+        <tf:SupersededBy>
+            <tf:Identifier>https://example.org/tip2-supersededBy</tf:Identifier>
+        </tf:SupersededBy>
+    </tf:Supersessions>
+    <tf:Deprecated>false</tf:Deprecated>
+    <tf:Satisfactions>
+        <tf:Satisfies>
+            <tf:Identifier>https://example.org/tip1-satisfies</tf:Identifier>
+        </tf:Satisfies>
+        <tf:Satisfies>
+            <tf:Identifier>https://example.org/tip2-satisfies</tf:Identifier>
+        </tf:Satisfies>
+    </tf:Satisfactions>
+    <tf:Keywords>
+        <tf:Keyword>Keyword1</tf:Keyword>
+        <tf:Keyword>Keyword2</tf:Keyword>
+        <tf:Keyword>Keyword3</tf:Keyword>
+    </tf:Keywords>
+    <tf:References>
+        <tf:TrustInteroperabilityProfileReference tf:id="tip1">
+            <tf:Identifier>http://tip.example/tip</tf:Identifier>
+            <tf:Name>Example Trust Interoperability Profile</tf:Name>
+            <tf:Version>1.0</tf:Version>
+            <tf:Description>
+                This is a description of an example Trust Interoperability 
+                Profile.
+            </tf:Description>
+        </tf:TrustInteroperabilityProfileReference>
+        <tf:TrustmarkDefinitionRequirement tf:id="tdr1">
+            <tf:TrustmarkDefinitionReference>
+                <tf:Identifier>
+                    http://tdo.example/td
+                </tf:Identifier>
+                <tf:Name>Trustmark Definition Name</tf:Name>
+                <tf:Version>1.0.0</tf:Version>
+                <tf:Description>
+                    This is a description of this Trustmark Definition.
+                </tf:Description>
+            </tf:TrustmarkDefinitionReference>
+            <tf:ProviderReference tf:id="providerReference">
+                <tf:Identifier>http://provider.example/</tf:Identifier>
+                <tf:Name>Trustmark Provider</tf:Name>
+                <tf:Contact>
+                    <tf:Kind>PRIMARY</tf:Kind>
+                    <tf:Responder>George P. Burdell</tf:Responder>
+                    <tf:Email>TrustmarkFeedback@gtri.gatech.edu</tf:Email>
+                    <tf:Telephone>404-555-1234</tf:Telephone>
+                    <tf:Telephone>404-555-2345</tf:Telephone>
+                    <tf:PhysicalAddress>
+                        75 5th Street NW, Suite 900
+                        Atlanta GA 30308
+                    </tf:PhysicalAddress>
+                    <tf:MailingAddress>
+                        Trustmark Feedback
+                        75 5th Street NW, Suite 900
+                        Atlanta GA 30308
+                    </tf:MailingAddress>
+                    <tf:WebsiteURL>http://trustmark.gtri.gatech.edu</tf:WebsiteURL>  
+                    <tf:WebsiteURL>http://www.gtri.gatech.edu/</tf:WebsiteURL>  
+                    <tf:Notes>
+                        The responder may change.
+                    </tf:Notes>
+                </tf:Contact> 
+            </tf:ProviderReference>
+        </tf:TrustmarkDefinitionRequirement>
+        <tf:TrustmarkDefinitionRequirement tf:id="tdr2">
+            <tf:TrustmarkDefinitionReference>
+                <tf:Identifier>
+                    http://tdo.example/td2
+                </tf:Identifier>
+                <tf:Name>Trustmark Definition Name</tf:Name>
+                <tf:Version>1.0.0</tf:Version>
+                <tf:Description>
+                    This is a description of this Trustmark Definition.
+                </tf:Description>
+            </tf:TrustmarkDefinitionReference>
+            <tf:ProviderReference tf:ref="providerReference" xsi:nil="true"/>
+        </tf:TrustmarkDefinitionRequirement>
+    </tf:References>
+    <tf:TrustExpression>
+    <![CDATA[tip1 and (tdr1 or tdr2)]]>
+    </tf:TrustExpression>
+</tf:TrustInteroperabilityProfile>

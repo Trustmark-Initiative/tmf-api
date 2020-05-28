@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Created by the GTRI Granular TD/TIP process, Fri Sep 18 14:39:06 EDT 2015 -->
+<tf:TrustInteroperabilityProfile xmlns:tf="https://trustmark.gtri.gatech.edu/specifications/trustmark-framework/1.0/schema/" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">  
+  <tf:Identifier>https://trustmark.gtri.gatech.edu/operational-pilot/trust-interoperability-profiles/ficam-loa-2-profile/1.0/</tf:Identifier>  
+  <tf:Name>FICAM LOA 2 Profile</tf:Name>  
+  <tf:Version>1.0</tf:Version>  
+  <tf:Description>This Trust Interoperability Profile specifies the requirements for a CSP to meet FICAM LOA 2.</tf:Description>  
+  <tf:PublicationDateTime>2015-09-18T14:39:06.772-04:00</tf:PublicationDateTime>  
+  <tf:LegalNotice>This document and the information contained herein is provided on an "AS IS" basis, and the Georgia Tech Research Institute disclaims all warranties, express or implied, including but not limited to any warranty that the use of the information herein will not infringe any rights or any implied warranties or merchantability or fitness for a particular purpose. In addition, the Georgia Tech Research Institute disclaims legal liability for any loss incurred as a result of the use or reliance on the document or the information contained herein.</tf:LegalNotice>  
+  <tf:Notes>The Georgia Tech Research Institute (GTRI) has published this document with the support of the National Strategy for Trusted Identities in Cyberspace (NSTIC) via the National Institute of Standards and Technology (NIST). The views expressed herein do not necessarily reflect the official policies of GTRI, NIST or NSTIC; nor does mention of trade names, commercial practices, or organizations imply endorsement by the U.S. Government.</tf:Notes>  
+  <tf:Issuer> 
+    <tf:Identifier>https://trustmark.gtri.gatech.edu/</tf:Identifier>  
+    <tf:Name>GTRI NSTIC Trustmark Pilot</tf:Name>  
+    <tf:Contact> 
+      <tf:Kind>PRIMARY</tf:Kind>  
+      <tf:Email>TrustmarkFeedback@gtri.gatech.edu</tf:Email>  
+      <tf:Telephone>404-407-8956</tf:Telephone>  
+      <tf:MailingAddress>75 5th NW, Suite 900, Atlanta, GA 30308</tf:MailingAddress> 
+    </tf:Contact> 
+  </tf:Issuer>  
+  <tf:References> 
+    <tf:TrustInteroperabilityProfileReference tf:id="TIP_1"> 
+      <tf:Identifier>https://trustmark.gtri.gatech.edu/operational-pilot/trust-interoperability-profiles/nist-800-63-loa-2-registration-and-issuance-profile/1.0/</tf:Identifier>  
+      <tf:Name>NIST 800-63 LOA 2 Registration and Issuance Profile</tf:Name>  
+      <tf:Version>1.0</tf:Version>  
+      <tf:Description>This Trust Interoperability Profile specifies NIST 800-63 LOA 2 requirements on subscriber registration and credential issuance by CSPs.</tf:Description> 
+    </tf:TrustInteroperabilityProfileReference>  
+    <tf:TrustInteroperabilityProfileReference tf:id="TIP_2"> 
+      <tf:Identifier>https://trustmark.gtri.gatech.edu/operational-pilot/trust-interoperability-profiles/nist-800-63-loa-2-token-strength-and-authentication-profile/1.0/</tf:Identifier>  
+      <tf:Name>NIST 800-63 LOA 2 Token Strength and Authentication Profile</tf:Name>  
+      <tf:Version>1.0</tf:Version>  
+      <tf:Description>This Trust Interoperability Profile specifies NIST 800-63 LOA 2 token strength requirements, and token-specific authentication requirements on CSPs.</tf:Description> 
+    </tf:TrustInteroperabilityProfileReference>  
+    <tf:TrustInteroperabilityProfileReference tf:id="TIP_3"> 
+      <tf:Identifier>https://trustmark.gtri.gatech.edu/operational-pilot/trust-interoperability-profiles/ficam-loa-2-token-and-credential-management-profile/1.0/</tf:Identifier>  
+      <tf:Name>FICAM LOA 2 Token and Credential Management Profile</tf:Name>  
+      <tf:Version>1.0</tf:Version>  
+      <tf:Description>This Trust Interoperability Profile specifies NIST 800-63 LOA 2 requirements on the management of authentication tokens and credentials by CSPs, as adopted by FICAM. This Profile does not the include security control requirements stated in NIST 800-63. Credential storage requirements from NIST 800-63 are not covered in this TIP, but are covered in the NIST 800-63 Token Type Specific Strength and Authentication Profiles, specifically for shared secret tokens.</tf:Description> 
+    </tf:TrustInteroperabilityProfileReference>  
+    <tf:TrustInteroperabilityProfileReference tf:id="TIP_4"> 
+      <tf:Identifier>https://trustmark.gtri.gatech.edu/operational-pilot/trust-interoperability-profiles/nist-800-63-loa-2-authentication-process-profile/1.0/</tf:Identifier>  
+      <tf:Name>NIST 800-63 LOA 2 Authentication Process Profile</tf:Name>  
+      <tf:Version>1.0</tf:Version>  
+      <tf:Description>This Trust Interoperability Profile specifies NIST 800-63 LOA 2 requirements on subscriber authentication by CSPs.</tf:Description> 
+    </tf:TrustInteroperabilityProfileReference> 
+  </tf:References>  
+  <tf:TrustExpression>TIP_1 AND TIP_2 AND TIP_3 AND TIP_4</tf:TrustExpression> 
+</tf:TrustInteroperabilityProfile>

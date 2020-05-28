@@ -1,0 +1,10 @@
+https://trustmark.gtri.gatech.edu/operational-pilot/trust-interoperability-profiles/ficam-loa-2-profile/1.0/?format=json
+https://trustmark.gtri.gatech.edu/operational-pilot/trust-interoperability-profiles/ficam-loa-2-token-and-credential-management-profile/1.0/?format=json
+https://trustmark.gtri.gatech.edu/operational-pilot/trust-interoperability-profiles/ficam-loa-3-profile/1.0/?format=json
+https://trustmark.gtri.gatech.edu/operational-pilot/trust-interoperability-profiles/ficam-loa-3-registration-and-issuance-profile/1.0/?format=json
+https://trustmark.gtri.gatech.edu/operational-pilot/trust-interoperability-profiles/ficam-loa-3-token-and-credential-management-profile/1.0/?format=json
+https://trustmark.gtri.gatech.edu/operational-pilot/trust-interoperability-profiles/ficam-loa-4-registration-and-issuance-profile/1.0/?format=json
+https://trustmark.gtri.gatech.edu/operational-pilot/trust-interoperability-profiles/ficam-loa-4-token-and-credential-management-profile/1.0/?format=json
+https://trustmark.gtri.gatech.edu/operational-pilot/trust-interoperability-profiles/ficam-privacy-tip-for-csp/1.0/?format=json
+https://trustmark.gtri.gatech.edu/operational-pilot/trust-interoperability-profiles/nief-certificate-policy-cryptographic-management/1.0/?format=json
+https://trustmark.gtri.gatech.edu/operational-pilot/trust-interoperability-profiles/nief-minimum-authentication-process-profile/1.0/?format=json

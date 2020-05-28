@@ -1,0 +1,2 @@
+PUBLIC "http://www.w3.org/2000/09/xmldsig#" "xmldsig-core-schema.xsd"
+REWRITE_SYSTEM "http://www.w3.org/2000/09/xmldsig#" "/"

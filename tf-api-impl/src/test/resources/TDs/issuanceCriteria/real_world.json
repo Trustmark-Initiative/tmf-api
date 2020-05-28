@@ -1,0 +1,28 @@
+{
+  "name": "RealWorldTests",
+  "description": "Tests that have generated errors in the real world, which appear valid.",
+  "resultSet": [
+    {
+      "id": "EvidenceforVerifyingControloftheOriginalToken",
+      "result": "yes"
+    },
+    {
+      "id": "EvidenceforInitiallyCheckingtheStatusoftheOriginalCredential",
+      "result": "no"
+    },
+    {
+      "id": "EvidenceforRecordingtheDetailsoftheOriginalCredential",
+      "result": "yes"
+    },
+    {
+      "id" : "EvidenceforProperRemoteCredentialIssuance",
+      "result": "no"
+    }
+  ],
+  "testSet": [
+    {
+      "expression": "yes(EvidenceforVerifyingControloftheOriginalToken) and yes(EvidenceforInitiallyCheckingtheStatusoftheOriginalCredential) and yes(EvidenceforRecordingtheDetailsoftheOriginalCredential) and !no(EvidenceforProperRemoteCredentialIssuance)",
+      "satisfies": false
+    }
+  ]
+}

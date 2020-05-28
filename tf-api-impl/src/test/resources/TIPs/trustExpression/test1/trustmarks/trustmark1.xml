@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<tf:Trustmark tf:id="trustmark"
+              xmlns:tf="https://trustmarkinitiative.org/specifications/trustmark-framework/1.3/schema/"
+              xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="https://trustmarkinitiative.org/specifications/trustmark-framework/1.3/schema/ ../../../../../../main/resources/META-INF/xml-schema/tf.xsd">
+
+    <tf:Identifier>test1_tm1</tf:Identifier>
+    <tf:TrustmarkDefinitionReference>
+        <tf:Identifier>td1</tf:Identifier>
+    </tf:TrustmarkDefinitionReference>
+    <tf:IssueDateTime>2014-01-01T00:00:00</tf:IssueDateTime>
+    <tf:ExpirationDateTime>20015-01-01T00:00:00</tf:ExpirationDateTime>
+    <tf:PolicyURL>http://provider.example/policy</tf:PolicyURL>
+    <tf:RelyingPartyAgreementURL>
+        http://provider.example/relyingParty
+    </tf:RelyingPartyAgreementURL>
+    <tf:StatusURL>http://provider.example/trustmark/1/status</tf:StatusURL>
+    <tf:Provider>
+        <tf:Identifier>org1</tf:Identifier>
+        <tf:Name>Trustmark Provider</tf:Name>
+        <tf:Contact>
+            <tf:Kind>PRIMARY</tf:Kind>
+            <tf:Email>TrustmarkFeedback@gtri.gatech.edu</tf:Email>
+        </tf:Contact>
+    </tf:Provider>
+    <tf:Recipient>
+        <tf:Identifier>http://recipient.example/</tf:Identifier>
+        <tf:Name>Trustmark Recipient</tf:Name>
+        <tf:Contact>
+            <tf:Kind>PRIMARY</tf:Kind>
+            <tf:Email>TrustmarkFeedback@gtri.gatech.edu</tf:Email>
+        </tf:Contact>
+    </tf:Recipient>
+</tf:Trustmark>

@@ -1,0 +1,305 @@
+{
+    "trustInteroperabilityProfilesCount": 10,
+    "totalCount": 10,
+    "offset": 0,
+    "max": 10,
+    "_links": {
+        "self": {
+            "href": "https://trustmark.example.org/test/trust-interoperability-profiles?max=10&format=json&offset=0&sort=name"
+        },
+        "next": null,
+        "prev": null
+    },
+    "trustInteroperabilityProfiles": [
+        {
+            "uniqueId": 341,
+            "Name": "FICAM LOA 2 Profile",
+            "Identifier": "https://trustmark.example.org/test/trust-interoperability-profiles/ficam-loa-2-profile/1.0/",
+            "subIdentifier": "trust-interoperability-profiles/ficam-loa-2-profile/1.0/",
+            "baseUrl": "https://trustmark.example.org/test/",
+            "Version": "1.0",
+            "Description": "This Trust Interoperability Profile specifies the requirements for a CSP to meet FICAM LOA 2.",
+            "PublicationDateTime": "2015-09-18T14:39:06.000-04:00",
+            "_links": {
+                "self": {
+                    "href": "https://trustmark.example.org/test/trust-interoperability-profiles/ficam-loa-2-profile/1.0/?format=json"
+                },
+                "_formats": [
+                    {
+                        "format": "json",
+                        "href": "https://trustmark.example.org/test/trust-interoperability-profiles/ficam-loa-2-profile/1.0/?format=json"
+                    },
+                    {
+                        "format": "xml",
+                        "href": "https://trustmark.example.org/test/trust-interoperability-profiles/ficam-loa-2-profile/1.0/?format=xml"
+                    },
+                    {
+                        "format": "html",
+                        "href": "https://trustmark.example.org/test/trust-interoperability-profiles/ficam-loa-2-profile/1.0/?format=html"
+                    }
+                ]
+            }
+        },
+        {
+            "uniqueId": 241,
+            "Name": "FICAM LOA 2 Token and Credential Management Profile",
+            "Identifier": "https://trustmark.example.org/test/trust-interoperability-profiles/ficam-loa-2-token-and-credential-management-profile/1.0/",
+            "subIdentifier": "trust-interoperability-profiles/ficam-loa-2-token-and-credential-management-profile/1.0/",
+            "baseUrl": "https://trustmark.example.org/test/",
+            "Version": "1.0",
+            "Description": "This Trust Interoperability Profile specifies NIST 800-63 LOA 2 requirements on the management of authentication tokens and credentials by CSPs, as adopted by FICAM. This Profile does not the include security control requirements stated in NIST 800-63. Credential storage requirements from NIST 800-63 are not covered in this TIP, but are covered in the NIST 800-63 Token Type Specific Strength and Authentication Profiles, specifically for shared secret tokens.",
+            "PublicationDateTime": "2015-09-18T14:39:06.000-04:00",
+            "_links": {
+                "self": {
+                    "href": "https://trustmark.example.org/test/trust-interoperability-profiles/ficam-loa-2-token-and-credential-management-profile/1.0/?format=json"
+                },
+                "_formats": [
+                    {
+                        "format": "json",
+                        "href": "https://trustmark.example.org/test/trust-interoperability-profiles/ficam-loa-2-token-and-credential-management-profile/1.0/?format=json"
+                    },
+                    {
+                        "format": "xml",
+                        "href": "https://trustmark.example.org/test/trust-interoperability-profiles/ficam-loa-2-token-and-credential-management-profile/1.0/?format=xml"
+                    },
+                    {
+                        "format": "html",
+                        "href": "https://trustmark.example.org/test/trust-interoperability-profiles/ficam-loa-2-token-and-credential-management-profile/1.0/?format=html"
+                    }
+                ]
+            }
+        },
+        {
+            "uniqueId": 433,
+            "Name": "FICAM LOA 3 Profile",
+            "Identifier": "https://trustmark.example.org/test/trust-interoperability-profiles/ficam-loa-3-profile/1.0/",
+            "subIdentifier": "trust-interoperability-profiles/ficam-loa-3-profile/1.0/",
+            "baseUrl": "https://trustmark.example.org/test/",
+            "Version": "1.0",
+            "Description": "This Trust Interoperability Profile specifies the requirements for a CSP to meet FICAM LOA 3.",
+            "PublicationDateTime": "2015-09-18T14:39:06.000-04:00",
+            "_links": {
+                "self": {
+                    "href": "https://trustmark.example.org/test/trust-interoperability-profiles/ficam-loa-3-profile/1.0/?format=json"
+                },
+                "_formats": [
+                    {
+                        "format": "json",
+                        "href": "https://trustmark.example.org/test/trust-interoperability-profiles/ficam-loa-3-profile/1.0/?format=json"
+                    },
+                    {
+                        "format": "xml",
+                        "href": "https://trustmark.example.org/test/trust-interoperability-profiles/ficam-loa-3-profile/1.0/?format=xml"
+                    },
+                    {
+                        "format": "html",
+                        "href": "https://trustmark.example.org/test/trust-interoperability-profiles/ficam-loa-3-profile/1.0/?format=html"
+                    }
+                ]
+            }
+        },
+        {
+            "uniqueId": 438,
+            "Name": "FICAM LOA 3 Registration and Issuance Profile",
+            "Identifier": "https://trustmark.example.org/test/trust-interoperability-profiles/ficam-loa-3-registration-and-issuance-profile/1.0/",
+            "subIdentifier": "trust-interoperability-profiles/ficam-loa-3-registration-and-issuance-profile/1.0/",
+            "baseUrl": "https://trustmark.example.org/test/",
+            "Version": "1.0",
+            "Description": "This Trust Interoperability Profile specifies FICAM LOA 3 requirements on subscriber registration and credential issuance by CSPs. This TIP is equivalent to the NIST 800-63 LOA 3 Registration and Issuance Profile, with the sole exception being that this TIP does not allow the use of derived credentials.",
+            "PublicationDateTime": "2015-09-18T14:39:06.000-04:00",
+            "_links": {
+                "self": {
+                    "href": "https://trustmark.example.org/test/trust-interoperability-profiles/ficam-loa-3-registration-and-issuance-profile/1.0/?format=json"
+                },
+                "_formats": [
+                    {
+                        "format": "json",
+                        "href": "https://trustmark.example.org/test/trust-interoperability-profiles/ficam-loa-3-registration-and-issuance-profile/1.0/?format=json"
+                    },
+                    {
+                        "format": "xml",
+                        "href": "https://trustmark.example.org/test/trust-interoperability-profiles/ficam-loa-3-registration-and-issuance-profile/1.0/?format=xml"
+                    },
+                    {
+                        "format": "html",
+                        "href": "https://trustmark.example.org/test/trust-interoperability-profiles/ficam-loa-3-registration-and-issuance-profile/1.0/?format=html"
+                    }
+                ]
+            }
+        },
+        {
+            "uniqueId": 455,
+            "Name": "FICAM LOA 3 Token and Credential Management Profile",
+            "Identifier": "https://trustmark.example.org/test/trust-interoperability-profiles/ficam-loa-3-token-and-credential-management-profile/1.0/",
+            "subIdentifier": "trust-interoperability-profiles/ficam-loa-3-token-and-credential-management-profile/1.0/",
+            "baseUrl": "https://trustmark.example.org/test/",
+            "Version": "1.0",
+            "Description": "This Trust Interoperability Profile specifies NIST 800-63 LOA 3 requirements on the management of authentication tokens and credentials by CSPs, as adopted by FICAM. This Profile does not the include security control requirements stated in NIST 800-63. Credential storage requirements from NIST 800-63 are not covered in this TIP, but are covered in the NIST 800-63 Token Type Specific Strength and Authentication Profiles, specifically for shared secret tokens.",
+            "PublicationDateTime": "2015-09-18T14:39:06.000-04:00",
+            "_links": {
+                "self": {
+                    "href": "https://trustmark.example.org/test/trust-interoperability-profiles/ficam-loa-3-token-and-credential-management-profile/1.0/?format=json"
+                },
+                "_formats": [
+                    {
+                        "format": "json",
+                        "href": "https://trustmark.example.org/test/trust-interoperability-profiles/ficam-loa-3-token-and-credential-management-profile/1.0/?format=json"
+                    },
+                    {
+                        "format": "xml",
+                        "href": "https://trustmark.example.org/test/trust-interoperability-profiles/ficam-loa-3-token-and-credential-management-profile/1.0/?format=xml"
+                    },
+                    {
+                        "format": "html",
+                        "href": "https://trustmark.example.org/test/trust-interoperability-profiles/ficam-loa-3-token-and-credential-management-profile/1.0/?format=html"
+                    }
+                ]
+            }
+        },
+        {
+            "uniqueId": 272,
+            "Name": "FICAM LOA 4 Registration and Issuance Profile",
+            "Identifier": "https://trustmark.example.org/test/trust-interoperability-profiles/ficam-loa-4-registration-and-issuance-profile/1.0/",
+            "subIdentifier": "trust-interoperability-profiles/ficam-loa-4-registration-and-issuance-profile/1.0/",
+            "baseUrl": "https://trustmark.example.org/test/",
+            "Version": "1.0",
+            "Description": "This Trust Interoperability Profile specifies NIST 800-63 LOA 4 requirements on subscriber registration and credential issuance by CSPs. This TIP is equivalent to the NIST 800-63 LOA 4 Registration and Issuance Profile, with the sole exception being that this TIP does not allow the use of derived credentials.",
+            "PublicationDateTime": "2015-09-18T14:39:06.000-04:00",
+            "_links": {
+                "self": {
+                    "href": "https://trustmark.example.org/test/trust-interoperability-profiles/ficam-loa-4-registration-and-issuance-profile/1.0/?format=json"
+                },
+                "_formats": [
+                    {
+                        "format": "json",
+                        "href": "https://trustmark.example.org/test/trust-interoperability-profiles/ficam-loa-4-registration-and-issuance-profile/1.0/?format=json"
+                    },
+                    {
+                        "format": "xml",
+                        "href": "https://trustmark.example.org/test/trust-interoperability-profiles/ficam-loa-4-registration-and-issuance-profile/1.0/?format=xml"
+                    },
+                    {
+                        "format": "html",
+                        "href": "https://trustmark.example.org/test/trust-interoperability-profiles/ficam-loa-4-registration-and-issuance-profile/1.0/?format=html"
+                    }
+                ]
+            }
+        },
+        {
+            "uniqueId": 356,
+            "Name": "FICAM LOA 4 Token and Credential Management Profile",
+            "Identifier": "https://trustmark.example.org/test/trust-interoperability-profiles/ficam-loa-4-token-and-credential-management-profile/1.0/",
+            "subIdentifier": "trust-interoperability-profiles/ficam-loa-4-token-and-credential-management-profile/1.0/",
+            "baseUrl": "https://trustmark.example.org/test/",
+            "Version": "1.0",
+            "Description": "This Trust Interoperability Profile specifies NIST 800-63 LOA 4 requirements on the management of authentication tokens and credentials by CSPs, as adopted by FICAM. This Profile does not the include security control requirements stated in NIST 800-63. Credential storage requirements from NIST 800-63 are not covered in this TIP, but are covered in the NIST 800-63 Token Type Specific Strength and Authentication Profiles, specifically for shared secret tokens.",
+            "PublicationDateTime": "2015-09-18T14:39:07.000-04:00",
+            "_links": {
+                "self": {
+                    "href": "https://trustmark.example.org/test/trust-interoperability-profiles/ficam-loa-4-token-and-credential-management-profile/1.0/?format=json"
+                },
+                "_formats": [
+                    {
+                        "format": "json",
+                        "href": "https://trustmark.example.org/test/trust-interoperability-profiles/ficam-loa-4-token-and-credential-management-profile/1.0/?format=json"
+                    },
+                    {
+                        "format": "xml",
+                        "href": "https://trustmark.example.org/test/trust-interoperability-profiles/ficam-loa-4-token-and-credential-management-profile/1.0/?format=xml"
+                    },
+                    {
+                        "format": "html",
+                        "href": "https://trustmark.example.org/test/trust-interoperability-profiles/ficam-loa-4-token-and-credential-management-profile/1.0/?format=html"
+                    }
+                ]
+            }
+        },
+        {
+            "uniqueId": 371,
+            "Name": "FICAM Privacy TIP for CSP",
+            "Identifier": "https://trustmark.example.org/test/trust-interoperability-profiles/ficam-privacy-tip-for-csp/1.0/",
+            "subIdentifier": "trust-interoperability-profiles/ficam-privacy-tip-for-csp/1.0/",
+            "baseUrl": "https://trustmark.example.org/test/",
+            "Version": "1.0",
+            "Description": "This Trust Interoperability Profile specifies the FICAM mandated privacy requirements to be followed by FICAM Credential Service Providers (CSPs).",
+            "PublicationDateTime": "2015-07-27T13:37:25.000-04:00",
+            "_links": {
+                "self": {
+                    "href": "https://trustmark.example.org/test/trust-interoperability-profiles/ficam-privacy-tip-for-csp/1.0/?format=json"
+                },
+                "_formats": [
+                    {
+                        "format": "json",
+                        "href": "https://trustmark.example.org/test/trust-interoperability-profiles/ficam-privacy-tip-for-csp/1.0/?format=json"
+                    },
+                    {
+                        "format": "xml",
+                        "href": "https://trustmark.example.org/test/trust-interoperability-profiles/ficam-privacy-tip-for-csp/1.0/?format=xml"
+                    },
+                    {
+                        "format": "html",
+                        "href": "https://trustmark.example.org/test/trust-interoperability-profiles/ficam-privacy-tip-for-csp/1.0/?format=html"
+                    }
+                ]
+            }
+        },
+        {
+            "uniqueId": 440,
+            "Name": "NIEF Certificate Policy Cryptographic Management",
+            "Identifier": "https://trustmark.example.org/test/trust-interoperability-profiles/nief-certificate-policy-cryptographic-management/1.0/",
+            "subIdentifier": "trust-interoperability-profiles/nief-certificate-policy-cryptographic-management/1.0/",
+            "baseUrl": "https://trustmark.example.org/test/",
+            "Version": "1.0",
+            "Description": "This Trust Interoperability Profile specifies the requirements needed to meet the NIEF Certificate Policy",
+            "PublicationDateTime": "2015-09-18T14:39:07.000-04:00",
+            "_links": {
+                "self": {
+                    "href": "https://trustmark.example.org/test/trust-interoperability-profiles/nief-certificate-policy-cryptographic-management/1.0/?format=json"
+                },
+                "_formats": [
+                    {
+                        "format": "json",
+                        "href": "https://trustmark.example.org/test/trust-interoperability-profiles/nief-certificate-policy-cryptographic-management/1.0/?format=json"
+                    },
+                    {
+                        "format": "xml",
+                        "href": "https://trustmark.example.org/test/trust-interoperability-profiles/nief-certificate-policy-cryptographic-management/1.0/?format=xml"
+                    },
+                    {
+                        "format": "html",
+                        "href": "https://trustmark.example.org/test/trust-interoperability-profiles/nief-certificate-policy-cryptographic-management/1.0/?format=html"
+                    }
+                ]
+            }
+        },
+        {
+            "uniqueId": 250,
+            "Name": "NIEF Minimum Authentication Process Profile",
+            "Identifier": "https://trustmark.example.org/test/trust-interoperability-profiles/nief-minimum-authentication-process-profile/1.0/",
+            "subIdentifier": "trust-interoperability-profiles/nief-minimum-authentication-process-profile/1.0/",
+            "baseUrl": "https://trustmark.example.org/test/",
+            "Version": "1.0",
+            "Description": "This is a candidate Trust Interoperability Profile that specifies a proposed minimum set of requirements for subscriber authentication by NIEF Identity Provider Organizations (IDPOs).",
+            "PublicationDateTime": "2015-09-18T14:39:07.000-04:00",
+            "_links": {
+                "self": {
+                    "href": "https://trustmark.example.org/test/trust-interoperability-profiles/nief-minimum-authentication-process-profile/1.0/?format=json"
+                },
+                "_formats": [
+                    {
+                        "format": "json",
+                        "href": "https://trustmark.example.org/test/trust-interoperability-profiles/nief-minimum-authentication-process-profile/1.0/?format=json"
+                    },
+                    {
+                        "format": "xml",
+                        "href": "https://trustmark.example.org/test/trust-interoperability-profiles/nief-minimum-authentication-process-profile/1.0/?format=xml"
+                    },
+                    {
+                        "format": "html",
+                        "href": "https://trustmark.example.org/test/trust-interoperability-profiles/nief-minimum-authentication-process-profile/1.0/?format=html"
+                    }
+                ]
+            }
+        }
+    ]
+}

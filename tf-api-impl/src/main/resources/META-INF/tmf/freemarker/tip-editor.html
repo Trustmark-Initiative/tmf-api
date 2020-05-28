@@ -1,0 +1,1854 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <title>Trust Interoperability Profile Editor</title>
+
+    <meta charset="utf-8"/>
+
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous" />
+    <style type="text/css">
+        #mainContainer {
+            margin-top: 3em;
+        }
+
+
+        .keywordLabel {
+            font-size: 110%;
+            margin-right: 1em;
+            margin-bottom: 0.5em;
+            display: inline-block;
+        }
+        .keywordRemoveLink, .keywordRemoveLink:active, .keywordRemoveLink:visited {
+            color: inherit;
+        }
+
+        .providerRefContainer {
+            margin-left: 1em;
+            font-size: 90%;
+        }
+
+    </style>
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        var TIP_LOGO_SMALL_CIRCLE_BASE64 = "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";
+        var SPINNER_GIF_BASE64 = "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";
+
+        var SAMPLE_SEARCH_RESPONSE = {"queryString":"loa 3","terms":["loa","3"],"tdCountTotal":599,"tipCountTotal":229,"versionSetId":"VS_20170218","results":{"tdCount":3,"tipCount":82,"tds":[{"Identifier":"https://trustmark.someorgoutthere.com/operational-pilot/trustmark-definitions/nist-800-63-loa-3-derived-credential-issuance/1.0/","Name":"NIST 800-63 LOA 3 Derived Credential Issuance","Version":"1.0","Description":"This Trustmark Definition covers the issuance of derived credentials by Credential Service Providers (CSPs) at NIST 800-63 LOA 3.","Deprecated":false},{"Identifier":"https://trustmark.someorgoutthere.com/operational-pilot/trustmark-definitions/nist-800-63-loa-2-derived-credential-issuance/1.0/","Name":"NIST 800-63 LOA 2 Derived Credential Issuance","Version":"1.0","Description":"This Trustmark Definition covers the issuance of derived credentials by Credential Service Providers (CSPs) at NIST 800-63 LOA 2.","Deprecated":false},{"Identifier":"https://trustmark.someorgoutthere.com/operational-pilot/trustmark-definitions/nist-800-63-loa-4-derived-credential-issuance/1.0/","Name":"NIST 800-63 LOA 4 Derived Credential Issuance","Version":"1.0","Description":"This Trustmark Definition covers the issuance of derived credentials by Credential Service Providers (CSPs) at NIST 800-63 LOA 4.","Deprecated":false}],"tips":[{"Identifier":"https://trustmark.someorgoutthere.com/operational-pilot/trust-interoperability-profiles/ficam-loa-3-profile/1.0/","Name":"FICAM LOA 3 Profile","Version":"1.0","Description":"This Trust Interoperability Profile specifies the requirements for a CSP to meet FICAM LOA 3.","Deprecated":false,"primary":false},{"Identifier":"https://trustmark.someorgoutthere.com/operational-pilot/trust-interoperability-profiles/nist-800-63-loa-3-profile/1.0/","Name":"NIST 800-63 LOA 3 Profile","Version":"1.0","Description":"This Trust Interoperability Profile specifies the requirements for a CSP to meet NIST 800-63 LOA 3.","Deprecated":false,"primary":false},{"Identifier":"https://trustmark.someorgoutthere.com/operational-pilot/trust-interoperability-profiles/nist-800-63-loa-3-registration-and-issuance-profile/1.0/","Name":"NIST 800-63 LOA 3 Registration and Issuance Profile","Version":"1.0","Description":"This Trust Interoperability Profile specifies NIST 800-63 LOA 3 requirements on subscriber registration and credential issuance by CSPs.","Deprecated":false,"primary":false},{"Identifier":"https://trustmark.someorgoutthere.com/operational-pilot/trust-interoperability-profiles/nist-800-63-loa-3-registration-and-issuance-for-financial-institutions-profile/1.0/","Name":"NIST 800-63 LOA 3 Registration and Issuance for Financial Institutions Profile","Version":"1.0","Description":"This Trust Interoperability Profile specifies NIST 800-63 LOA 3 requirements on CSP registration of subscribers and credential issuance, for CSPs that are financial institutions that are required, by government oversight such as the Bank Secrecy Act, the USA Patriot Act, the Office of the Comptroller of the Currency, the Federal Financial Institutions Examination Council, or the Securities  and Exchanges Commission, to implement a \"Customer Identification Program\".","Deprecated":false,"primary":false},{"Identifier":"https://trustmark.someorgoutthere.com/operational-pilot/trust-interoperability-profiles/nist-800-63-loa-3-in-person-identity-proofing-and-credential-issuance-profile/1.0/","Name":"NIST 800-63 LOA 3 In-Person Identity Proofing and Credential Issuance Profile","Version":"1.0","Description":"This Trust Interoperability Profile specifies NIST 800-63 LOA 3 requirements on in-person identity proofing of registration applicants and credential issuance by CSPs.","Deprecated":false,"primary":false},{"Identifier":"https://trustmark.someorgoutthere.com/operational-pilot/trust-interoperability-profiles/nist-800-63-loa-3-remote-identity-proofing-and-credential-issuance-profile/1.0/","Name":"NIST 800-63 LOA 3 Remote Identity Proofing and Credential Issuance Profile","Version":"1.0","Description":"This Trust Interoperability Profile specifies NIST 800-63 LOA 3 requirements on remote identity proofing of registration applicants and credential issuance by CSPs.","Deprecated":false,"primary":false},{"Identifier":"https://trustmark.someorgoutthere.com/operational-pilot/trust-interoperability-profiles/nist-800-63-loa-3-derived-credential-profile/1.0/","Name":"NIST 800-63 LOA 3 Derived Credential Profile","Version":"1.0","Description":"This Trust Interoperability Profile specifies NIST 800-63 requirements for issuance of LOA 3 derived credentials by CSPs.","Deprecated":false,"primary":false},{"Identifier":"https://trustmark.someorgoutthere.com/operational-pilot/trust-interoperability-profiles/ficam-loa-3-registration-and-issuance-profile/1.0/","Name":"FICAM LOA 3 Registration and Issuance Profile","Version":"1.0","Description":"This Trust Interoperability Profile specifies FICAM LOA 3 requirements on subscriber registration and credential issuance by CSPs. This TIP is equivalent to the NIST 800-63 LOA 3 Registration and Issuance Profile, with the sole exception being that this TIP does not allow the use of derived credentials.","Deprecated":false,"primary":false},{"Identifier":"https://trustmark.someorgoutthere.com/operational-pilot/trust-interoperability-profiles/nist-800-63-loa-3-identity-proofing-profile/1.0/","Name":"NIST 800-63 LOA 3 Identity Proofing Profile","Version":"1.0","Description":"This Trust Interoperability Profile specifies NIST 800-63 LOA 3 requirements on identity proofing done by CSPs.","Deprecated":false,"primary":false},{"Identifier":"https://trustmark.someorgoutthere.com/operational-pilot/trust-interoperability-profiles/nist-800-63-loa-3-in-person-identity-proofing-profile/1.0/","Name":"NIST 800-63 LOA 3 In-Person Identity Proofing Profile","Version":"1.0","Description":"This Trust Interoperability Profile specifies NIST 800-63 LOA 3 requirements on in-person identity proofing done by CSPs.","Deprecated":false,"primary":false},{"Identifier":"https://trustmark.someorgoutthere.com/operational-pilot/trust-interoperability-profiles/nist-800-63-loa-3-remote-identity-proofing-profile/1.0/","Name":"NIST 800-63 LOA 3 Remote Identity Proofing Profile","Version":"1.0","Description":"This Trust Interoperability Profile specifies NIST 800-63 LOA 3 requirements on remote identity proofing done by CSPs.","Deprecated":false,"primary":false},{"Identifier":"https://trustmark.someorgoutthere.com/operational-pilot/trust-interoperability-profiles/nist-800-63-loa-3-in-person-credential-issuance-profile/1.0/","Name":"NIST 800-63 LOA 3 In-Person Credential Issuance Profile","Version":"1.0","Description":"This Trust Interoperability Profile specifies NIST 800-63 LOA 3 requirements on in-person credential issuance by CSPs.","Deprecated":false,"primary":false},{"Identifier":"https://trustmark.someorgoutthere.com/operational-pilot/trust-interoperability-profiles/nist-800-63-loa-3-remote-credential-issuance-profile/1.0/","Name":"NIST 800-63 LOA 3 Remote Credential Issuance Profile","Version":"1.0","Description":"This Trust Interoperability Profile specifies NIST 800-63 LOA 3 requirements on remote credential issuance by CSPs.","Deprecated":false,"primary":false},{"Identifier":"https://trustmark.someorgoutthere.com/operational-pilot/trust-interoperability-profiles/nist-800-63-loa-3-credential-issuance-by-employers-of-licensed-professionals-profile/1.0/","Name":"NIST 800-63 LOA 3 Credential Issuance by Employers of Licensed Professionals Profile","Version":"1.0","Description":"This Trust Interoperability Profile specifies NIST 800-63 LOA 3 requirements on credential issuance by CSPs, where the subscribers are licensed professionals and employees or affiliates of the CSP.","Deprecated":false,"primary":false},{"Identifier":"https://trustmark.someorgoutthere.com/operational-pilot/trust-interoperability-profiles/nist-800-63-loa-3-applicant-tracking-profile/1.0/","Name":"NIST 800-63 LOA 3 Applicant Tracking Profile","Version":"1.0","Description":"This Trust Interoperability Profile specifies NIST 800-63 LOA 3 requirements on in-person and remote tracking of registration applicants by CSPs.","Deprecated":false,"primary":false},{"Identifier":"https://trustmark.someorgoutthere.com/operational-pilot/trust-interoperability-profiles/nist-800-63-loa-3-and-4-in-person-applicant-tracking-profile/1.0/","Name":"NIST 800-63 LOA 3 and 4 In-Person Applicant Tracking Profile","Version":"1.0","Description":"This Trust Interoperability Profile specifies NIST 800-63 LOA 3 and 4 requirements on in-person tracking of registration applicants by CSPs.","Deprecated":false,"primary":false},{"Identifier":"https://trustmark.someorgoutthere.com/operational-pilot/trust-interoperability-profiles/nist-800-63-loa-3-token-strength-and-authentication-profile/1.0/","Name":"NIST 800-63 LOA 3 Token Strength and Authentication Profile","Version":"1.0","Description":"This Trust Interoperability Profile specifies NIST 800-63 LOA 3 token strength requirements, and token-specific authentication requirements on CSPs.","Deprecated":false,"primary":false},{"Identifier":"https://trustmark.someorgoutthere.com/operational-pilot/trust-interoperability-profiles/nist-800-63-loa-3-multi-factor-software-cryptographic-token-strength-and-authentication-profile/1.0/","Name":"NIST 800-63 LOA 3 Multi-Factor Software Cryptographic Token Strength and Authentication Profile","Version":"1.0","Description":"This Trust Interoperability Profile specifies NIST 800-63 LOA 3 requirements on the implementation and strength of multi-factor cryptographic tokens, and the use of these tokens for subscriber authentication by CSPs.","Deprecated":false,"primary":false},{"Identifier":"https://trustmark.someorgoutthere.com/operational-pilot/trust-interoperability-profiles/nist-800-63-loa-3-token-and-credential-management-profile/1.0/","Name":"NIST 800-63 LOA 3 Token and Credential Management Profile","Version":"1.0","Description":"This Trust Interoperability Profile specifies NIST 800-63 LOA 3 requirements on the management of authentication tokens and credentials by CSPs.\n\nCredential storage requirements from NIST 800-63 are not covered in this TIP, but are covered in the NIST 800-63 Token Type Specific Strength and Authentication Profiles, specifically for shared secret tokens.","Deprecated":false,"primary":false},{"Identifier":"https://trustmark.someorgoutthere.com/operational-pilot/trust-interoperability-profiles/nist-800-63-loa-3-renewal-and-re-issuance-profile/1.0/","Name":"NIST 800-63 LOA 3 Renewal and Re-Issuance Profile","Version":"1.0","Description":"This Trust Interoperability Profile specifies NIST 800-63 LOA 3 requirements on the renewal and re-issuance of tokens and credentials by CSPs.","Deprecated":false,"primary":false},{"Identifier":"https://trustmark.someorgoutthere.com/operational-pilot/trust-interoperability-profiles/ficam-loa-3-token-and-credential-management-profile/1.0/","Name":"FICAM LOA 3 Token and Credential Management Profile","Version":"1.0","Description":"This Trust Interoperability Profile specifies NIST 800-63 LOA 3 requirements on the management of authentication tokens and credentials by CSPs, as adopted by FICAM. This Profile does not the include security control requirements stated in NIST 800-63.\n\nCredential storage requirements from NIST 800-63 are not covered in this TIP, but are covered in the NIST 800-63 Token Type Specific Strength and Authentication Profiles, specifically for shared secret tokens.","Deprecated":false,"primary":false},{"Identifier":"https://trustmark.someorgoutthere.com/operational-pilot/trust-interoperability-profiles/nist-800-63-loa-3-authentication-process-profile/1.0/","Name":"NIST 800-63 LOA 3 Authentication Process Profile","Version":"1.0","Description":"This Trust Interoperability Profile specifies NIST 800-63 LOA 3 requirements on subscriber authentication by CSPs.","Deprecated":false,"primary":false},{"Identifier":"https://trustmark.someorgoutthere.com/operational-pilot/trust-interoperability-profiles/nist-800-63-loa-3-identity-proofing-and-credential-issuance-by-employers-of-licensed-professionals-profile/1.0/","Name":"NIST 800-63 LOA 3 Identity Proofing and Credential Issuance by Employers of Licensed Professionals Profile","Version":"1.0","Description":"This Trust Interoperability Profile specifies NIST 800-63 LOA 2 requirements on identity proofing of registration applicants and credential issuance by CSPs, where the subscribers are licensed professionals and employees or affiliates of the CSP.","Deprecated":false,"primary":false},{"Identifier":"https://trustmark.someorgoutthere.com/operational-pilot/trust-interoperability-profiles/nist-800-63-loa-4-identity-proofing-and-credential-issuance-by-employers-of-licensed-professionals-profile/1.0/","Name":"NIST 800-63 LOA 4 Identity Proofing and Credential Issuance by Employers of Licensed Professionals Profile","Version":"1.0","Description":"This Trust Interoperability Profile specifies NIST 800-63 LOA 3 requirements on identity proofing of registration applicants and credential issuance by CSPs, where the subscribers are licensed professionals and employees or affiliates of the CSP.","Deprecated":false,"primary":false},{"Identifier":"https://trustmark.someorgoutthere.com/operational-pilot/trust-interoperability-profiles/ficam-loa-2-profile/1.0/","Name":"FICAM LOA 2 Profile","Version":"1.0","Description":"This Trust Interoperability Profile specifies the requirements for a CSP to meet FICAM LOA 2.","Deprecated":false,"primary":false},{"Identifier":"https://trustmark.someorgoutthere.com/operational-pilot/trust-interoperability-profiles/nist-800-63-loa-2-profile/1.0/","Name":"NIST 800-63 LOA 2 Profile","Version":"1.0","Description":"This Trust Interoperability Profile specifies the requirements for a CSP to meet NIST 800-63 LOA 2.","Deprecated":false,"primary":false},{"Identifier":"https://trustmark.someorgoutthere.com/operational-pilot/trust-interoperability-profiles/nist-800-63-loa-4-profile/1.0/","Name":"NIST 800-63 LOA 4 Profile","Version":"1.0","Description":"This Trust Interoperability Profile specifies the requirements for a CSP to meet NIST 800-63 LOA 4.","Deprecated":false,"primary":false},{"Identifier":"https://trustmark.someorgoutthere.com/operational-pilot/trust-interoperability-profiles/nist-800-63-loa-2-registration-and-issuance-profile/1.0/","Name":"NIST 800-63 LOA 2 Registration and Issuance Profile","Version":"1.0","Description":"This Trust Interoperability Profile specifies NIST 800-63 LOA 2 requirements on subscriber registration and credential issuance by CSPs.","Deprecated":false,"primary":false},{"Identifier":"https://trustmark.someorgoutthere.com/operational-pilot/trust-interoperability-profiles/nist-800-63-loa-4-registration-and-issuance-profile/1.0/","Name":"NIST 800-63 LOA 4 Registration and Issuance Profile","Version":"1.0","Description":"This Trust Interoperability Profile specifies NIST 800-63 LOA 4 requirements on subscriber registration and credential issuance by CSPs.","Deprecated":false,"primary":false},{"Identifier":"https://trustmark.someorgoutthere.com/operational-pilot/trust-interoperability-profiles/nist-800-63-loa-2-registration-and-issuance-for-financial-institutions-profile/1.0/","Name":"NIST 800-63 LOA 2 Registration and Issuance for Financial Institutions Profile","Version":"1.0","Description":"This Trust Interoperability Profile specifies NIST 800-63 LOA 2 requirements on CSP registration of subscribers and credential issuance, for CSPs that are financial institutions that are required, by government oversight such as the Bank Secrecy Act, the USA Patriot Act, the Office of the Comptroller of the Currency, the Federal Financial Institutions Examination Council, or the Securities  and Exchanges Commission, to implement a \"Customer Identification Program\".","Deprecated":false,"primary":false},{"Identifier":"https://trustmark.someorgoutthere.com/operational-pilot/trust-interoperability-profiles/nist-800-63-loa-4-registration-and-issuance-for-financial-institutions-profile/1.0/","Name":"NIST 800-63 LOA 4 Registration and Issuance for Financial Institutions Profile","Version":"1.0","Description":"This Trust Interoperability Profile specifies NIST 800-63 LOA 4 requirements on CSP registration of subscribers and credential issuance, for CSPs that are financial institutions that are required, by government oversight such as the Bank Secrecy Act, the USA Patriot Act, the Office of the Comptroller of the Currency, the Federal Financial Institutions Examination Council, or the Securities  and Exchanges Commission, to implement a \"Customer Identification Program\".","Deprecated":false,"primary":false},{"Identifier":"https://trustmark.someorgoutthere.com/operational-pilot/trust-interoperability-profiles/nist-800-63-loa-2-in-person-identity-proofing-and-credential-issuance-profile/1.0/","Name":"NIST 800-63 LOA 2 In-Person Identity Proofing and Credential Issuance Profile","Version":"1.0","Description":"This Trust Interoperability Profile specifies NIST 800-63 LOA 2 requirements on in-person identity proofing of registration applicants and credential issuance by CSPs.","Deprecated":false,"primary":false},{"Identifier":"https://trustmark.someorgoutthere.com/operational-pilot/trust-interoperability-profiles/nist-800-63-loa-2-remote-identity-proofing-and-credential-issuance-profile/1.0/","Name":"NIST 800-63 LOA 2 Remote Identity Proofing and Credential Issuance Profile","Version":"1.0","Description":"This Trust Interoperability Profile specifies NIST 800-63 LOA 2 requirements on remote identity proofing of registration applicants and credential issuance by CSPs.","Deprecated":false,"primary":false},{"Identifier":"https://trustmark.someorgoutthere.com/operational-pilot/trust-interoperability-profiles/nist-800-63-loa-4-identity-proofing-and-credential-issuance-profile/1.0/","Name":"NIST 800-63 LOA 4 Identity Proofing and Credential Issuance Profile","Version":"1.0","Description":"This Trust Interoperability Profile specifies NIST 800-63 LOA 4 requirements on identity proofing of registration applicants and credential issuance by CSPs.","Deprecated":false,"primary":false},{"Identifier":"https://trustmark.someorgoutthere.com/operational-pilot/trust-interoperability-profiles/nist-800-63-loa-2-identity-proofing-and-credential-issuance-by-employers-and-educational-institutions-profile/1.0/","Name":"NIST 800-63 LOA 2 Identity Proofing and Credential Issuance by Employers and Educational Institutions Profile","Version":"1.0","Description":"This Trust Interoperability Profile specifies NIST 800-63 LOA 2 requirements on identity proofing of registration applicants and credential issuance by CSPs, where the subscribers are employees or students of the CSP.","Deprecated":false,"primary":false},{"Identifier":"https://trustmark.someorgoutthere.com/operational-pilot/trust-interoperability-profiles/nist-800-63-loa-2-identity-proofing-and-credential-issuance-by-employers-of-licensed-professionals-profile/1.0/","Name":"NIST 800-63 LOA 2 Identity Proofing and Credential Issuance by Employers of Licensed Professionals Profile","Version":"1.0","Description":"This Trust Interoperability Profile specifies NIST 800-63 LOA 2 requirements on identity proofing of registration applicants and credential issuance by CSPs, where the subscribers are licensed professionals and employees or affiliates of the CSP.","Deprecated":false,"primary":false},{"Identifier":"https://trustmark.someorgoutthere.com/operational-pilot/trust-interoperability-profiles/nist-800-63-loa-2-derived-credential-profile/1.0/","Name":"NIST 800-63 LOA 2 Derived Credential Profile","Version":"1.0","Description":"This Trust Interoperability Profile specifies NIST 800-63 requirements for issuance of LOA 2 derived credentials by CSPs.","Deprecated":false,"primary":false},{"Identifier":"https://trustmark.someorgoutthere.com/operational-pilot/trust-interoperability-profiles/nist-800-63-loa-4-derived-credential-profile/1.0/","Name":"NIST 800-63 LOA 4 Derived Credential Profile","Version":"1.0","Description":"This Trust Interoperability Profile specifies NIST 800-63 requirements for issuance of LOA 4 derived credentials by CSPs.","Deprecated":false,"primary":false},{"Identifier":"https://trustmark.someorgoutthere.com/operational-pilot/trust-interoperability-profiles/ficam-loa-4-registration-and-issuance-profile/1.0/","Name":"FICAM LOA 4 Registration and Issuance Profile","Version":"1.0","Description":"This Trust Interoperability Profile specifies NIST 800-63 LOA 4 requirements on subscriber registration and credential issuance by CSPs. This TIP is equivalent to the NIST 800-63 LOA 4 Registration and Issuance Profile, with the sole exception being that this TIP does not allow the use of derived credentials.","Deprecated":false,"primary":false},{"Identifier":"https://trustmark.someorgoutthere.com/operational-pilot/trust-interoperability-profiles/nist-800-63-loa-2-identity-proofing-profile/1.0/","Name":"NIST 800-63 LOA 2 Identity Proofing Profile","Version":"1.0","Description":"This Trust Interoperability Profile specifies NIST 800-63 LOA 2 requirements on identity proofing done by CSPs.","Deprecated":false,"primary":false},{"Identifier":"https://trustmark.someorgoutthere.com/operational-pilot/trust-interoperability-profiles/nist-800-63-loa-4-identity-proofing-profile/1.0/","Name":"NIST 800-63 LOA 4 Identity Proofing Profile","Version":"1.0","Description":"This Trust Interoperability Profile specifies NIST 800-63 LOA 4 requirements on identity proofing done by CSPs.","Deprecated":false,"primary":false},{"Identifier":"https://trustmark.someorgoutthere.com/operational-pilot/trust-interoperability-profiles/nist-800-63-loa-2-in-person-identity-proofing-profile/1.0/","Name":"NIST 800-63 LOA 2 In-Person Identity Proofing Profile","Version":"1.0","Description":"This Trust Interoperability Profile specifies NIST 800-63 LOA 2 requirements on in-person identity proofing done by CSPs.","Deprecated":false,"primary":false},{"Identifier":"https://trustmark.someorgoutthere.com/operational-pilot/trust-interoperability-profiles/nist-800-63-loa-2-remote-identity-proofing-profile/1.0/","Name":"NIST 800-63 LOA 2 Remote Identity Proofing Profile","Version":"1.0","Description":"This Trust Interoperability Profile specifies NIST 800-63 LOA 2 requirements on remote identity proofing done by CSPs.","Deprecated":false,"primary":false},{"Identifier":"https://trustmark.someorgoutthere.com/operational-pilot/trust-interoperability-profiles/nist-800-63-loa-2-in-person-credential-issuance-profile/1.0/","Name":"NIST 800-63 LOA 2 In-Person Credential Issuance Profile","Version":"1.0","Description":"This Trust Interoperability Profile specifies NIST 800-63 LOA 2 requirements on in-person credential issuance by CSPs.","Deprecated":false,"primary":false},{"Identifier":"https://trustmark.someorgoutthere.com/operational-pilot/trust-interoperability-profiles/nist-800-63-loa-2-remote-credential-issuance-profile/1.0/","Name":"NIST 800-63 LOA 2 Remote Credential Issuance Profile","Version":"1.0","Description":"This Trust Interoperability Profile specifies NIST 800-63 LOA 2 requirements on remote credential issuance by CSPs.","Deprecated":false,"primary":false},{"Identifier":"https://trustmark.someorgoutthere.com/operational-pilot/trust-interoperability-profiles/nist-800-63-loa-4-credential-issuance-profile/1.0/","Name":"NIST 800-63 LOA 4 Credential Issuance Profile","Version":"1.0","Description":"This Trust Interoperability Profile specifies NIST 800-63 LOA 4 requirements on credential issuance by CSPs.","Deprecated":false,"primary":false},{"Identifier":"https://trustmark.someorgoutthere.com/operational-pilot/trust-interoperability-profiles/nist-800-63-loa-2-credential-issuance-by-employers-of-licensed-professionals-profile/1.0/","Name":"NIST 800-63 LOA 2 Credential Issuance by Employers of Licensed Professionals Profile","Version":"1.0","Description":"This Trust Interoperability Profile specifies NIST 800-63 LOA 2 requirements on credential issuance by CSPs, where the subscribers are licensed professionals and employees or affiliates of the CSP.","Deprecated":false,"primary":false},{"Identifier":"https://trustmark.someorgoutthere.com/operational-pilot/trust-interoperability-profiles/nist-800-63-loa-2-applicant-tracking-profile/1.0/","Name":"NIST 800-63 LOA 2 Applicant Tracking Profile","Version":"1.0","Description":"This Trust Interoperability Profile specifies NIST 800-63 LOA 2 requirements on in-person and remote tracking of registration applicants by CSPs.","Deprecated":false,"primary":false},{"Identifier":"https://trustmark.someorgoutthere.com/operational-pilot/trust-interoperability-profiles/nist-800-63-loa-2-in-person-applicant-tracking-profile/1.0/","Name":"NIST 800-63 LOA 2 In-Person Applicant Tracking Profile","Version":"1.0","Description":"This Trust Interoperability Profile specifies NIST 800-63 LOA 2 requirements on in-person tracking of registration applicants by CSPs.","Deprecated":false,"primary":false},{"Identifier":"https://trustmark.someorgoutthere.com/operational-pilot/trust-interoperability-profiles/nist-800-63-loa-1-token-strength-and-authentication-profile/1.0/","Name":"NIST 800-63 LOA 1 Token Strength and Authentication Profile","Version":"1.0","Description":"This Trust Interoperability Profile specifies NIST 800-63 LOA 1 token strength requirements, and token-specific authentication requirements on CSPs.","Deprecated":false,"primary":false},{"Identifier":"https://trustmark.someorgoutthere.com/operational-pilot/trust-interoperability-profiles/nist-800-63-loa-2-token-strength-and-authentication-profile/1.0/","Name":"NIST 800-63 LOA 2 Token Strength and Authentication Profile","Version":"1.0","Description":"This Trust Interoperability Profile specifies NIST 800-63 LOA 2 token strength requirements, and token-specific authentication requirements on CSPs.","Deprecated":false,"primary":false}]}};
+
+        var SEARCH_URL = null;
+
+        var TIP = null;
+
+        var PROVIDERS = [];
+
+
+        /**
+         * Javascript entry point, called after all initial data has been loaded and the document is ready.
+         */
+        $(document).ready(function(){
+            console.log("document.ready firing...");
+            if (!String.prototype.trim) {
+                String.prototype.trim = function () {
+                    return this.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '');
+                };
+            }
+
+            var mainTitleHtml = $('#mainTitle').html();
+            $('#mainTitle').html('<img title="Trustmark Framework Artifact: Trustmark Definition" width="50" height="50" src="data:image/png; base64,'+TIP_LOGO_SMALL_CIRCLE_BASE64+'" /> '+mainTitleHtml)
+
+
+            // TODO ${PROVIDER_LIST_JSON} ;
+
+
+            // TODO ${TIP_JSON} ;
+
+
+            // TODO ${SEARCH_URL} ;
+
+            if( TIP == null )
+                TIP = buildEmptyTIP();
+
+            updateUI(TIP);
+            setTimeout('displayContent()', 250);
+        });
+
+
+        /**
+         * Menu Callback to calculate the JSON represented currently and display it.
+         */
+        function menuFileDownloadJSON() {
+            saveDataToJSON();
+            var jsonString = JSON.stringify(TIP, null, 4);
+            $('#mainContainer').html('<div style="margin-top: 4em;"><h1>Raw JSON: </h1><pre>'+htmlEncode(jsonString)+'</pre></div>');
+        }//end menuFileDownloadJSON()
+
+
+        /**
+         * Menu callback to validate the current data and make sure everything required is present.  Calls the "doValidation()"
+         * method to do the heavy lifting, a method that can be leveraged by other logic.
+         */
+        function doValidationMenuItem() {
+            if( doValidation() ){
+                $('#feedbackWindow').html('<div class="alert alert-success">This Trust Interoperability Profile validates successfully.</div>');
+            }
+        }
+
+
+        /**
+         * A helper for testing
+         */
+        function menuAutofillTestData() {
+            $('#tipName').val('Password Complexity Requirements');
+            $('#tipPublicationDate').val('2017-01-17');
+            $('#tipVersion').val('1.0-SNAPSHOT');
+            $('#identifier').val('https://artifacts.trustmarkinitiative.org/lib/trust-interoperability-profiles/password-complexity-requirements/1.0-SNAPSHOT/');
+
+            $('#tipIssuerName').val('Georgia Tech Research Institute');
+            $('#tipIssuerId').val('https://trustmarks.gtri.org/');
+
+            $('#tipIssuerResponder').val('Trustmark Framework');
+            $('#tipIssuerEmail').val('TrustmarkFeedback@gtri.gatech.edu');
+            $('#tipDescription').val('This is a TIP Description, for the purposes of testing only!');
+
+
+        }
+
+
+        function displayMetadata(){
+            displayTab('tabsMetadata');
+        }
+
+        function displayContent() {
+            displayTab('tabsContent');
+        }
+
+        function displayTab(id){
+            console.log("Showing Tab id="+id);
+            $('#'+id+' a').tab('show');
+        }
+
+
+        /**
+         * Performs validation in javascript, returning true if valid and false if not.  If not, then the page is updated
+         * to reflect the error.
+         */
+        function doValidation() {
+            console.log("Performing in-page validation checks...");
+            clearFeedback();
+            saveDataToJSON();
+
+            if( TIP.Name.trim().length == 0 ){
+                setValidationError("Name must not be empty.");
+                displayMetadata();
+                $('#tipName').focus();
+                return false;
+            }
+
+            if( TIP.PublicationDateTime.trim().length == 0 ){
+                setValidationError("Publication Date must not be empty.");
+                displayMetadata();
+                $('#tipPublicationDate').focus();
+                return false;
+            }
+            var pubDate = Date.parse(TIP.PublicationDateTime);
+            console.log("Date timestamp = "+pubDate);
+            if( pubDate == null || isNaN(pubDate) ){
+                setValidationError("Publication Date must match yyyy-mm-dd, like 2017-01-16");
+                displayMetadata();
+                $('#tipPublicationDate').focus();
+                return false;
+            }
+
+
+            if( TIP.Version.trim().length == 0 ){
+                setValidationError("Version must not be empty.");
+                displayMetadata();
+                $('#tipVersion').focus();
+                return false;
+            }
+
+            if( TIP.Identifier.trim().length == 0 ){
+                setValidationError("Identifier must not be empty.");
+                displayMetadata();
+                $('#identifier').focus();
+                return false;
+            }
+            if( !validateURL(TIP.Identifier) ){
+                setValidationError("Identifier must be a valid URL (ie, internet address).");
+                displayMetadata();
+                $('#identifier').focus();
+                return false;
+            }
+
+            if( TIP.Issuer.Name.trim().length == 0 ){
+                setValidationError("Issuer Organization Name must not be empty.");
+                displayMetadata();
+                $('#tipIssuerName').focus();
+                return false;
+            }
+            if( TIP.Issuer.Identifier.trim().length == 0 ){
+                setValidationError("Issuer Organization URI must not be empty.");
+                displayMetadata();
+                $('#tipIssuerId').focus();
+                return false;
+            }
+
+            if( TIP.Issuer.PrimaryContact.Email.trim().length == 0 ){
+                setValidationError("Issuer Organization Email must not be empty.");
+                displayMetadata();
+                $('#tipIssuerEmail').focus();
+                return false;
+            }
+            if( !validateEmail(TIP.Issuer.PrimaryContact.Email.trim()) ){
+                setValidationError("Issuer Organization Email must be a valid email address, ie somebody@somewhere.com");
+                displayMetadata();
+                $('#tipIssuerEmail').focus();
+                return false;
+            }
+            if( TIP.Description.trim().length == 0 ){
+                setValidationError("Description must not be empty.");
+                displayMetadata();
+                $('#tipDescription').focus();
+                return false;
+            }
+
+            if( isBlank(TIP.TrustExpression) ){
+                setValidationError("Trust Expression must not be empty.");
+                displayContent();
+                $('#trustExpression').focus();
+                return false;
+            }
+
+            if( TIP.References == null || (!hasTDRequirements(TIP) && !hasTIPReferences(TIP) ) ){
+                setValidationError("TIP References are required.");
+                displayContent();
+                return false;
+            }
+
+            return true;
+        }//end doValidation()
+
+
+        // Validates URL values
+        function validateURL(value) {
+            return /^(https?|ftp):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(\#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i.test(value);
+        }
+
+        // Validates Email Values
+        function validateEmail(email) {
+            var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return re.test(email);
+        }
+
+        // Simply clears the feedback window at the top of the page.
+        function clearFeedback() {
+            $('#feedbackWindow').html('');
+        }
+
+        // Displays an error message to the user.
+        function setValidationError(msg) {
+            $('#feedbackWindow').html('<div class="alert alert-danger">'+msg+'</div>');
+        }
+
+
+        // Taken from http://stackoverflow.com/questions/1219860/html-encoding-in-javascript-jquery
+        function htmlEncode(value){
+            //create a in-memory div, set it's inner text(which jQuery automatically encodes)
+            //then grab the encoded contents back out.  The div never exists on the page.
+            return $('<div/>').text(value).html();
+        }
+
+
+        /**
+         * When called, this method will write the fields in the User Interface back to the TIP object, and the TIP
+         * object is then capable of being sent to the server.
+         */
+        function saveDataToJSON() {
+            if( TIP == null )
+                TIP = {};
+
+            TIP.Name                = $('#tipName').val();
+            TIP.PublicationDateTime = $('#tipPublicationDate').val();
+            TIP.Version             = $('#tipVersion').val();
+            TIP.Identifier          = $('#identifier').val();
+            TIP.Description         = $('#tipDescription').val();
+            TIP.LegalNotice         = $('#LegalNotice').val();
+            TIP.Notes               = $('#Notes').val();
+
+            TIP.Issuer = {};
+            TIP.Issuer.Name         = $('#tipIssuerName').val();
+            TIP.Issuer.Identifier   = $('#tipIssuerId').val();
+
+            TIP.Issuer.OtherContacts = null;
+
+            TIP.Issuer.PrimaryContact                = {};
+            TIP.Issuer.PrimaryContact.Kind           = "PRIMARY";
+            TIP.Issuer.PrimaryContact.Responder      = $('#tipIssuerResponder').val();
+            TIP.Issuer.PrimaryContact.Email          = $('#tipIssuerEmail').val();
+            TIP.Issuer.PrimaryContact.Telephone      = $('#tipIssuerPhone').val();
+            TIP.Issuer.PrimaryContact.MailingAddress = $('#tipIssuerMailingAddr').val();
+            TIP.Issuer.PrimaryContact.Notes          = $('#tipIssuerNotes').val();
+
+            // TODO Set TIP.Keywords from UI?  This is already being managed in other places.
+            // TODO Set TIP.Deprecated from UI?  This is already being managed in other places.
+
+            TIP.Supersessions = null;
+
+            var supersedes = $('#Supersedes').val();
+            if( isNotBlank(supersedes) ){
+                TIP.Supersessions = {};
+                TIP.Supersessions.Supersedes = [];
+                var supersedesArray = supersedes.split(/\s+/);
+                for( var i = 0; i < supersedesArray.length; i++ ){
+                    var element = supersedesArray[i];
+                    if( isNotBlank(element) ){
+                        TIP.Supersessions.Supersedes.push({"Identifier" : element});
+                    }
+                }
+            }
+
+            if( TIP.Deprecated ) {
+                var supersededBy = $('#supersededBy').val();
+                if (isNotBlank(supersededBy)) {
+                    if (TIP.Supersessions == null)
+                        TIP.Supersessions = {};
+                    TIP.Supersessions.SupersededBy = [];
+                    var supersededByArray = supersededBy.split(/\s+/);
+                    for (var i = 0; i < supersededByArray.length; i++) {
+                        var element = supersededByArray[i];
+                        if (isNotBlank(element)) {
+                            TIP.Supersessions.SupersededBy.push({"Identifier": element});
+                        }
+                    }
+                }
+            }else{
+                // TODO - Do we disregard this value if we are not deprecated?
+            }
+
+            TIP.TrustExpression = $('#trustExpression').val();
+
+            // Note - References is filled and managed while changes occur (ie, the model and view are kept in sync).
+
+        }//end saveJson()
+
+
+        /**
+         * Has the effect of creating a base, empty structure for the TIP.
+         */
+        function buildEmptyTIP(){
+            return {
+                "$TMF_VERSION" : "1.1",
+                "$Type" : "TrustInteroperabilityProfile",
+                "$id": "",
+                "Identifier": "",
+                "Name": "",
+                "Version": "1.0-SNAPSHOT",
+                "PublicationDateTime": "",
+                "Deprecated": false,
+                "Description": "",
+                "Keywords": [],
+                "Issuer": {
+                    "Identifier": "",
+                    "Name": "",
+                    "PrimaryContact": {
+                        "Kind": "PRIMARY",
+                        "Responder": "",
+                        "Email": ""
+                    }
+                },
+                "TrustExpression": "true",
+                "References": {
+                    "TrustInteroperabilityProfileReferences": [],
+                    "TrustmarkDefinitionRequirements": []
+                },
+                "LegalNotice": "",
+                "Notes": ""
+            };
+        }
+
+        /**
+         * Responsible for assigning the data from the given TIP JSON to the user interface.
+         */
+        function updateUI(tip){
+            updateMetadata(tip);
+            updateDeprecated(tip);
+            updateContent(tip);
+        }
+
+        /**
+         * Updates the UI Text boxes to display the given TIP metadata.
+         */
+        function updateMetadata(tip) {
+            console.log("Updating UI to match TIP for Metadata...");
+
+            $('#tipName').val(valOrEmpty(tip.Name));
+            $('#tipPublicationDate').val(valOrEmpty(tip.PublicationDateTime));
+            $('#tipVersion').val(valOrEmpty(tip.Version));
+            $('#identifier').val(valOrEmpty(tip.Identifier));
+            $('#tipDescription').val(valOrEmpty(tip.Description));
+
+            $('#tipIssuerName').val(valOrEmpty(tip.Issuer.Name));
+            $('#tipIssuerId').val(valOrEmpty(tip.Issuer.Identifier));
+
+            $('#LegalNotice').val(valOrEmpty(tip.LegalNotice));
+            $('#Notes').val(valOrEmpty(tip.Notes));
+
+            updateKeywords(tip);
+
+
+            var contact = null;
+            if( tip && tip.Issuer && tip.Issuer.PrimaryContact ){
+                contact = tip.Issuer.PrimaryContact;
+            }else{
+                // TODO Any other way to fill contact?
+            }
+            if( contact ){
+                $('#tipIssuerResponder').val(valOrEmpty(contact.Responder));
+                $('#tipIssuerEmail').val(valOrEmpty(getFirstEmail(contact)));
+                $('#tipIssuerPhone').val(valOrEmpty(getFirstTelephone(contact)));
+                $('#tipIssuerMailingAddr').val(valOrEmpty(getFirstMailingAddress(contact)));
+                $('#tipIssuerNotes').val(valOrEmpty(contact.Notes));
+            }else{
+                $('#tipIssuerResponder').val('');
+                $('#tipIssuerEmail').val('');
+                $('#tipIssuerPhone').val('');
+                $('#tipIssuerMailingAddr').val('');
+                $('#tipIssuerNotes').val('');
+            }
+
+
+            if( tip.Supersessions && tip.Supersessions.Supersedes && tip.Supersessions.Supersedes.length > 0 ){
+                var supersedesString = '';
+                for( var i = 0; i < tip.Supersessions.Supersedes.length; i++ ){
+                    supersedesString += tip.Supersessions.Supersedes[i].Identifier;
+                    if( i < (tip.Supersessions.Supersedes.length - 1) ){
+                        supersedesString += '\n';
+                    }
+                }
+                $('#Supersedes').val(supersedesString);
+            }
+
+            if( tip.Supersessions && tip.Supersessions.SupersededBy && tip.Supersessions.SupersededBy.length > 0 ){
+                var supersededByString = '';
+                for( var i = 0; i < tip.Supersessions.SupersededBy.length; i++ ){
+                    supersededByString += tip.Supersessions.SupersededBy[i].Identifier;
+                    if( i < (tip.Supersessions.SupersededBy.length - 1) ){
+                        supersededByString += '\n';
+                    }
+                }
+                $('#supersededBy').val(supersededByString);
+            }
+
+        }
+
+        function getFirstEmail(contact){
+            if( contact && contact.Email ){
+                return contact.Email;
+            }else if( contact && contact.Emails ){
+                return contact.Emails[0];
+            }else{
+                return null;
+            }
+        }
+
+        function getFirstMailingAddress(contact){
+            if( contact && contact.MailingAddress ){
+                return contact.MailingAddress;
+            }else if( contact && contact.MailingAddresses ){
+                return contact.MailingAddresses[0];
+            }else{
+                return null;
+            }
+        }
+
+        function getFirstTelephone(contact){
+            if( contact && contact.Telephone ){
+                return contact.Telephone;
+            }else if( contact && contact.Telephones ){
+                return contact.Telephones[0];
+            }else{
+                return null;
+            }
+        }
+
+        //==========================================================================================================
+        // Deprecated Changes
+        //==========================================================================================================
+        /**
+         * Called to switch the value of DEPRECATED, and update the view.
+         */
+        function toggleDeprecated() {
+            TIP.Deprecated = !TIP.Deprecated;
+            updateDeprecated(TIP);
+        }
+
+        /**
+         * Analyzes the "DEPRECATED" boolean and updates the view accordingly.
+         */
+        function updateDeprecated(tip) {
+            if( tip.Deprecated ){
+                $('#deprecatedIndicator').addClass('glyphicon-ok');
+                $('#deprecatedIndicator').removeClass('glyphicon-remove');
+                $('#deprecatedText').html("Deprecated");
+                $('#supersedByContainer').show();
+            }else{
+                $('#deprecatedIndicator').removeClass('glyphicon-ok');
+                $('#deprecatedIndicator').addClass('glyphicon-remove');
+                $('#deprecatedText').html("Not Deprecated");
+                $('#supersedByContainer').hide();
+            }
+        }//end updateDeprecated()
+
+        //==========================================================================================================
+        // Keywords
+        //==========================================================================================================
+        /**
+         * Returns a sorted version of the Keywords Array.
+         */
+        function getSortedKeywords(tip){
+            if( !tip )
+                tip = {};
+            if( !tip.Keywords )
+                tip.Keywords = [];
+            tip.Keywords.sort(sortStrings);
+            return tip.Keywords;
+        }//end getSortedKeywords()
+        /**
+         * Will prompt the user for and add a new keyword to the list.
+         */
+        function addNewKeyword(){
+            var keyword = prompt("Please enter your new keyword: ");
+            if (/\S/.test(keyword)) {
+                if( TIP.Keywords && TIP.Keywords.length > 0 ){
+                    for( var i = 0; i < TIP.Keywords.length; i++ ){
+                        if( keyword == TIP.Keywords[i] ){
+                            alert("That keyword already exists.");
+                            return;
+                        }
+                    }
+                }else{
+                    TIP.Keywords = []
+                }
+                console.log("Adding keyword: "+keyword);
+                TIP.Keywords.push(keyword);
+                updateKeywords(TIP);
+            }else{
+                alert("Keyword must have a value.");
+            }
+        }//end addNewKeyword()
+        /**
+         * Removes the value at in the KEYWORDS array at the given index.  If the index has a bad value, then no changes
+         * will occur.
+         */
+        function removeKeyword(index){
+            var newKeywords = new Array();
+            if( TIP.Keywords && TIP.Keywords.length > 0 ){
+                for( var i = 0; i < TIP.Keywords.length; i++ ){
+                    if( i != index ){
+                        newKeywords.push(TIP.Keywords[i]);
+                    }else{
+                        console.log("Removing keyword: "+TIP.Keywords[i]);
+                    }
+                }
+            }
+            TIP.Keywords = newKeywords;
+            updateKeywords(TIP);
+        }//end removeKeyword()
+        /**
+         * Updates the view associated with keywords.
+         */
+        function updateKeywords(tip){
+            var html = '';
+            var keys = getSortedKeywords(tip);
+            if( keys != null && keys.length > 0 ){
+                for( var index = 0; index < keys.length; index++ ){
+                    var nextKeyword = keys[index];
+                    html += '<span class="label label-default keywordLabel">'+nextKeyword+' | <a href="javascript:removeKeyword('+index+')" class="keywordRemoveLink" title="Click to remove this keyword."><span class="glyphicon glyphicon-remove"></span></a></span>'
+                }
+            }else{
+                html += '<em>There are no keywords.</em>'
+            }
+            $('#keywordsContainer').html(html);
+        }//end updateKeywords()
+
+        //==========================================================================================================
+        // Reference Methods
+        //==========================================================================================================
+        /**
+         * Helper method to determine if the given TIP already contains a reference with the varName given.
+         */
+        function doesTipContainReferenceVariable(tip, varName){
+            if( hasTDRequirements(tip) ) {
+                for( var i = 0; i < tip.References.TrustmarkDefinitionRequirements.length; i++ ){
+                    var tdReq = tip.References.TrustmarkDefinitionRequirements[i];
+                    if( tdReq["$id"] === varName ){
+                        return true;
+                    }
+                }
+            }
+            if( hasTIPReferences(tip) ) {
+                for( var i = 0; i < tip.References.TrustInteroperabilityProfileReferences.length; i++ ){
+                    var ref = tip.References.TrustInteroperabilityProfileReferences[i];
+                    if( ref["$id"] === varName ){
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        /**
+         * Called to update a Reference Variable name.
+         */
+        function editReferenceVariable(varName){
+            console.log("Reference Variable To Edit: "+varName);
+            var newName = prompt("Please enter a new name to replace variable '"+varName+"': ", varName);
+            if(isNotBlank(newName) ){
+                if( /^[a-zA-Z_]\w*$/.test(newName) ){
+
+                    if( doesTipContainReferenceVariable(TIP, newName) ){
+                        alert("This variable name is already being used.  Not changing anything.");
+                        return;
+                    }
+
+
+                    console.log("Changing ["+varName+"] to ["+newName+"]...");
+                    if( hasTDRequirements(TIP) ){
+                        for(var i = 0; i < TIP.References.TrustmarkDefinitionRequirements.length; i++ ){
+                            var tdReq = TIP.References.TrustmarkDefinitionRequirements[i];
+                            if( tdReq["$id"] === varName ){
+                                tdReq["$id"] = newName;
+                                updateTDReferences(TIP);
+                            }
+                        }
+                    }
+                    if( hasTIPReferences(TIP) ){
+                        for(var i = 0; i < TIP.References.TrustInteroperabilityProfileReferences.length; i++ ){
+                            var tipRef = TIP.References.TrustInteroperabilityProfileReferences[i];
+                            if( tipRef["$id"] === varName ){
+                                tipRef["$id"] = newName;
+                                updateTIPReferences(TIP);
+                            }
+                        }
+                    }
+
+                    TIP.TrustExpression = replaceInTrustExpression($('#trustExpression').val(), varName, newName);
+                    updateTrustExpression(TIP);
+
+                }else{
+                    console.log("New name is not a valid variable name (special characters)!");
+                    alert("Not changing anything - the name you entered is invalid.  Your variable name must start with an alpha and subsequently contain ONLY alpha-numerics.  NO SPECIAL CHARACTERS ARE ALLOWED.");
+                }
+
+            }else{
+                alert("Not changing anything, since you didn't enter a new name.");
+            }
+        }
+
+        /**
+         * replaceInTrustExpression.
+         */
+        function replaceInTrustExpression(string, varName, replacement){
+            if( !string )
+                return "";
+            var indexLocations = new Array();
+            for (var i = 0; i < string.length; i++) {
+                if( containsVar(string, varName, i) ){
+                    indexLocations.push(i);
+                }
+            }
+
+            var newS = '';
+            for( var i = 0; i < string.length; i++ ){
+                if( arrayContains(indexLocations, i) ){
+                    newS += replacement;
+                    i += (varName.length - 1);
+                }else{
+                    newS += string.charAt(i);
+                }
+            }
+
+            return newS;
+        }
+
+        /**
+         * True IFF the value given is in the array somewhere (by using double equals)
+         */
+        function arrayContains(array, value){
+            if( array && array.length > 0 ){
+                for( var i = 0; i < array.length; i++ ){
+                    if( array[i] == value )
+                        return true;
+                }
+            }
+            return false;
+        }
+
+        /**
+         * Returns true if the string contains the given variable name at the given index, but false if it is followed
+         * by a word character (ie, [a-Z0-9_] ).  So, some examples:
+         *   1) containsVar('test', 'test', 0) => true
+         *   2) containsVar('abc', 'a', 0) => false
+         *   3) containsVar('a bc', 'a', 0) => true
+         *   4) containsVar('td11 and td1 and td112', 'tdr1', 0) => false
+         *   5) containsVar('td11 and td1 and td112', 'tdr1', 8) => true
+         */
+        function containsVar(string, varName, i){
+            if( string.charAt(i) == varName.charAt(0) ){
+                if (string.length >= (i+varName.length) ){
+                    var sub = string.substring(i, i+varName.length);
+                    if( sub === varName ){
+                        if( string.length > (i+varName.length) ){
+                            var charAfter = string.charAt(i+varName.length);
+                            if( /^\w$/.test(charAfter) ){
+                                return false;
+                            }else{
+                                return true;
+                            }
+                        }else{
+                            return true;
+                        }
+                    }else{
+                        return false;
+                    }
+                }else{
+                    return false;
+                }
+            }else{
+                return false;
+            }
+        }//end containsVar()
+
+        /**
+         * Updates the Content page based on the given TIP information.
+         */
+        function updateContent(tip){
+            updateTrustExpression(tip);
+            updateTDReferences(tip);
+            updateTIPReferences(tip);
+        }
+
+        /**
+         * Updates the TRUST Expression based on the given TIP
+         */
+        function updateTrustExpression(tip){
+            $('#trustExpression').val(valOrEmpty(tip.TrustExpression));
+        }
+
+        /**
+         * Checks the TIP object, and updates the UI to display any TD Req' references.
+         */
+        function updateTDReferences(tip){
+            if( hasTDRequirements(tip) ){
+                console.log("Displaying "+tip.References.TrustmarkDefinitionRequirements.length+" TD Requirements...");
+                $('#tdReferenceCount').html('<small>('+tip.References.TrustmarkDefinitionRequirements.length+')</small>');
+                var html = '';
+                html += '<table class="table table-condensed table-striped table-bordered">';
+                for( var i = 0; i < tip.References.TrustmarkDefinitionRequirements.length; i++ ){
+                    var tdReq = tip.References.TrustmarkDefinitionRequirements[i];
+                    var id = tdReq["$id"];
+
+                    html += '<tr>';
+                    var editHtml = '<a href="javascript:editReferenceVariable(\''+id+'\')" style="color: inherit; font-size: 90%;" title="Edit this variable name."><span class="glyphicon glyphicon-pencil"></span></a>';
+                    html += '<td style="text-align: center; width: 20%;"><span class="label label-default">'+id+' | '+editHtml+'</span></td>';
+                    html += '<td>';
+                    html += '<div>';
+                    html += getTmiReferenceDisplay(tdReq.TrustmarkDefinitionReference);
+                    html += '<div style="float: right;"><a href="javascript:removeTDReference(\''+id+'\')" class="btn btn-xs btn-default" title="Remove this TD Requirement"><span class="glyphicon glyphicon-remove"></span></a></div>\n';
+                    html += '</div>\n';
+                    if( tdReq.ProviderReferences != null && tdReq.ProviderReferences.length > 0 ){
+                        for( var prIdx = 0; prIdx < tdReq.ProviderReferences.length; prIdx++ ){
+                            var provider = getProvider(tip, tdReq.ProviderReferences[prIdx]);
+                            html += '<div class="providerRefContainer">'+displayProvider(provider)+'</div>\n';
+                        }
+                    }
+                    html += '</td>';
+                    html += '</tr>\n';
+                }
+                html += '</table>';
+                $('#tdReferencesContainer').html(html);
+            }else{
+                $('#tdReferenceCount').html('<small>(0)</small>');
+                $('#tdReferencesContainer').html('<em>There are no Trustmark Definition references.</em>');
+            }
+
+        }//end updateTDReferences()
+
+        /**
+         * A simple method to take in a provider object and one-line string it.
+         */
+        function displayProvider(p){
+            if( "Name" in p ){
+                return p.Name + " [" + p.Identifier + "]";
+            }else{
+                return p.Identifier;
+            }
+        }
+
+        /**
+         * Given a ProviderReference object (which is either the provider or a ref to it) then this method will resolve
+         * the full object and return that.
+         */
+        function getProvider(tip, refObj){
+            var provider = null;
+            if( "$id" in refObj ){
+                provider = refObj;
+            }else if( "$ref" in refObj ){
+                var ref = refObj["$ref"];
+                if( ref.startsWith("#") )
+                    ref = ref.substring(1);
+                if( hasTDRequirements(tip) ){
+                    for( var i = 0; i < tip.References.TrustmarkDefinitionRequirements.length; i++ ) {
+                        var tdReq = tip.References.TrustmarkDefinitionRequirements[i];
+                        if( tdReq.ProviderReferences && tdReq.ProviderReferences.length > 0 ){
+                            for( var j = 0; j < tdReq.ProviderReferences.length; j++ ){
+                                var pr = tdReq.ProviderReferences[j];
+                                if( ("$id" in pr) && pr["$id"] === ref ){
+                                    provider = pr;
+                                    break;
+                                }
+                            }
+                            if( provider )
+                                break;
+                        }
+                    }
+
+                }
+            }
+            return provider;
+        }
+
+        /**
+         * Called to remove a TIP Reference from this TIP
+         */
+        function removeTIPReference(refId){
+            var newReferences = []
+            if( hasTIPReferences(TIP) ){
+                for( var i = 0; i < TIP.References.TrustInteroperabilityProfileReferences.length; i++ ){
+                    var tip = TIP.References.TrustInteroperabilityProfileReferences[i];
+                    if( tip["$id"] === refId ){
+                        // Ignoring it, since we want it removed.
+                    }else{
+                        newReferences.push(tip);
+                    }
+                }
+                TIP.References.TrustInteroperabilityProfileReferences = newReferences;
+                updateTIPReferences(TIP);
+            }
+        }
+
+        function removeTDReference(refId){
+            var newReferences = [];
+            if( hasTDRequirements(TIP) ){
+                for( var i = 0; i < TIP.References.TrustmarkDefinitionRequirements.length; i++ ){
+                    var td = TIP.References.TrustmarkDefinitionRequirements[i];
+                    if( td["$id"] === refId ){
+                        // Ignoring it, since we want it removed.
+                    }else{
+                        newReferences.push(td);
+                    }
+                }
+                TIP.References.TrustmarkDefinitionRequirements = newReferences;
+                updateTDReferences(TIP);
+            }
+        }
+
+
+        /**
+         * Checks the TIP object, and updates the UI to display any TIP references.
+         */
+        function updateTIPReferences(tip){
+            if( hasTIPReferences(tip) ){
+                console.log("Displaying "+tip.References.TrustInteroperabilityProfileReferences.length+" TIP References...");
+                $('#tipReferenceCount').html('<small>('+tip.References.TrustInteroperabilityProfileReferences.length+')</small>');
+                var html = '';
+                html += '<table class="table table-condensed table-striped table-bordered">';
+                for( var i = 0; i < tip.References.TrustInteroperabilityProfileReferences.length; i++ ){
+                    var tipReq = tip.References.TrustInteroperabilityProfileReferences[i];
+                    var id = tipReq['$id'];
+
+                    html += '<tr>';
+                    html += '<td style="text-align: center; width: 20%;"><span class="label label-default">'+id+' | <a href="javascript:editReferenceVariable(\''+id+'\')" style="color: inherit; font-size: 90%;" title="Edit this variable name."><span class="glyphicon glyphicon-pencil"></span></a></span></td>';
+                    html += '<td>';
+                    html += getTmiReferenceDisplay(tipReq);
+                    html += '<div style="float: right;"><a href="javascript:removeTIPReference(\''+id+'\')" class="btn btn-xs btn-default" title="Remove this TIP Reference"><span class="glyphicon glyphicon-remove"></span></a></div>\n';
+                    html += '</td>';
+                    html += '</tr>\n';
+                }
+                html += '</table>';
+                $('#tipReferencesContainer').html(html);
+            }else{
+                $('#tipReferenceCount').html('<small>(0)</small>');
+                $('#tipReferencesContainer').html('<em>There are no Trust Interoperability Profile references.</em>');
+            }
+        }
+
+        /**
+         * Given some Trustmark Framework Identified Object reference, this method will figure out how to display it based
+         * on the optional presence of fields.
+         */
+        function getTmiReferenceDisplay(tmiRef){
+            if( tmiRef ){
+                var html = '';
+                if( isNotBlank(tmiRef.Name) ){
+                    html += tmiRef.Name + ', v' + tmiRef.Version;
+
+                }else{
+                    html += tmiRef.Identifier;
+                }
+
+                html += '  (<a href="'+tmiRef.Identifier+'" target="_blank">Open <span class="glyphicon glyphicon-new-window"></span></a>)'
+
+                return html;
+            }else{
+                return "<em><b>No Data</b></em>";
+            }
+        }
+
+        /**
+         * Given a TIP, this method will return true if the TIP has TIP References in the References section.
+         */
+        function hasTIPReferences(tip){
+            return tip && tip.References && tip.References.TrustInteroperabilityProfileReferences && tip.References.TrustInteroperabilityProfileReferences.length > 0;
+        }
+
+        /**
+         * Given a TIP, this method will return true if the TIP has TD Requirements in the References section
+         */
+        function hasTDRequirements(tip){
+            return tip && tip.References && tip.References.TrustmarkDefinitionRequirements && tip.References.TrustmarkDefinitionRequirements.length > 0;
+        }
+
+        /**
+         * Called when the user clicks the "add" button under TIP References.
+         */
+        function addTIPReferenceButtonClickHandler() {
+            console.log("Add button for TIP references clicked.");
+            $('#tipRefSearchText').val('');
+            $('#tipSearchResultSelectionContainer').html('');
+            $('#tipReferenceSelectorDialog').modal("show");
+
+        }//end addTIPReferenceButtonClickHandler()
+
+        /**
+         * Called when the user has entered text to search for, the search text is given.
+         */
+        function searchTIPReferences(searchText){
+            console.log("Performing search for TIPs on: "+searchText);
+            $('#tipSearchResultSelectionContainer').html('<img src="data:image/gif;base64,'+SPINNER_GIF_BASE64+'" /> Searching...');
+
+            if( SEARCH_URL != null ){
+                $.ajax({
+                    url: SEARCH_URL,
+                    method: 'POST',
+                    type: 'POST',
+                    data: {
+                        timestamp: new Date().getTime(),
+                        format: 'json',
+                        q: searchText
+                    },
+                    dataType: 'json',
+                    success: function(response){
+                        styleTIPReferencesResponse(response.results.tips);
+                    },
+                    error: function(){
+                        $('#tipSearchResultSelectionContainer').html('<div class="alert alert-danger">An unexpected error occurred communicating with the server.</div>');
+                    }
+                })
+            }else{
+                console.log("Simulating search results...");
+                setTimeout("testTIPReferencesSearchCallback()", 1500);
+            }
+        }
+
+        /**
+         * A simple test method which "simulates" the AJAX search callback experience.
+         */
+        function testTIPReferencesSearchCallback() {
+            var response = SAMPLE_SEARCH_RESPONSE;
+            styleTIPReferencesResponse(response.results.tips);
+        }//end testTIPReferencesSearchCallback()
+
+
+        var CURRENT_TIP_RESPONSES = null;
+        /**
+         * Called to display TIP search results to the user in the TIP Search dialog
+         */
+        function styleTIPReferencesResponse(tips){
+            var html = '';
+            CURRENT_TIP_RESPONSES = tips;
+
+            if( tips.length > 0 ) {
+                html += '<ul style="list-style: none; margin: 0; padding: 0;">\n';
+                for (var i = 0; i < tips.length; i++) {
+                    var tip = tips[i];
+                    var alreadyHasReference = doesTipContainReference(tip);
+
+                    html += '<li style="margin-bottom: 2em;">';
+                    html += '  <div class="row">';
+                    html += '    <div class="col-sm-1" style="text-align: center;">';
+                    if (alreadyHasReference) {
+                        html += '      <a href="javascript:void;" class="btn btn-default disabled">Exists</a>';
+                    } else {
+                        html += '      <a href="javascript:selectTIPButtonPress(' + i + ')" class="btn btn-primary">Select</a>';
+                    }
+                    html += '    </div>';
+                    html += '    <div class="col-sm-10" style="padding-left: 2em;">';
+                    html += '      <div>';
+                    html += '         <span style="font-weight: bold;">' + tip.Name + ", v" + tip.Version + "</span>";
+                    html += '         <small style="float: right;">(<a href="' + tip.Identifier + '" target="_blank">' + tip.Identifier + '</a>)</small>';
+                    html += '      </div>';
+                    html += '      <div style="margin-left: 1em; font-size: 90%; color: #666;">';
+                    html += tip.Description;
+                    html += '      </div>';
+                    html += '    </div>';
+                    html += '  </div> <!-- End row -->';
+                    html += '</li>';
+                }
+                html += '</ul>\n';
+            }else{
+                html = '<div class="alert alert-warning">There are no results.</div>';
+            }
+
+            $('#tipSearchResultSelectionContainer').html(html);
+        }
+
+        /**
+         * Checks the global TIP Variable for already having a reference to the given TIP or TD.
+         */
+        function doesTipContainReference(ref){
+            var has = false;
+            if( hasTIPReferences(TIP) ){
+                for( var i = 0; i < TIP.References.TrustInteroperabilityProfileReferences.length; i++ ){
+                    var currentTip = TIP.References.TrustInteroperabilityProfileReferences[i];
+                    if( currentTip.Identifier === ref.Identifier ){
+                        has = true;
+                        break;
+                    }
+                }
+            }
+            if( hasTDRequirements(TIP) ){
+                for( var i = 0; i < TIP.References.TrustmarkDefinitionRequirements.length; i++ ){
+                    var currentTdReq = TIP.References.TrustmarkDefinitionRequirements[i];
+                    if( currentTdReq.TrustmarkDefinitionReference.Identifier === ref.Identifier ){
+                        has = true;
+                        break;
+                    }
+                }
+            }
+            return has;
+        }
+
+        /**
+         * Occurs when the user clicks select on one of the TIP Responses.
+         */
+        function selectTIPButtonPress(index){
+            $('#tipRefSearchText').val('');
+            $('#tipReferenceSelectorDialog').modal("hide");
+
+
+            var tip = CURRENT_TIP_RESPONSES[index];
+            if( doesTipContainReference(tip) ){
+                alert("Error - this TIP already contains that reference!");
+                return;
+            }
+
+            var id = nameToIdentifier(tip.Name);
+            tip["$id"] = id;
+
+            if( !hasTIPReferences(TIP) ){
+                if( !TIP.References )
+                    TIP.References = {};
+                TIP.References.TrustInteroperabilityProfileReferences = [];
+            }
+            TIP.References.TrustInteroperabilityProfileReferences.push(tip);
+
+            console.log("Modal now has "+TIP.References.TrustInteroperabilityProfileReferences.length+" TIP References in it.");
+
+            updateTIPReferences(TIP);
+        }//end selectTIPButtonPress()
+
+        /**
+         * A function to create a save identifier for the given name.
+         */
+        function nameToIdentifier(name){
+            var str = name;
+            str = str.replace(/[^a-zA-Z0-9_]/g, '');
+            return str;
+        }//end nameToIdneitifer()
+
+
+        /**
+         * Called when the user clicks the "add" button under TD Requirements.
+         */
+        function addTDRequirementButtonClickHandler(){
+            console.log("Add button for TD Requirements clicked.");
+
+            $('#tdReqSearchText').val('');
+            $('#tdSearchResultSelectionContainer').html('');
+            $('#tdReqSearchForm').show();
+            $('#tdRequirementSelectorDialog').modal("show");
+        }
+
+
+
+        /**
+         * Called when the user has entered TD text to search for, the search text is given.
+         */
+        function searchTDReferences(searchText){
+            console.log("Performing search for TIPs on: "+searchText);
+            $('#tdSearchResultSelectionContainer').html('<img src="data:image/gif;base64,'+SPINNER_GIF_BASE64+'" /> Searching...');
+
+            if( SEARCH_URL != null ){
+                $.ajax({
+                    url: SEARCH_URL,
+                    method: 'POST',
+                    type: 'POST',
+                    data: {
+                        timestamp: new Date().getTime(),
+                        format: 'json',
+                        q: searchText
+                    },
+                    dataType: 'json',
+                    success: function(response){
+                        styleTDRequirementsResponse(response.results.tds);
+                    },
+                    error: function(){
+                        $('#tdSearchResultSelectionContainer').html('<div class="alert alert-danger">An unexpected error occurred communicating with the server.</div>');
+                    }
+                })
+            }else{
+                console.log("Simulating search results...");
+                setTimeout("testTDRequirementsSearchCallback()", 1500);
+            }
+        }
+
+        /**
+         * A simple test method which "simulates" the AJAX search callback experience.
+         */
+        function testTDRequirementsSearchCallback() {
+            var response = SAMPLE_SEARCH_RESPONSE;
+            styleTDRequirementsResponse(response.results.tds);
+        }//end testTDReferencesSearchCallback()
+
+        var CURRENT_TD_RESPONSES = null;
+
+        /**
+         * Responsible for creating a display of TD search results
+         */
+        function styleTDRequirementsResponse(tds){
+            var html = '';
+            CURRENT_TD_RESPONSES = tds;
+
+            if( tds.length > 0 ) {
+                html += '<ul style="list-style: none; margin: 0; padding: 0;">\n';
+                for (var i = 0; i < tds.length; i++) {
+                    var td = tds[i];
+                    var alreadyHasReference = doesTipContainReference(td);
+
+                    html += '<li style="margin-bottom: 2em;">';
+                    html += '  <div class="row">';
+                    html += '    <div class="col-sm-1" style="text-align: center;">';
+                    if (alreadyHasReference) {
+                        html += '      <a href="javascript:void;" class="btn btn-default disabled">Exists</a>';
+                    } else {
+                        html += '      <a href="javascript:selectTDButtonPress(' + i + ')" class="btn btn-primary">Select</a>';
+                    }
+                    html += '    </div>';
+                    html += '    <div class="col-sm-10" style="padding-left: 2em;">';
+                    html += '      <div>';
+                    html += '         <span style="font-weight: bold;">' + td.Name + ", v" + td.Version + "</span>";
+                    html += '         <small style="float: right;">(<a href="' + td.Identifier + '" target="_blank">' + td.Identifier + '</a>)</small>';
+                    html += '      </div>';
+                    html += '      <div style="margin-left: 1em; font-size: 90%; color: #666;">';
+                    html += td.Description;
+                    html += '      </div>';
+                    html += '    </div>';
+                    html += '  </div> <!-- End row -->';
+                    html += '</li>';
+                }
+                html += '</ul>\n';
+            }else{
+                html = '<div class="alert alert-warning">There are no results.</div>';
+            }
+
+            $('#tdSearchResultSelectionContainer').html(html);
+        }//end styleTDRequirementsResponse
+
+        function selectTDButtonPress(index){
+            $('#tdReqSearchForm').hide();
+
+            var td = CURRENT_TD_RESPONSES[index];
+            var html = '';
+
+            html += '<div>\n';
+            html += '  <input type="hidden" id="selectedTdIndex" value="'+index+'" />';
+            html += '  <div style="font-size: 120%; font-weight: bold; margin-bottom: 1em;">'+td.Name+', v'+td.Version+'</div>\n';
+            html += '  <div style="font-size: 110%; font-weight: bold;">Select Trustmark Provider(s)</div>\n';
+            html += '  <div class="text-muted">If given, any Trustmarks granted against TD '+td.Name+' are required to be from the given provider\'s Identifier.  Please note that you are not required to give any providers, and if you leave this blank a Trustmark from ANY provider will be acceptable.</div>\n';
+
+
+            html += '  <div style="margin-top: 1em;">';
+            if( PROVIDERS && PROVIDERS.length > 0  ){
+
+                html += '<div id="providerContainer">';
+                html += '<div class="row">';
+                html += '<div class="col-sm-12">';
+                html += createProviderListHtml();
+                html += ''
+                html += '</div>';
+                html += '</div>';
+                html += '</div>';
+
+                html += '<div style="margin-top: 1em;"><a href="javascript:addProviderReference()" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> Add Provider</a></div>';
+
+            }else{
+                html += '<div class="alert alert-warning">'
+                html += '<em>There are no providers to choose from.  If you wish to modify providers, please define them in the system first.</em>';
+                html += '</div>';
+            }
+            html += '  </div>\n';
+
+
+            html += '<hr />'
+            html += '  <div style="margin-top: 1em;">';
+            html += '    <a href="javascript:addSelectedTDRequirement()" class="btn btn-primary">Add Trustmark Definition Requirement</a>';
+            html += '  </div>\n';
+
+
+            html += '</div>\n';
+
+            $('#tdSearchResultSelectionContainer').html(html);
+        }
+
+        function addSelectedTDRequirement() {
+            $('#tdRequirementSelectorDialog').modal("hide");
+
+            var selectedTdIndexValue = $('#selectedTdIndex').val();
+            var selectedTdIndex = Number(selectedTdIndexValue);
+            var td = CURRENT_TD_RESPONSES[selectedTdIndex];
+            var providers = []
+            $('#providerContainer .providerSelect').each(function(index, element){
+                var value = $(element).val();
+                var providerIndex = Number(value);
+                if( providerIndex >= 0 ) {
+                    var provider = PROVIDERS[providerIndex];
+                    console.log("Found provider: "+provider.Name);
+                    providers.push(provider);
+                }
+            });
+
+            console.log("Creating TD Requirement for TD["+td.Name+"] with "+providers.length+" providers.");
+
+            var providerArray = null;
+            if( providers && providers.length > 0 ){
+                providerArray = [];
+                for( var i = 0; i < providers.length; i++ ){
+                    var provider = providers[i];
+                    var existingProvider = findProvider(provider);
+                    if( existingProvider ){
+                        providerArray.push({"$ref" : existingProvider["$id"]});
+                    }else{
+                        var id = nameToIdentifier(provider.Name);
+                        provider["$id"] = id;
+                        providerArray.push(provider);
+                    }
+                }
+            }
+
+            var tdRequirement = {
+                "$id" : nameToIdentifier(td.Name),
+                "TrustmarkDefinitionReference" : td
+            }
+            if( providerArray && providerArray.length > 0 ){
+                tdRequirement["ProviderReferences"] = providerArray;
+            }
+
+            if( TIP.References == null )
+                TIP.References = {}
+            if( TIP.References.TrustmarkDefinitionRequirements == null )
+                TIP.References.TrustmarkDefinitionRequirements = []
+
+            TIP.References.TrustmarkDefinitionRequirements.push(tdRequirement);
+            updateTDReferences(TIP);
+        }
+
+        /**
+         * Searches the existing providers in a TD and returns one if it has the same Identifier as the provider given.
+         */
+        function findProvider(p){
+            if( hasTDRequirements(TIP) ) {
+                for (var i = 0; i < TIP.References.TrustmarkDefinitionRequirements.length; i++) {
+                    var currentTdReq = TIP.References.TrustmarkDefinitionRequirements[i];
+                    if (currentTdReq.ProviderReferences && currentTdReq.ProviderReferences.length > 0) {
+                        for (var j = 0; j < currentTdReq.ProviderReferences.length; j++) {
+                            var provider = currentTdReq.ProviderReferences[j];
+                            if( provider["$id"] && provider.Identifier === p.Identifier ){
+                                return provider;
+                            }
+                        }
+                    }
+                }
+            }
+            return null;
+        }
+
+        function addProviderReference() {
+            var html = '';
+
+            var id = guid();
+
+            html += '<div class="row" style="margin-top: 0.5em;" id="'+id+'Container">';
+            html += '<div class="col-sm-10">';
+            html += createProviderListHtml();
+            html += '</div>';
+            html += '<div class="col-sm-2">';
+            html += '<a href="javascript:removeProviderReference(\''+id+'\')" class="btn btn-default"><span class="glyphicon glyphicon-minus"></span> Remove</a>';
+            html += '</div>';
+            html += '</div>';
+
+            $('#providerContainer').append(html);
+        }
+
+        function removeProviderReference(id){
+            $('#'+id+'Container').remove();
+        }
+
+        function guid() {
+            function s4() {
+                return Math.floor((1 + Math.random()) * 0x10000)
+                    .toString(16)
+                    .substring(1);
+            }
+            return '_'+s4() + s4() + s4() + s4() + s4() + s4() + s4() + s4();
+        }
+
+        function createProviderListHtml(){
+            var html = '';
+            if( PROVIDERS && PROVIDERS.length > 0 ){
+                html += '<select class="providerSelect form-control">';
+                html += '    <option value="-1">&nbsp;</option>';
+                for( var i = 0; i < PROVIDERS.length; i++ ){
+                    var provider = PROVIDERS[i];
+                    if( provider.Name )
+                        html += '  <option value="'+i+'">'+provider.Name+'</option>\n';
+                    else
+                        html += '  <option value="'+i+'">'+provider.Identifier+'</option>\n';
+                }
+                html += '</select>'
+            }
+            return html;
+        }
+
+        //==========================================================================================================
+        // Helper Methods
+        //==========================================================================================================
+        /**
+         * Returns true if the string has any meaningful, non-whitespace content.
+         */
+        function isNotBlank(str){
+            return !isBlank(str);
+        }
+
+        /**
+         * Returns true if the given string is null or has nothing but whitespace content (or is empty).
+         */
+        function isBlank(str){
+            if (!str)
+                return true;
+            return str.trim().length == 0;
+        }
+
+        /**
+         * Given a presumed string, returns the trimmed value if it exists, the empty string otherwise.  IE, asserts
+         * that the given value is not null.
+         */
+        function valOrEmpty(val){
+            if( val ){
+                return (''+val).trim();
+            }else{
+                return '';
+            }
+        }
+
+        /**
+         * Assumes the incoming value is an ID in the DOM somewhere, uses JQuery to find it and get the val on it.
+         * If not null, trims the value and returns it.  Otherwise, returns the empty string.
+         */
+        function idValOrEmpty(id){
+            var val = $('#'+id).val();
+            if( val )
+                val = val.trim();
+            else
+                val = '';
+            return val;
+        }
+
+        /**
+         * Sorts the given array by name.
+         */
+        function sortByName(a, b){
+            var aName = a.Name.toLowerCase();
+            var bName = b.Name.toLowerCase();
+            return ((aName < bName) ? -1 : ((aName > bName) ? 1 : 0));
+        }
+
+        /**
+         * Sorts the given array by Identifier
+         */
+        function sortByIdentifier(a, b){
+            var aName = a.Identifier.toLowerCase();
+            var bName = b.Identifier.toLowerCase();
+            return ((aName < bName) ? -1 : ((aName > bName) ? 1 : 0));
+        }
+
+        /**
+         * Sorts the given array by Number.
+         */
+        function sortByNumber(a, b){
+            var aName = a.Number;
+            var bName = b.Number;
+            return ((aName < bName) ? -1 : ((aName > bName) ? 1 : 0));
+        }
+
+        /**
+         * Performs a sort algorithm for two incoming strings.
+         */
+        function sortStrings(s1, s2){
+            var s1Lower = s1.toLowerCase();
+            var s2Lower = s2.toLowerCase();
+            return ((s1Lower < s2Lower) ? -1 : ((s1Lower > s2Lower) ? 1 : 0));
+        }
+
+
+        // TODO ${ADDED_JAVASCRIPT}
+
+
+    </script>
+
+    <!-- This section allows the menu to be built by the calling application. -->
+    <script type="text/javascript">
+        var MENU = {
+            "title" : {
+                "action" : "/",
+                "text" : "TD Editor"
+            },
+            "items" : [
+                {
+                    "text" : "File",
+                    "dropdown" : [
+                        {"text" : "New", "action" : "javascript:menuFileNew()"},
+                        {"text" : "Open", "action" : "#"},
+                        {"text" : "Open Recent...", "action" : "#"},
+                        {"divider" : true},
+                        {"text" : "Save", "action" : "#"},
+                        {"text" : "Save As...", "action" : "#"},
+                        {"divider" : true},
+                        {"text" : "Display JSON", "action" : "javascript:menuFileDownloadJSON()"}
+                    ]
+                },
+                {"text" : "About", "action" : "#"},
+                {"text" : "Help", "action" : "#"},
+                {"text" : "Auto-Fill", "action" : "javascript:menuAutofillTestData()"},
+                {"text" : "Validate", "action" : "javascript:doValidationMenuItem()"}
+            ]
+        };
+
+        $(document).ready(function(){
+            // TODO ${MENU_JSON}
+            setTimeout("renderMenu()", 250);
+        });
+
+
+        function renderMenu() {
+            var html = '';
+
+            html += '<div class="navbar-header">\n';
+            html += '  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">\n';
+            html += '    <span class="sr-only">Toggle navigation</span>\n';
+            html += '    <span class="icon-bar"></span>\n';
+            html += '    <span class="icon-bar"></span>\n';
+            html += '    <span class="icon-bar"></span>\n';
+            html += '  </button>\n';
+            if( MENU.title ){
+                html += '<a class="navbar-brand" href="'+MENU.title.action+'">'+MENU.title.text+'</a>';
+            }
+            html += '</div>\n';
+
+            html += '<div id="navbar" class="collapse navbar-collapse">\n';
+            html += '  <ul class="nav navbar-nav">\n';
+
+            for( var i = 0; i < MENU.items.length; i++ ){
+                var item = MENU.items[i];
+                if( item.dropdown ){
+                    html += '<li class="dropdown">\n';
+                    html += '  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">'+item.text+' <span class="caret"></span></a>\n';
+                    html += '  <ul class="dropdown-menu">\n';
+                    for( var j = 0; j < item.dropdown.length; j++ ){
+                        var subitem = item.dropdown[j];
+                        if( subitem.divider ){
+                            html += '<li role="separator" class="divider"></li>\n';
+                        }else if( subitem.action ) {
+                            html += '<li><a href="' + subitem.action + '">' + subitem.text + '</a></li>';
+                        }
+                    }
+                    html += '  </ul>\n';
+                    html += '</li>';
+                }else if( item.action ) {
+                    html += '<li><a href="'+item.action+'">'+item.text+'</a></li>\n';
+                }
+            }
+
+            html += '  </ul>\n';
+            html += '</div>\n';
+
+            $('#navBarContainer').html(html);
+        }
+    </script>
+
+</head>
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container" id="navBarContainer">
+        Menu
+    </div>
+</nav>
+
+<div id="mainContainer" class="container">
+
+    <div class="row mainTitle">
+        <div class="col-md-10">
+            <h3 id="mainTitle">
+                Trust Interoperability Profile Editor
+            </h3>
+            <div id="feedbackWindow">
+
+            </div>
+        </div>
+        <div class="col-md-2" id="topRightContainer"></div>
+    </div>
+
+    <div class="row tabsContainer">
+        <div class="col-md-12">
+            <div>
+
+                <!-- Nav tabs -->
+                <ul id="editorTabs" class="nav nav-tabs" role="tablist">
+                    <li id="tabsMetadata" role="presentation"><a href="#metadataContainer" aria-controls="metadataContainer" role="tab" data-toggle="tab" id="metadataTab">Metadata</a></li>
+                    <li id="tabsContent" role="presentation"><a href="#contentContainer" aria-controls="contentContainer" role="tab" data-toggle="tab" id="contentTab">Content</a></li>
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content" style="margin-top: 1em;">
+
+                    <div role="tabpanel" class="tab-pane" id="metadataContainer">
+                        <form class="form-horizontal">
+
+                            <div class="form-group">
+                                <label for="tipName" class="col-md-2 control-label">Name</label>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" id="tipName" placeholder="">
+                                </div>
+                                <label for="tipPublicationDate" class="col-md-1 control-label" title="When this TIP is considered published.">Pub. Date</label>
+                                <div class="col-md-2">
+                                    <input type="text" class="form-control" id="tipPublicationDate" placeholder="2015-05-21">
+                                </div>
+                                <label for="tipVersion" class="col-md-1 control-label">Version</label>
+                                <div class="col-md-2">
+                                    <input type="text" class="form-control" id="tipVersion" placeholder="1.0-SNAPSHOT">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="deprecatedButton" class="col-md-2 control-label">Deprecated</label>
+                                <div class="col-md-2">
+                                    <a href="javascript:toggleDeprecated()" id="deprecatedButton" class="btn btn-default">
+                                        <span id="deprecatedIndicator" class="glyphicon glyphicon-remove"></span>
+                                        <span id="deprecatedText">Not Deprecated</span>
+                                    </a>
+                                </div>
+
+                                <div id="supersedByContainer">
+                                    <label for="supersededBy" class="col-md-2 control-label">Superseded By</label>
+                                    <div class="col-md-6">
+                                        <textarea class="form-control" id="supersededBy" name="supersededBy"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="identifier" class="col-md-2 control-label">Identifier</label>
+                                <div class="col-md-10">
+                                    <input type="text" class="form-control" id="identifier" placeholder="https://...">
+                                </div>
+                            </div>
+
+
+
+                            <div class="form-group">
+                                <label for="tipIssuerName" class="col-md-2 control-label">Issuer Organization</label>
+                                <div class="col-md-10">
+                                    <div class="form-group">
+                                        <label for="tipIssuerName" class="col-md-2 control-label">Name</label>
+                                        <div class="col-md-10">
+                                            <input id="tipIssuerName" type="text" class="form-control" placeholder="Name" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="tipIssuerId" class="col-md-2 control-label">URI</label>
+                                        <div class="col-md-10">
+                                            <input id="tipIssuerId" type="text" class="form-control" placeholder="http://www..." />
+                                        </div>
+                                    </div>
+
+                                    <hr />
+
+                                    <div class="form-group">
+                                        <label for="tipIssuerResponder" class="col-md-2 control-label">Responder</label>
+                                        <div class="col-md-10">
+                                            <input id="tipIssuerResponder" type="text" class="form-control" placeholder="Name" />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="tipIssuerEmail" class="col-md-2 control-label">Email</label>
+                                        <div class="col-md-10">
+                                            <input id="tipIssuerEmail" type="text" class="form-control" placeholder="user@domain.com" />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="tipIssuerPhone" class="col-md-2 control-label">Phone Number</label>
+                                        <div class="col-md-10">
+                                            <input id="tipIssuerPhone" type="text" class="form-control" placeholder="xxx-xxx-xxxx" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="tipIssuerMailingAddr" class="col-md-2 control-label">Address</label>
+                                        <div class="col-md-10">
+                                            <input id="tipIssuerMailingAddr" type="text" class="form-control" placeholder="123 Main St..." />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="tipIssuerNotes" class="col-md-2 control-label">Notes</label>
+                                        <div class="col-md-10">
+                                            <input id="tipIssuerNotes" type="text" class="form-control" placeholder="..." />
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="tipDescription" class="col-md-2 control-label">Description</label>
+                                <div class="col-md-10">
+                                    <textarea class="form-control" id="tipDescription" name="tipDescription"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">Keywords</label>
+                                <div class="col-md-10">
+                                    <div class="form-control-static" id="keywordsContainer">
+                                        Rendering keywords...
+                                    </div>
+                                    <div class="keywordAddButtonContainer">
+                                        <a href="javascript:addNewKeyword()" class="btn btn-primary" title="Add a new keyword.">
+                                            <span class="glyphicon glyphicon-plus"></span>
+                                            Add
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="Supersedes" class="col-md-2 control-label">Supersedes</label>
+                                <div class="col-md-10">
+                                    <textarea class="form-control" id="Supersedes" name="Supersedes"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="LegalNotice" class="col-md-2 control-label">Legal Notice</label>
+                                <div class="col-md-10">
+                                    <textarea class="form-control" id="LegalNotice" name="LegalNotice"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="Notes" class="col-md-2 control-label">Notes</label>
+                                <div class="col-md-10">
+                                    <textarea class="form-control" id="Notes" name="Notes"></textarea>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane" id="contentContainer">
+                        <div class="text-muted" style="margin-bottom: 0.5em;">Here you can edit the content of this TIP, which is the TD and TIP references and the Trust Expression.</div>
+
+                        <form>
+                            <div class="form-group">
+                                <label for="trustExpression">Trust Expression</label>
+                                <textarea id="trustExpression" name="trustExpression" class="form-control"></textarea>
+                            </div>
+                        </form>
+
+                        <div style="margin-top: 2em;" class="row">
+                            <div class="col-md-6">
+                                <h3 style="margin: 0; padding: 0;">TD References <span id="tdReferenceCount"></span></h3>
+                                <hr style="margin: 0; padding: 0;" />
+                                <div id="tdReferencesContainer">
+                                    Loading...
+                                </div>
+                                <div style="margin-top: 1em;">
+                                    <a href="javascript:addTDRequirementButtonClickHandler()" class="btn btn-default" title="Create a new TD Reference">
+                                        <span class="glyphicon glyphicon-plus"></span>
+                                        Add
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <h3 style="margin: 0; padding: 0;">TIP References <span id="tipReferenceCount"></span></h3>
+                                <hr style="margin: 0; padding: 0;" />
+                                <div id="tipReferencesContainer">
+                                    Loading...
+                                </div>
+                                <div style="margin-top: 1em;">
+                                    <a href="javascript:addTIPReferenceButtonClickHandler()" class="btn btn-default" title="Create a new TIP Reference">
+                                        <span class="glyphicon glyphicon-plus"></span>
+                                        Add
+                                    </a>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+</div><!-- /.container -->
+
+<div style="height: 5em;">&nbsp;</div>
+
+
+
+<div id="tipReferenceSelectorDialog" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Select Trust Interoperability Profile Reference</h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <form class="form-inline">
+                        <div class="form-group" style="width: 100%;">
+                            <input type="text" style="width: 100%;" class="form-control" id="tipRefSearchText" placeholder="Search..." />
+                        </div>
+                    </form>
+                    <div style="font-size: 90%; color: #888;">
+                        Please type your search in the box above.  Results will appear below, please select the one you
+                        wish to add as a reference to this TIP.
+                    </div>
+                    <hr />
+                    <div id="tipSearchResultSelectionContainer" style="max-height: 40em; overflow-y: auto; overflow-x: hidden;">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<script type="text/javascript">
+    var tipRefSearchTextTimerID = null;
+    $(document).ready(function(){
+
+        $('#tipReferenceSelectorDialog').on('shown.bs.modal', function(){
+            $('#tipRefSearchText').focus();
+        });
+
+
+        $('#tipRefSearchText').on("input", function(e){
+           var value = $(this).val();
+           if( $(this).data("lastval") != value ){
+               $(this).data("lastval", value);
+               clearTimeout(tipRefSearchTextTimerID);
+               tipRefSearchTextTimerID = setTimeout(function(){
+                   searchTIPReferences(value);
+               }, 600);
+           }
+        });
+    })
+</script>
+
+
+<div id="tdRequirementSelectorDialog" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Select Trustmark Definition</h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <div id="tdReqSearchForm">
+                        <form class="form-inline">
+                            <div class="form-group" style="width: 100%;">
+                                <input type="text" style="width: 100%;" class="form-control" id="tdReqSearchText" placeholder="Search..." />
+                            </div>
+                        </form>
+                        <div style="font-size: 90%; color: #888;">
+                            Please type your search in the box above.  Results will appear below, please select the one you
+                            wish to add as a reference to this TIP.
+                        </div>
+                        <hr />
+                    </div>
+                    <div id="tdSearchResultSelectionContainer" style="max-height: 40em; overflow-y: auto; overflow-x: hidden;">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<script type="text/javascript">
+    var tdReqSearchTextTimerID = null;
+    $(document).ready(function(){
+
+        $('#tdRequirementSelectorDialog').on('shown.bs.modal', function(){
+            $('#tdReqSearchText').focus();
+        });
+
+
+        $('#tdReqSearchText').on("input", function(e){
+            var value = $(this).val();
+            if( $(this).data("lastval") != value ){
+                $(this).data("lastval", value);
+                clearTimeout(tdReqSearchTextTimerID);
+                tdReqSearchTextTimerID = setTimeout(function(){
+                    searchTDReferences(value);
+                }, 600);
+            }
+        });
+    })
+</script>
+
+
+</body>
+</html>
+
