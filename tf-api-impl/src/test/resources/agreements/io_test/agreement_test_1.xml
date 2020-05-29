@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tf:Agreement xmlns:tf="https://trustmarkinitiative.org/specifications/trustmark-framework/1.3/schema/"
+<tf:Agreement xmlns:tf="https://trustmarkinitiative.org/specifications/trustmark-framework/1.4/schema/"
               xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-              xsi:schemaLocation="https://trustmarkinitiative.org/specifications/trustmark-framework/1.3/schema/ ../../../../main/resources/META-INF/xml-schema/tf.xsd">
+              xsi:schemaLocation="https://trustmarkinitiative.org/specifications/trustmark-framework/1.4/schema/ ../../../../main/resources/META-INF/xml-schema/tf.xsd">
     <tf:Identifier>https://agreement.example.com/agreement-test-4</tf:Identifier>
     <tf:Title>
         <![CDATA[COMMON INTEREST AGREEMENT BETWEEN PARTICIPATING AGENCIES OF THE U.S. DEPARTMENT OF LABOR AND THE COMMONWEALTH OF MASSACHUSETTS EXECUTIVE OFFICE OF LABOR AND WORKFORCE DEVELOPMENT, JOINT ENFORCEMENT TASK FORCE ON THE UNDERGROUND ECONOMY AND EMPLOYEE MISCLASSIFICATION/COUNCIL ON THE UNDERGROUND ECONOMY]]></tf:Title>
@@ -335,11 +335,11 @@
                         <tf:ExpressionId></tf:ExpressionId>
                         <!--Serialized by the GTRI Trustmark Framework API, version: 1.0.0-SNAPSHOT-->
                         <tf:TrustInteroperabilityProfile
-                                xmlns:tf="https://trustmarkinitiative.org/specifications/trustmark-framework/1.3/schema/"
+                                xmlns:tf="https://trustmarkinitiative.org/specifications/trustmark-framework/1.4/schema/"
                                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                                 xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
                                 tf:id="TIP_1486656450221_25049AA47CFE4FF79EFF2B852AB4A071"
-                                xsi:schemaLocation="https://trustmarkinitiative.org/specifications/trustmark-framework/1.3/schema/ ../../../main/resources/META-INF/xml-schema/tf.xsd"
+                                xsi:schemaLocation="https://trustmarkinitiative.org/specifications/trustmark-framework/1.4/schema/ ../../../main/resources/META-INF/xml-schema/tf.xsd"
                         >
                             <tf:Identifier>
                                 https://trustmark.gtri.gatech.edu/operational-pilot/trust-interoperability-profiles/nief-minimum-token-and-credential-management-profile/1.0/
@@ -493,11 +493,11 @@
                                 <tf:ExpressionId>TIP_1</tf:ExpressionId>
                                 <!--Serialized by the GTRI Trustmark Framework API, version: 1.0.0-SNAPSHOT-->
                                 <tf:TrustInteroperabilityProfile
-                                        xmlns:tf="https://trustmarkinitiative.org/specifications/trustmark-framework/1.3/schema/"
+                                        xmlns:tf="https://trustmarkinitiative.org/specifications/trustmark-framework/1.4/schema/"
                                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                                         xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
                                         tf:id="TIP_1486656450240_3CD5C8BF0E504B8FB717484DBA9757D3"
-                                        xsi:schemaLocation="https://trustmarkinitiative.org/specifications/trustmark-framework/1.3/schema/ ../../../main/resources/META-INF/xml-schema/tf.xsd"
+                                        xsi:schemaLocation="https://trustmarkinitiative.org/specifications/trustmark-framework/1.4/schema/ ../../../main/resources/META-INF/xml-schema/tf.xsd"
                                 >
                                     <tf:Identifier>
                                         https://trustmark.gtri.gatech.edu/operational-pilot/trust-interoperability-profiles/nist-800-63-credential-verification-profile-for-all-loas/1.0/
@@ -631,11 +631,11 @@
                                 <tf:ExpressionId>TIP_2</tf:ExpressionId>
                                 <!--Serialized by the GTRI Trustmark Framework API, version: 1.0.0-SNAPSHOT-->
                                 <tf:TrustInteroperabilityProfile
-                                        xmlns:tf="https://trustmarkinitiative.org/specifications/trustmark-framework/1.3/schema/"
+                                        xmlns:tf="https://trustmarkinitiative.org/specifications/trustmark-framework/1.4/schema/"
                                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                                         xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
                                         tf:id="TIP_1486656450244_3DDA9F7B6EF74D6C9E366C4B9A462343"
-                                        xsi:schemaLocation="https://trustmarkinitiative.org/specifications/trustmark-framework/1.3/schema/ ../../../main/resources/META-INF/xml-schema/tf.xsd"
+                                        xsi:schemaLocation="https://trustmarkinitiative.org/specifications/trustmark-framework/1.4/schema/ ../../../main/resources/META-INF/xml-schema/tf.xsd"
                                 >
                                     <tf:Identifier>
                                         https://trustmark.gtri.gatech.edu/operational-pilot/trust-interoperability-profiles/nist-800-63-loa-2-renewal-and-re-issuance-profile/1.0/

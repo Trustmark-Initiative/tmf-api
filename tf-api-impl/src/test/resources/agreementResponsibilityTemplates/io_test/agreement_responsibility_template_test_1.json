@@ -1,5 +1,5 @@
 {
-  "$TMF_VERSION": "1.2",
+  "$TMF_VERSION": "1.4",
   "$Type": "AgreementResponsibilityTemplate",
   "Name": "(The Name of this Test Responsibility Template)",
   "Category": "(The Category of this Test Responsibility Template)",

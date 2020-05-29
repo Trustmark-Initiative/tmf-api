@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <tf:Trustmark tf:id="trustmark"
-              xmlns:tf="https://trustmarkinitiative.org/specifications/trustmark-framework/1.3/schema/"
+              xmlns:tf="https://trustmarkinitiative.org/specifications/trustmark-framework/1.4/schema/"
               xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-              xsi:schemaLocation="https://trustmarkinitiative.org/specifications/trustmark-framework/1.3/schema/ ../../../../../../main/resources/META-INF/xml-schema/tf.xsd">
+              xsi:schemaLocation="https://trustmarkinitiative.org/specifications/trustmark-framework/1.4/schema/ ../../../../../../main/resources/META-INF/xml-schema/tf.xsd">
 
     <tf:Identifier>test3_tm1</tf:Identifier>
     <tf:TrustmarkDefinitionReference>

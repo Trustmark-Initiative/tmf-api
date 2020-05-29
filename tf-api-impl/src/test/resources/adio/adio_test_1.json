@@ -1,6 +1,6 @@
 {
   "$Type": "AdioTest1",
-  "$TMF_VERSION": "1.3",
+  "$TMF_VERSION": "1.4",
   "NonCdataValueNode1": "Text-A",
   "NonCdataValueNode2": "Text-B",
   "CdataValueNode1": "Text-C",
