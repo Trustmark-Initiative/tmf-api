@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tf:TrustmarkDefinition
+    tf:id="_3019347209384751294782134234"
+    xmlns:tf="https://trustmarkinitiative.org/specifications/trustmark-framework/1.4/schema/"
+    xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="https://trustmarkinitiative.org/specifications/trustmark-framework/1.4/schema/ ../../../main/resources/META-INF/xml-schema/tf.xsd">
+    <tf:Metadata>
+        <tf:Identifier>http://tdo.example/td</tf:Identifier>
+        <tf:TrustmarkReferenceAttributeName>TrustmarkReferenceAttributeName</tf:TrustmarkReferenceAttributeName>
+        <tf:Name>Trustmark Definition Name</tf:Name>
+        <tf:Version>1.0.0</tf:Version>
+        <tf:Description>This is a description of this Trustmark Definition.</tf:Description>
+        <tf:PublicationDateTime>2014-01-01T00:00:00</tf:PublicationDateTime>
+        <tf:TrustmarkDefiningOrganization>
+            <tf:Identifier>http:///tdo.example</tf:Identifier>
+            <tf:Name>Trustmark Defining Organization</tf:Name>
+            <tf:Contact>
+                <tf:Kind>PRIMARY</tf:Kind>
+                <tf:Responder>George P. Burdell</tf:Responder>
+                <tf:Email>TrustmarkFeedback@gtri.gatech.edu</tf:Email>
+                <tf:Telephone>404-555-1234</tf:Telephone>
+                <tf:Telephone>404-555-2345</tf:Telephone>
+                <tf:PhysicalAddress>
+                    75 5th Street NW, Suite 900, Atlanta GA 30308
+                </tf:PhysicalAddress>
+                <tf:MailingAddress>
+                    Trustmark Feedback, 75 5th Street NW, Suite 900, Atlanta GA 30308
+                </tf:MailingAddress>
+                <tf:WebsiteURL>http://trustmark.gtri.gatech.edu/</tf:WebsiteURL>  
+                <tf:WebsiteURL>http://www.gtri.gatech.edu/</tf:WebsiteURL>  
+                <tf:Notes>The responder may change.</tf:Notes>
+            </tf:Contact> 
+            <tf:Contact>
+                <tf:Kind>OTHER</tf:Kind>
+                <tf:Email>test@123.org</tf:Email>
+            </tf:Contact>
+        </tf:TrustmarkDefiningOrganization>
+        <tf:TargetStakeholderDescription>TargetStakeholderDescription</tf:TargetStakeholderDescription>
+        <tf:TargetRecipientDescription>TargetRecipientDescription</tf:TargetRecipientDescription>
+        <tf:TargetRelyingPartyDescription>TargetRelyingPartyDescription</tf:TargetRelyingPartyDescription>
+        <tf:TargetProviderDescription>TargetProviderDescription</tf:TargetProviderDescription>
+        <tf:ProviderEligibilityCriteria>ProviderEligibilityCriteria</tf:ProviderEligibilityCriteria>
+        <tf:AssessorQualificationsDescription>AssessorQualificationsDescription</tf:AssessorQualificationsDescription>
+        <tf:TrustmarkRevocationCriteria>CriteriaNecessitatingTrustmarkRevocationAndReissuance</tf:TrustmarkRevocationCriteria>
+        <tf:ExtensionDescription>ExtensionDescription</tf:ExtensionDescription>
+        <tf:LegalNotice>This is the legal notice.</tf:LegalNotice>
+        <tf:Notes>Notes</tf:Notes>
+        <tf:Supersessions>
+            <tf:Supersedes>
+                <tf:Identifier>https://example.org/older-td-example</tf:Identifier>
+            </tf:Supersedes>
+            <tf:Supersedes>
+                <tf:Identifier>https://example.org/older-td-example2</tf:Identifier>
+            </tf:Supersedes>
+            <tf:SupersededBy>
+                <tf:Identifier>https://example.org/newer-td-example</tf:Identifier>
+            </tf:SupersededBy>
+            <tf:SupersededBy>
+                <tf:Identifier>https://example.org/newer-td-example2</tf:Identifier>
+            </tf:SupersededBy>
+        </tf:Supersessions>
+        <tf:Deprecated>false</tf:Deprecated>
+        <tf:Satisfactions>
+            <tf:Satisfies>
+                <tf:Identifier>https://example.org/satisfies-td-example</tf:Identifier>
+            </tf:Satisfies>
+            <tf:Satisfies>
+                <tf:Identifier>https://example.org/satisfies-td-example2</tf:Identifier>
+            </tf:Satisfies>
+        </tf:Satisfactions>
+        <tf:KnownConflicts>
+            <tf:KnownConflict>
+                <tf:Identifier>https://example.org/conflict-td-example</tf:Identifier>
+            </tf:KnownConflict>
+        </tf:KnownConflicts>
+        <tf:Keywords>
+            <tf:Keyword>Keyword1</tf:Keyword>
+            <tf:Keyword>Keyword2</tf:Keyword>
+            <tf:Keyword>Keyword3</tf:Keyword>
+        </tf:Keywords>
+    </tf:Metadata>
+    <tf:Terms>
+        <tf:Term>
+            <tf:Name>Example</tf:Name>
+            <tf:Abbreviation>E</tf:Abbreviation>
+            <tf:Abbreviation>Ex</tf:Abbreviation>
+            <tf:Definition>This is an example definition.</tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Example2</tf:Name>
+            <tf:Abbreviation>E2</tf:Abbreviation>
+            <tf:Abbreviation>Ex2</tf:Abbreviation>
+            <tf:Definition>This is an example definition 2.</tf:Definition>
+        </tf:Term>
+    </tf:Terms>
+    <tf:Sources>
+        <tf:Source tf:id="source">
+            <tf:Identifier>Example</tf:Identifier>
+            <tf:Reference>This is an example description.</tf:Reference>
+        </tf:Source>
+        <tf:Source tf:id="source2">
+            <tf:Identifier>Example2</tf:Identifier>
+            <tf:Reference>This is an example description 2.</tf:Reference>
+        </tf:Source>
+    </tf:Sources>
+    <tf:ConformanceCriteria>
+        <tf:Preface><![CDATA[This applies to every criterion.  It can <b>Even have markup!</b>]]></tf:Preface>
+        <tf:ConformanceCriterion tf:id="criterion">
+            <tf:Number>1</tf:Number>
+            <tf:Name>Name</tf:Name>
+            <tf:Description><![CDATA[This is a description of the <em>conformance criterion</em>.]]></tf:Description>
+            <tf:Citation>
+                <tf:Source tf:ref="source" xsi:nil="true"/>
+                <tf:Description>
+                    This is the location in the source of this rule.
+                </tf:Description>
+            </tf:Citation>
+            <tf:Citation>
+                <tf:Source tf:ref="source2" xsi:nil="true"/>
+                <tf:Description>
+                    This is the location in the source of this rule. 2
+                </tf:Description>
+            </tf:Citation>
+        </tf:ConformanceCriterion>
+        <tf:ConformanceCriterion tf:id="criterion2">
+            <tf:Number>2</tf:Number>
+            <tf:Name>Name 2</tf:Name>
+            <tf:Description><![CDATA[This is a description of the <em>conformance criterion</em>. 2]]></tf:Description>
+            <tf:Citation>
+                <tf:Source tf:ref="source" xsi:nil="true"/>
+                <tf:Description>
+                    This is the location in the source of this rule.
+                </tf:Description>
+            </tf:Citation>
+        </tf:ConformanceCriterion>
+    </tf:ConformanceCriteria>
+    <tf:AssessmentSteps>
+        <tf:Preface>
+            This applies to every assessment step.
+        </tf:Preface>
+        <tf:AssessmentStep tf:id="step">
+            <tf:Number>1</tf:Number>
+            <tf:Name>Name</tf:Name>
+            <tf:Description>
+                This is a description of the assessment step.
+            </tf:Description>
+            <tf:ConformanceCriterion tf:ref="criterion" xsi:nil="true"/>
+            <tf:Artifact>
+                <tf:Name>Name</tf:Name>
+                <tf:Description>
+                    This is a description of the artifact.
+                </tf:Description>
+            </tf:Artifact>
+            <tf:Artifact>
+                <tf:Name>Name 2</tf:Name>
+                <tf:Description>
+                    This is a description of the artifact. 2
+                </tf:Description>
+            </tf:Artifact>
+            <tf:ParameterDefinitions>
+                <tf:ParameterDefinition>
+                    <tf:Identifier>param1</tf:Identifier>
+                    <tf:Name>Param 1</tf:Name>
+                    <tf:Description>This is a parameter for blah</tf:Description>
+                    <tf:ParameterKind>STRING</tf:ParameterKind>
+                    <tf:Required>false</tf:Required>
+                </tf:ParameterDefinition>
+                <tf:ParameterDefinition>
+                    <tf:Identifier>param2</tf:Identifier>
+                    <tf:Name>Param 2</tf:Name>
+                    <tf:Description>This is a parameter for blah 2</tf:Description>
+                    <tf:ParameterKind>ENUM</tf:ParameterKind>
+                    <tf:EnumValues>
+                        <tf:EnumValue>VAL1</tf:EnumValue>
+                        <tf:EnumValue>VAL2</tf:EnumValue>
+                        <tf:EnumValue>VAL3</tf:EnumValue>
+                    </tf:EnumValues>
+                    <tf:Required>false</tf:Required>
+                </tf:ParameterDefinition>
+            </tf:ParameterDefinitions>
+        </tf:AssessmentStep>
+        <tf:AssessmentStep tf:id="step2">
+            <tf:Number>2</tf:Number>
+            <tf:Name>Name 2</tf:Name>
+            <tf:Description>
+                This is a description of the assessment step. 2
+            </tf:Description>
+            <tf:ConformanceCriterion tf:ref="criterion2" xsi:nil="true"/>
+        </tf:AssessmentStep>
+    </tf:AssessmentSteps>
+    <tf:IssuanceCriteria>
+        <![CDATA[yes(all)]]>
+    </tf:IssuanceCriteria>
+</tf:TrustmarkDefinition>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tf:AdioTest1 xmlns:tf="https://trustmarkinitiative.org/specifications/trustmark-framework/1.4/schema/"
+              xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+>
+    <tf:NonCdataValueNode1>Text-A</tf:NonCdataValueNode1>
+    <tf:NonCdataValueNode2>Text-B</tf:NonCdataValueNode2>
+    <tf:CdataValueNode1><![CDATA[Text-C]]></tf:CdataValueNode1>
+    <tf:CdataValueNode2><![CDATA[<![CDATA[Text-D]]]]><![CDATA[>]]></tf:CdataValueNode2>
+    <tf:ElementNode1>
+        <tf:ChildNonCdataValueNode1>Text-E</tf:ChildNonCdataValueNode1>
+        <tf:ChildNonCdataValueNode2>Text-F</tf:ChildNonCdataValueNode2>
+        <tf:ChildCdataValueNode1><![CDATA[Text-G]]></tf:ChildCdataValueNode1>
+        <tf:ChildCdataValueNode2><![CDATA[Text-H]]></tf:ChildCdataValueNode2>
+    </tf:ElementNode1>
+    <tf:ElementNode2 tf:id="identifier1">
+        <tf:ChildNonCdataValueNode3>Text-I</tf:ChildNonCdataValueNode3>
+        <tf:ChildNonCdataValueNode4>Text-J</tf:ChildNonCdataValueNode4>
+        <tf:ChildCdataValueNode3><![CDATA[<b>Text-K</b>]]></tf:ChildCdataValueNode3>
+        <tf:ChildCdataValueNode4><![CDATA[Text-L]]></tf:ChildCdataValueNode4>
+    </tf:ElementNode2>
+    <tf:SequenceNode1>
+        <tf:SequenceChild1>
+            <tf:ChildNonCdataValueNode5>Text-M1</tf:ChildNonCdataValueNode5>
+            <tf:ElementNode2 tf:ref="identifier1" xsi:nil="true"/>
+        </tf:SequenceChild1>
+        <tf:SequenceChild1>
+            <tf:ChildNonCdataValueNode5>Text-M2</tf:ChildNonCdataValueNode5>
+            <tf:ElementNode2 tf:id="identifier2">
+                <tf:ChildNonCdataValueNode3>Text-N</tf:ChildNonCdataValueNode3>
+                <tf:ChildNonCdataValueNode4>Text-O</tf:ChildNonCdataValueNode4>
+                <tf:ChildCdataValueNode3><![CDATA[Text-P]]></tf:ChildCdataValueNode3>
+                <tf:ChildCdataValueNode4><![CDATA[Text-Q]]></tf:ChildCdataValueNode4>
+            </tf:ElementNode2>
+        </tf:SequenceChild1>
+        <tf:SequenceChild1>
+            <tf:ChildNonCdataValueNode5>Text-M3</tf:ChildNonCdataValueNode5>
+            <tf:ElementNode2 tf:ref="identifier2" xsi:nil="true"/>
+        </tf:SequenceChild1>
+    </tf:SequenceNode1>
+</tf:AdioTest1>

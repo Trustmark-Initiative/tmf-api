@@ -1,0 +1,63 @@
+{
+  "$TMF_VERSION" : "1.2",
+  "$Type": "Trustmark",
+  "$id": "trustmark",
+  "Identifier": "http://provider.example/trustmark/1",
+  "TrustmarkDefinitionReference": {
+    "Identifier": "https://trustmark.gtri.gatech.edu/operational-pilot/trustmark-definitions/ficam-privacy-minimal-attribute-release-requirements-for-csps-and-bae-responders/1.0-SNAPSHOT/",
+    "Description": "This TD adopts the LOA 2 and LOA 3 Privacy Minimalism trust \n            criteria of the FICAM Trust Framework Provider Adoption \n            Process.",
+    "Version": "1.0-SNAPSHOT",
+    "Name": "FICAM Privacy Minimal Attribute Release Requirements \n            for CSPs and BAE Responders"
+  },
+  "IssueDateTime": "2014-01-01T00:00:00",
+  "ExpirationDateTime": "2015-01-01T00:00:00",
+  "StatusURL": "https://trustmark.gtri.gatech.edu/operational-pilot/example/trustmark/1/status",
+  "RelyingPartyAgreementURL": "https://trustmark.gtri.gatech.edu/operational-pilot/example/relyingParty",
+  "PolicyURL": "https://trustmark.gtri.gatech.edu/operational-pilot/example/policy",
+  "ProviderExtension": {"ProviderExtension": "This is additional XML content about the Trustmark, as provided by \n            the Trustmark Provider."},
+  "ParameterBindings": [
+    {
+      "$kind": "ENUM_MULTI",
+      "$identifier": "param1",
+      "value": "Value1, Value2, Value3"
+    },
+    {
+      "$kind": "BOOLEAN",
+      "$identifier": "param2",
+      "value": "true"
+    },
+    {
+      "$kind": "NUMBER",
+      "$identifier": "param3",
+      "value": "123"
+    }
+  ],
+  "Recipient": {
+    "Identifier": "https://trustmark.gtri.gatech.edu/",
+    "Name": "Georgia Tech Research Institute",
+    "PrimaryContact": {
+      "Kind": "PRIMARY",
+      "Responder": "George P. Burdell",
+      "Email": "TrustmarkFeedback@gtri.gatech.edu",
+      "Telephone": "404-407-8956",
+      "Notes": "The responder may change."
+    }
+  },
+  "Provider": {
+    "Identifier": "https://trustmark.gtri.gatech.edu/",
+    "Name": "Georgia Tech Research Institute",
+    "PrimaryContact": {
+      "Kind": "PRIMARY",
+      "Responder": "George P. Burdell",
+      "Email": "TrustmarkFeedback@gtri.gatech.edu",
+      "Telephone": "404-407-8956",
+      "Notes": "The responder may change."
+    }
+  },
+  "DefinitionExtension": {"DefinitionExtension": "This is additional XML content about the Trustmark, as required by \n            the Trustmark Definition."},
+  "ExceptionInfo": [
+    "This is exception info 1",
+    "This is exception info 2",
+    "This is exception info 3"
+  ]
+}

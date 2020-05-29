@@ -1,0 +1,398 @@
+{
+    "trustmarkDefinitionsCount": 10,
+    "totalCount": 729,
+    "offset": 0,
+    "max": 10,
+    "_links": {
+        "self": {
+            "href": "https://trustmark.example.org/test/trustmark-definitions?showDeprecated=true&max=10&format=json&offset=0&sort=name"
+        },
+        "next": null,
+        "prev": null
+    },
+    "trustmarkDefinitions": [
+        {
+            "uniqueId": 921,
+            "Name": "Acceptance Criteria",
+            "Identifier": "https://trustmark.example.org/test/trustmark-definitions/acceptance-criteria/1.0/",
+            "subIdentifier": "trustmark-definitions/acceptance-criteria/1.0/",
+            "baseUrl": "https://trustmark.example.org/test/",
+            "Version": "1.0",
+            "Description": "This Trustmark Definition defines conformance and assessment criteria for compliance with minimum security requirements for acceptance criteria as related to overall system and services acquisition requirements.",
+            "Deprecated": false,
+            "PublicationDateTime": "2015-09-18T14:39:05.000-04:00",
+            "_links": {
+                "self": {
+                    "href": "https://trustmark.example.org/test/trustmark-definitions/acceptance-criteria/1.0/?format=json"
+                },
+                "_formats": [
+                    {
+                        "format": "html",
+                        "href": "https://trustmark.example.org/test/trustmark-definitions/acceptance-criteria/1.0/?format=html"
+                    },
+                    {
+                        "format": "json",
+                        "href": "https://trustmark.example.org/test/trustmark-definitions/acceptance-criteria/1.0/?format=json"
+                    },
+                    {
+                        "format": "xml",
+                        "href": "https://trustmark.example.org/test/trustmark-definitions/acceptance-criteria/1.0/?format=xml"
+                    }
+                ]
+            },
+            "Keywords": [
+                "System and Services Acquisition",
+                "Security",
+                "Information Assurance",
+                "NIST",
+                "800-53"
+            ]
+        },
+        {
+            "uniqueId": 883,
+            "Name": "Acceptance of Federal PIV Credentials For Non-Organizational Users",
+            "Identifier": "https://trustmark.example.org/test/trustmark-definitions/acceptance-of-federal-piv-credentials-for-non-organizational-users/1.0/",
+            "subIdentifier": "trustmark-definitions/acceptance-of-federal-piv-credentials-for-non-organizational-users/1.0/",
+            "baseUrl": "https://trustmark.example.org/test/",
+            "Version": "1.0",
+            "Description": "This Trustmark Definition defines conformance and assessment criteria for compliance with minimum security requirements for acceptance of federal PIV credentials for non-organizational users as related to overall identification and authentication requirements.",
+            "Deprecated": false,
+            "PublicationDateTime": "2015-09-18T14:39:04.000-04:00",
+            "_links": {
+                "self": {
+                    "href": "https://trustmark.example.org/test/trustmark-definitions/acceptance-of-federal-piv-credentials-for-non-organizational-users/1.0/?format=json"
+                },
+                "_formats": [
+                    {
+                        "format": "html",
+                        "href": "https://trustmark.example.org/test/trustmark-definitions/acceptance-of-federal-piv-credentials-for-non-organizational-users/1.0/?format=html"
+                    },
+                    {
+                        "format": "json",
+                        "href": "https://trustmark.example.org/test/trustmark-definitions/acceptance-of-federal-piv-credentials-for-non-organizational-users/1.0/?format=json"
+                    },
+                    {
+                        "format": "xml",
+                        "href": "https://trustmark.example.org/test/trustmark-definitions/acceptance-of-federal-piv-credentials-for-non-organizational-users/1.0/?format=xml"
+                    }
+                ]
+            },
+            "Keywords": [
+                "Identification and Authentication",
+                "Security",
+                "Information Assurance",
+                "NIST",
+                "800-53",
+                "PIV"
+            ]
+        },
+        {
+            "uniqueId": 1150,
+            "Name": "Acceptance of PIV Credentials",
+            "Identifier": "https://trustmark.example.org/test/trustmark-definitions/acceptance-of-piv-credentials/1.0/",
+            "subIdentifier": "trustmark-definitions/acceptance-of-piv-credentials/1.0/",
+            "baseUrl": "https://trustmark.example.org/test/",
+            "Version": "1.0",
+            "Description": "This Trustmark Definition defines conformance and assessment criteria for compliance with minimum security requirements for acceptance of PIV credentials as related to overall identification and authentication requirements.",
+            "Deprecated": false,
+            "PublicationDateTime": "2015-09-18T14:39:04.000-04:00",
+            "_links": {
+                "self": {
+                    "href": "https://trustmark.example.org/test/trustmark-definitions/acceptance-of-piv-credentials/1.0/?format=json"
+                },
+                "_formats": [
+                    {
+                        "format": "html",
+                        "href": "https://trustmark.example.org/test/trustmark-definitions/acceptance-of-piv-credentials/1.0/?format=html"
+                    },
+                    {
+                        "format": "json",
+                        "href": "https://trustmark.example.org/test/trustmark-definitions/acceptance-of-piv-credentials/1.0/?format=json"
+                    },
+                    {
+                        "format": "xml",
+                        "href": "https://trustmark.example.org/test/trustmark-definitions/acceptance-of-piv-credentials/1.0/?format=xml"
+                    }
+                ]
+            },
+            "Keywords": [
+                "Identification and Authentication",
+                "Security",
+                "Information Assurance",
+                "NIST",
+                "800-53",
+                "PIV"
+            ]
+        },
+        {
+            "uniqueId": 904,
+            "Name": "Access Authorizations",
+            "Identifier": "https://trustmark.example.org/test/trustmark-definitions/access-authorizations/1.0/",
+            "subIdentifier": "trustmark-definitions/access-authorizations/1.0/",
+            "baseUrl": "https://trustmark.example.org/test/",
+            "Version": "1.0",
+            "Description": "This Trustmark Definition defines conformance and assessment criteria for compliance with minimum security requirements for access authorizations as related to overall access control requirements.",
+            "Deprecated": false,
+            "PublicationDateTime": "2015-09-18T14:39:04.000-04:00",
+            "_links": {
+                "self": {
+                    "href": "https://trustmark.example.org/test/trustmark-definitions/access-authorizations/1.0/?format=json"
+                },
+                "_formats": [
+                    {
+                        "format": "html",
+                        "href": "https://trustmark.example.org/test/trustmark-definitions/access-authorizations/1.0/?format=html"
+                    },
+                    {
+                        "format": "json",
+                        "href": "https://trustmark.example.org/test/trustmark-definitions/access-authorizations/1.0/?format=json"
+                    },
+                    {
+                        "format": "xml",
+                        "href": "https://trustmark.example.org/test/trustmark-definitions/access-authorizations/1.0/?format=xml"
+                    }
+                ]
+            },
+            "Keywords": [
+                "Access Control",
+                "Account Management",
+                "Security",
+                "Information Assurance",
+                "NIST",
+                "800-53"
+            ]
+        },
+        {
+            "uniqueId": 893,
+            "Name": "Access Control for Shared Secret Files",
+            "Identifier": "https://trustmark.example.org/test/trustmark-definitions/access-control-for-shared-secret-files/1.0/",
+            "subIdentifier": "trustmark-definitions/access-control-for-shared-secret-files/1.0/",
+            "baseUrl": "https://trustmark.example.org/test/",
+            "Version": "1.0",
+            "Description": "This Trustmark Definition covers requirements on Credential Service Providers (CSPs) for access control requirements for shared secret files.",
+            "Deprecated": false,
+            "PublicationDateTime": "2015-09-18T14:39:03.000-04:00",
+            "_links": {
+                "self": {
+                    "href": "https://trustmark.example.org/test/trustmark-definitions/access-control-for-shared-secret-files/1.0/?format=json"
+                },
+                "_formats": [
+                    {
+                        "format": "html",
+                        "href": "https://trustmark.example.org/test/trustmark-definitions/access-control-for-shared-secret-files/1.0/?format=html"
+                    },
+                    {
+                        "format": "json",
+                        "href": "https://trustmark.example.org/test/trustmark-definitions/access-control-for-shared-secret-files/1.0/?format=json"
+                    },
+                    {
+                        "format": "xml",
+                        "href": "https://trustmark.example.org/test/trustmark-definitions/access-control-for-shared-secret-files/1.0/?format=xml"
+                    }
+                ]
+            },
+            "Keywords": [
+                "Identity",
+                "Identity Assurance",
+                "CSP",
+                "Credential Service Provider",
+                "IDP",
+                "Identity Provider",
+                "Identity Proofing",
+                "Registration",
+                "RA",
+                "Registration Authority"
+            ]
+        },
+        {
+            "uniqueId": 1100,
+            "Name": "Access Enforcement",
+            "Identifier": "https://trustmark.example.org/test/trustmark-definitions/access-enforcement/1.0/",
+            "subIdentifier": "trustmark-definitions/access-enforcement/1.0/",
+            "baseUrl": "https://trustmark.example.org/test/",
+            "Version": "1.0",
+            "Description": "This Trustmark Definition defines conformance and assessment criteria for compliance with minimum security requirements for access enforcement as related to overall access control requirements.",
+            "Deprecated": false,
+            "PublicationDateTime": "2015-09-18T14:39:04.000-04:00",
+            "_links": {
+                "self": {
+                    "href": "https://trustmark.example.org/test/trustmark-definitions/access-enforcement/1.0/?format=json"
+                },
+                "_formats": [
+                    {
+                        "format": "html",
+                        "href": "https://trustmark.example.org/test/trustmark-definitions/access-enforcement/1.0/?format=html"
+                    },
+                    {
+                        "format": "json",
+                        "href": "https://trustmark.example.org/test/trustmark-definitions/access-enforcement/1.0/?format=json"
+                    },
+                    {
+                        "format": "xml",
+                        "href": "https://trustmark.example.org/test/trustmark-definitions/access-enforcement/1.0/?format=xml"
+                    }
+                ]
+            },
+            "Keywords": [
+                "Access Control",
+                "Security",
+                "Information Assurance",
+                "NIST",
+                "800-53"
+            ]
+        },
+        {
+            "uniqueId": 1123,
+            "Name": "Account Creation Approvals",
+            "Identifier": "https://trustmark.example.org/test/trustmark-definitions/account-creation-approvals/1.0/",
+            "subIdentifier": "trustmark-definitions/account-creation-approvals/1.0/",
+            "baseUrl": "https://trustmark.example.org/test/",
+            "Version": "1.0",
+            "Description": "This Trustmark Definition defines conformance and assessment criteria for compliance with minimum security requirements for account creation approvals as related to overall access control requirements.",
+            "Deprecated": false,
+            "PublicationDateTime": "2015-09-18T14:39:04.000-04:00",
+            "_links": {
+                "self": {
+                    "href": "https://trustmark.example.org/test/trustmark-definitions/account-creation-approvals/1.0/?format=json"
+                },
+                "_formats": [
+                    {
+                        "format": "html",
+                        "href": "https://trustmark.example.org/test/trustmark-definitions/account-creation-approvals/1.0/?format=html"
+                    },
+                    {
+                        "format": "json",
+                        "href": "https://trustmark.example.org/test/trustmark-definitions/account-creation-approvals/1.0/?format=json"
+                    },
+                    {
+                        "format": "xml",
+                        "href": "https://trustmark.example.org/test/trustmark-definitions/account-creation-approvals/1.0/?format=xml"
+                    }
+                ]
+            },
+            "Keywords": [
+                "Access Control",
+                "Account Management",
+                "Security",
+                "Information Assurance",
+                "NIST",
+                "800-53"
+            ]
+        },
+        {
+            "uniqueId": 1300,
+            "Name": "Account Manager Notification",
+            "Identifier": "https://trustmark.example.org/test/trustmark-definitions/account-manager-notification/1.0/",
+            "subIdentifier": "trustmark-definitions/account-manager-notification/1.0/",
+            "baseUrl": "https://trustmark.example.org/test/",
+            "Version": "1.0",
+            "Description": "This Trustmark Definition defines conformance and assessment criteria for compliance with minimum security requirements for account manager notification as related to overall access control requirements.",
+            "Deprecated": false,
+            "PublicationDateTime": "2015-09-18T14:39:04.000-04:00",
+            "_links": {
+                "self": {
+                    "href": "https://trustmark.example.org/test/trustmark-definitions/account-manager-notification/1.0/?format=json"
+                },
+                "_formats": [
+                    {
+                        "format": "html",
+                        "href": "https://trustmark.example.org/test/trustmark-definitions/account-manager-notification/1.0/?format=html"
+                    },
+                    {
+                        "format": "json",
+                        "href": "https://trustmark.example.org/test/trustmark-definitions/account-manager-notification/1.0/?format=json"
+                    },
+                    {
+                        "format": "xml",
+                        "href": "https://trustmark.example.org/test/trustmark-definitions/account-manager-notification/1.0/?format=xml"
+                    }
+                ]
+            },
+            "Keywords": [
+                "Access Control",
+                "Account Management",
+                "Security",
+                "Information Assurance",
+                "NIST",
+                "800-53"
+            ]
+        },
+        {
+            "uniqueId": 927,
+            "Name": "Account Managers",
+            "Identifier": "https://trustmark.example.org/test/trustmark-definitions/account-managers/1.0/",
+            "subIdentifier": "trustmark-definitions/account-managers/1.0/",
+            "baseUrl": "https://trustmark.example.org/test/",
+            "Version": "1.0",
+            "Description": "This Trustmark Definition defines conformance and assessment criteria for compliance with minimum security requirements for account managers as related to overall access control requirements.",
+            "Deprecated": false,
+            "PublicationDateTime": "2015-09-18T14:39:04.000-04:00",
+            "_links": {
+                "self": {
+                    "href": "https://trustmark.example.org/test/trustmark-definitions/account-managers/1.0/?format=json"
+                },
+                "_formats": [
+                    {
+                        "format": "html",
+                        "href": "https://trustmark.example.org/test/trustmark-definitions/account-managers/1.0/?format=html"
+                    },
+                    {
+                        "format": "json",
+                        "href": "https://trustmark.example.org/test/trustmark-definitions/account-managers/1.0/?format=json"
+                    },
+                    {
+                        "format": "xml",
+                        "href": "https://trustmark.example.org/test/trustmark-definitions/account-managers/1.0/?format=xml"
+                    }
+                ]
+            },
+            "Keywords": [
+                "Access Control",
+                "Account Management",
+                "Security",
+                "Information Assurance",
+                "NIST",
+                "800-53"
+            ]
+        },
+        {
+            "uniqueId": 817,
+            "Name": "Account Monitoring",
+            "Identifier": "https://trustmark.example.org/test/trustmark-definitions/account-monitoring/1.0/",
+            "subIdentifier": "trustmark-definitions/account-monitoring/1.0/",
+            "baseUrl": "https://trustmark.example.org/test/",
+            "Version": "1.0",
+            "Description": "This Trustmark Definition defines conformance and assessment criteria for compliance with minimum security requirements for account monitoring as related to overall access control requirements.",
+            "Deprecated": false,
+            "PublicationDateTime": "2015-09-18T14:39:04.000-04:00",
+            "_links": {
+                "self": {
+                    "href": "https://trustmark.example.org/test/trustmark-definitions/account-monitoring/1.0/?format=json"
+                },
+                "_formats": [
+                    {
+                        "format": "html",
+                        "href": "https://trustmark.example.org/test/trustmark-definitions/account-monitoring/1.0/?format=html"
+                    },
+                    {
+                        "format": "json",
+                        "href": "https://trustmark.example.org/test/trustmark-definitions/account-monitoring/1.0/?format=json"
+                    },
+                    {
+                        "format": "xml",
+                        "href": "https://trustmark.example.org/test/trustmark-definitions/account-monitoring/1.0/?format=xml"
+                    }
+                ]
+            },
+            "Keywords": [
+                "Access Control",
+                "Account Management",
+                "Monitoring",
+                "Security",
+                "Information Assurance",
+                "NIST",
+                "800-53"
+            ]
+        }
+    ]
+}

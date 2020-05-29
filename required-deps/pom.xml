@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>required-deps</artifactId>
+    <version>1.4</version>
+    <packaging>pom</packaging>
+
+    <parent>
+        <groupId>edu.gatech.gtri.trustmark</groupId>
+        <artifactId>tf-api-parent</artifactId>
+        <version>1.4</version>
+    </parent>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-install-plugin</artifactId>
+                <version>2.5.2</version>
+                <executions>
+                    <execution>
+                        <id>install-mini-jdd</id>
+                        <goals><goal>install-file</goal></goals>
+                        <phase>initialize</phase>
+                        <configuration>
+                            <file>${basedir}/lib/minijdd_104.jar</file>
+                            <groupId>javaddlib</groupId>
+                            <artifactId>jdd-min</artifactId>
+                            <version>1.0-GTRI</version>
+                            <packaging>jar</packaging>
+                            <generatePom>true</generatePom>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+
+</project>

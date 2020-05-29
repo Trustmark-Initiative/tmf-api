@@ -1,0 +1,12 @@
+# Obtained via: curl --silent "https://trustmark.gtri.gatech.edu/operational-pilot/trustmark-definitions?showDeprecated=true&max=10&format=json" | grep "format=json" | awk '{$1=$1};1' | sed 's/.*operational-pilot/https:\/\/trustmark.gtri.gatech.edu\/operational-pilot/' | sed 's/"//' | tail -20 > tdURLs.txt 
+
+https://trustmark.gtri.gatech.edu/operational-pilot/trustmark-definitions/acceptance-criteria/1.0/?format=json
+https://trustmark.gtri.gatech.edu/operational-pilot/trustmark-definitions/acceptance-of-federal-piv-credentials-for-non-organizational-users/1.0/?format=json
+https://trustmark.gtri.gatech.edu/operational-pilot/trustmark-definitions/acceptance-of-piv-credentials/1.0/?format=json
+https://trustmark.gtri.gatech.edu/operational-pilot/trustmark-definitions/access-authorizations/1.0/?format=json
+https://trustmark.gtri.gatech.edu/operational-pilot/trustmark-definitions/access-control-for-shared-secret-files/1.0/?format=json
+https://trustmark.gtri.gatech.edu/operational-pilot/trustmark-definitions/access-enforcement/1.0/?format=json
+https://trustmark.gtri.gatech.edu/operational-pilot/trustmark-definitions/account-creation-approvals/1.0/?format=json
+https://trustmark.gtri.gatech.edu/operational-pilot/trustmark-definitions/account-manager-notification/1.0/?format=json
+https://trustmark.gtri.gatech.edu/operational-pilot/trustmark-definitions/account-managers/1.0/?format=json
+https://trustmark.gtri.gatech.edu/operational-pilot/trustmark-definitions/account-monitoring/1.0/?format=json

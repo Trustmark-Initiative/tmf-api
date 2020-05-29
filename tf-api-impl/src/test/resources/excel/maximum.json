@@ -1,0 +1,165 @@
+{
+  "trustmarkDefinitions" : [
+    {
+      "$TMF_VERSION" : "1.2",
+      "$Type": "TrustmarkDefinition",
+      "Metadata" : {
+        "Identifier": "https://trustmark.gtri.gatech.edu/operational-pilot/trustmark-definitions/test_001/0.1-SNAPSHOT/",
+        "TrustmarkReferenceAttributeName" : "https://trustmark.gtri.gatech.edu/operational-pilot/trustmark-definitions/test_001/0.1-SNAPSHOT/trustmark-reference/",
+        "Name" : "Test 001",
+        "Version" : "0.1-SNAPSHOT",
+        "Description" : "Description",
+        "PublicationDateTime" : "2016-09-08T00:00:00Z",
+        "TrustmarkDefiningOrganization" : {
+          "Identifier" : "http://tdo.example/",
+          "Name" : "Trustmark Defining Organization",
+          "Contact" : {
+            "Kind" : "PRIMARY",
+            "Responder" : "George P. Burdell",
+            "Email" : "TrustmarkFeedback@gtri.gatech.edu",
+            "Telephone" : "404-555-1234",
+            "PhysicalAddress" : "75 5th Street NW, Suite 900, Atlanta GA 30308",
+            "MailingAddress" : "75 5th Street NW, Suite 900, Atlanta GA 30308",
+            "WebsiteURL" : "http://trustmark.gtri.gatech.edu/",
+            "Notes" : "The responder may change."
+          }
+        },
+        "TargetStakeholderDescription" : "TargetStakeholderDescription",
+        "TargetRecipientDescription" : "TargetRecipientDescription",
+        "TargetRelyingPartyDescription" : "TargetRelyingPartyDescription",
+        "TargetProviderDescription" : "TargetProviderDescription",
+        "ProviderEligibilityCriteria" : "ProviderEligibilityCriteria",
+        "AssessorQualificationsDescription" : "AssessorQualificationsDescription",
+        "TrustmarkRevocationCriteria" : "TrustmarkRevocationCriteria",
+        "ExtensionDescription": "ExtensionDescription",
+        "LegalNotice" : "LegalNotice",
+        "Notes" : "Notes",
+        "Keywords" : ["KEYWORD1", "KEYWORD2"],
+        "Deprecated" : true,
+        "Supersessions" : {
+          "Supersedes" : [
+            {"Identifier" : "http://example.org/supersededTdId"}
+          ],
+          "SupersededBy" : [
+            {"Identifier" : "http://example.org/supersededByTd"}
+          ]
+        }
+      },
+
+
+      "Terms" : [
+        {
+          "Name" : "TEST",
+          "Abbreviations" : ["T", "M"],
+          "Definition" : "A test term."
+        },
+        {
+          "Name" : "Term 2",
+          "Abbreviations" : ["T2"],
+          "Definition" : "Another test term."
+        }
+      ],
+
+
+      "Sources" : [
+        {
+          "$id" : "source1",
+          "Identifier" : "TEST1",
+          "Reference" : "A simple test source"
+        },
+        {
+          "$id" : "source2",
+          "Identifier" : "TEST2",
+          "Reference" : "Another simple test source"
+        },
+        {
+          "$id" : "source3",
+          "Identifier" : "TEST3",
+          "Reference" : "Source3 Description"
+        },
+        {
+          "$id" : "source4",
+          "Identifier" : "TEST4",
+          "Reference" : "Source4 Description"
+        }
+      ],
+
+
+      "ConformanceCriteriaPreface" : "CriteriaPreface",
+      "ConformanceCriteria" : [
+        {
+          "$id" : "criterion1",
+          "Number" : 1,
+          "Name" : "Criterion 1",
+          "Description" : "A description of Criterion 1",
+          "Citations" : [
+            {
+              "Source" : { "$ref" : "#source1" },
+              "Description" : "Page 2"
+            },{
+              "Source" : { "$ref" : "#source2" },
+              "Description" : "Page 3"
+            }
+          ]
+        },{
+          "$id" : "criterion2",
+          "Number" : 2,
+          "Name" : "Criterion 2",
+          "Description" : "A description of Criterion 2",
+          "Citations" : [
+            {
+              "Source" : { "$ref" : "#source3" },
+              "Description" : "Page 4"
+            },{
+              "Source" : { "$ref" : "#source4" },
+              "Description" : "Page 5"
+            }
+          ]
+        }
+      ],
+
+
+      "AssessmentStepsPreface" : "AssessmentPreface",
+      "AssessmentSteps" : [
+        {
+          "$id" : "step1",
+          "Number" : 1,
+          "Name" : "Step 1",
+          "Description" : "A description of Step 1",
+          "ConformanceCriteria" : [ {"$ref": "#criterion1"} ],
+          "Artifacts" : [
+            {
+              "Name" : "Artifact 1",
+              "Description" : "This is a description of artifact 1"
+            },
+            {
+              "Name" : "Artifact 2",
+              "Description" : "This is a description of artifact 2"
+            }
+          ]
+        },{
+          "$id" : "step2",
+          "Number" : 2,
+          "Name" : "Step 2",
+          "Description" : "A description of Step 2",
+          "ConformanceCriteria" : [ {"$ref": "#criterion2"} ],
+          "Artifacts" : [
+            {
+              "Name" : "Artifact 1",
+              "Description" : "This is a description of artifact 1 on step 2"
+            },
+            {
+              "Name" : "Artifact 2",
+              "Description" : "This is a description of artifact 2 on step 2"
+            }
+          ]
+        }
+
+      ],
+
+      "IssuanceCriteria" : "yes(all)"
+    }
+
+  ],
+  "trustInteroperabilityProfiles" : []
+}

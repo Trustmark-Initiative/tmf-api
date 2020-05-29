@@ -1,0 +1,12 @@
+{
+  "$TMF_VERSION": "1.4",
+  "$Type": "AgreementResponsibilityTemplate",
+  "Name": "(The Name of this Test Responsibility Template)",
+  "Category": "(The Category of this Test Responsibility Template)",
+  "Definition": "(The Definition of this Test Responsibility Template, with <b>bold</b>text)",
+  "TipIdentifiers": [
+    "https://tips.example.com/tip-1",
+    "https://tips.example.com/tip-2",
+    "https://tips.example.com/tip-3"
+  ]
+}

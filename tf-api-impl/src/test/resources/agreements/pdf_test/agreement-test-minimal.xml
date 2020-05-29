@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<tf:Agreement xmlns:tf="https://trustmarkinitiative.org/specifications/trustmark-framework/1.3/schema/"
+              xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="https://trustmarkinitiative.org/specifications/trustmark-framework/1.3/schema/ ../../../../main/resources/META-INF/xml-schema/tf.xsd">
+    <tf:Identifier>https://agreement.example.com/agreement-test-minimal</tf:Identifier>
+    <tf:Title/>
+    <tf:Version/>
+    <tf:Description/>
+    <tf:CreationDateTime/>
+    <tf:Duration>
+        <tf:TerminationDateTime/>
+        <tf:EffectiveDateTime/>
+    </tf:Duration>
+    <tf:AgreementNonBindingSections/>
+    <tf:LegalSectionListStyleType/>
+    <tf:AgreementLegalSections/>
+    <tf:AgreementTerms/>
+    <tf:AgreementResponsibilities/>
+    <tf:AgreementParties/>
+    <tf:SignaturePageText/>
+    <tf:AgreementAttachments/>
+</tf:Agreement>

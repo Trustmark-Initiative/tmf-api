@@ -1,0 +1,585 @@
+{
+  "trustmarkDefinitions" : [
+    {
+      "$TMF_VERSION" : "1.2",
+      "$Type": "TrustmarkDefinition",
+      "Metadata" : {
+        "Identifier": "https://trustmark.gtri.gatech.edu/operational-pilot/trustmark-definitions/test_001/0.1-SNAPSHOT/",
+        "TrustmarkReferenceAttributeName" : "https://trustmark.gtri.gatech.edu/operational-pilot/trustmark-definitions/test_001/0.1-SNAPSHOT/trustmark-reference/",
+        "Name" : "Test 001",
+        "Version" : "0.1-SNAPSHOT",
+        "Description" : "Just a simple TD to show how to make one.  Demonstration only.",
+        "PublicationDateTime" : "2016-09-08T10:00:00Z",
+        "TrustmarkDefiningOrganization" : {
+          "Identifier" : "http://tdo.example/",
+          "Name" : "Trustmark Defining Organization",
+          "Contact" : {
+            "Kind" : "PRIMARY",
+            "Email" : "TrustmarkFeedback@gtri.gatech.edu"
+          }
+        },
+        "LegalNotice" : "This document and the information contained herein is provided on an \"AS IS\" basis, and the Georgia Tech Research Institute disclaims all warranties, express or implied, including but not limited to any warranty that the use of the information herein will not infringe any rights or any implied warranties or merchantability or fitness for a particular purpose. In addition, the Georgia Tech Research Institute disclaims legal liability for any loss incurred as a result of the use or reliance on the document or the information contained herein.",
+        "Notes" : "The Georgia Tech Research Institute (GTRI) has published this document with the support of the National Strategy for Trusted Identities in Cyberspace (NSTIC) via the National Institute of Standards and Technology (NIST). The views expressed herein do not necessarily reflect the official policies of GTRI, NIST or NSTIC; nor does mention of trade names, commercial practices, or organizations imply endorsement by the U.S. Government."
+      },
+
+      "ConformanceCriteria" : [
+        {
+          "$id" : "criterion1",
+          "Number" : 1,
+          "Name" : "Criterion 1",
+          "Description" : "A description of Criterion 1"
+        }
+      ],
+      "AssessmentSteps" : [
+        {
+          "$id" : "step1",
+          "Number" : 1,
+          "Name" : "Step 1",
+          "Description" : "A description of Step 1",
+          "ConformanceCriteria" : [ {"$ref": "#criterion1"} ]
+        }
+
+      ],
+
+      "IssuanceCriteria" : "yes(all)",
+      "Terms": [
+        {
+          "Name": "Apple",
+          "Definition": "A red fruit"
+        },
+        {
+          "Name": "Banana",
+          "Definition": "A yellow fruit"
+        },
+        {
+          "Name": "Zucchini",
+          "Definition": "A green vegetable"
+        }
+      ]
+    },
+    {
+      "$TMF_VERSION" : "1.2",
+      "$Type": "TrustmarkDefinition",
+      "Metadata" : {
+        "Identifier": "https://trustmark.gtri.gatech.edu/operational-pilot/trustmark-definitions/test_002/0.1-SNAPSHOT/",
+        "TrustmarkReferenceAttributeName" : "https://trustmark.gtri.gatech.edu/operational-pilot/trustmark-definitions/test_002/0.1-SNAPSHOT/trustmark-reference/",
+        "Name" : "Test 002",
+        "Version" : "0.1-SNAPSHOT",
+        "Description" : "Just a simple TD to show how to make one.  Demonstration only.",
+        "PublicationDateTime" : "2016-09-08T10:00:00Z",
+        "TrustmarkDefiningOrganization" : {
+          "Identifier" : "http://tdo.example/",
+          "Name" : "Trustmark Defining Organization",
+          "Contact" : {
+            "Kind" : "PRIMARY",
+            "Email" : "TrustmarkFeedback@gtri.gatech.edu"
+          }
+        },
+        "LegalNotice" : "This document and the information contained herein is provided on an \"AS IS\" basis, and the Georgia Tech Research Institute disclaims all warranties, express or implied, including but not limited to any warranty that the use of the information herein will not infringe any rights or any implied warranties or merchantability or fitness for a particular purpose. In addition, the Georgia Tech Research Institute disclaims legal liability for any loss incurred as a result of the use or reliance on the document or the information contained herein.",
+        "Notes" : "The Georgia Tech Research Institute (GTRI) has published this document with the support of the National Strategy for Trusted Identities in Cyberspace (NSTIC) via the National Institute of Standards and Technology (NIST). The views expressed herein do not necessarily reflect the official policies of GTRI, NIST or NSTIC; nor does mention of trade names, commercial practices, or organizations imply endorsement by the U.S. Government."
+      },
+
+      "ConformanceCriteria" : [
+        {
+          "$id" : "criterion1",
+          "Number" : 1,
+          "Name" : "Criterion 1",
+          "Description" : "A description of Criterion 1"
+        }
+      ],
+      "AssessmentSteps" : [
+        {
+          "$id" : "step1",
+          "Number" : 1,
+          "Name" : "Step 1",
+          "Description" : "A description of Step 1",
+          "ConformanceCriteria" : [ {"$ref": "#criterion1"} ]
+        }
+
+      ],
+
+      "IssuanceCriteria" : "yes(all)",
+      "Terms": [
+        {
+          "Name": "Apple",
+          "Definition": "A red fruit"
+        },
+        {
+          "Name": "Banana",
+          "Definition": "A yellow fruit"
+        },
+        {
+          "Name": "Zucchini",
+          "Definition": "A green vegetable"
+        }
+      ]
+    }
+  ],
+  "trustInteroperabilityProfiles" : [
+    {
+      "$TMF_VERSION" : "1.2",
+      "$Type": "TrustInteroperabilityProfile",
+      "Identifier" : "https://trustmark.gtri.gatech.edu/operational-pilot/trust-interoperability-profiles/tip-1/0.1-SNAPSHOT/",
+      "Name" : "TIP 1",
+      "Version" : "0.1-SNAPSHOT",
+      "Description" : "A TIP with 0 sources, 2 inline terms, and all sheet terms",
+      "PublicationDateTime" : "2016-09-10T12:00:00Z",
+      "LegalNotice" : "This document and the information contained herein is provided on an \"AS IS\" basis, and the Georgia Tech Research Institute disclaims all warranties, express or implied, including but not limited to any warranty that the use of the information herein will not infringe any rights or any implied warranties or merchantability or fitness for a particular purpose. In addition, the Georgia Tech Research Institute disclaims legal liability for any loss incurred as a result of the use or reliance on the document or the information contained herein.",
+      "Notes" : "The Georgia Tech Research Institute (GTRI) has published this document with the support of the National Strategy for Trusted Identities in Cyberspace (NSTIC) via the National Institute of Standards and Technology (NIST). The views expressed herein do not necessarily reflect the official policies of GTRI, NIST or NSTIC; nor does mention of trade names, commercial practices, or organizations imply endorsement by the U.S. Government.",
+      "Issuer" : {
+        "Identifier" : "http:///tdo.example/",
+        "Name" : "GTRI NSTIC Trustmark Pilot",
+        "PrimaryContact" : {
+          "Kind": "PRIMARY",
+          "Email" : "TrustmarkFeedback@gtri.gatech.edu",
+          "Telephone": "404-407-8956",
+          "MailingAddress": "75 5th Street NW, Suite 900, Atlanta, GA 30308"
+        }
+      },
+
+      "TrustExpression": "TD_Test001 AND TD_Test002",
+
+      "References" : {
+        "TrustmarkDefinitionRequirements": [
+          {
+            "$id": "tdr1",
+            "$Type": "TrustmarkDefinitionRequirement",
+            "TrustmarkDefinitionReference" : {
+              "Identifier": "https://trustmark.gtri.gatech.edu/operational-pilot/trustmark-definitions/test_001/0.1-SNAPSHOT/",
+              "Name": "Test 001",
+              "Number": 1,
+              "Version": "0.1-SNAPSHOT",
+              "Description": "Just a simple TD to show how to make one.  Demonstration only."
+            },
+            "ProviderReferences": [
+              {
+                "$id": "provider1",
+                "Identifier": "http:///tdo.example",
+                "Name": "Trustmark Defining Organization",
+                "Contact": {
+                  "Kind": "PRIMARY",
+                  "Email": "TrustmarkFeedback@gtri.gatech.edu"
+                }
+              }
+            ]
+          },
+          {
+            "$id": "tdr2",
+            "$Type": "TrustmarkDefinitionRequirement",
+            "TrustmarkDefinitionReference" : {
+              "Identifier": "https://trustmark.gtri.gatech.edu/operational-pilot/trustmark-definitions/test_002/0.1-SNAPSHOT/",
+              "Name": "Test 002",
+              "Number": 2,
+              "Version": "0.1-SNAPSHOT",
+              "Description": "Just a simple TD to show how to make one.  Demonstration only."
+            },
+            "ProviderReferences": [
+              {
+                "$id": "provider2",
+                "Identifier": "http:///tdo.example",
+                "Name": "Trustmark Defining Organization",
+                "Contact": {
+                  "Kind": "PRIMARY",
+                  "Email": "TrustmarkFeedback@gtri.gatech.edu"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "Terms": [
+        {
+          "Name": "Apple",
+          "Definition": "A red fruit"
+        },
+        {
+          "Name": "Banana",
+          "Definition": "A yellow fruit"
+        },
+        {
+          "Name": "Carrot",
+          "Definition": "An orange root"
+        },
+        {
+          "Name": "Date",
+          "Definition": "A brown fruit"
+        },
+        {
+          "Name": "Zucchini",
+          "Definition": "A green vegetable"
+        }
+      ]
+    },
+    {
+      "$TMF_VERSION" : "1.2",
+      "$Type": "TrustInteroperabilityProfile",
+      "Identifier" : "https://trustmark.gtri.gatech.edu/operational-pilot/trust-interoperability-profiles/tip-2/0.1-SNAPSHOT/",
+      "Name" : "TIP 2",
+      "Version" : "0.1-SNAPSHOT",
+      "Description" : "A TIP with 0 sources, 2 inline terms, and 2 included sheet terms",
+      "PublicationDateTime" : "2016-09-10T12:00:00Z",
+      "LegalNotice" : "This document and the information contained herein is provided on an \"AS IS\" basis, and the Georgia Tech Research Institute disclaims all warranties, express or implied, including but not limited to any warranty that the use of the information herein will not infringe any rights or any implied warranties or merchantability or fitness for a particular purpose. In addition, the Georgia Tech Research Institute disclaims legal liability for any loss incurred as a result of the use or reliance on the document or the information contained herein.",
+      "Notes" : "The Georgia Tech Research Institute (GTRI) has published this document with the support of the National Strategy for Trusted Identities in Cyberspace (NSTIC) via the National Institute of Standards and Technology (NIST). The views expressed herein do not necessarily reflect the official policies of GTRI, NIST or NSTIC; nor does mention of trade names, commercial practices, or organizations imply endorsement by the U.S. Government.",
+      "Issuer" : {
+        "Identifier" : "http:///tdo.example/",
+        "Name" : "GTRI NSTIC Trustmark Pilot",
+        "PrimaryContact" : {
+          "Kind": "PRIMARY",
+          "Email" : "TrustmarkFeedback@gtri.gatech.edu",
+          "Telephone": "404-407-8956",
+          "MailingAddress": "75 5th Street NW, Suite 900, Atlanta, GA 30308"
+        }
+      },
+
+      "TrustExpression": "TD_Test001 OR TD_Test002",
+
+      "References" : {
+        "TrustmarkDefinitionRequirements": [
+          {
+            "$id": "tdr1",
+            "$Type": "TrustmarkDefinitionRequirement",
+            "TrustmarkDefinitionReference" : {
+              "Identifier": "https://trustmark.gtri.gatech.edu/operational-pilot/trustmark-definitions/test_001/0.1-SNAPSHOT/",
+              "Name": "Test 001",
+              "Number": 1,
+              "Version": "0.1-SNAPSHOT",
+              "Description": "Just a simple TD to show how to make one.  Demonstration only."
+            },
+            "ProviderReferences": [
+              {
+                "$id": "provider1",
+                "Identifier": "http:///tdo.example",
+                "Name": "Trustmark Defining Organization",
+                "Contact": {
+                  "Kind": "PRIMARY",
+                  "Email": "TrustmarkFeedback@gtri.gatech.edu"
+                }
+              }
+            ]
+          },
+          {
+            "$id": "tdr2",
+            "$Type": "TrustmarkDefinitionRequirement",
+            "TrustmarkDefinitionReference" : {
+              "Identifier": "https://trustmark.gtri.gatech.edu/operational-pilot/trustmark-definitions/test_002/0.1-SNAPSHOT/",
+              "Name": "Test 002",
+              "Number": 2,
+              "Version": "0.1-SNAPSHOT",
+              "Description": "Just a simple TD to show how to make one.  Demonstration only."
+            },
+            "ProviderReferences": [
+              {
+                "$id": "provider2",
+                "Identifier": "http:///tdo.example",
+                "Name": "Trustmark Defining Organization",
+                "Contact": {
+                  "Kind": "PRIMARY",
+                  "Email": "TrustmarkFeedback@gtri.gatech.edu"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "Terms": [
+        {
+          "Name": "Banana",
+          "Definition": "A yellow fruit"
+        },
+        {
+          "Name": "Carrot",
+          "Definition": "An orange root"
+        },
+        {
+          "Name": "Date",
+          "Definition": "A brown fruit"
+        },
+        {
+          "Name": "Zucchini",
+          "Definition": "A green vegetable"
+        }
+      ]
+    },
+    {
+      "$TMF_VERSION" : "1.2",
+      "$Type": "TrustInteroperabilityProfile",
+      "Identifier" : "https://trustmark.gtri.gatech.edu/operational-pilot/trust-interoperability-profiles/tip-3/0.1-SNAPSHOT/",
+      "Name" : "TIP 3",
+      "Version" : "0.1-SNAPSHOT",
+      "Description" : "A TIP with 0 sources, 2 inline terms, and 2 excluded sheet terms",
+      "PublicationDateTime" : "2016-09-10T12:00:00Z",
+      "LegalNotice" : "This document and the information contained herein is provided on an \"AS IS\" basis, and the Georgia Tech Research Institute disclaims all warranties, express or implied, including but not limited to any warranty that the use of the information herein will not infringe any rights or any implied warranties or merchantability or fitness for a particular purpose. In addition, the Georgia Tech Research Institute disclaims legal liability for any loss incurred as a result of the use or reliance on the document or the information contained herein.",
+      "Notes" : "The Georgia Tech Research Institute (GTRI) has published this document with the support of the National Strategy for Trusted Identities in Cyberspace (NSTIC) via the National Institute of Standards and Technology (NIST). The views expressed herein do not necessarily reflect the official policies of GTRI, NIST or NSTIC; nor does mention of trade names, commercial practices, or organizations imply endorsement by the U.S. Government.",
+      "Issuer" : {
+        "Identifier" : "http:///tdo.example/",
+        "Name" : "GTRI NSTIC Trustmark Pilot",
+        "PrimaryContact" : {
+          "Kind": "PRIMARY",
+          "Email" : "TrustmarkFeedback@gtri.gatech.edu",
+          "Telephone": "404-407-8956",
+          "MailingAddress": "75 5th Street NW, Suite 900, Atlanta, GA 30308"
+        }
+      },
+
+      "TrustExpression": "TD_Test001 OR TD_Test002",
+
+      "References" : {
+        "TrustmarkDefinitionRequirements": [
+          {
+            "$id": "tdr1",
+            "$Type": "TrustmarkDefinitionRequirement",
+            "TrustmarkDefinitionReference" : {
+              "Identifier": "https://trustmark.gtri.gatech.edu/operational-pilot/trustmark-definitions/test_001/0.1-SNAPSHOT/",
+              "Name": "Test 001",
+              "Number": 1,
+              "Version": "0.1-SNAPSHOT",
+              "Description": "Just a simple TD to show how to make one.  Demonstration only."
+            },
+            "ProviderReferences": [
+              {
+                "$id": "provider1",
+                "Identifier": "http:///tdo.example",
+                "Name": "Trustmark Defining Organization",
+                "Contact": {
+                  "Kind": "PRIMARY",
+                  "Email": "TrustmarkFeedback@gtri.gatech.edu"
+                }
+              }
+            ]
+          },
+          {
+            "$id": "tdr2",
+            "$Type": "TrustmarkDefinitionRequirement",
+            "TrustmarkDefinitionReference" : {
+              "Identifier": "https://trustmark.gtri.gatech.edu/operational-pilot/trustmark-definitions/test_002/0.1-SNAPSHOT/",
+              "Name": "Test 002",
+              "Number": 2,
+              "Version": "0.1-SNAPSHOT",
+              "Description": "Just a simple TD to show how to make one.  Demonstration only."
+            },
+            "ProviderReferences": [
+              {
+                "$id": "provider2",
+                "Identifier": "http:///tdo.example",
+                "Name": "Trustmark Defining Organization",
+                "Contact": {
+                  "Kind": "PRIMARY",
+                  "Email": "TrustmarkFeedback@gtri.gatech.edu"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "Terms": [
+        {
+          "Name": "Apple",
+          "Definition": "A red fruit"
+        },
+        {
+          "Name": "Carrot",
+          "Definition": "An orange root"
+        },
+        {
+          "Name": "Date",
+          "Definition": "A brown fruit"
+        }
+      ]
+    },
+    {
+      "$TMF_VERSION" : "1.2",
+      "$Type": "TrustInteroperabilityProfile",
+      "Identifier" : "https://trustmark.gtri.gatech.edu/operational-pilot/trust-interoperability-profiles/tip-4/0.1-SNAPSHOT/",
+      "Name" : "TIP 4",
+      "Version" : "0.1-SNAPSHOT",
+      "Description" : "A TIP with 0 sources, 2 inline terms, and 1 included sheet term",
+      "PublicationDateTime" : "2016-09-10T12:00:00Z",
+      "LegalNotice" : "This document and the information contained herein is provided on an \"AS IS\" basis, and the Georgia Tech Research Institute disclaims all warranties, express or implied, including but not limited to any warranty that the use of the information herein will not infringe any rights or any implied warranties or merchantability or fitness for a particular purpose. In addition, the Georgia Tech Research Institute disclaims legal liability for any loss incurred as a result of the use or reliance on the document or the information contained herein.",
+      "Notes" : "The Georgia Tech Research Institute (GTRI) has published this document with the support of the National Strategy for Trusted Identities in Cyberspace (NSTIC) via the National Institute of Standards and Technology (NIST). The views expressed herein do not necessarily reflect the official policies of GTRI, NIST or NSTIC; nor does mention of trade names, commercial practices, or organizations imply endorsement by the U.S. Government.",
+      "Issuer" : {
+        "Identifier" : "http:///tdo.example/",
+        "Name" : "GTRI NSTIC Trustmark Pilot",
+        "PrimaryContact" : {
+          "Kind": "PRIMARY",
+          "Email" : "TrustmarkFeedback@gtri.gatech.edu",
+          "Telephone": "404-407-8956",
+          "MailingAddress": "75 5th Street NW, Suite 900, Atlanta, GA 30308"
+        }
+      },
+
+      "TrustExpression": "TD_Test001 OR TD_Test002",
+
+      "References" : {
+        "TrustmarkDefinitionRequirements": [
+          {
+            "$id": "tdr1",
+            "$Type": "TrustmarkDefinitionRequirement",
+            "TrustmarkDefinitionReference" : {
+              "Identifier": "https://trustmark.gtri.gatech.edu/operational-pilot/trustmark-definitions/test_001/0.1-SNAPSHOT/",
+              "Name": "Test 001",
+              "Number": 1,
+              "Version": "0.1-SNAPSHOT",
+              "Description": "Just a simple TD to show how to make one.  Demonstration only."
+            },
+            "ProviderReferences": [
+              {
+                "$id": "provider1",
+                "Identifier": "http:///tdo.example",
+                "Name": "Trustmark Defining Organization",
+                "Contact": {
+                  "Kind": "PRIMARY",
+                  "Email": "TrustmarkFeedback@gtri.gatech.edu"
+                }
+              }
+            ]
+          },
+          {
+            "$id": "tdr2",
+            "$Type": "TrustmarkDefinitionRequirement",
+            "TrustmarkDefinitionReference" : {
+              "Identifier": "https://trustmark.gtri.gatech.edu/operational-pilot/trustmark-definitions/test_002/0.1-SNAPSHOT/",
+              "Name": "Test 002",
+              "Number": 2,
+              "Version": "0.1-SNAPSHOT",
+              "Description": "Just a simple TD to show how to make one.  Demonstration only."
+            },
+            "ProviderReferences": [
+              {
+                "$id": "provider2",
+                "Identifier": "http:///tdo.example",
+                "Name": "Trustmark Defining Organization",
+                "Contact": {
+                  "Kind": "PRIMARY",
+                  "Email": "TrustmarkFeedback@gtri.gatech.edu"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "Terms": [
+        {
+          "Name": "Banana",
+          "Definition": "A yellow fruit"
+        },
+        {
+          "Name": "Carrot",
+          "Definition": "An orange root"
+        },
+        {
+          "Name": "Date",
+          "Definition": "A brown fruit"
+        }
+      ]
+    },
+    {
+      "$TMF_VERSION" : "1.2",
+      "$Type": "TrustInteroperabilityProfile",
+      "Identifier" : "https://trustmark.gtri.gatech.edu/operational-pilot/trust-interoperability-profiles/tip-5/0.1-SNAPSHOT/",
+      "Name" : "TIP 5",
+      "Version" : "0.1-SNAPSHOT",
+      "Description" : "A TIP with 2 sources, 2 inline terms, and all sheet terms",
+      "PublicationDateTime" : "2016-09-10T12:00:00Z",
+      "LegalNotice" : "This document and the information contained herein is provided on an \"AS IS\" basis, and the Georgia Tech Research Institute disclaims all warranties, express or implied, including but not limited to any warranty that the use of the information herein will not infringe any rights or any implied warranties or merchantability or fitness for a particular purpose. In addition, the Georgia Tech Research Institute disclaims legal liability for any loss incurred as a result of the use or reliance on the document or the information contained herein.",
+      "Notes" : "The Georgia Tech Research Institute (GTRI) has published this document with the support of the National Strategy for Trusted Identities in Cyberspace (NSTIC) via the National Institute of Standards and Technology (NIST). The views expressed herein do not necessarily reflect the official policies of GTRI, NIST or NSTIC; nor does mention of trade names, commercial practices, or organizations imply endorsement by the U.S. Government.",
+      "Issuer" : {
+        "Identifier" : "http:///tdo.example/",
+        "Name" : "GTRI NSTIC Trustmark Pilot",
+        "PrimaryContact" : {
+          "Kind": "PRIMARY",
+          "Email" : "TrustmarkFeedback@gtri.gatech.edu",
+          "Telephone": "404-407-8956",
+          "MailingAddress": "75 5th Street NW, Suite 900, Atlanta, GA 30308"
+        }
+      },
+
+      "TrustExpression": "TD_Test001 OR TD_Test002",
+
+      "References" : {
+        "TrustmarkDefinitionRequirements": [
+          {
+            "$id": "tdr1",
+            "$Type": "TrustmarkDefinitionRequirement",
+            "TrustmarkDefinitionReference" : {
+              "Identifier": "https://trustmark.gtri.gatech.edu/operational-pilot/trustmark-definitions/test_001/0.1-SNAPSHOT/",
+              "Name": "Test 001",
+              "Number": 1,
+              "Version": "0.1-SNAPSHOT",
+              "Description": "Just a simple TD to show how to make one.  Demonstration only."
+            },
+            "ProviderReferences": [
+              {
+                "$id": "provider1",
+                "Identifier": "http:///tdo.example",
+                "Name": "Trustmark Defining Organization",
+                "Contact": {
+                  "Kind": "PRIMARY",
+                  "Email": "TrustmarkFeedback@gtri.gatech.edu"
+                }
+              }
+            ]
+          },
+          {
+            "$id": "tdr2",
+            "$Type": "TrustmarkDefinitionRequirement",
+            "TrustmarkDefinitionReference" : {
+              "Identifier": "https://trustmark.gtri.gatech.edu/operational-pilot/trustmark-definitions/test_002/0.1-SNAPSHOT/",
+              "Name": "Test 002",
+              "Number": 2,
+              "Version": "0.1-SNAPSHOT",
+              "Description": "Just a simple TD to show how to make one.  Demonstration only."
+            },
+            "ProviderReferences": [
+              {
+                "$id": "provider2",
+                "Identifier": "http:///tdo.example",
+                "Name": "Trustmark Defining Organization",
+                "Contact": {
+                  "Kind": "PRIMARY",
+                  "Email": "TrustmarkFeedback@gtri.gatech.edu"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "Terms": [
+        {
+          "Name": "Apple",
+          "Definition": "A red fruit"
+        },
+        {
+          "Name": "Banana",
+          "Definition": "A yellow fruit"
+        },
+        {
+          "Name": "Carrot",
+          "Definition": "An orange root"
+        },
+        {
+          "Name": "Date",
+          "Definition": "A brown fruit"
+        },
+        {
+          "Name": "Zucchini",
+          "Definition": "A green vegetable"
+        }
+      ],
+      "Sources": [
+        {
+          "$id" : "source1",
+          "Identifier" : "Test1",
+          "Reference" : "A first simple test source"
+        },
+        {
+          "$id" : "source2",
+          "Identifier" : "Test2",
+          "Reference" : "A second simple test source"
+        }
+      ]
+    }
+
+
+
+  ]
+}

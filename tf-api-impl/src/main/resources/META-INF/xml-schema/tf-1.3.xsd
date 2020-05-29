@@ -1,0 +1,2264 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<xs:schema targetNamespace="https://trustmarkinitiative.org/specifications/trustmark-framework/1.3/schema/"
+           xmlns:tf="https://trustmarkinitiative.org/specifications/trustmark-framework/1.3/schema/"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+           elementFormDefault="qualified"
+           attributeFormDefault="qualified"
+           version="1">
+    <xs:import namespace="http://www.w3.org/2000/09/xmldsig#" schemaLocation="xmldsig-core-schema.xsd" />
+
+    <xs:attribute name="id" >
+        <xs:annotation>
+            <xs:documentation>
+                The value of the id attribute uniquely identifies the element
+                that bears the attribute within the XML encoding of a Trustmark,
+                Trustmark Definition, Trustmark Status Report, or Trust
+                Interoperability Profile.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+            <xs:restriction base="xs:ID">
+                <xs:pattern value="[_A-z][_A-z0-9\-]*"/>
+            </xs:restriction>
+        </xs:simpleType>
+    </xs:attribute>
+
+    <xs:attribute name="ref"
+                  type="xs:IDREF">
+        <xs:annotation>
+            <xs:documentation>
+                The value of the ref attribute matches the value of the id
+                attribute of some element in the XML encoding of a Trustmark,
+                Trustmark Definition, Trustmark Status Report, or Trust
+                Interoperability Profile.
+            </xs:documentation>
+        </xs:annotation>
+    </xs:attribute>
+
+    <xs:complexType name="EntityType">
+        <xs:annotation>
+            <xs:documentation>
+                A complex type that describes an organization or a business
+                entity, including Trustmark Defining Organizations, Trustmark
+                Providers, Trustmark Recipients, and Trust Interoperability
+                Profile Issuers.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="Identifier"
+                        type="xs:anyURI"
+                        minOccurs="1"
+                        maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        The globally unique identifier of an organization or a
+                        business entity.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Name"
+                        type="xs:string"
+                        minOccurs="1"
+                        maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        The name for the organization or business entity.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Contact"
+                        type="tf:ContactType"
+                        minOccurs="1"
+                        maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>
+                        The point of contact for this organization or business
+                        entity.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ContactType">
+        <xs:annotation>
+            <xs:documentation>
+                A complex type that describes a point of contact for an
+                organization or a business entity.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="Kind"
+                        type="tf:ContactKindType"
+                        minOccurs="1"
+                        maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        The kind of this point of contact.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Responder"
+                        type="xs:string"
+                        minOccurs="0"
+                        maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        A name of a responder (e.g., a person, department, or
+                        job title) through which this organization or business
+                        entity may be contacted.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Email"
+                        type="xs:string"
+                        minOccurs="1"
+                        maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>
+                        An electronic mailing address at which this organization
+                        or business entity may be contacted.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Telephone"
+                        type="xs:string"
+                        minOccurs="0"
+                        maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>
+                        A telephone number at which this organization or
+                        business entity may be contacted, if any.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="PhysicalAddress"
+                        type="xs:string"
+                        minOccurs="0"
+                        maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>
+                        The full text of the physical address at which this
+                        organization or business entity may be contacted, if
+                        any.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="MailingAddress"
+                        type="xs:string"
+                        minOccurs="0"
+                        maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>
+                        The full text of the mailing address at which this
+                        organization or business entity may be contacted, if
+                        any.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="WebsiteURL"
+                        minOccurs="0"
+                        maxOccurs="unbounded"
+                        type="xs:anyURI">
+                <xs:annotation>
+                    <xs:documentation>
+                        A website address at which this organization or business
+                        entity may be contacted, if any.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Notes"
+                        type="xs:string"
+                        minOccurs="0"
+                        maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        Additional optional text content about this point of
+                        contact.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:simpleType name="ContactKindType">
+        <xs:annotation>
+            <xs:documentation>
+                A simple type that constrains the value space of the Kind
+                element of the ContactType complex type to one of two values:
+                PRIMARY and OTHER.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="PRIMARY">
+                <xs:annotation>
+                    <xs:documentation>
+                        The contact is the primary contact for the organization
+                        or business entity.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="OTHER">
+                <xs:annotation>
+                    <xs:documentation>
+                        The contact is not the primary contact for the
+                        organization or business entity.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="EntityReferenceType">
+        <xs:annotation>
+            <xs:documentation>
+                A complex type that describes a reference to an organization or
+                a business entity.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="Identifier"
+                        type="xs:anyURI"
+                        minOccurs="1"
+                        maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        The globally unique identifier of the referenced
+                        organization or business entity.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Name"
+                        type="xs:string"
+                        minOccurs="0"
+                        maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        If present, the name of the referenced organization or
+                        business entity.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Contact"
+                        type="tf:ContactType"
+                        minOccurs="0"
+                        maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>
+                        If present, a point of contact for the referenced
+                        organization or business entity.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute ref="tf:id">
+            <xs:annotation>
+                <xs:documentation>
+                    An XML ID for this reference to an organization or business entity.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute ref="tf:ref">
+            <xs:annotation>
+                <xs:documentation>
+                    An XML IDREF for this reference to an to an organization or a business entity.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="TrustmarkReferenceType">
+        <xs:annotation>
+            <xs:documentation>
+                A complex type that refers to an XML encoding of a Trustmark.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="Identifier"
+                        type="xs:anyURI"
+                        minOccurs="1"
+                        maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        The globally unique Trustmark Identifier for the
+                        referenced Trustmark.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="TrustmarkDefinitionReferenceType">
+        <xs:annotation>
+            <xs:documentation>
+                A complex type that refers to an XML encoding of a Trustmark
+                Definition.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="Identifier"
+                        type="xs:anyURI"
+                        minOccurs="1"
+                        maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        The globally unique Trustmark Definition Identifier for
+                        the referenced Trustmark Definition.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Number"
+                        type="xs:positiveInteger"
+                        minOccurs="0"
+                        maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        If present, the sequence of the referenced Trustmark
+                        Definition, if any.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Name"
+                        type="xs:string"
+                        minOccurs="0"
+                        maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        If present, the name of the referenced Trustmark
+                        Definition, if any.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Version"
+                        type="xs:string"
+                        minOccurs="0"
+                        maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        If present, the version of the referenced Trustmark
+                        Definition, if any.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Description"
+                        type="xs:string"
+                        minOccurs="0"
+                        maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        If present, the description of the referenced Trustmark
+                        Definition, if any.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="TrustInteroperabilityProfileReferenceType">
+        <xs:annotation>
+            <xs:documentation>
+                A complex type that refers to an XML encoding of a Trust
+                Interoperability Profile
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="Identifier"
+                        type="xs:anyURI"
+                        minOccurs="1"
+                        maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        The globally unique Trust Interoperability Profile
+                        Identifier of the referenced Trust Interoperability
+                        Profile
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Number"
+                        type="xs:positiveInteger"
+                        minOccurs="0"
+                        maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        If present, the sequence of the referenced Trust
+                        Interoperability Profile, if any.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Name"
+                        type="xs:string"
+                        minOccurs="0"
+                        maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        If present, the name of the referenced Trust
+                        Interoperability Profile, if any.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Version"
+                        type="xs:string"
+                        minOccurs="0"
+                        maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        If present, the version of the referenced Trust
+                        Interoperability Profile, if any.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Description"
+                        type="xs:string"
+                        minOccurs="0"
+                        maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        If present, the description of the referenced Trust
+                        Interoperability Profile, if any.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute ref="tf:id" use="optional">
+            <xs:annotation>
+                <xs:documentation>
+                    An XML ID for this Trust Interoperability Profile reference.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="ExtensionType">
+        <xs:annotation>
+            <xs:documentation>
+                A complex type that provides additional XML content for a
+                Trustmark Status Report or Trustmark.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:any minOccurs="1"
+                    maxOccurs="unbounded"
+                    processContents="skip">
+                <xs:annotation>
+                    <xs:documentation>
+                        Any element from any namespace.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:any>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:element name="TrustmarkDefinition">
+        <xs:annotation>
+            <xs:documentation>
+                An XML encoding of a Trustmark Definition.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="ds:Signature"
+                            minOccurs="0"
+                            maxOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation>
+                            An optional XML signature that ensures the integrity
+                            and the authenticity of this Trustmark Definition.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="Metadata"
+                            minOccurs="1"
+                            maxOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation>
+                            A container element for Trustmark Definition
+                            metadata.
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="Identifier"
+                                        type="xs:anyURI"
+                                        minOccurs="1"
+                                        maxOccurs="1">
+                                <xs:annotation>
+                                    <xs:documentation>
+                                        The globally unique Trustmark Definition
+                                        Identifier for this Trustmark
+                                        Definition.
+                                    </xs:documentation>
+                                </xs:annotation>
+                            </xs:element>
+                            <xs:element name="TrustmarkReferenceAttributeName"
+                                        type="xs:anyURI"
+                                        minOccurs="1"
+                                        maxOccurs="1">
+                                <xs:annotation>
+                                    <xs:documentation>
+                                        The name of the attribute that refers to
+                                        a Trustmark issued under this Trustmark
+                                        Definition.
+                                    </xs:documentation>
+                                </xs:annotation>
+                            </xs:element>
+                            <xs:element name="Name"
+                                        type="xs:string"
+                                        minOccurs="1"
+                                        maxOccurs="1">
+                                <xs:annotation>
+                                    <xs:documentation>
+                                        The name of this Trustmark Definition.
+                                    </xs:documentation>
+                                </xs:annotation>
+                            </xs:element>
+                            <xs:element name="Version"
+                                        type="xs:string"
+                                        minOccurs="1"
+                                        maxOccurs="1">
+                                <xs:annotation>
+                                    <xs:documentation>
+                                        The version of this Trustmark
+                                        Definition.
+                                    </xs:documentation>
+                                </xs:annotation>
+                            </xs:element>
+                            <xs:element name="Description"
+                                        type="xs:string"
+                                        minOccurs="1"
+                                        maxOccurs="1">
+                                <xs:annotation>
+                                    <xs:documentation>
+                                        The description of this Trustmark
+                                        Definition.
+                                    </xs:documentation>
+                                </xs:annotation>
+                            </xs:element>
+                            <xs:element name="PublicationDateTime"
+                                        type="xs:dateTime"
+                                        minOccurs="1"
+                                        maxOccurs="1">
+                                <xs:annotation>
+                                    <xs:documentation>
+                                        The date and time at which the Trustmark
+                                        Defining Organization published this
+                                        Trustmark Definition.
+                                    </xs:documentation>
+                                </xs:annotation>
+                            </xs:element>
+                            <xs:element name="TrustmarkDefiningOrganization"
+                                        type="tf:EntityType"
+                                        minOccurs="1"
+                                        maxOccurs="1">
+                                <xs:annotation>
+                                    <xs:documentation>
+                                        The Trustmark Defining Organization that
+                                        defined and published this Trustmark
+                                        Definition.
+                                    </xs:documentation>
+                                </xs:annotation>
+                            </xs:element>
+                            <xs:element name="TargetStakeholderDescription"
+                                        type="xs:string"
+                                        minOccurs="0"
+                                        maxOccurs="1">
+                                <xs:annotation>
+                                    <xs:documentation>
+                                        An optional description of the intended
+                                        communities and stakeholder groups to
+                                        which the Trustmark Definition may
+                                        apply.
+                                    </xs:documentation>
+                                </xs:annotation>
+                            </xs:element>
+                            <xs:element name="TargetRecipientDescription"
+                                        type="xs:string"
+                                        minOccurs="0"
+                                        maxOccurs="1">
+                                <xs:annotation>
+                                    <xs:documentation>
+                                        An optional description of the intended
+                                        organizations to which Trustmarks would
+                                        be issued under this Trustmark
+                                        Definition.
+                                    </xs:documentation>
+                                </xs:annotation>
+                            </xs:element>
+                            <xs:element name="TargetRelyingPartyDescription"
+                                        type="xs:string"
+                                        minOccurs="0"
+                                        maxOccurs="1">
+                                <xs:annotation>
+                                    <xs:documentation>
+                                        An optional description of the intended
+                                        Trustmark Relying Parties for Trustmarks
+                                        issued under this Trustmark Definition.
+                                    </xs:documentation>
+                                </xs:annotation>
+                            </xs:element>
+                            <xs:element name="TargetProviderDescription"
+                                        type="xs:string"
+                                        minOccurs="0"
+                                        maxOccurs="1">
+                                <xs:annotation>
+                                    <xs:documentation>
+                                        An optional description of the intended
+                                        organizations that would act as
+                                        Trustmark Providers and issue Trustmarks
+                                        under this Trustmark Definition.
+                                    </xs:documentation>
+                                </xs:annotation>
+                            </xs:element>
+                            <xs:element name="ProviderEligibilityCriteria"
+                                        type="xs:string"
+                                        minOccurs="0"
+                                        maxOccurs="1">
+                                <xs:annotation>
+                                    <xs:documentation>
+                                        An optional description of the criteria
+                                        that an organization must meet to become
+                                        eligible to act as a Trustmark Provider
+                                        and issue Trustmarks under this
+                                        Trustmark Definition. If this element is
+                                        absent, any organization may act as a
+                                        Trustmark Provider and issue Trustmarks
+                                        under this Trustmark Definition.
+                                    </xs:documentation>
+                                </xs:annotation>
+                            </xs:element>
+                            <xs:element name="AssessorQualificationsDescription"
+                                        type="xs:string"
+                                        minOccurs="0"
+                                        maxOccurs="1">
+                                <xs:annotation>
+                                    <xs:documentation>
+                                        An optional description of the
+                                        qualifications that an individual must
+                                        possess to act as an assessor on behalf
+                                        of a Trustmark Provider that issues
+                                        Trustmarks under this Trustmark
+                                        Definition. If this element is absent,
+                                        any individual that is an employee or
+                                        contractor for the Trustmark Provider
+                                        may act as an assessor on behalf of a
+                                        Trustmark Provider that issues
+                                        Trustmarks under this Trustmark
+                                        Definition.
+                                    </xs:documentation>
+                                </xs:annotation>
+                            </xs:element>
+                            <xs:element name="TrustmarkRevocationCriteria"
+                                        type="xs:string"
+                                        minOccurs="0"
+                                        maxOccurs="1">
+                                <xs:annotation>
+                                    <xs:documentation>
+                                        An an optional description of the
+                                        criteria that, if triggered, would
+                                        require that the Trustmark Provider
+                                        revoke a Trustmark issued under this
+                                        Trustmark Definition. If this element
+                                        is absent, the Trustmark Provider must
+                                        revoke a Trustmark issued under this
+                                        Trustmark Definition upon discovery that
+                                        the Trustmark Recipient no longer
+                                        fulfills one or more of the conformance
+                                        criteria in this Trustmark Definition.
+                                    </xs:documentation>
+                                </xs:annotation>
+                            </xs:element>
+                            <xs:element name="ExtensionDescription"
+                                        type="xs:string"
+                                        minOccurs="0"
+                                        maxOccurs="1">
+                                <xs:annotation>
+                                    <xs:documentation>
+                                        An optional description of the normative
+                                        requirements for populating the
+                                        Extension element of a Trustmark issued
+                                        under this Trustmark Definition.
+                                    </xs:documentation>
+                                </xs:annotation>
+                            </xs:element>
+                            <xs:element name="LegalNotice"
+                                        type="xs:string"
+                                        minOccurs="0"
+                                        maxOccurs="1">
+                                <xs:annotation>
+                                    <xs:documentation>
+                                        The legal notice for this Trustmark
+                                        Definition, if any.
+                                    </xs:documentation>
+                                </xs:annotation>
+                            </xs:element>
+                            <xs:element name="Notes"
+                                        type="xs:string"
+                                        minOccurs="0"
+                                        maxOccurs="1">
+                                <xs:annotation>
+                                    <xs:documentation>
+                                        Additional optional text content about
+                                        this Trustmark Definition.
+                                    </xs:documentation>
+                                </xs:annotation>
+                            </xs:element>
+                            <xs:element name="Supersessions"
+                                        minOccurs="0"
+                                        maxOccurs="1">
+                                <xs:annotation>
+                                    <xs:documentation>
+                                        An optional container element
+                                        for references to other
+                                        Trustmark Definitions that
+                                        either supersede this
+                                        Trustmark Definition or
+                                        have been superseded by this
+                                        Trustmark Definition.
+                                    </xs:documentation>
+                                </xs:annotation>
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="Supersedes"
+                                                    type="tf:TrustmarkDefinitionReferenceType"
+                                                    minOccurs="0"
+                                                    maxOccurs="unbounded">
+                                            <xs:annotation>
+                                                <xs:documentation>
+                                                    A reference to another
+                                                    Trustmark Definition that
+                                                    has been superseded by this
+                                                    Trustmark Definition.
+                                                </xs:documentation>
+                                            </xs:annotation>
+                                        </xs:element>
+                                        <xs:element name="SupersededBy"
+                                                    type="tf:TrustmarkDefinitionReferenceType"
+                                                    minOccurs="0"
+                                                    maxOccurs="unbounded">
+                                            <xs:annotation>
+                                                <xs:documentation>
+                                                    A reference to another
+                                                    Trustmark Definition that
+                                                    supersedes this
+                                                    Trustmark Definition.
+                                                </xs:documentation>
+                                            </xs:annotation>
+                                        </xs:element>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element name="Deprecated"
+                                        type="xs:boolean"
+                                        minOccurs="0"
+                                        maxOccurs="1">
+                                <xs:annotation>
+                                    <xs:documentation>
+                                        An optional Boolean element indicating whether this
+                                        Trustmark Definition has been deprecated.
+                                    </xs:documentation>
+                                </xs:annotation>
+                            </xs:element>
+                            <xs:element name="Satisfactions"
+                                        minOccurs="0"
+                                        maxOccurs="1">
+                                <xs:annotation>
+                                    <xs:documentation>
+                                        An optional container element
+                                        for satisfactions pertaining to this
+                                        Trustmark Definition.
+                                    </xs:documentation>
+                                </xs:annotation>
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="Satisfies"
+                                                    type="tf:TrustmarkDefinitionReferenceType"
+                                                    minOccurs="1"
+                                                    maxOccurs="unbounded">
+                                            <xs:annotation>
+                                                <xs:documentation>
+                                                    A reference to another Trustmark
+                                                    Definition, intended to indicate
+                                                    that if an entity satisfies the
+                                                    conformance criteria for the
+                                                    enclosing Trustmark Definition,
+                                                    then the entity may also satisfy
+                                                    the conformance criteria for the
+                                                    referenced Trustmark Definition.
+                                                </xs:documentation>
+                                            </xs:annotation>
+                                        </xs:element>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element name="KnownConflicts"
+                                        minOccurs="0"
+                                        maxOccurs="1">
+                                <xs:annotation>
+                                    <xs:documentation>
+                                        An optional container element
+                                        for known conflicts pertaining to this
+                                        Trustmark Definition.
+                                    </xs:documentation>
+                                </xs:annotation>
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="KnownConflict"
+                                                    type="tf:TrustmarkDefinitionReferenceType"
+                                                    minOccurs="1"
+                                                    maxOccurs="unbounded">
+                                            <xs:annotation>
+                                                <xs:documentation>
+                                                    A reference to another Trustmark
+                                                    Definition, intended to
+                                                    indicate that if an entity
+                                                    satisfies the conformance
+                                                    criteria for the
+                                                    referenced Trustmark
+                                                    Definition, then the
+                                                    entity is unlikely to
+                                                    satisfy the conformance
+                                                    criteria for the enclosing
+                                                    Trustmark Definition.
+                                                </xs:documentation>
+                                            </xs:annotation>
+                                        </xs:element>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element name="Keywords"
+                                        minOccurs="0"
+                                        maxOccurs="1">
+                                <xs:annotation>
+                                    <xs:documentation>
+                                        An optional container element
+                                        for keywords pertaining to this
+                                        Trustmark Definition.
+                                    </xs:documentation>
+                                </xs:annotation>
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="Keyword"
+                                                    type="xs:string"
+                                                    minOccurs="1"
+                                                    maxOccurs="unbounded">
+                                            <xs:annotation>
+                                                <xs:documentation>
+                                                    A keyword pertaining to this
+                                                    Trustmark Definition.
+                                                </xs:documentation>
+                                            </xs:annotation>
+                                        </xs:element>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="Terms"
+                            minOccurs="0"
+                            maxOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation>
+                            A container element for Trustmark Definition terms.
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="Term"
+                                        type="tf:TermType"
+                                        minOccurs="1"
+                                        maxOccurs="unbounded">
+                                <xs:annotation>
+                                    <xs:documentation>
+                                        A term used by this Trustmark Definition.
+                                    </xs:documentation>
+                                </xs:annotation>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="Sources"
+                            minOccurs="0"
+                            maxOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation>
+                            A container element for Trustmark Definition sources.
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="Source"
+                                        type="tf:SourceType"
+                                        minOccurs="1"
+                                        maxOccurs="unbounded">
+                                <xs:annotation>
+                                    <xs:documentation>
+                                        An authoritative source for a
+                                        conformance criterion in the Trustmark
+                                        Definition.
+                                    </xs:documentation>
+                                </xs:annotation>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="ConformanceCriteria"
+                            minOccurs="1"
+                            maxOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation>
+                            A container element for Trustmark Definition
+                            conformance criteria.
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="Preface"
+                                        type="xs:string"
+                                        minOccurs="0"
+                                        maxOccurs="1">
+                                <xs:annotation>
+                                    <xs:documentation>
+                                        Optional prefatory text that applies to every
+                                        conformance criterion.
+                                    </xs:documentation>
+                                </xs:annotation>
+                            </xs:element>
+                            <xs:element name="ConformanceCriterion"
+                                        type="tf:ConformanceCriterionType"
+                                        minOccurs="1"
+                                        maxOccurs="unbounded">
+                                <xs:annotation>
+                                    <xs:documentation>
+                                        A conformance criterion: a normative
+                                        requirement that a Trustmark Recipient
+                                        must meet to receive a Trustmark issued
+                                        under this Trustmark Definition.
+                                    </xs:documentation>
+                                </xs:annotation>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="AssessmentSteps"
+                            minOccurs="1"
+                            maxOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation>
+                            A container element for Trustmark Definition terms.
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="Preface"
+                                        type="xs:string"
+                                        minOccurs="0"
+                                        maxOccurs="1">
+                                <xs:annotation>
+                                    <xs:documentation>
+                                        Optional prefatory text that applies to
+                                        every assessment step.
+                                    </xs:documentation>
+                                </xs:annotation>
+                            </xs:element>
+                            <xs:element name="AssessmentStep"
+                                        type="tf:AssessmentStepType"
+                                        minOccurs="1"
+                                        maxOccurs="unbounded">
+                                <xs:annotation>
+                                    <xs:documentation>
+                                        An assessment step: a step in the formal
+                                        assessment process that the Trustmark
+                                        Provider must perform to assess whether
+                                        a Trustmark Recipient qualifies for a
+                                        Trustmark.
+                                    </xs:documentation>
+                                </xs:annotation>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="IssuanceCriteria"
+                            type="xs:string"
+                            minOccurs="1"
+                            maxOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation>
+                            A Boolean expression that indicates whether a
+                            Trustmark Provider may issue a Trustmark to a
+                            Trustmark Recipient, based on the results of a
+                            formal assessment process.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:sequence>
+            <xs:attribute ref="tf:id" use="optional">
+                <xs:annotation>
+                    <xs:documentation>
+                        An XML ID for this Trustmark Definition.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="AssessmentStepType">
+        <xs:annotation>
+            <xs:documentation>
+                A complex type that describes an assessment step: a step in the
+                formal assessment process that the Trustmark Provider must
+                perform to assess whether a Trustmark Recipient qualifies for a
+                Trustmark.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="Number"
+                        type="xs:positiveInteger"
+                        minOccurs="1"
+                        maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        The sequence number of the assessment step.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Name"
+                        type="xs:string"
+                        minOccurs="1"
+                        maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        The short descriptor of this assessment step.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Description"
+                        type="xs:string"
+                        minOccurs="1"
+                        maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        A question to the Trustmark Provider about conformance
+                        of the Trustmark Recipient to the referenced conformance
+                        criteria.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="ConformanceCriterion"
+                        type="tf:ConformanceCriterionType"
+                        minOccurs="1"
+                        maxOccurs="unbounded"
+                        nillable="true">
+                <xs:annotation>
+                    <xs:documentation>
+                        A reference to the conformance criteria that motivate
+                        this assessment step.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Artifact"
+                        type="tf:ArtifactType"
+                        minOccurs="0"
+                        maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>
+                        An artifact that serves as evidence that the Trustmark
+                        Recipient meets the referenced conformance criteria of
+                        the Trustmark Definition.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="ParameterDefinitions"
+                        minOccurs="0"
+                        maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        A container element for Trustmark Definition
+                        assessment step parameter definitions.
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="ParameterDefinition"
+                                    type="tf:ParameterDefinitionType"
+                                    minOccurs="1"
+                                    maxOccurs="unbounded">
+                            <xs:annotation>
+                                <xs:documentation>
+                                    A parameter definition within a
+                                    Trustmark Definition assessment step.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute ref="tf:id" use="required">
+            <xs:annotation>
+                <xs:documentation>
+                    An XML ID for this assessment step.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="ArtifactType">
+        <xs:annotation>
+            <xs:documentation>
+                A complex type that describes an artifact that serves as
+                evidence that the Trustmark Recipient meets the conformance
+                criteria of the Trustmark Definition.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="Name"
+                        type="xs:string"
+                        minOccurs="1"
+                        maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        The name of the artifact that serves as evidence that
+                        the Trustmark Definition meets a normative requirement
+                        of the Trustmark Definition.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Description"
+                        type="xs:string"
+                        minOccurs="1"
+                        maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        The description of this artifact, including its content
+                        and its file type.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ConformanceCriterionType">
+        <xs:annotation>
+            <xs:documentation>
+                A complex type that describes a conformance criterion: a
+                normative requirement that a Trustmark Recipient must meet to
+                receive a Trustmark issued under this Trustmark Definition.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="Number"
+                        type="xs:positiveInteger"
+                        minOccurs="1"
+                        maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        The sequence number of this conformance criterion.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Name"
+                        type="xs:string"
+                        minOccurs="1"
+                        maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        The a short descriptor for this conformance criterion.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Description"
+                        type="xs:string"
+                        minOccurs="1"
+                        maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        a statement of the normative requirement that a
+                        Trustmark Recipient must meet to receive a Trustmark
+                        issued under this Trustmark Definition.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Citation"
+                        type="tf:CitationType"
+                        minOccurs="0"
+                        maxOccurs="unbounded"
+                        nillable="true">
+                <xs:annotation>
+                    <xs:documentation>
+                        a citation of an authoritative source of this normative
+                        requirement.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute ref="tf:id">
+            <xs:annotation>
+                <xs:documentation>
+                    An XML ID for this conformance criterion.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute ref="tf:ref">
+            <xs:annotation>
+                <xs:documentation>
+                    A reference to a conformance criterion.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="CitationType">
+        <xs:annotation>
+            <xs:documentation>
+                A complex type that describes an authoritative source, or a part
+                of an authoritative source, for a conformance criterion in a
+                Trustmark Definition
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="Source"
+                        type="tf:SourceType"
+                        minOccurs="1"
+                        maxOccurs="1"
+                        nillable="true" >
+                <xs:annotation>
+                    <xs:documentation>
+                        A reference to the authoritative source for a conformance
+                        criterion.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Description"
+                        type="xs:string"
+                        minOccurs="0"
+                        maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        The optional description of the location of the part in
+                        the authoritative source, such as a page number.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="SourceType">
+        <xs:annotation>
+            <xs:documentation>
+                A complex type that describes an
+                authoritative source cited by an
+                artifact such as a Trustmark Definition
+                or Trust Interoperability Profile.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="Identifier"
+                        type="xs:string"
+                        minOccurs="1"
+                        maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        An identifier for the authoritative source.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Reference"
+                        type="xs:string"
+                        minOccurs="1"
+                        maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        The bibliographic information for the authoritative
+                        source.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute ref="tf:id">
+            <xs:annotation>
+                <xs:documentation>
+                    An XML ID for this source.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute ref="tf:ref">
+            <xs:annotation>
+                <xs:documentation>
+                    A reference to a source.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="TermType">
+        <xs:annotation>
+            <xs:documentation>
+                A complex type that describes
+                a term used by an artifact, such
+                as a Trustmark Definition or a
+                Trust Interoperability Profile.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="Name"
+                        type="xs:string"
+                        minOccurs="1"
+                        maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        The name of this term.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Abbreviation"
+                        type="xs:string"
+                        minOccurs="0"
+                        maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>
+                        A case-sensitive abbreviation of this term.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Definition"
+                        type="xs:string"
+                        minOccurs="1"
+                        maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        The meaning of this term in
+                        the context of this artifact.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ParameterDefinitionType">
+        <xs:annotation>
+            <xs:documentation>
+                A complex type that defines a parameter within a Trustmark Definition.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="Identifier"
+                        type="tf:ParameterIdentifierType"
+                        minOccurs="1"
+                        maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        The machine-readable identifier of this parameter.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Name"
+                        type="xs:string"
+                        minOccurs="1"
+                        maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        The human-readable name of this parameter.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Description"
+                        type="xs:string"
+                        minOccurs="1"
+                        maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        A human-readable description of this parameter.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="ParameterKind"
+                        type="tf:ParameterKindType"
+                        minOccurs="1"
+                        maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        The data type of this parameter.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="EnumValues"
+                        minOccurs="0"
+                        maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        A container element for an enumerated list of
+                        data type values. It is required only if
+                        ParameterKind indicates that this parameter is
+                        an ENUM, i.e., an enumerated data type.
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="EnumValue"
+                                    type="tf:EnumValueType"
+                                    minOccurs="1"
+                                    maxOccurs="unbounded">
+                            <xs:annotation>
+                                <xs:documentation>
+                                    A value for an enumerated data type.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="Required"
+                        type="xs:boolean"
+                        minOccurs="1"
+                        maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        Indicates whether a Trustmark is required to
+                        contain a value for this parameter.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:simpleType name="ParameterIdentifierType">
+        <xs:annotation>
+            <xs:documentation>
+                Constrains the value space of the ParameterIdentifier
+                element of the ParameterDefinitionType complex type to
+                values containing alphanumeric strings starting with
+                alphabetic characters. It also permits underscores
+                after the first character.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[A-z][A-z0-9_]*"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="ParameterKindType">
+        <xs:annotation>
+            <xs:documentation>
+                Constrains the value space of the ParameterKind
+                element of the ParameterDefinitionType complex type to
+                one of five values: STRING, NUMBER, BOOLEAN, DATETIME,
+                and ENUM.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="STRING"/>
+            <xs:enumeration value="NUMBER"/>
+            <xs:enumeration value="BOOLEAN"/>
+            <xs:enumeration value="DATETIME"/>
+            <xs:enumeration value="ENUM"/>
+            <xs:enumeration value="ENUM_MULTI"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="EnumValueType">
+        <xs:annotation>
+            <xs:documentation>
+                constrains the value space of the EnumValue element
+                within a Trustmark Definition to a text string
+                containing alphanumeric characters, underscores, and spaces.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[^,]*"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="ParameterBindingType">
+        <xs:annotation>
+            <xs:documentation>
+                A complex type that defines a parameter name/value binding within a Trustmark.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="identifier" type="tf:ParameterIdentifierType">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Indicates the identifier of the bound parameter, and
+                            corresponds to the parameter definition with the same
+                            parameter name as defined within the Trustmark
+                            Definition for the Trustmark.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="kind" type="tf:ParameterKindType">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Indicates the data type of the bound parameter, and
+                            corresponds to the parameter definition with the same
+                            parameter name as defined within the Trustmark
+                            Definition for the Trustmark.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <xs:element name="Trustmark">
+        <xs:annotation>
+            <xs:documentation>
+                An XML encoding of a Trustmark.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="ds:Signature"
+                            minOccurs="0"
+                            maxOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation>
+                            An optional XML signature that ensures the integrity
+                            and the authenticity of this Trustmark.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="Identifier"
+                            type="xs:anyURI"
+                            minOccurs="1"
+                            maxOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation>
+                            The globally unique Trustmark Identifier for this
+                            Trustmark.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="TrustmarkDefinitionReference"
+                            type="tf:TrustmarkDefinitionReferenceType"
+                            minOccurs="1"
+                            maxOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation>
+                            The reference to the Trustmark Definition under
+                            which this trustmark was issued.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="IssueDateTime"
+                            type="xs:dateTime"
+                            minOccurs="1"
+                            maxOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation>
+                            The date and time at which the Trustmark Provider
+                            issued this Trustmark to the Trustmark Recipient.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="ExpirationDateTime"
+                            minOccurs="1"
+                            maxOccurs="1"
+                            type="xs:dateTime">
+                    <xs:annotation>
+                        <xs:documentation>
+                            The date and time at which this Trustmark expires.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="PolicyURL"
+                            minOccurs="1"
+                            maxOccurs="1"
+                            type="xs:anyURI">
+                    <xs:annotation>
+                        <xs:documentation>
+                            The URL of the Trustmark Policy under which this
+                            Trustmark was issued.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="RelyingPartyAgreementURL"
+                            minOccurs="1"
+                            maxOccurs="1"
+                            type="xs:anyURI">
+                    <xs:annotation>
+                        <xs:documentation>
+                            The URL of the Trustmark Relying Party Agreement
+                            under which this Trustmark was issued.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="StatusURL"
+                            type="xs:anyURI"
+                            minOccurs="1"
+                            maxOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation>
+                            The URL at which the Trustmark Relying Party may
+                            query the Trustmark Provider for the current status
+                            of this Trustmark.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="Provider"
+                            type="tf:EntityType"
+                            minOccurs="1"
+                            maxOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation>
+                            The Trustmark Provider that issued this Trustmark.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="Recipient"
+                            type="tf:EntityType"
+                            minOccurs="1"
+                            maxOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation>
+                            The Trustmark Recipient to which and about which
+                            this Trustmark was issued.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="ExceptionInfo"
+                            type="xs:string"
+                            minOccurs="0"
+                            maxOccurs="unbounded">
+                    <xs:annotation>
+                        <xs:documentation>
+                            An optional element containing information
+                            about any exceptions that pertain to this Trustmark.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="ParameterBindings"
+                            minOccurs="0"
+                            maxOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation>
+                            A container element for a set of parameter
+                            binding objects that indicate specific
+                            parameter names and values bound to the Trustmark.
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="ParameterBinding"
+                                        type="tf:ParameterBindingType"
+                                        minOccurs="1"
+                                        maxOccurs="unbounded">
+                                <xs:annotation>
+                                    <xs:documentation>
+                                        Indicates a specific parameter
+                                        name and value that are bound to the Trustmark.
+                                    </xs:documentation>
+                                </xs:annotation>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="DefinitionExtension"
+                            type="tf:ExtensionType"
+                            minOccurs="0"
+                            maxOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Additional optional XML content about this
+                            Trustmark, as per the Trustmark Definition under
+                            which this Trustmark was issued.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="ProviderExtension"
+                            type="tf:ExtensionType"
+                            minOccurs="0"
+                            maxOccurs="1" >
+                    <xs:annotation>
+                        <xs:documentation>
+                            Additional optional XML content about this
+                            Trustmark, provided at the discretion of the
+                            Trustmark Provider that issued this Trustmark.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:sequence>
+            <xs:attribute ref="tf:id" use="required">
+                <xs:annotation>
+                    <xs:documentation>
+                        An XML ID for this Trustmark.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="TrustmarkStatusReport">
+        <xs:annotation>
+            <xs:documentation>
+                An XML encoding of a Trustmark Status Report.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="ds:Signature"
+                            minOccurs="0"
+                            maxOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation>
+                            An optional XML signature that ensures the integrity
+                            and the authenticity of this Trustmark Status
+                            Report.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="TrustmarkReference"
+                            type="tf:TrustmarkReferenceType"
+                            minOccurs="1"
+                            maxOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation>
+                            The reference to the Trustmark that is the subject
+                            of this Trustmark Status Report.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="StatusCode"
+                            type="tf:TrustmarkStatusCodeType"
+                            minOccurs="1"
+                            maxOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation>
+                            The current status code of the Trustmark indicated
+                            by TrustmarkReference.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="StatusDateTime"
+                            type="xs:dateTime"
+                            minOccurs="1"
+                            maxOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation>
+                            The date and time at which the Trustmark Provider
+                            published this Trustmark Status Report.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="SupersederTrustmarkReference"
+                            type="tf:TrustmarkReferenceType"
+                            minOccurs="0"
+                            maxOccurs="unbounded">
+                    <xs:annotation>
+                        <xs:documentation>
+                            A reference to a Trustmark that supersedes the
+                            Trustmark indicated by TrustmarkReference, if any.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="Notes"
+                            type="xs:string"
+                            minOccurs="0"
+                            maxOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Additional text content about the status of the
+                            Trustmark indicated by TrustmarkReference, if any.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="Extension"
+                            type="tf:ExtensionType"
+                            minOccurs="0"
+                            maxOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Additional XML content about the status of the
+                            Trustmark indicated by TrustmarkReference, if any.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:sequence>
+            <xs:attribute ref="tf:id" use="optional">
+                <xs:annotation>
+                    <xs:documentation>
+                        An XML ID for this Trustmark Status Report.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:simpleType name="TrustmarkStatusCodeType">
+        <xs:annotation>
+            <xs:documentation>
+                A simple type that constrains the value space of the StatusCode
+                child element of the TrustmarkStatusReport element to one of the
+                following string values: ACTIVE, REVOKED, and EXPIRED.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="ACTIVE">
+                <xs:annotation>
+                    <xs:documentation>
+                        The Trustmark that is the subject of the Trustmark
+                        Status Report is ACTIVE.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="REVOKED">
+                <xs:annotation>
+                    <xs:documentation>
+                        The Trustmark that is the subject of the Trustmark
+                        Status Report is REVOKED.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="EXPIRED">
+                <xs:annotation>
+                    <xs:documentation>
+                        The Trustmark that is the subject of the Trustmark
+                        Status Report is EXPIRED.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:element name="TrustInteroperabilityProfile">
+        <xs:annotation>
+            <xs:documentation>
+                An XML encoding of a Trust Interoperability Profile.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="ds:Signature"
+                            minOccurs="0"
+                            maxOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation>
+                            An optional XML signature that ensures the integrity
+                            and the authenticity of this Trust Interoperability
+                            Profile.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="Identifier"
+                            type="xs:anyURI"
+                            minOccurs="1"
+                            maxOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation>
+                            The globally unique identifier of this Trust
+                            Interoperability Profile.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="Name"
+                            type="xs:string"
+                            minOccurs="0"
+                            maxOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation>
+                            The name of this Trust Interoperability Profile, if
+                            any.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="Version"
+                            type="xs:string"
+                            minOccurs="0"
+                            maxOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation>
+                            The version of this Trust Interoperability Profile,
+                            if any.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="Description"
+                            type="xs:string"
+                            minOccurs="0"
+                            maxOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation>
+                            The description of this Trust Interoperability
+                            Profile, if any.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="PublicationDateTime"
+                            type="xs:dateTime"
+                            minOccurs="1"
+                            maxOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation>
+                            The date and time at which the Trust
+                            Interoperability Profile Issuer published this
+                            Trust Interoperability Profile.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="Primary"
+                            type="xs:string"
+                            minOccurs="0"
+                            maxOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Designates whether or not this Trust Interoperability Profile, is Primary.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="Moniker"
+                            type="xs:string"
+                            minOccurs="0"
+                            maxOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation>
+                            The secondary name of this Trust Interoperability Profile.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="LegalNotice"
+                            type="xs:string"
+                            minOccurs="0"
+                            maxOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation>
+                            The legal notice for this Trust Interoperability
+                            Profile, if any.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="Notes"
+                            type="xs:string"
+                            minOccurs="0"
+                            maxOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Additional optional text content about this Trust
+                            Interoperability Profile.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="Issuer"
+                            type="tf:EntityType"
+                            minOccurs="0"
+                            maxOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation>
+                            The Trust Interoperability Profile Issuer of this
+                            Trust Interoperability Profile, if provided.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="Supersessions"
+                            minOccurs="0"
+                            maxOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation>
+                            An optional container element
+                            for references to other
+                            Trust Interoperability Profiles that
+                            either supersede this Trust
+                            Interoperability Profile or
+                            have been superseded by this
+                            Trust Interoperability Profile.
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="Supersedes"
+                                        type="tf:TrustInteroperabilityProfileReferenceType"
+                                        minOccurs="0"
+                                        maxOccurs="unbounded">
+                                <xs:annotation>
+                                    <xs:documentation>
+                                        A reference to another
+                                        Trust Interoperability Profile that
+                                        has been superseded by this
+                                        Trust Interoperability Profile.
+                                    </xs:documentation>
+                                </xs:annotation>
+                            </xs:element>
+                            <xs:element name="SupersededBy"
+                                        type="tf:TrustInteroperabilityProfileReferenceType"
+                                        minOccurs="0"
+                                        maxOccurs="unbounded">
+                                <xs:annotation>
+                                    <xs:documentation>
+                                        A reference to another
+                                        Trust Interoperability Profile that
+                                        supersedes this
+                                        Trust Interoperability Profile.
+                                    </xs:documentation>
+                                </xs:annotation>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="Deprecated"
+                            type="xs:boolean"
+                            minOccurs="0"
+                            maxOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation>
+                            An optional Boolean element indicating whether this
+                            Trust Interoperability Profile has been deprecated.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="Satisfactions"
+                            minOccurs="0"
+                            maxOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation>
+                            An optional container element
+                            for satisfactions pertaining to this
+                            Trust Interoperability Profile.
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="Satisfies"
+                                        type="tf:TrustmarkDefinitionReferenceType"
+                                        minOccurs="1"
+                                        maxOccurs="unbounded">
+                                <xs:annotation>
+                                    <xs:documentation>
+                                        A reference to a Trustmark
+                                        Definition, intended to indicate
+                                        that if an entity satisfies the
+                                        conformance criteria for the
+                                        enclosing Trust Interoperability
+                                        Profile, then the entity may also satisfy
+                                        the conformance criteria for the
+                                        referenced Trustmark Definition.
+                                    </xs:documentation>
+                                </xs:annotation>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="KnownConflicts"
+                            minOccurs="0"
+                            maxOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation>
+                            An optional container element
+                            for known conflicts pertaining to this
+                            Trust Interoperability Profile.
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="KnownConflict"
+                                        type="tf:TrustInteroperabilityProfileReferenceType"
+                                        minOccurs="1"
+                                        maxOccurs="unbounded">
+                                <xs:annotation>
+                                    <xs:documentation>
+                                        A a reference to another Trust
+                                        Interoperability Profile,
+                                        intended to indicate that if
+                                        an entity satisfies the trust
+                                        expression for the referenced
+                                        Trust Interoperability Profile,
+                                        then the entity is unlikely to
+                                        satisfy the trust expression
+                                        for the enclosing Trust
+                                        Interoperability Profile.
+                                    </xs:documentation>
+                                </xs:annotation>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="Keywords"
+                            minOccurs="0"
+                            maxOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation>
+                            An optional container element
+                            for keywords pertaining to this
+                            Trust Interoperability Profile.
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="Keyword"
+                                        type="xs:string"
+                                        minOccurs="1"
+                                        maxOccurs="unbounded">
+                                <xs:annotation>
+                                    <xs:documentation>
+                                        A keyword pertaining to this
+                                        Trust Interoperability Profile.
+                                    </xs:documentation>
+                                </xs:annotation>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="References"
+                            type="tf:ReferencesType"
+                            minOccurs="1"
+                            maxOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation>
+                            The references to the Trustmark Definition
+                            Requirements and Trust Interoperability Profiles
+                            used by the trust expression for this Trust
+                            Interoperability Profile.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="TrustExpression"
+                            type="xs:string"
+                            minOccurs="1"
+                            maxOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation>
+                            it is a Boolean expression that indicates whether an
+                            entity satisfies this Trust Interoperability Profile
+                            based on its possession of specific Trustmarks
+                            issued under the referenced Trustmark Definitions
+                            and on its satisfaction of the referenced Trust
+                            Interoperability Profiles.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="Sources"
+                            minOccurs="0"
+                            maxOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation>
+                            A container element for Trust
+                            Interoperability Profile sources.
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="Source"
+                                        type="tf:SourceType"
+                                        minOccurs="1"
+                                        maxOccurs="unbounded">
+                                <xs:annotation>
+                                    <xs:documentation>
+                                        An authoritative source of
+                                        one or more requirements
+                                        that appear in a Trust
+                                        Interoperability Profile.
+                                    </xs:documentation>
+                                </xs:annotation>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="Terms"
+                            minOccurs="0"
+                            maxOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation>
+                            A container element for terms
+                            used by or pertaining to this
+                            Trust Interoperability Profile.
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="Term"
+                                        type="tf:TermType"
+                                        minOccurs="1"
+                                        maxOccurs="unbounded">
+                                <xs:annotation>
+                                    <xs:documentation>
+                                        A term used by or pertaining
+                                        to this Trust Interoperability
+                                        Profile.
+                                    </xs:documentation>
+                                </xs:annotation>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+            <xs:attribute ref="tf:id" use="optional">
+                <xs:annotation>
+                    <xs:documentation>
+                        An XML ID for this Trust Interoperability Profile.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="ReferencesType">
+        <xs:annotation>
+            <xs:documentation>
+                A complex type for the references to the Trustmark Definition
+                requirements and Trust Interoperability Profiles referenced by
+                the trust expression of a Trust Interoperability Profile
+            </xs:documentation>
+        </xs:annotation>
+        <xs:choice minOccurs="1"
+                   maxOccurs="unbounded">
+            <xs:element name="TrustmarkDefinitionRequirement"
+                        type="tf:TrustmarkDefinitionRequirementType">
+                <xs:annotation>
+                    <xs:documentation>
+                        A reference to a Trustmark Definition requirement.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="TrustInteroperabilityProfileReference"
+                        type="tf:TrustInteroperabilityProfileReferenceType">
+                <xs:annotation>
+                    <xs:documentation>
+                        A reference to a Trust Interoperability Profile.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:choice>
+    </xs:complexType>
+
+    <xs:complexType name="TrustmarkDefinitionRequirementType">
+        <xs:annotation>
+            <xs:documentation>
+                A complex type for a Trustmark Definition requirement.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="TrustmarkDefinitionReference"
+                        type="tf:TrustmarkDefinitionReferenceType"
+                        minOccurs="1"
+                        maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        A reference to the Trustmark Definition that is the
+                        subject of this Trustmark Definition requirement.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="ProviderReference"
+                        type="tf:EntityReferenceType"
+                        minOccurs="0"
+                        maxOccurs="unbounded"
+                        nillable="true">
+                <xs:annotation>
+                    <xs:documentation>
+                        An optional reference to a Trustmark Provider that
+                        issues Trustmarks under the Trustmark Definition that
+                        is the subject of this Trustmark Definition Requirement.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute ref="tf:id" use="required">
+            <xs:annotation>
+                <xs:documentation>
+                    An XML ID for this Trustmark Definition requirement.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+</xs:schema>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tf:TrustmarkDefinition
+    tf:id="_3019347209384751294782134234"
+    xmlns:tf="https://trustmark.gtri.gatech.edu/specifications/trustmark-framework/1.1/schema/"
+    xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="https://trustmark.gtri.gatech.edu/specifications/trustmark-framework/1.1/schema/ ../../../main/resources/META-INF/xml-schema/tf.xsd">
+
+</tf:TrustmarkDefinition>

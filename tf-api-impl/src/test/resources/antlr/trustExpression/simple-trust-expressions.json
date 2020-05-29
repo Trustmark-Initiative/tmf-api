@@ -1,0 +1,114 @@
+{
+  "Name" : "Simple Trust Expression Tests",
+  "Description" : "Provides several potential trust expressions, and will validate if they parse only - no evaluation of trustmarks is performed.",
+  "TestType" : "simple",
+
+  "simpleTests" : [
+    {
+      "Description" : "Simple TD Only Test",
+      "TrustExpression" : "td1"
+    },
+
+    {
+      "Description" : "Invalid ID Tests",
+      "TrustExpression" : [
+        "#td1", "-td1", "-td1", "td-1", "td@", "td!", "td$", "td%", "td^", "td&", "td*", "td(", "td)", "td+", "td=",
+        "td{", "td}", "td[", "td]", "td|", "td\\", "td:", "td;", "td'", "td\"", "td<", "td>", "td,", "td?", "td/"
+      ],
+      "Invalid": true
+    },
+
+    {
+      "Description" : "Simple AND Test",
+      "TrustExpression" : [
+        "td1 and td2",
+        "td1 AND td2"
+      ]
+    },
+
+    {
+      "Description" : "Simple OR Test",
+      "TrustExpression" : [
+        "td1 or td2",
+        "td1 OR td2"
+      ]
+    },
+
+    {
+      "Description" : "Merged and or test (no parens)",
+      "TrustExpression" : "td1 AND td2 OR td3"
+    },
+
+    {
+      "Description" : "Simple Parens Test",
+      "TrustExpression" : "(td1 or td2) and (td3 or td4)"
+    },
+
+    {
+      "Description" : "Nested Parens Test",
+      "TrustExpression" : "((td1 or td2) and (td3 or td4)) or (td5 and tip2)"
+    },
+
+    {
+      "Description" : "Boolean Parameter Test",
+      "TrustExpression" : [
+        "td1.booleanField",
+        "td1.booleanField == true",
+        "td1.booleanField == false",
+        "td1.booleanField != true",
+        "td1.booleanField != false"
+      ]
+    },
+
+    {
+      "Description" : "Numeric Parameter Test",
+      "Note" : "This test also implicitly tests the operators on numbers, like less than, greater than, etc.",
+      "TrustExpression" : [
+        "td1.numberField == 10",
+        "td1.numberField != 10",
+        "td1.numberField < 10",
+        "td1.numberField > 10",
+        "td1.numberField <= 10",
+        "td1.numberField >= 10",
+        "td1.numberField == 10.123",
+        "td1.numberField == -10.123"
+      ]
+    },
+
+    {
+      "Description" : "String Parameter Test",
+      "TrustExpression" : [
+        "td1.stringField == \"AValue\"",
+        "td1.stringField == 'A single quoted value'",
+        "td1.stringField == 'A single quoted \\'value\\', escaped'",
+        "td1.stringField == \"AValue with special chars !@#$%^&*()-=_+[]\\{}|:;\\\"'<>?,./\""
+      ]
+    },
+
+    {
+      "Description" : "TD Parameter Test",
+      "TrustExpression" : [
+        "td1.booleanField == td2.booleanField",
+        "td1.numberField < td2.numberField"
+      ]
+    },
+
+    {
+      "Description" : "Function Tests",
+      "TrustExpression" : [
+        "functionName(td1)",
+        "functionName(td1.aFieldValue)",
+        "functionName(td1.aFieldValue, 'Constant')",
+        "functionName(td1.aFieldValue, 'Constant', -123.3)",
+        "functionName(td1.aFieldValue, 'Constant', -123.3, false)",
+        "NOT(td1 and td2)",
+        "!(td1 OR td2)",
+        "functionName(td1) and function2(td2)",
+        "functionName(td1) or function2(td2)",
+        "functionName(td1) and function2(td2) or (function3(td3) and function2(td4))",
+        "functionName(td1) < 123.4"
+      ]
+    }
+
+  ]
+}

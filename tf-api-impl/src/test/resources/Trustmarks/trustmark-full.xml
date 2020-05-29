@@ -1,0 +1,96 @@
+<tf:Trustmark tf:id="trustmark"
+              xmlns:my="https://my.example/"
+              xmlns:tf="https://trustmarkinitiative.org/specifications/trustmark-framework/1.4/schema/"
+              xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="https://trustmarkinitiative.org/specifications/trustmark-framework/1.4/schema/ ../../../main/resources/META-INF/xml-schema/tf-1.4.xsd">
+    <tf:Identifier>http://provider.example/trustmark/1</tf:Identifier>
+    <tf:TrustmarkDefinitionReference>
+        <tf:Identifier>
+            https://trustmark.gtri.gatech.edu/operational-pilot/trustmark-definitions/ficam-privacy-minimal-attribute-release-requirements-for-csps-and-bae-responders/1.0-SNAPSHOT/
+        </tf:Identifier>
+        <tf:Name>
+            FICAM Privacy Minimal Attribute Release Requirements 
+            for CSPs and BAE Responders
+        </tf:Name> 
+        <tf:Version>1.0-SNAPSHOT</tf:Version> 
+        <tf:Description>
+            This TD adopts the LOA 2 and LOA 3 Privacy Minimalism trust 
+            criteria of the FICAM Trust Framework Provider Adoption 
+            Process.
+        </tf:Description> 
+    </tf:TrustmarkDefinitionReference>
+    <tf:IssueDateTime>2014-01-01T00:00:00</tf:IssueDateTime>
+    <tf:ExpirationDateTime>2015-01-01T00:00:00</tf:ExpirationDateTime>
+    <tf:PolicyURL>
+        https://trustmark.gtri.gatech.edu/operational-pilot/example/policy
+    </tf:PolicyURL>
+    <tf:RelyingPartyAgreementURL>
+        https://trustmark.gtri.gatech.edu/operational-pilot/example/relyingParty
+    </tf:RelyingPartyAgreementURL>
+    <tf:StatusURL>
+        https://trustmark.gtri.gatech.edu/operational-pilot/example/trustmark/1/status
+    </tf:StatusURL>
+    <tf:Provider>
+        <tf:Identifier>https://trustmark.gtri.gatech.edu/</tf:Identifier> 
+        <tf:Name>Georgia Tech Research Institute</tf:Name> 
+        <tf:Contact>
+            <tf:Kind>PRIMARY</tf:Kind>
+            <tf:Responder>George P. Burdell</tf:Responder>
+            <tf:Email>TrustmarkFeedback@gtri.gatech.edu</tf:Email>
+            <tf:Telephone>404-407-8956</tf:Telephone>
+            <tf:PhysicalAddress>
+                75 5th Street NW, 
+                Atlanta, GA 30308
+            </tf:PhysicalAddress>
+            <tf:MailingAddress>
+                75 5th Street NW, 
+                Suite 900, 
+                Atlanta, GA 30308
+            </tf:MailingAddress>
+            <tf:WebsiteURL>http://trustmark.gtri.gatech.edu/</tf:WebsiteURL>
+            <tf:Notes>The responder may change.</tf:Notes>
+        </tf:Contact>
+    </tf:Provider>
+    <tf:Recipient>
+        <tf:Identifier>https://trustmark.gtri.gatech.edu/</tf:Identifier> 
+        <tf:Name>Georgia Tech Research Institute</tf:Name> 
+        <tf:Contact>
+            <tf:Kind>PRIMARY</tf:Kind>
+            <tf:Responder>George P. Burdell</tf:Responder>
+            <tf:Email>TrustmarkFeedback@gtri.gatech.edu</tf:Email>
+            <tf:Telephone>404-407-8956</tf:Telephone>
+            <tf:PhysicalAddress>
+                75 5th Street NW, 
+                Atlanta, GA 30308
+            </tf:PhysicalAddress>
+            <tf:MailingAddress>
+                75 5th Street NW, 
+                Suite 900, 
+                Atlanta, GA 30308
+            </tf:MailingAddress>
+            <tf:WebsiteURL>http://trustmark.gtri.gatech.edu/</tf:WebsiteURL>
+            <tf:Notes>The responder may change.</tf:Notes>
+        </tf:Contact>
+    </tf:Recipient>
+    <tf:ExceptionInfo>This is exception info 1</tf:ExceptionInfo>
+    <tf:ExceptionInfo>This is exception info 2</tf:ExceptionInfo>
+    <tf:ExceptionInfo>This is exception info 3</tf:ExceptionInfo>
+    <tf:DefinitionExtension>
+        <my:DefinitionExtension>
+            This is additional XML content about the Trustmark, as required by 
+            the Trustmark Definition.
+        </my:DefinitionExtension>
+    </tf:DefinitionExtension>
+    <tf:ProviderExtension>
+        <my:ProviderExtension>
+            This is additional XML content about the Trustmark, as provided by 
+            the Trustmark Provider.
+        </my:ProviderExtension>
+    </tf:ProviderExtension>
+    <tf:ParameterBindings>
+        <tf:ParameterBinding tf:identifier="param1" tf:kind="ENUM_MULTI">Value1, Value2, Value3</tf:ParameterBinding>
+        <tf:ParameterBinding tf:identifier="param2" tf:kind="BOOLEAN">true</tf:ParameterBinding>
+        <tf:ParameterBinding tf:identifier="param3" tf:kind="NUMBER">123</tf:ParameterBinding>
+    </tf:ParameterBindings>
+</tf:Trustmark>

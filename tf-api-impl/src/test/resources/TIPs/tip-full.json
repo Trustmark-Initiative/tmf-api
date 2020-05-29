@@ -1,0 +1,135 @@
+{
+  "$TMF_VERSION" : "1.2",
+  "$Type" : "TrustInteroperabilityProfile",
+  "$id": "_334057023407234",
+  "Identifier": "http://tip.example/tip",
+  "Name": "Trust Interoperability Profile Example",
+  "Version": "1.0.0",
+  "PublicationDateTime": "2014-01-01T00:00:00",
+  "Deprecated": false,
+  "Description": "This is a description of a Trust Interoperability Profile.",
+  "Keywords": [
+    "Keyword1",
+    "Keyword2",
+    "Keyword3"
+  ],
+  "Issuer": {
+    "Identifier": "http://tip.example/",
+    "Name": "Trust Interoperability Profile Issuer",
+    "PrimaryContact": {
+      "Kind": "PRIMARY",
+      "Responder": "George P. Burdell",
+      "Email": "TrustmarkFeedback@gtri.gatech.edu",
+      "Telephones": [
+        "404-555-1234",
+        "404-555-2345"
+      ],
+      "WebsiteURLs": [
+        "http://trustmark.gtri.gatech.edu/",
+        "http://www.gtri.gatech.edu/"
+      ],
+      "PhysicalAddress": "75 5th Street NW, Suite 900, Atlanta GA 30308",
+      "MailingAddress": "Trustmark Feedback, 75 5th Street NW, Suite 900, Atlanta GA 30308",
+      "Notes": "The responder may change."
+    },
+    "OtherContacts" : [
+      {
+        "Kind": "OTHER",
+        "Emails": [
+          "test@example.org",
+          "test2@example.org"
+        ],
+        "Telephone" : "404-555-5555"
+      }
+    ]
+  },
+  "Satisfies": [
+    {"Identifier": "https://example.org/tip1-satisfies"},
+    {"Identifier": "https://example.org/tip2-satisfies"}
+  ],
+  "Supersessions": {
+    "SupersededBy": [
+      {"Identifier": "https://example.org/tip1-supersededBy"},
+      {"Identifier": "https://example.org/tip2-supersededBy"}
+    ],
+    "Supersedes": [
+      {"Identifier": "https://example.org/tip1-supersedes"},
+      {"Identifier": "https://example.org/tip2-supersedes"}
+    ]
+  },
+  "KnownConflicts" : [
+    {"Identifier" : "https://example.org/tip1-conflict"}
+  ],
+  "TrustExpression": "tip1 and (tdr1 or tdr2)",
+  "References": {
+    "TrustInteroperabilityProfileReferences": [{
+      "Identifier": "http://tip.example/tip",
+      "Description": "This is a description of an example Trust Interoperability \n                Profile.",
+      "Version": "1.0",
+      "$id": "tip1",
+      "Number": 1,
+      "Name": "Example Trust Interoperability Profile"
+    }],
+    "TrustmarkDefinitionRequirements": [
+      {
+        "$id": "tdr1",
+        "TrustmarkDefinitionReference": {
+          "Identifier": "http://tdo.example/td",
+          "Description": "This is a description of this Trustmark Definition.",
+          "Version": "1.0.0",
+          "Name": "Trustmark Definition Name"
+        },
+        "ProviderReferences": [
+          {
+            "$id": "providerReference",
+            "Identifier": "http://provider.example/",
+            "Name": "Trustmark Provider",
+            "PrimaryContact": {
+              "Kind": "PRIMARY",
+              "Responder": "George P. Burdell",
+              "Email": "TrustmarkFeedback@gtri.gatech.edu",
+              "Telephones": [
+                "404-555-1234",
+                "404-555-2345"
+              ],
+              "WebsiteURL": "http://trustmark.gtri.gatech.edu",
+              "PhysicalAddress": "75 5th Street NW, Suite 900, Atlanta GA 30308",
+              "MailingAddress": "Trustmark Feedback, 75 5th Street NW, Suite 900, Atlanta GA 30308",
+              "Notes": "The responder may change."
+            }
+          }
+        ]
+      },
+      {
+        "$id": "tdr2",
+        "TrustmarkDefinitionReference": {
+          "Identifier": "http://tdo.example/td2",
+          "Description": "This is a description of this Trustmark Definition.",
+          "Version": "1.0.0",
+          "Name": "Trustmark Definition Name"
+        },
+        "ProviderReferences": [{"$ref": "#providerReference"}]
+      }
+    ]
+  },
+  "LegalNotice": "This is the legal notice.",
+  "Notes": "Notes",
+
+  "Terms": [
+    {
+      "Name": "Term1",
+      "Abbreviations": [
+        "Abbr1",
+        "Abbr2"
+      ],
+      "Definition": "Term1 Def"
+    }
+  ],
+
+  "Sources": [
+    {
+      "Identifier": "Source1",
+      "Reference": "Source 1 Reference"
+    }
+  ]
+}

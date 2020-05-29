@@ -1,0 +1,11 @@
+edu.gatech.gtri.trustmark.v1_0.impl.io.adio.codecs.AgreementCodec
+edu.gatech.gtri.trustmark.v1_0.impl.io.adio.codecs.AgreementLegalSectionCodec
+edu.gatech.gtri.trustmark.v1_0.impl.io.adio.codecs.AgreementNonBindingSectionCodec
+edu.gatech.gtri.trustmark.v1_0.impl.io.adio.codecs.AgreementResponsibilityCodec
+edu.gatech.gtri.trustmark.v1_0.impl.io.adio.codecs.SupplementedTIPSnapshotCodec
+edu.gatech.gtri.trustmark.v1_0.impl.io.adio.codecs.TrustInteroperabilityProfileSnapshotCodec
+edu.gatech.gtri.trustmark.v1_0.impl.io.adio.codecs.TrustmarkDefinitionSnapshotCodec
+edu.gatech.gtri.trustmark.v1_0.impl.io.adio.codecs.AgreementPartyCodec
+edu.gatech.gtri.trustmark.v1_0.impl.io.adio.codecs.AgreementSignatoryCodec
+edu.gatech.gtri.trustmark.v1_0.impl.io.adio.codecs.AgreementResponsibilityTemplateCodec
+edu.gatech.gtri.trustmark.v1_0.impl.io.adio.codecs.AgreementAttachmentCodec

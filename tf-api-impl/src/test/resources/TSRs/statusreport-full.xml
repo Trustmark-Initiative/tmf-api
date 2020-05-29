@@ -1,0 +1,32 @@
+<tf:TrustmarkStatusReport tf:id="tsr1"
+                          xmlns:my="https://my.example/"
+                          xmlns:tf="https://trustmarkinitiative.org/specifications/trustmark-framework/1.4/schema/"
+                          xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+                          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                          xsi:schemaLocation="https://trustmarkinitiative.org/specifications/trustmark-framework/1.4/schema/ ../../../main/resources/META-INF/xml-schema/tf.xsd">
+    <tf:TrustmarkReference>
+        <tf:Identifier>
+            https://trustmark.gtri.gatech.edu/operational-pilot/example/trustmark/1
+        </tf:Identifier>
+    </tf:TrustmarkReference>
+    <tf:StatusCode>EXPIRED</tf:StatusCode>
+    <tf:StatusDateTime>2014-01-01T00:00:00</tf:StatusDateTime>
+    <tf:SupersederTrustmarkReference>
+        <tf:Identifier>
+            https://trustmark.gtri.gatech.edu/operational-pilot/example/trustmark/2
+        </tf:Identifier>
+    </tf:SupersederTrustmarkReference>
+    <tf:SupersederTrustmarkReference>
+        <tf:Identifier>
+            https://trustmark.gtri.gatech.edu/operational-pilot/example/trustmark/3
+        </tf:Identifier>
+    </tf:SupersederTrustmarkReference>
+    <tf:Notes>
+        Notes.
+    </tf:Notes>
+    <tf:Extension>
+        <my:Extension testAttribute="true">
+            This is additional XML content about the status of the Trustmark.
+        </my:Extension>
+    </tf:Extension>
+</tf:TrustmarkStatusReport>

@@ -1,0 +1,19 @@
+{
+  "$TMF_VERSION" : "1.2",
+  "$Type": "TrustmarkStatusReport",
+  "$id": "tsr1",
+  "TrustmarkReference": {"Identifier": "https://trustmark.gtri.gatech.edu/operational-pilot/example/trustmark/1"},
+  "StatusCode": "EXPIRED",
+  "StatusDateTime": "2014-01-01T00:00:00",
+  "Notes": "Notes.",
+  "Extension": {
+    "Extension": {
+      "$testAttribute": "true",
+      "value": "This is additional XML content about the status of the Trustmark."
+    }
+  },
+  "SupersederTrustmarkReferences": [
+    {"Identifier": "https://trustmark.gtri.gatech.edu/operational-pilot/example/trustmark/2"},
+    {"Identifier": "https://trustmark.gtri.gatech.edu/operational-pilot/example/trustmark/3"}
+  ]
+}

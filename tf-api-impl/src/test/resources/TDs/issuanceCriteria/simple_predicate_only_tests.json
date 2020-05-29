@@ -1,0 +1,57 @@
+{
+  "name" : "SimplePredicateOnlyTests",
+  "description" : "Tests the simple predicates method with various different combinations to assert that the parser is working as expected.",
+  "resultSet" : [
+    {"result" : "yes"},
+    {"result" : "yes"},
+    {"result" : "yes"}
+  ],
+  "testSet" : [
+    {"expression" : "yes(all)", "satisfies" : true},
+    {"expression" : "YES(ALL)", "satisfies" : true},
+    {"expression" : "yes( all )", "satisfies" : true},
+    {"expression" : "yes(NONE)", "satisfies" : false},
+    {"expression" : "yes( none )", "satisfies" : false},
+    {"expression" : "yes(1)", "satisfies" : true},
+    {"expression" : "YES(1)", "satisfies" : true},
+    {"expression" : "yes( 1 )", "satisfies" : true},
+    {"expression" : "yes(1,2)", "satisfies" : true},
+    {"expression" : "yes( 1,2 )", "satisfies" : true},
+    {"expression" : "yes(1, 2)", "satisfies" : true},
+    {"expression" : "yes( 1, 2 )", "satisfies" : true},
+    {"expression" : "yes(1, 2, 3)", "satisfies" : true},
+    {"expression" : "yes(1...3)", "satisfies" : true},
+    {"expression" : "yes( 1...3 )", "satisfies" : true},
+
+    {"expression" : "no(ALL)", "satisfies" : false},
+    {"expression" : "NO( all )", "satisfies" : false},
+    {"expression" : "no(NONE)", "satisfies" : true},
+    {"expression" : "no( none )", "satisfies" : true},
+    {"expression" : "no(1)", "satisfies" : false},
+    {"expression" : "NO(1)", "satisfies" : false},
+    {"expression" : "no( 1 )", "satisfies" : false},
+    {"expression" : "no(1,2)", "satisfies" : false},
+    {"expression" : "no( 1,2 )", "satisfies" : false},
+    {"expression" : "no(1, 2)", "satisfies" : false},
+    {"expression" : "no( 1, 2 )", "satisfies" : false},
+    {"expression" : "no(1, 2, 3)", "satisfies" : false},
+    {"expression" : "no(1...3)", "satisfies" : false},
+    {"expression" : "no( 1...3 )", "satisfies" : false},
+
+    {"expression" : "na(ALL)", "satisfies" : false},
+    {"expression" : "NA( all )", "satisfies" : false},
+    {"expression" : "na(NONE)", "satisfies" : true},
+    {"expression" : "na( none )", "satisfies" : true},
+    {"expression" : "na(1)", "satisfies" : false},
+    {"expression" : "NA(1)", "satisfies" : false},
+    {"expression" : "na( 1 )", "satisfies" : false},
+    {"expression" : "na(1,2)", "satisfies" : false},
+    {"expression" : "na( 1,2 )", "satisfies" : false},
+    {"expression" : "na(1, 2)", "satisfies" : false},
+    {"expression" : "na( 1, 2 )", "satisfies" : false},
+    {"expression" : "na(1, 2, 3)", "satisfies" : false},
+    {"expression" : "na(1...3)", "satisfies" : false},
+    {"expression" : "na( 1...3 )", "satisfies" : false}
+
+  ]
+}
