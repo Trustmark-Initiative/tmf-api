@@ -18,6 +18,7 @@ public class SimpleBulkReadResult implements BulkReadResult {
 
     private List<TrustmarkDefinition> resultingTrustmarkDefinitions;
     private List<TrustInteroperabilityProfile> resultingTrustInteroperabilityProfiles;
+    private List<String> resultingInvalidParameters;
 
     @Override
     public List<TrustmarkDefinition> getResultingTrustmarkDefinitions() {
@@ -33,11 +34,22 @@ public class SimpleBulkReadResult implements BulkReadResult {
         return resultingTrustInteroperabilityProfiles;
     }
 
+    @Override
+    public List<String> getResultingInvalidParameters() {
+        if( this.resultingInvalidParameters == null )
+            this.resultingInvalidParameters = new ArrayList<>();
+        return this.resultingInvalidParameters;
+    }
+
     public void setResultingTrustmarkDefinitions(List<TrustmarkDefinition> resultingTrustmarkDefinitions) {
         this.resultingTrustmarkDefinitions = resultingTrustmarkDefinitions;
     }
 
     public void setResultingTrustInteroperabilityProfiles(List<TrustInteroperabilityProfile> resultingTrustInteroperabilityProfiles) {
         this.resultingTrustInteroperabilityProfiles = resultingTrustInteroperabilityProfiles;
+    }
+
+    public void setResultingInvalidParameters(List<String> resultingInvalidParameters) {
+        this.resultingInvalidParameters = resultingInvalidParameters;
     }
 }

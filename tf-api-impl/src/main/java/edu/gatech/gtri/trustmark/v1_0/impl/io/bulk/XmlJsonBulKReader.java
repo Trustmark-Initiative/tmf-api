@@ -92,6 +92,7 @@ public class XmlJsonBulKReader implements BulkReader {
         System.out.println("XmlJsonBulkReader.readBulkFrom !");
         List<TrustmarkDefinition> tds = new ArrayList<>();
         List<TrustInteroperabilityProfile> tips = new ArrayList<>();
+        List<String> invalidParameters = new ArrayList<>();
 
         bulkReadListenerDelegator.checkingFiles(inputFiles);
         bulkReadListenerDelegator.setMessage("Reading files...");
@@ -248,7 +249,7 @@ public class XmlJsonBulKReader implements BulkReader {
 
         bulkReadListenerDelegator.setMessage("Finished processing "+tds.size()+" trustmark definitions and "+tips.size()+" trust interop profiles.");
         bulkReadListenerDelegator.finished();
-        return new BulkReadResultImpl(tds, tips);
+        return new BulkReadResultImpl(tds, tips, invalidParameters);
     }
 
     private boolean isLocal(URI uri, List<TrustmarkDefinition> tds, List<TrustInteroperabilityProfile> tips){
