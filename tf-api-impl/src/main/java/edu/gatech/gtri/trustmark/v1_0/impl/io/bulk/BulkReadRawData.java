@@ -53,8 +53,9 @@ public final class BulkReadRawData {
     public static final int TE_VAR_MAX_LENGTH = Integer.MAX_VALUE; //was 30
     private static final String TRUST_SPLIT_REFERENCE = "}([^{]*)AND\\s*|}([^{]*)and\\s*|}([^{]*)OR\\s*|}([^{]*)or\\s*";
     private static final String TRUST_SPLIT_REFERENCE_WITH_PARMS = "\\s+AND\\s+|\\s*and\\s+|\\s+OR\\s+|\\s+or\\s+";
-    private static final String TD_OPERATOR = "}\\.|,|<|>|==|!=|>=|<=|=";
-    
+    private static final String TD_PARAMETER = "}\\.";
+    private static final String TD_OPERATOR = ",|<|>|!=|=";
+
     ////////////////////////
     // Instance Constants //
     ////////////////////////
@@ -118,8 +119,12 @@ public final class BulkReadRawData {
         this.ensureRawTipsAreParsed();
         return Collections.unmodifiableList(this.parsedTips);
     }
-    
-    
+
+    private List<String> invalidParameters = new ArrayList<>();
+    public List<String> getInvalidParameters() throws Exception {
+        return Collections.unmodifiableList(this.invalidParameters);
+    }
+
     /////////////////
     // Constructor //
     /////////////////
@@ -1014,11 +1019,12 @@ public final class BulkReadRawData {
                     Matcher tdMatch = TD_REFERENCE_PATTERN.matcher(s);
                     if(tdMatch.find()) {
                         String referencedTdName = tdMatch.group(1);
-                        String[] parms = s.split(TD_OPERATOR);
+                        String[] parms = s.split(TD_PARAMETER);
                         if(parms.length > 1) {
-                            if(!doesTDParameterExist(referencedTdName, parms[1], this.rawTds))  {
-                                System.out.printf(String.format("INVALID-PARAMETER-FOUND for TD: %s referenced in %s , file: %s\n", parms[1], referencedTdName, rawTip.excelFile));
-//                                exceptionList.add(new TrustInteroperabilityProfileSyntaxException(String.format("Invalid parameterFound for TD: %s referenced in %s , file: %s\n", parms[1], referencedTdName, rawTip.excelFile), rawTip.excelFile));
+                            String[] parmNm = BulkImportUtils.defaultTrim(parms[1]).split(TD_OPERATOR);
+                            if(!doesTDParameterExist(referencedTdName, BulkImportUtils.defaultTrim(parmNm[0]), this.rawTds))  {
+                                System.out.printf(String.format("INVALID-PARAMETER-FOUND for TD: [%s] referenced in [%s] , file -> %s\n", parmNm[0], referencedTdName, rawTip.excelFile));
+                                invalidParameters.add(String.format("Invalid Parameter Found [%s] referenced in TD [%s] TIP [%s}, file: %s\n", parmNm[0], referencedTdName, rawTip.name, rawTip.excelFile));
                             }
                         }
                     }

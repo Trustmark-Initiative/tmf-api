@@ -116,8 +116,7 @@ public abstract class AbstractBulkReader implements BulkReader {
             List<TrustInteroperabilityProfile> resultingTips = allRawData.getParsedTips();
             this.listenerCollection.fireFinishedProcessingRawTIPs(resultingTips);
 
-
-            result = new BulkReadResultImpl(resultingTDs, resultingTips);
+            result = new BulkReadResultImpl(resultingTDs, resultingTips, allRawData.getInvalidParameters());
         } catch(Throwable t) {
             log.error("Error perforing bulk read!", t);
             this.listenerCollection.fireErrorDuringBulkRead(t);

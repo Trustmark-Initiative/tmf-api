@@ -15,14 +15,17 @@ public class BulkReadResultImpl implements BulkReadResult {
     // Instance Fields
     protected final List<TrustmarkDefinition> resultingTrustmarkDefinitions;
     protected final List<TrustInteroperabilityProfile> resultingTrustInteroperabilityProfiles;
-    
+    protected final List<String> resultingInvalidParameters;
+
     // Constructor 
     public BulkReadResultImpl(
         List<TrustmarkDefinition> _resultingTrustmarkDefinitions,
-        List<TrustInteroperabilityProfile> _resultingTrustInteroperabilityProfiles
+        List<TrustInteroperabilityProfile> _resultingTrustInteroperabilityProfiles,
+        List<String> _resultingInvalidParameters
     ) {
         this.resultingTrustmarkDefinitions = Collections.unmodifiableList(_resultingTrustmarkDefinitions);
         this.resultingTrustInteroperabilityProfiles = Collections.unmodifiableList(_resultingTrustInteroperabilityProfiles);
+        this.resultingInvalidParameters = Collections.unmodifiableList(_resultingInvalidParameters);
     }
     
     // Instance Methods
@@ -34,5 +37,10 @@ public class BulkReadResultImpl implements BulkReadResult {
     @Override
     public List<TrustInteroperabilityProfile> getResultingTrustInteroperabilityProfiles() {
         return this.resultingTrustInteroperabilityProfiles;
+    }
+
+    @Override
+    public List<String> getResultingInvalidParameters() {
+        return this.resultingInvalidParameters;
     }
 }

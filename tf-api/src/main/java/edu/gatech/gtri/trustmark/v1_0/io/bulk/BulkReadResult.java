@@ -17,13 +17,18 @@ public interface BulkReadResult {
      * @return a {@link java.util.List} of {@link edu.gatech.gtri.trustmark.v1_0.model.TrustmarkDefinition} 
      *         objects from the bulk read.
      */
-    public List<TrustmarkDefinition> getResultingTrustmarkDefinitions();
+    List<TrustmarkDefinition> getResultingTrustmarkDefinitions();
 
     /**
      * Gets the TIPs that resulted from a bulk read.
      * @return a {@link java.util.List} of {@link edu.gatech.gtri.trustmark.v1_0.model.TrustInteroperabilityProfile} 
      *         objects from the bulk read.
      */
-    public List<TrustInteroperabilityProfile> getResultingTrustInteroperabilityProfiles();
-    
+    List<TrustInteroperabilityProfile> getResultingTrustInteroperabilityProfiles();
+
+    /**
+     * list of the invalid parameters found in the parsed tips
+     * @return
+     */
+    List<String>  getResultingInvalidParameters();
 }

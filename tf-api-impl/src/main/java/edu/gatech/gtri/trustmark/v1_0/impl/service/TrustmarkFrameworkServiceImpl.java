@@ -159,7 +159,7 @@ public class TrustmarkFrameworkServiceImpl implements TrustmarkFrameworkService 
     @Override
     public RemoteTrustInteroperabilityProfile getTrustInteroperabilityProfileByName(String name) throws RemoteException {
         String quotedName = Pattern.quote(name); // TODO: this may need to change
-        Page<RemoteTrustInteroperabilityProfile> results = this.listTrustInteroperabilityProfilesByNameAndVersionRegex(quotedName, "1.0");
+        Page<RemoteTrustInteroperabilityProfile> results = this.listTrustInteroperabilityProfilesByNameAndVersionRegex(quotedName, ".*");
         long totalCount = results.getTotalCount();
         if (totalCount == 0) {
             return null;
