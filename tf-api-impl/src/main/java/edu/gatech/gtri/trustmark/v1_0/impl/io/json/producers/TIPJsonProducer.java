@@ -131,7 +131,6 @@ public class TIPJsonProducer extends AbstractJsonProducer implements JsonProduce
             refObj.put("$id", abstractTIPReference.getId());
             if( abstractTIPReference.isTrustmarkDefinitionRequirement() ){
                 TrustmarkDefinitionRequirement tdReqRef = (TrustmarkDefinitionRequirement) abstractTIPReference;
-                System.out.println("TDREQREF -> "+ tdReqRef.isTrustmarkDefinitionRequirement() + ","+tdReqRef.getName() + ","+tdReqRef.getVersion());
                 List<Entity> providers = tdReqRef.getProviderReferences();
                 refObj.put("$Type", "TrustmarkDefinitionRequirement");
                 refObj.put("TrustmarkDefinitionReference", toTMIRefJson(tdReqRef));
