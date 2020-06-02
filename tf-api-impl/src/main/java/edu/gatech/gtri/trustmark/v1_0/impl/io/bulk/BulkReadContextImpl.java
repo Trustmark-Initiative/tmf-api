@@ -115,11 +115,17 @@ public class BulkReadContextImpl implements BulkReadContext {
     
     @Override
     public TrustmarkFrameworkIdentifiedObject resolveReferencedExternalTrustmarkDefinition(String tdReference) {
+        if(BulkImportUtils.isValidUri(tdReference))  {
+            return this.resolveReferencedExternalArtifact(tdReference, TrustmarkFrameworkService::getTrustmarkDefinitionByUrl);
+        }
         return this.resolveReferencedExternalArtifact(tdReference, TrustmarkFrameworkService::getTrustmarkDefinitionByName);
     }
     
     @Override
     public TrustmarkFrameworkIdentifiedObject resolveReferencedExternalTrustInteroperabilityProfile(String tipReference) {
+        if(BulkImportUtils.isValidUri(tipReference))  {
+            return this.resolveReferencedExternalArtifact(tipReference, TrustmarkFrameworkService::getTrustInteroperabilityProfileByUrl);
+        }
         return this.resolveReferencedExternalArtifact(tipReference, TrustmarkFrameworkService::getTrustInteroperabilityProfileByName);
     }
     
@@ -134,7 +140,7 @@ public class BulkReadContextImpl implements BulkReadContext {
             try {
                 tfs = tfsFactory.createService(tfamBaseUrl);
             }catch(Exception ex){
-                logger.error("Unable to create TrustmarkFrameworkService (API Client) for URL["+tfamBaseUrl+"].", ex);
+                System.out.printf("Unable to create TrustmarkFrameworkService (API Client) for URL[%s]. %s\n", tfamBaseUrl, ex.getMessage());
             }
             try {
                 TrustmarkFrameworkIdentifiedObject tfido = serviceReferenceNameResolver.resolve(tfs, reference);
@@ -143,7 +149,7 @@ public class BulkReadContextImpl implements BulkReadContext {
                 }
             }
             catch (Exception ex) {
-                logger.error("Error resolving external artifact ["+reference+"].", ex);
+                System.out.printf("Error resolving external artifact [%s]. %s\n", reference, ex.getMessage());
             }
             if (result != null) {
                 break;

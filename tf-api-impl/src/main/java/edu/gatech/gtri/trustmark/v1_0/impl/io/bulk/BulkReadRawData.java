@@ -23,6 +23,7 @@ import java.io.StringReader;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.*;
 import java.util.function.Function;
@@ -1074,6 +1075,7 @@ public final class BulkReadRawData {
                 if(tdMatch.find()) {
                     String referencedTdName = tdMatch.group(1);
                     TrustmarkDefinitionRequirementImpl referencedTd = this.findReferencedTd(referencedTdName, rawTip);
+                    System.out.printf("TD_REF_REMOTE %s %s %s %s\n", referencedTd.getIdentifier().toString(), referencedTd.getName(), referencedTd.getVersion(), referencedTd.getDescription());
                     if(referencedTd.getIdentifier() == null && referencedTd.getName() == null)  {
                         exceptionList.add(new TrustInteroperabilityProfileSyntaxException(String.format("Cannot find reference for TD: %s in %s\n", referencedTdName, rawTip.name), rawTip.excelFile));
                     }  else {
@@ -1219,9 +1221,18 @@ public final class BulkReadRawData {
                 || BulkImportUtils.defaultTrim(rawArtifact.name).equalsIgnoreCase(referencedArtifactName)
                 ) {
                 return artifactGetterFromRaw.apply(rawObject);
+                }
+            if(BulkImportUtils.isValidUri(referencedArtifactName)) {
+                try {
+                    String urlString = this.context.generateIdentifierForTrustmarkDefinition(rawArtifact.moniker, rawArtifact.version).toString();
+                    if(referencedArtifactName.equals(urlString)) {
+                        return artifactGetterFromRaw.apply(rawObject);
+                    }
+                } catch (URISyntaxException e) {
+                    e.printStackTrace();
+                }
             }
         }
-        
         // If we get here, the reference is not an internal name
         TrustmarkFrameworkIdentifiedObject artfact = uriResolverFromArtifactName.apply(referencedArtifactName);
         if (artfact != null) {
@@ -1431,7 +1442,8 @@ public final class BulkReadRawData {
         
         public String moniker = DEFAULT_STRING;
         public String name = DEFAULT_STRING;
-        
+        public String version = DEFAULT_STRING;
+
         public final List<String> supersedesUris = DEFAULT_LIST();
         public final List<String> supersedesUrisResolved = DEFAULT_LIST();
         
@@ -1500,7 +1512,6 @@ public final class BulkReadRawData {
         public String id = DEFAULT_STRING;
         public URI identifier = DEFAULT_URI;
         public String originalMoniker = DEFAULT_STRING;
-        public String version = DEFAULT_STRING;
         public String description = DEFAULT_STRING;
         public String publicationDateTime = DEFAULT_STRING;
         public String stakeholderDesc = DEFAULT_STRING;
@@ -1530,7 +1541,6 @@ public final class BulkReadRawData {
         public URI id = DEFAULT_URI;
         public String description = DEFAULT_STRING;
         public String trustExpression = DEFAULT_STRING;
-        public String version = DEFAULT_STRING;
         public String primary = DEFAULT_STRING;
         public String publicationDateTime = DEFAULT_STRING;
         public String notes = DEFAULT_STRING;
