@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import org.dom4j.Attribute;
 import org.dom4j.Document;
 import org.dom4j.Element;
+import org.dom4j.Node;
 import org.dom4j.io.SAXReader;
 
 import java.io.IOException;
@@ -110,8 +111,8 @@ public class TMF_XmlToJsonConversionHelper implements XmlToJsonConversionHelper 
     private static void appendTypesFromSchema(Element schema) {
         String targetNs = (String) schema.selectObject("string(./@targetNamespace)");
         log.debug("Loading from schema: "+targetNs);
-        List<Element> elementsWithNameAndType = schema.selectNodes("//xs:*[string-length(./@name) > 0][string-length(./@type) > 0][local-name() = 'element' or local-name() = 'attribute']");
-        for( Element element : elementsWithNameAndType ) {
+        List<Node> elementsWithNameAndType = schema.selectNodes("//xs:*[string-length(./@name) > 0][string-length(./@type) > 0][local-name() = 'element' or local-name() = 'attribute']");
+        for( Node element : elementsWithNameAndType ) {
             String name = (String) element.selectObject("string(@name)");
             String xmlType = (String) element.selectObject("string(@type)");
             String qualName = "{"+targetNs+"}" + name;

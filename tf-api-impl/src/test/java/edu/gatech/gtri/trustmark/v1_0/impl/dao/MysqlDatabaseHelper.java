@@ -1,6 +1,6 @@
 package edu.gatech.gtri.trustmark.v1_0.impl.dao;
 
-import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
+import com.mysql.cj.jdbc.MysqlDataSource;
 import org.apache.log4j.Logger;
 
 import javax.sql.DataSource;
@@ -26,7 +26,7 @@ public class MysqlDatabaseHelper implements DatabaseHelper {
     private static void checkMysqlDatabase(Properties props) {
         String url = "jdbc:mysql://" + props.getProperty("hostname", "localhost");
         try {
-            Class.forName("com.mysql.jdbc.Driver"); // Assert the driver is in memory...
+            Class.forName("com.mysql.cj.jdbc.Driver"); // Assert the driver is in memory...
             Connection con = DriverManager.getConnection(url, props.getProperty("username"), props.getProperty("password"));
             Statement stmt = con.createStatement();
             stmt.executeUpdate("CREATE DATABASE IF NOT EXISTS "+props.getProperty("database", "temp"));

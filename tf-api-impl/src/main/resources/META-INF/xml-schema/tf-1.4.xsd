@@ -1187,7 +1187,7 @@
             </xs:documentation>
         </xs:annotation>
         <xs:restriction base="xs:string">
-            <xs:pattern value="[^\|]*"/>
+            <xs:pattern value="[^\|&apos;&quot;]*"/>
         </xs:restriction>
     </xs:simpleType>
 

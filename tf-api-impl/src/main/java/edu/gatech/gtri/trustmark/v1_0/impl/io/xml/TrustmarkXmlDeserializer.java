@@ -6,6 +6,7 @@ import edu.gatech.gtri.trustmark.v1_0.model.ParameterKind;
 import edu.gatech.gtri.trustmark.v1_0.model.Trustmark;
 import org.apache.log4j.Logger;
 import org.dom4j.Element;
+import org.dom4j.Node;
 
 import java.util.List;
 
@@ -67,9 +68,9 @@ public class TrustmarkXmlDeserializer extends AbstractDeserializer {
             }
         }
 
-        List<Element> paramBindingsList = trustmarkXml.selectNodes("./tf:ParameterBindings/tf:ParameterBinding");
+        List<Node> paramBindingsList = trustmarkXml.selectNodes("./tf:ParameterBindings/tf:ParameterBinding");
         if( paramBindingsList != null && !paramBindingsList.isEmpty() ){
-            for( Element paramBindingElement : paramBindingsList ){
+            for( Node paramBindingElement : paramBindingsList ){
                 TrustmarkParameterBindingImpl bindingImpl = new TrustmarkParameterBindingImpl();
                 bindingImpl.setIdentifier(getString(paramBindingElement, "./@*[local-name()='identifier']", true));
                 bindingImpl.setParameterKind(ParameterKind.fromString(getString(paramBindingElement, "./@*[local-name()='kind']", true)));

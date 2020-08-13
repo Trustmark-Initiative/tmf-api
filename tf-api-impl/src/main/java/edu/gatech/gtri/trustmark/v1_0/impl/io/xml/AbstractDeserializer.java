@@ -24,14 +24,14 @@ import java.util.List;
 public abstract class AbstractDeserializer {
 
 
-    protected static Source readSource(Element sourceXml ) throws ParseException {
+    protected static Source readSource(Node sourceXml ) throws ParseException {
         SourceImpl source = new SourceImpl();
         source.setIdentifier(getString(sourceXml, "./tf:Identifier", true));
         source.setReference(getString(sourceXml, "./tf:Reference", true));
         return source;
     }
 
-    public static Term readTerm(Element termXml ) throws ParseException {
+    public static Term readTerm(Node termXml ) throws ParseException {
         TermImpl term = new TermImpl();
         term.setName(getString(termXml, "./tf:Name", true));
         List<String> abbreviationsList = getListStrings(termXml, "./tf:Abbreviation");
@@ -74,7 +74,7 @@ public abstract class AbstractDeserializer {
         return entity;
     }
 
-    public static EntityImpl readEntityReference(Element entityXml ) throws ParseException {
+    public static EntityImpl readEntityReference(Node entityXml ) throws ParseException {
         if( entityXml == null )
             return null;
         EntityImpl entity = new EntityImpl();
@@ -225,7 +225,7 @@ public abstract class AbstractDeserializer {
         return null;
     }
 
-    protected static TrustmarkFrameworkIdentifiedObject readTrustmarkFrameworkIdentifiedObject(Element tfiXml ) throws ParseException {
+    protected static TrustmarkFrameworkIdentifiedObject readTrustmarkFrameworkIdentifiedObject(Node tfiXml ) throws ParseException {
         TrustmarkFrameworkIdentifiedObjectImpl identifiedObject = new TrustmarkFrameworkIdentifiedObjectImpl();
         try {
             identifiedObject.setIdentifier(new URI(getString(tfiXml, "tf:Identifier", true)));
