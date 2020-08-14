@@ -848,7 +848,8 @@ public final class BulkReadRawData {
             for (AssessmentStep step : assessmentSteps) {
                 if (step == null || step.getName() == null) { continue; }
                 if (step.getName().equalsIgnoreCase(stepReference)) {
-                    stepId = "Step" + step.getNumber();
+                    //stepId = "Step" + step.getNumber();
+                    stepId = step.getId();
                     break;
                 }
             }
