@@ -62,7 +62,7 @@ public class NetworkDownloaderImpl implements NetworkDownloader {
             byte[] data = exhaustStream(urlConnection.getInputStream());
             metadata.setData(data);
             return metadata;
-        }catch(FileNotFoundException fnfe){
+        }catch(Exception fnfe){
             log.error("Caught a FileNotFoundException, most likely because the server's response code was not less than 400 (ie, 403, 404 or 500 are most common).  Please check the request from the server's logs to find out what's going on.");
             throw fnfe;
         }

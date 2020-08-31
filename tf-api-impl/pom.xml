@@ -9,11 +9,12 @@
 	<parent>
 		<groupId>edu.gatech.gtri.trustmark</groupId>
 		<artifactId>tf-api-parent</artifactId>
-		<version>1.4</version>
+		<version>1.4.1</version>
 	</parent>
 
 	<properties>
-		<tf.api.version>1.4</tf.api.version>
+		<tf.api.version>1.4.1</tf.api.version>
+		<junit.version>4.11</junit.version>
 	</properties>
 
 
@@ -193,6 +194,11 @@
 		</dependency>
 		<!-- / For testing database caching in *.dao.* packages. -->
 
+		<dependency>
+			<groupId>com.sun.mail</groupId>
+			<artifactId>jakarta.mail</artifactId>
+			<version>1.6.4</version>
+		</dependency>
 
 	</dependencies>
 

@@ -97,7 +97,6 @@ public class IOUtils {
         }
         if( httpResponse.getResponseCode() == 200 ){
             log.info("Successfully received 200 response from URL: "+url);
-//            log.debug("Received response: "+httpResponse.getContent());
             String response = httpResponse.getContent();
             try{
                 log.debug("Parsing JSON: \n"+response);

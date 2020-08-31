@@ -2,7 +2,6 @@ package edu.gatech.gtri.trustmark.v1_0.model;
 
 import java.util.Calendar;
 import java.util.List;
-import java.util.regex.Pattern;
 
 /**
  * The value of a TrustmarkDefinitionParameter as defined by a Trustmark Definition.
@@ -57,4 +56,4 @@ public interface TrustmarkParameterBinding {
      */
     public List<String> getStringListValue();
     
-}/* end TrustmarkDefinitionParameter */
+}/* end TrustmarkParameterBinding */
