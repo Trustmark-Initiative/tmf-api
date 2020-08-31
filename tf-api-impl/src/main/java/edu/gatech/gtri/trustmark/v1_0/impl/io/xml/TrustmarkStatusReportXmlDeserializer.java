@@ -52,9 +52,9 @@ public class TrustmarkStatusReportXmlDeserializer extends AbstractDeserializer {
 
         tsr.setStatusDateTime(getDate(tsrXml, "./tf:StatusDateTime", true));
 
-        List<Element> supersederRefElements = tsrXml.selectNodes("./tf:SupersederTrustmarkReference");
+        List<Node> supersederRefElements = tsrXml.selectNodes("./tf:SupersederTrustmarkReference");
         if( supersederRefElements != null && !supersederRefElements.isEmpty() ){
-            for( Element supersederXml : supersederRefElements ){
+            for( Node supersederXml : supersederRefElements ){
                 tsr.addSupersederTrustmarkReference(getUri(supersederXml, "./tf:Identifier", true));
             }
         }

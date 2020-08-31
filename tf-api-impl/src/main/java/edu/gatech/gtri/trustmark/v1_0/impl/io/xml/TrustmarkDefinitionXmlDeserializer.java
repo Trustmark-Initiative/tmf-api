@@ -7,6 +7,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.dom4j.Comment;
 import org.dom4j.Element;
+import org.dom4j.Node;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -66,15 +67,15 @@ public class TrustmarkDefinitionXmlDeserializer extends AbstractDeserializer {
         metadata.setNotes(getString(metadataXml, "./tf:Notes", false));
 
         if( Boolean.TRUE.equals(metadataXml.selectObject("count(./tf:Supersessions/*) > 0")) ){
-            List<Element> supersedesList = metadataXml.selectNodes("./tf:Supersessions/tf:Supersedes");
+            List<Node> supersedesList = metadataXml.selectNodes("./tf:Supersessions/tf:Supersedes");
             if( supersedesList != null && !supersedesList.isEmpty() ){
-                for( Element supersedesElement : supersedesList ){
+                for( Node supersedesElement : supersedesList ){
                     metadata.addToSupersedes(readTrustmarkFrameworkIdentifiedObject(supersedesElement));
                 }
             }
-            List<Element> supersededByList = metadataXml.selectNodes("./tf:Supersessions/tf:SupersededBy");
+            List<Node> supersededByList = metadataXml.selectNodes("./tf:Supersessions/tf:SupersededBy");
             if( supersededByList != null && !supersededByList.isEmpty() ){
-                for( Element supersededByElement : supersededByList ){
+                for( Node supersededByElement : supersededByList ){
                     metadata.addToSupersededBy(readTrustmarkFrameworkIdentifiedObject(supersededByElement));
                 }
             }
@@ -86,25 +87,25 @@ public class TrustmarkDefinitionXmlDeserializer extends AbstractDeserializer {
             metadata.setDeprecated(Boolean.FALSE);
         }
 
-        List<Element> satisfiesList = metadataXml.selectNodes("./tf:Satisfactions/tf:Satisfies");
+        List<Node> satisfiesList = metadataXml.selectNodes("./tf:Satisfactions/tf:Satisfies");
         if( satisfiesList != null && !satisfiesList.isEmpty() ){
-            for( Element satisfiesElement : satisfiesList ){
+            for( Node satisfiesElement : satisfiesList ){
                 metadata.addToSatisfies(readTrustmarkFrameworkIdentifiedObject(satisfiesElement));
             }
         }
 
 
-        List<Element> knownConflictsList = metadataXml.selectNodes("./tf:KnownConflicts/tf:KnownConflict");
+        List<Node> knownConflictsList = metadataXml.selectNodes("./tf:KnownConflicts/tf:KnownConflict");
         if( knownConflictsList != null && !knownConflictsList.isEmpty() ){
-            for( Element knownConflictElement : knownConflictsList ){
+            for( Node knownConflictElement : knownConflictsList ){
                 metadata.addToKnownConflicts(readTrustmarkFrameworkIdentifiedObject(knownConflictElement));
             }
         }
 
         if( Boolean.TRUE.equals(metadataXml.selectObject("count(./tf:Keywords/*) > 0")) ){
-            List<Element> keywordsList = metadataXml.selectNodes("./tf:Keywords/tf:Keyword");
+            List<Node> keywordsList = metadataXml.selectNodes("./tf:Keywords/tf:Keyword");
             if( keywordsList != null && !keywordsList.isEmpty() ){
-                for( Element keywordElement : keywordsList ){
+                for( Node keywordElement : keywordsList ){
                     metadata.addToKeywords(getString(keywordElement, ".", true));
                 }
             }
@@ -116,17 +117,17 @@ public class TrustmarkDefinitionXmlDeserializer extends AbstractDeserializer {
 
 
 
-        List<Element> termsXmlList = tdXml.selectNodes("./tf:Terms/tf:Term");
+        List<Node> termsXmlList = tdXml.selectNodes("./tf:Terms/tf:Term");
         if( termsXmlList != null && !termsXmlList.isEmpty() ){
-            for( Element term : termsXmlList ){
+            for( Node term : termsXmlList ){
                 td.addTerm(readTerm(term));
             }
         }
 
         HashMap<String, Source> sourceMap = new HashMap<>();
-        List<Element> sourcesXmlList = tdXml.selectNodes("./tf:Sources/tf:Source");
+        List<Node> sourcesXmlList = tdXml.selectNodes("./tf:Sources/tf:Source");
         if( sourcesXmlList != null && !sourcesXmlList.isEmpty() ){
-            for( Element sourceXml : sourcesXmlList ){
+            for( Node sourceXml : sourcesXmlList ){
                 Source source = readSource(sourceXml);
                 td.addSource(source);
                 String id = getString(sourceXml, "./@tf:id", true);
@@ -136,9 +137,9 @@ public class TrustmarkDefinitionXmlDeserializer extends AbstractDeserializer {
 
         td.setConformanceCriteriaPreface(getString(tdXml, "./tf:ConformanceCriteria/tf:Preface", false));
         HashMap<String, ConformanceCriterion> criteriaMap = new HashMap<>();
-        List<Element> criteriaXmlList = tdXml.selectNodes("./tf:ConformanceCriteria/tf:ConformanceCriterion");
+        List<Node> criteriaXmlList = tdXml.selectNodes("./tf:ConformanceCriteria/tf:ConformanceCriterion");
         if( criteriaXmlList != null && !criteriaXmlList.isEmpty() ){
-            for( Element critXml : criteriaXmlList ){
+            for( Node critXml : criteriaXmlList ){
                 ConformanceCriterion crit = readConformanceCriterion(critXml, sourceMap);
                 td.addConformanceCriterion(crit);
                 criteriaMap.put(crit.getId(), crit);
@@ -147,9 +148,9 @@ public class TrustmarkDefinitionXmlDeserializer extends AbstractDeserializer {
 
 
         td.setAssessmentStepPreface(getString(tdXml, "./tf:AssessmentSteps/tf:Preface", false));
-        List<Element> assStepXmlList = tdXml.selectNodes("./tf:AssessmentSteps/tf:AssessmentStep");
+        List<Node> assStepXmlList = tdXml.selectNodes("./tf:AssessmentSteps/tf:AssessmentStep");
         if( assStepXmlList != null && !assStepXmlList.isEmpty() ){
-            for( Element assStepXml : assStepXmlList ){
+            for( Node assStepXml : assStepXmlList ){
                 td.addAssessmentStep(readAssessmentStep(assStepXml, criteriaMap));
             }
         }
@@ -162,9 +163,9 @@ public class TrustmarkDefinitionXmlDeserializer extends AbstractDeserializer {
 
     private static void parseComments(Element tdXml, TrustmarkDefinitionMetadataImpl metadata) throws ParseException {
         // FIXME Do we remove importing XML comments for supersedes and keywords from 1.1 functionality?
-        List<Comment> comments = tdXml.getDocument().selectNodes("//comment()");
+        List<Node> comments = tdXml.getDocument().selectNodes("//comment()");
         if( comments != null && comments.size() > 0 ){
-            for( Comment comment : comments ){
+            for( Node comment : comments ){
                 String commentText = comment.getText();
                 if( commentText != null )
                     commentText = commentText.trim();
@@ -190,16 +191,16 @@ public class TrustmarkDefinitionXmlDeserializer extends AbstractDeserializer {
         }
     }
 
-    protected static TrustmarkDefinitionParameter readTrustmarkDefinitionParameter(Element asXml ) throws ParseException {
+    protected static TrustmarkDefinitionParameter readTrustmarkDefinitionParameter(Node asXml ) throws ParseException {
         TrustmarkDefinitionParameterImpl paramImpl = new TrustmarkDefinitionParameterImpl();
         paramImpl.setIdentifier(getString(asXml, "./tf:Identifier", true));
         paramImpl.setName(getString(asXml, "./tf:Name", true));
         paramImpl.setDescription(getString(asXml, "./tf:Description", true));
         paramImpl.setParameterKind(ParameterKind.fromString(getString(asXml, "./tf:ParameterKind", true)));
         if( Boolean.TRUE.equals(asXml.selectObject("count(./tf:EnumValues/tf:EnumValue) > 0")) ){
-            List<Element> enumValueList = asXml.selectNodes("./tf:EnumValues/tf:EnumValue");
+            List<Node> enumValueList = asXml.selectNodes("./tf:EnumValues/tf:EnumValue");
             if( enumValueList != null && !enumValueList.isEmpty() ){
-                for( Element enumValueXml : enumValueList ){
+                for( Node enumValueXml : enumValueList ){
                     paramImpl.addEnumValue( (String) enumValueXml.selectObject("string(.)"));
                 }
             }
@@ -213,15 +214,15 @@ public class TrustmarkDefinitionXmlDeserializer extends AbstractDeserializer {
         return paramImpl;
     }
 
-    protected static AssessmentStep readAssessmentStep( Element asXml, HashMap<String, ConformanceCriterion> criteriaMap ) throws ParseException {
+    protected static AssessmentStep readAssessmentStep( Node asXml, HashMap<String, ConformanceCriterion> criteriaMap ) throws ParseException {
         AssessmentStepImpl assStep = new AssessmentStepImpl();
         assStep.setId(getString(asXml, "./@tf:id", true));
         assStep.setNumber(getNumber(asXml, "./tf:Number", true).intValue());
         assStep.setName(getString(asXml, "./tf:Name", true));
         assStep.setDescription(getString(asXml, "./tf:Description", true));
-        List<Element> criteriaRefElements = asXml.selectNodes("./tf:ConformanceCriterion");
+        List<Node> criteriaRefElements = asXml.selectNodes("./tf:ConformanceCriterion");
         if( criteriaRefElements != null && !criteriaRefElements.isEmpty() ){
-            for( Element critRefXml : criteriaRefElements ){
+            for( Node critRefXml : criteriaRefElements ){
                 String refVal = getString(critRefXml, "./@tf:ref", false);
                 if( StringUtils.isBlank(refVal) )
                     throw new ParseException("For AssessmentStep["+assStep.getNumber()+"]: '"+assStep.getName()+"', a conformance criteria reference is missing it's @tf:ref attribute.");
@@ -232,17 +233,17 @@ public class TrustmarkDefinitionXmlDeserializer extends AbstractDeserializer {
             }
         }
 
-        List<Element> artifactXmlList = asXml.selectNodes("./tf:Artifact");
+        List<Node> artifactXmlList = asXml.selectNodes("./tf:Artifact");
         if( artifactXmlList != null && !artifactXmlList.isEmpty() ){
-            for( Element artifactXml : artifactXmlList ){
+            for( Node artifactXml : artifactXmlList ){
                 assStep.addArtifact(readArtifact(artifactXml));
             }
         }
 
         HashMap<String, TrustmarkDefinitionParameter> paramMap = new HashMap<>();
-        List<Element> parameterDefElements = asXml.selectNodes("./tf:ParameterDefinitions/tf:ParameterDefinition");
+        List<Node> parameterDefElements = asXml.selectNodes("./tf:ParameterDefinitions/tf:ParameterDefinition");
         if( parameterDefElements != null && !parameterDefElements.isEmpty() ){
-            for( Element paramDefElement : parameterDefElements ){
+            for( Node paramDefElement : parameterDefElements ){
                 TrustmarkDefinitionParameter param = readTrustmarkDefinitionParameter(paramDefElement);
                 assStep.addParameter(param);
             }
@@ -251,21 +252,21 @@ public class TrustmarkDefinitionXmlDeserializer extends AbstractDeserializer {
         return assStep;
     }//end readAssessmentStep
 
-    protected static Artifact readArtifact(Element artifactXml) throws ParseException {
+    protected static Artifact readArtifact(Node artifactXml) throws ParseException {
         ArtifactImpl artifact = new ArtifactImpl();
         artifact.setName(getString(artifactXml, "./tf:Name", true));
         artifact.setDescription(getString(artifactXml, "./tf:Description", true));
         return artifact;
     }
 
-    protected static ConformanceCriterion readConformanceCriterion( Element critXml, HashMap<String, Source> sources ) throws ParseException {
+    protected static ConformanceCriterion readConformanceCriterion( Node critXml, HashMap<String, Source> sources ) throws ParseException {
         ConformanceCriterionImpl crit = new ConformanceCriterionImpl();
         crit.setNumber(getNumber(critXml, "./tf:Number", true).intValue());
         crit.setName(getString(critXml, "./tf:Name", true));
         crit.setDescription(getString(critXml, "./tf:Description", true));
-        List<Element> citationsXmlList = critXml.selectNodes("./tf:Citation");
+        List<Node> citationsXmlList = critXml.selectNodes("./tf:Citation");
         if( citationsXmlList != null && !citationsXmlList.isEmpty() ){
-            for( Element citationXml : citationsXmlList ){
+            for( Node citationXml : citationsXmlList ){
                 crit.addCitation(readCitation(citationXml, sources));
             }
         }
@@ -274,7 +275,7 @@ public class TrustmarkDefinitionXmlDeserializer extends AbstractDeserializer {
         return crit;
     }//end readConformanceCriterion()
 
-    protected static Citation readCitation( Element citationXml, HashMap<String, Source> sources ) throws ParseException {
+    protected static Citation readCitation( Node citationXml, HashMap<String, Source> sources ) throws ParseException {
         CitationImpl citation = new CitationImpl();
         String sourceRef = citationXml.selectObject("string(./tf:Source/@tf:ref)").toString();
         if(StringUtils.isBlank(sourceRef) )

@@ -329,6 +329,24 @@ public class BulkImportUtils {
     }
     
     /**
+     * Assumes that the stringValue parameter contains a series of double-pipe-separated values.  This method splits the string
+     * on those pipes, and outputs a list of the split values.  For example, input is: 'a||b||c', output is List(a, b, c)
+     */
+    public static List<String> parseDoublePipeFormat(String rawString) {
+        ArrayList<String> result = new ArrayList<>();
+        if (rawString != null) {
+            String trimmedString = rawString.trim();
+            if (trimmedString.length() > 0) {
+                String[] rawValues = trimmedString.split("\\|\\|");
+                for (String rawValue : rawValues) {
+                    result.add(rawValue.trim());
+                }
+            }
+        }
+        return result;
+    }
+    
+    /**
      * Accepts a string of 'name1: desc1|name2: desc2|name3: desc3|...' and outputs a list of pairs, like this:
      * List([name: name1, desc: desc1], [name: name2, desc: desc2], [name: name3, desc: desc3], ...)
      */
@@ -400,23 +418,23 @@ public class BulkImportUtils {
     }
     
     /**
-     * Accepts a string of 'identifier1:kindInfo1:name1:description1|identifier2:kindInfo2:name2:description2|...' and
+     * Accepts a string of 'identifier1|kindInfo1|name1|description1||identifier2|kindInfo2|name2|description2|...' and
      * outputs a list of raw TD parameters.
      * The kindInfo consists of an optional asterisk (denotes a required parameter) followed by a kind name (one of
      * STRING, NUMBER, BOOLEAN, DATETIME, ENUM, or ENUM_MULTI). If the kind name is ENUM or ENUM_MULTI, the name is
      * followed by a parenthesized, comma-separated list of allowed enum values.
      */
     public static List<BulkReadRawData.RawTdParameter> parseParameterPipeFormat(String rawString) {
-        List<String> pipeSeparatedCellValue = parsePipeFormat(rawString);
+        List<String> pipeSeparatedCellValue = parseDoublePipeFormat(rawString);
         List<BulkReadRawData.RawTdParameter> result = new ArrayList<>();
         for (String rawParamString : pipeSeparatedCellValue) {
     
             //Logger.getLogger(BulkImportUtils.class).debug("Parsing parameter from: " + rawParamString);
     
-            String[] rawParamStringSplit = rawParamString.split(":");
+            String[] rawParamStringSplit = rawParamString.split("\\|");
             if (rawParamStringSplit.length != 4) {
                 throw new UnsupportedOperationException(String.format(
-                    "Expecting to find three colons in value[%s], but found %d instead.  Full String: %s",
+                    "Expecting to find three pipes in value[%s], but found %d instead.  Full String: %s",
                     rawParamString,
                     rawParamStringSplit.length - 1,
                     rawString
