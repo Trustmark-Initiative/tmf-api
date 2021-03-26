@@ -27,6 +27,8 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Cell;
 
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.ExcelMultiTdBuilder.*;
+
 /**
  * Created by Nicholas on 9/6/2016.
  */
@@ -437,35 +439,35 @@ public class ExcelBulkReaderImpl extends AbstractBulkReader implements ExcelBulk
         public static final String DEFAULT_ISSUANCE_CRITERIA = "yes(ALL)";
         
         // Instance Fields
-        public final FilteredStringColumn STEP_NAME = new FilteredStringColumn("Step Name");
-        public final FilteredStringColumn STEP_DESC = new FilteredStringColumn("Step Desc");
-        public final FilteredStringColumn CRITERION_NAME = new FilteredStringColumn("Criterion Name");
-        public final FilteredStringColumn CRITERION_DESC = new FilteredStringColumn("Criterion Desc");
-        public final StringColumn TD_MONIKER = new StringColumn("TD Moniker");
-        public final FilteredStringColumn TD_NAME = new FilteredStringColumn("TD Name");
-        public final StringColumn TD_VERSION = new StringColumn("TD Version");
-        public final FilteredStringColumn TD_DESC = new FilteredStringColumn("TD Description");
-        public final StringColumn TD_PUB_DATE = new StringColumn("TD Publication DateTime");
-        public final StringColumn STAKEHOLDER_DESC = new StringColumn("Stakeholder Desc");
-        public final StringColumn RECIPIENT_DESC = new StringColumn("Recipient Desc");
-        public final StringColumn RELYING_PARTY_DESC = new StringColumn("Relying Party Desc");
-        public final StringColumn PROVIDER_DESC = new StringColumn("Provider Desc");
-        public final StringColumn PROVIDER_ELIGIBILITY_CRITERIA = new StringColumn("Provider Eligibility Criteria");
-        public final StringColumn ASSESSOR_QUALIFICATIONS_DESC = new StringColumn("Assessor Qualifications Desc");
-        public final StringColumn REVOCATION_CRITERIA = new StringColumn("Trustmark Revocation Criteria");
-        public final StringColumn EXTENSION_DESC = new StringColumn("Extension Description");
-        public final StringColumn NOTES = new StringColumn("Notes");
-        public final StringColumn LEGAL_NOTICE = new StringColumn("Legal Notice");
-        public final StringColumn CRITERIA_PREFACE = new StringColumn("Criteria Preface");
+        public final FilteredStringColumn STEP_NAME = new FilteredStringColumn(LISTING_COL_STEP_NAME);
+        public final FilteredStringColumn STEP_DESC = new FilteredStringColumn(LISTING_COL_STEP_DESC);
+        public final FilteredStringColumn CRITERION_NAME = new FilteredStringColumn(LISTING_COL_CRIT_NAME);
+        public final FilteredStringColumn CRITERION_DESC = new FilteredStringColumn(LISTING_COL_CRIT_DESC);
+        public final StringColumn TD_MONIKER = new StringColumn(LISTING_COL_TD_MONIKER);
+        public final FilteredStringColumn TD_NAME = new FilteredStringColumn(LISTING_COL_TD_NAME);
+        public final StringColumn TD_VERSION = new StringColumn(LISTING_COL_TD_VERSION);
+        public final FilteredStringColumn TD_DESC = new FilteredStringColumn(LISTING_COL_TD_DESC);
+        public final StringColumn TD_PUB_DATE = new StringColumn(LISTING_COL_TD_PUB_TIME);
+        public final StringColumn STAKEHOLDER_DESC = new StringColumn(LISTING_COL_STAKEHOLDER_DESC);
+        public final StringColumn RECIPIENT_DESC = new StringColumn(LISTING_COL_RECIPIENT_DESC);
+        public final StringColumn RELYING_PARTY_DESC = new StringColumn(LISTING_COL_RELYING_PARTY_DESC);
+        public final StringColumn PROVIDER_DESC = new StringColumn(LISTING_COL_PROVIDER_DESC);
+        public final StringColumn PROVIDER_ELIGIBILITY_CRITERIA = new StringColumn(LISTING_COL_PROVIDER_ELIGIBILITY);
+        public final StringColumn ASSESSOR_QUALIFICATIONS_DESC = new StringColumn(LISTING_COL_ASSESSOR_QUALIFICATIONS_DESC);
+        public final StringColumn REVOCATION_CRITERIA = new StringColumn(LISTING_COL_REVOCATION_CRITERIA);
+        public final StringColumn EXTENSION_DESC = new StringColumn(LISTING_COL_EXTENSION_DESC);
+        public final StringColumn NOTES = new StringColumn(LISTING_COL_NOTES);
+        public final StringColumn LEGAL_NOTICE = new StringColumn(LISTING_COL_LEGAL_NOTICE);
+        public final StringColumn CRITERIA_PREFACE = new StringColumn(LISTING_COL_CRITERIA_PREFACE);
         public final StringColumn ASSESSMENT_PREFACE = new StringColumn("Assessment Preface");
-        public final StringColumn ISSUANCE_CRITERIA = new StringColumn("Issuance Criteria");
-        public final PipeListColumn KEYWORDS = new PipeListColumn("Keywords");
-        public final PipeListColumn SUPERSEDES = new PipeListColumn("Superseded TD");
+        public final StringColumn ISSUANCE_CRITERIA = new StringColumn(LISTING_COL_ISSUANCE_CRITERIA);
+        public final PipeListColumn KEYWORDS = new PipeListColumn(LISTING_COL_KEYWORDS);
+        public final PipeListColumn SUPERSEDES = new PipeListColumn(LISTING_COL_SUPERSEDED_TD);
         public final PipeListColumn TERMS_INCLUDE = new PipeListColumn("Terms Include");
         public final PipeListColumn TERMS_EXCLUDE = new PipeListColumn("Terms Exclude");
         public final PipeListColumn TIPS = new PipeListColumn("TIPs");
-        public final ColonPipeListColumn CITATIONS = new ColonPipeListColumn("Citations");
-        public final ColonPipeListColumn ARTIFACTS = new ColonPipeListColumn("Artifacts");
+        public final ColonPipeListColumn CITATIONS = new ColonPipeListColumn(LISTING_COL_CITATIONS);
+        public final ColonPipeListColumn ARTIFACTS = new ColonPipeListColumn(LISTING_COL_ARTIFACTS);
         public final ColonPipeListColumn TERMS = new ColonPipeListColumn("Terms");
         public final FilteredValueColonPipeMapColumn SOURCES = new FilteredValueColonPipeMapColumn("Sources");
         public final ParameterListColumn PARAMETERS = new ParameterListColumn("Parameters");
@@ -572,25 +574,25 @@ public class ExcelBulkReaderImpl extends AbstractBulkReader implements ExcelBulk
     
     public static class TIPsSheetRowMapper extends AbstractExcelSheetRowMapper<RawTrustInteroperabilityProfile> {
         // Instance Fields
-        public final StringColumn TIP_CATEGORY = new StringColumn("Category");
-        public final FilteredStringColumn TIP_NAME = new FilteredStringColumn("TIP Name");
-        public final FilteredStringColumn TIP_DESC = new FilteredStringColumn("TIP Description");
-        public final StringColumn TIP_VERSION = new StringColumn("TIP Version");
-        public final StringColumn TIP_TRUST_EXPRESSION = new StringColumn("Trust Expression");
-        public final StringColumn TIP_ID = new StringColumn("TIP Id");
-        public final StringColumn TIP_ISSUER_NAME = new StringColumn("Issuer Name");
-        public final StringColumn TIP_ISSUER_ID = new StringColumn("Issuer ID");
-        public final StringColumn TIP_PRIMARY = new StringColumn("Primary");
-        public final StringColumn TIP_MONIKER = new StringColumn("TIP Moniker");
-        public final StringColumn NOTES = new StringColumn("Notes");
-        public final StringColumn LEGAL_NOTICE = new StringColumn("Legal Notice");
-        public final StringColumn TIP_PUB_DATE = new StringColumn("TIP Publication DateTime");
-        public final PipeListColumn SUPERSEDES = new PipeListColumn("Superseded TIP");
-        public final ColonPipeListColumn TERMS = new ColonPipeListColumn("Terms");
-        public final PipeListColumn TERMS_INCLUDE = new PipeListColumn("Terms Include");
-        public final PipeListColumn TERMS_EXCLUDE = new PipeListColumn("Terms Exclude");
-        public final PipeListColumn KEYWORDS = new PipeListColumn("Keywords");
-        public final FilteredValueColonPipeMapColumn SOURCES = new FilteredValueColonPipeMapColumn("Sources");
+        public final StringColumn                    TIP_CATEGORY         = new StringColumn(                    "Category");
+        public final FilteredStringColumn            TIP_NAME             = new FilteredStringColumn(            "TIP Name");
+        public final FilteredStringColumn            TIP_DESC             = new FilteredStringColumn(            "TIP Description");
+        public final StringColumn                    TIP_VERSION          = new StringColumn(                    "TIP Version");
+        public final StringColumn                    TIP_TRUST_EXPRESSION = new StringColumn(                    "Trust Expression");
+        public final StringColumn                    TIP_ID               = new StringColumn(                    "TIP Id");
+        public final StringColumn                    TIP_ISSUER_NAME      = new StringColumn(                    "Issuer Name");
+        public final StringColumn                    TIP_ISSUER_ID        = new StringColumn(                    "Issuer ID");
+        public final StringColumn                    TIP_PRIMARY          = new StringColumn(                    "Primary");
+        public final StringColumn                    TIP_MONIKER          = new StringColumn(                    "TIP Moniker");
+        public final StringColumn                    NOTES                = new StringColumn(                    LISTING_COL_NOTES);
+        public final StringColumn                    LEGAL_NOTICE         = new StringColumn(                    LISTING_COL_LEGAL_NOTICE);
+        public final StringColumn                    TIP_PUB_DATE         = new StringColumn(                    "TIP Publication DateTime");
+        public final PipeListColumn                  SUPERSEDES           = new PipeListColumn(                  "Superseded TIP");
+        public final ColonPipeListColumn             TERMS                = new ColonPipeListColumn(             "Terms");
+        public final PipeListColumn                  TERMS_INCLUDE        = new PipeListColumn(                  "Terms Include");
+        public final PipeListColumn                  TERMS_EXCLUDE        = new PipeListColumn(                  "Terms Exclude");
+        public final PipeListColumn                  KEYWORDS             = new PipeListColumn(                  LISTING_COL_KEYWORDS);
+        public final FilteredValueColonPipeMapColumn SOURCES              = new FilteredValueColonPipeMapColumn( "Sources");
         
         // Constructor
         public TIPsSheetRowMapper(File _file, Sheet _sheet) {

@@ -153,6 +153,14 @@ public class XmlJsonBulKReader implements BulkReader {
                 if (StringUtils.isEmpty(td.getMetadata().getNotes())) {
                     ((TrustmarkDefinitionMetadataImpl) td.getMetadata()).setNotes(context.getDefaultNotes());
                 }
+
+                ((TrustmarkDefinitionMetadataImpl) td.getMetadata()).setTargetStakeholderDescription(context.getDefaultTargetStakeholderDescription());
+                ((TrustmarkDefinitionMetadataImpl) td.getMetadata()).setTargetRecipientDescription(context.getDefaultTargetRecipientDescription());
+                ((TrustmarkDefinitionMetadataImpl) td.getMetadata()).setTargetRelyingPartyDescription(context.getDefaultTargetRelyingPartyDescription());
+                ((TrustmarkDefinitionMetadataImpl) td.getMetadata()).setTargetProviderDescription(context.getDefaultTargetProviderDescription());
+                ((TrustmarkDefinitionMetadataImpl) td.getMetadata()).setProviderEligibilityCriteria(context.getDefaultProviderEligibilityCriteria());
+                ((TrustmarkDefinitionMetadataImpl) td.getMetadata()).setAssessorQualificationsDescription(context.getDefaultAssessorQualificationsDescription());
+                ((TrustmarkDefinitionMetadataImpl) td.getMetadata()).setExtensionDescription(context.getDefaultExtensionDescription());
             }
         }
         bulkReadListenerDelegator.finishedProcessingRawTDs(tds);

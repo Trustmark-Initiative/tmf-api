@@ -47,5 +47,5 @@ UPPER_NOT   : 'NOT';
 BANG        : '!';
 LPAREN      : '(';
 RPAREN      : ')';
-NAMECHAR    : '_' | [a-zA-Z] | [0-9];
+NAMECHAR    : '_' | '-' | [a-zA-Z] | [0-9];
 WS	        : [ \t\r\n]+ -> skip;

@@ -10,6 +10,8 @@
         "Version" : "0.1-SNAPSHOT",
         "Description" : "Just a simple TD to show how to make one.  Demonstration only.",
         "PublicationDateTime" : "2016-09-08T10:00:00Z",
+        "TargetRecipientDescription" : "RecipientDescription from NIST Special Publication 800-53.",
+        "TargetStakeholderDescription" : "StakeholderDescription from NIST Special Publication 800-53.",
         "TrustmarkDefiningOrganization" : {
           "Identifier" : "http://tdo.example/",
           "Name" : "Trustmark Defining Organization",
@@ -116,6 +118,8 @@
         "Version" : "0.1-SNAPSHOT",
         "Description" : "Just a simple TD to show how to make one.  Demonstration only.",
         "PublicationDateTime" : "2016-09-08T10:00:00Z",
+        "TargetRecipientDescription" : "RecipientDescription from NIST Special Publication 800-53.",
+        "TargetStakeholderDescription" : "StakeholderDescription from NIST Special Publication 800-53.",
         "TrustmarkDefiningOrganization" : {
           "Identifier" : "http://tdo.example/",
           "Name" : "Trustmark Defining Organization",

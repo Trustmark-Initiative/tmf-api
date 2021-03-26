@@ -3,7 +3,6 @@ package edu.gatech.gtri.trustmark.v1_0.impl.util;
 import edu.gatech.gtri.trustmark.v1_0.util.TrustmarkMailClient;
 
 import javax.activation.DataHandler;
-import javax.activation.FileDataSource;
 
 import javax.mail.Authenticator;
 import javax.mail.Message;
@@ -16,12 +15,9 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
+import javax.mail.util.ByteArrayDataSource;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 
 public class TrustmarkMailClientImpl implements TrustmarkMailClient {
 
@@ -32,7 +28,7 @@ public class TrustmarkMailClientImpl implements TrustmarkMailClient {
     public static final String SMTP_AUTH = "mail.smtp.auth";
     public static final String FROM_ADDRESS = "smtp.from.address";
 
-    private Properties mailProps = new Properties();
+    private final Properties mailProps = new Properties();
 
     private String user;
     private String pswd;
@@ -45,32 +41,19 @@ public class TrustmarkMailClientImpl implements TrustmarkMailClient {
     private Object content;
     private String type;
 
-    private List<String> attachments = new ArrayList<>();
+    private final Map<String, ByteArrayDataSource> attachments = new HashMap<>();
 
-    private List<String> toList = new ArrayList<>();
-    private List<String> ccList = new ArrayList<>();
-    private List<String> bccList = new ArrayList<>();
+    private final List<String> toList = new ArrayList<>();
+    private final List<String> ccList = new ArrayList<>();
+    private final List<String> bccList = new ArrayList<>();
 
     /**
      * default constructor, allows for injection
      */
     public TrustmarkMailClientImpl()  {
-        mailProps.put("mail.transport.protocol", "smtp");
+        mailProps.put("mail.transport.protocol", "smtps");
         mailProps.put("mail.smtp.auth", "true");
         mailProps.put("mail.smtp.starttls.enable", "true");
-    }
-
-    /**
-     * constructor taking userid and password
-     * @param user
-     * @param pswd
-     */
-    public TrustmarkMailClientImpl(String user, String pswd)  {
-        super();
-
-        mailProps.put("mail.user", user);
-        this.user = user;
-        this.pswd = pswd;
     }
 
     @Override
@@ -87,6 +70,7 @@ public class TrustmarkMailClientImpl implements TrustmarkMailClient {
 
     @Override
     public TrustmarkMailClient setSmtpHost(String host) {
+        System.out.println(String.format("TrustmarkMailClientImpl.setSmtpHost %s", host));
         mailProps.put("mail.smtp.host", host);
         this.host = host;
         return this;
@@ -128,11 +112,15 @@ public class TrustmarkMailClientImpl implements TrustmarkMailClient {
         return this;
     }
 
+    public TrustmarkMailClient addAttachment(String fn, ByteArrayDataSource bad) {
+        if(fn != null && fn.length() > 0 && bad != null)  {
+            attachments.put(fn, bad);
+        }
+        return this;
+    }
+
     @Override
     public TrustmarkMailClient addAttachment(String fn) {
-        if(fn != null && fn.length() > 0)  {
-            attachments.add(fn);
-        }
         return this;
     }
 
@@ -168,7 +156,7 @@ public class TrustmarkMailClientImpl implements TrustmarkMailClient {
 
     @Override
     public void sendMail() {
-        Session session = Session.getDefaultInstance(mailProps,
+        Session session = Session.getInstance(mailProps,
                 new Authenticator() {
                     protected PasswordAuthentication getPasswordAuthentication() {
                         return new PasswordAuthentication(user, pswd);
@@ -221,11 +209,11 @@ public class TrustmarkMailClientImpl implements TrustmarkMailClient {
 
             multipart.addBodyPart(hdrPart);
 
-            attachments.forEach(f -> {
+            attachments.forEach((k, v) -> {
                 MimeBodyPart bodyPart = new MimeBodyPart();
                 try {
-                    bodyPart.setDataHandler(new DataHandler(new FileDataSource(f)));
-                    bodyPart.setFileName(f.substring(f.lastIndexOf(File.separator)+1));
+                    bodyPart.setDataHandler(new DataHandler(v));
+                    bodyPart.setFileName(k);
                     multipart.addBodyPart(bodyPart);
                 } catch (MessagingException e) {
                     e.printStackTrace();

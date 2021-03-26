@@ -96,7 +96,7 @@ public class TestTrustmarkXmlSignature extends AbstractTest {
         File keyPemFile = new File(keyFile);
         String privateKeyPEM = FileUtils.readFileToString(keyPemFile);
 
-        privateKeyPEM = privateKeyPEM.replace("-----BEGIN PRIVATE KEY-----\n", "");
+        privateKeyPEM = privateKeyPEM.replace("-----BEGIN PRIVATE KEY-----", "");
         privateKeyPEM = privateKeyPEM.replace("-----END PRIVATE KEY-----", "");
 
         byte[] encoded = DatatypeConverter.parseBase64Binary(privateKeyPEM);
