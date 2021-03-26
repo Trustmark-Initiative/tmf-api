@@ -91,4 +91,48 @@ public interface BulkReadContext {
      * @return a valid revocation criteria String
      */
     String getDefaultRevocationCriteria();
+
+    //FIXME missing TrustmarkRevocationCriteria
+
+    /**
+     * Gets the default target stakeholder description that will be used during an entire bulk read operation.
+     * @return a valid target stakeholder description String
+     */
+    String getDefaultTargetStakeholderDescription();
+
+    /**
+     * Gets the default target recipient description that will be used during an entire bulk read operation.
+     * @return a valid target recipient description String
+     */
+    String getDefaultTargetRecipientDescription();
+
+    /**
+     * Gets the default target relying party description that will be used during an entire bulk read operation.
+     * @return a valid target relying party description String
+     */
+    String getDefaultTargetRelyingPartyDescription();
+
+    /**
+     * Gets the default target provider description that will be used during an entire bulk read operation.
+     * @return a valid target provider description String
+     */
+    String getDefaultTargetProviderDescription();
+
+    /**
+     * Gets the default provider eligibility criteria that will be used during an entire bulk read operation.
+     * @return a valid provider eligibility criteria String
+     */
+    String getDefaultProviderEligibilityCriteria();
+
+    /**
+     * Gets the default assessor qualifications description that will be used during an entire bulk read operation.
+     * @return a valid assessor qualifications description String
+     */
+    String getDefaultAssessorQualificationsDescription();
+
+    /**
+     * Gets the default extension description that will be used during an entire bulk read operation.
+     * @return a valid extension description String
+     */
+    String getDefaultExtensionDescription();
 }

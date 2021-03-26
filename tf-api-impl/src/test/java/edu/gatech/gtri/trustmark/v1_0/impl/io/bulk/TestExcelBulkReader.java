@@ -684,7 +684,9 @@ public class TestExcelBulkReader extends AbstractTest {
         contextImpl.setDefaultNotes("The Georgia Tech Research Institute (GTRI) has published this document with the support of the National Strategy for Trusted Identities in Cyberspace (NSTIC) via the National Institute of Standards and Technology (NIST). The views expressed herein do not necessarily reflect the official policies of GTRI, NIST or NSTIC; nor does mention of trade names, commercial practices, or organizations imply endorsement by the U.S. Government.");
         contextImpl.setDefaultIssuanceCriteria("yes(ALL)");
         contextImpl.setDefaultRevocationCriteria("For any trustmark issued under this Trustmark Definition, the Trustmark Provider must revoke the trustmark upon any condition whereby one or more Conformance Criteria cease to be satisfied.​");
-        
+        contextImpl.setDefaultStakeholderDescription("StakeholderDescription from NIST Special Publication 800-53.");
+        contextImpl.setDefaultRecipientDescription("RecipientDescription from NIST Special Publication 800-53.");
+
         return contextImpl;
     }
 

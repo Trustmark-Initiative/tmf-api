@@ -11,8 +11,20 @@
         <version>1.4.1</version>
     </parent>
 
-    <build>
+    <properties>
+	<tf.api.version>1.4.1</tf.api.version>
+    </properties>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>jakarta.mail</artifactId>
+            <version>1.6.4</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
         <resources>
             <resource>
                 <directory>${basedir}/src/main/resources</directory>

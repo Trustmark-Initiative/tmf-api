@@ -35,7 +35,7 @@ public class ExcelMultiTdBuilder implements MultiTrustmarkDefinitionBuilder {
     public static final String CELL_STYLE_ASS_STEP_DESC= "stepDescCellStyle";
 
     public static final String LISTING_SHEET_NAME= "TDs";
-    public static final String TERMS_SHEET_NAME= "Terms";
+    public static final String TERMS_SHEET_NAME                                = "Terms";
 
 
     public static final String LISTING_COL_STEP_NAME                           = "Step Name";
@@ -65,19 +65,40 @@ public class ExcelMultiTdBuilder implements MultiTrustmarkDefinitionBuilder {
     public static final String LISTING_COL_NOTES                               = "Notes";
     public static final String LISTING_COL_LEGAL_NOTICE                        = "Legal Notice";
 
-    public static final String TERMS_COL_TERM = "Term";
-    public static final String TERMS_COL_ABBREVIATIONS = "Abbreviations";
-    public static final String TERMS_COL_DEFINITION = "Definition";
+    public static final String TERMS_COL_TERM                                  = "Term";
+    public static final String TERMS_COL_ABBREVIATIONS                         = "Abbreviations";
+    public static final String TERMS_COL_DEFINITION                            = "Definition";
 
-    public static final String[] TERMS_COLUMNS = new String[]{TERMS_COL_TERM, TERMS_COL_ABBREVIATIONS, TERMS_COL_DEFINITION};
+    public static final String[] TERMS_COLUMNS = new String[]{      TERMS_COL_TERM,
+                                                                    TERMS_COL_ABBREVIATIONS,
+                                                                    TERMS_COL_DEFINITION};
 
-    public static final String[] LISTING_COLUMNS = new String[]{
-            LISTING_COL_STEP_NAME, LISTING_COL_STEP_DESC, LISTING_COL_CRIT_NAME, LISTING_COL_CRIT_DESC,
-            LISTING_COL_CITATIONS, LISTING_COL_ARTIFACTS, LISTING_COL_KEYWORDS, LISTING_COL_NOTES, LISTING_COL_LEGAL_NOTICE,
-            LISTING_COL_TD_MONIKER, LISTING_COL_TD_NAME, LISTING_COL_TD_VERSION, LISTING_COL_TD_DESC, LISTING_COL_TD_PUB_TIME,
-            LISTING_COL_STAKEHOLDER_DESC, LISTING_COL_RECIPIENT_DESC, LISTING_COL_RELYING_PARTY_DESC, LISTING_COL_PROVIDER_DESC,
-            LISTING_COL_PROVIDER_ELIGIBILITY, LISTING_COL_ASSESSOR_QUALIFICATIONS_DESC, LISTING_COL_REVOCATION_CRITERIA, LISTING_COL_EXTENSION_DESC,
-            LISTING_COL_ISSUANCE_CRITERIA, LISTING_COL_CRITERIA_PREFACE, LISTING_COL_STEP_PREFACE, LISTING_COL_SUPERSEDED_TD};
+    public static final String[] LISTING_COLUMNS = new String[]{    LISTING_COL_STEP_NAME,
+                                                                    LISTING_COL_STEP_DESC,
+                                                                    LISTING_COL_CRIT_NAME,
+                                                                    LISTING_COL_CRIT_DESC,
+                                                                    LISTING_COL_CITATIONS,
+                                                                    LISTING_COL_ARTIFACTS,
+                                                                    LISTING_COL_KEYWORDS,
+                                                                    LISTING_COL_TD_MONIKER,
+                                                                    LISTING_COL_TD_NAME,
+                                                                    LISTING_COL_TD_VERSION,
+                                                                    LISTING_COL_TD_DESC,
+                                                                    LISTING_COL_TD_PUB_TIME,
+                                                                    LISTING_COL_STAKEHOLDER_DESC,
+                                                                    LISTING_COL_RECIPIENT_DESC,
+                                                                    LISTING_COL_RELYING_PARTY_DESC,
+                                                                    LISTING_COL_PROVIDER_DESC,
+                                                                    LISTING_COL_PROVIDER_ELIGIBILITY,
+                                                                    LISTING_COL_ASSESSOR_QUALIFICATIONS_DESC,
+                                                                    LISTING_COL_REVOCATION_CRITERIA,
+                                                                    LISTING_COL_EXTENSION_DESC,
+                                                                    LISTING_COL_ISSUANCE_CRITERIA,
+                                                                    LISTING_COL_CRITERIA_PREFACE,
+                                                                    LISTING_COL_STEP_PREFACE,
+                                                                    LISTING_COL_SUPERSEDED_TD,
+                                                                    LISTING_COL_NOTES,
+                                                                    LISTING_COL_LEGAL_NOTICE};
 
     public static final Map<String, Integer> LISTING_COLUMN_POSITIONS = new HashMap<>();
     public static final Map<String, Integer> TERMS_COLUMN_POSITIONS = new HashMap<>();

@@ -1,5 +1,7 @@
 package edu.gatech.gtri.trustmark.v1_0.util;
 
+import javax.mail.util.ByteArrayDataSource;
+
 public interface TrustmarkMailClient {
 
     /**
@@ -78,6 +80,15 @@ public interface TrustmarkMailClient {
      * @return
      */
     TrustmarkMailClient addAttachment(String fn);
+
+    /**
+     * add a byte array to the attachments
+     *
+     * @param fn
+     * @param bad
+     * @return
+     */
+    TrustmarkMailClient addAttachment(String fn, ByteArrayDataSource bad);
 
     /**
      * set the subject of this email

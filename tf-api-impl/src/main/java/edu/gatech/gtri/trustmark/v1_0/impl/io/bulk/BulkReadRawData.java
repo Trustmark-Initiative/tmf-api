@@ -731,13 +731,13 @@ public final class BulkReadRawData {
  
         parsedMetadata.setTrustmarkDefiningOrganization(this.context.getTrustmarkDefiningOrganization());
         
-        parsedMetadata.setTargetStakeholderDescription(BulkImportUtils.trimOrNull(metadata.stakeholderDesc));
-        parsedMetadata.setTargetRecipientDescription(BulkImportUtils.trimOrNull(metadata.recipientDesc));
-        parsedMetadata.setTargetRelyingPartyDescription(BulkImportUtils.trimOrNull(metadata.relyingPartyDesc));
-        parsedMetadata.setTargetProviderDescription(BulkImportUtils.trimOrNull(metadata.providerDesc));
-        parsedMetadata.setProviderEligibilityCriteria(BulkImportUtils.trimOrNull(metadata.providerEligibilityCriteria));
-        parsedMetadata.setAssessorQualificationsDescription(BulkImportUtils.trimOrNull(metadata.assessorQualificationsDesc));
-        parsedMetadata.setExtensionDescription(BulkImportUtils.trimOrNull(metadata.extensionDesc));
+        parsedMetadata.setTargetStakeholderDescription(BulkImportUtils.defaultTrim(metadata.stakeholderDesc, this.context.getDefaultTargetStakeholderDescription()));
+        parsedMetadata.setTargetRecipientDescription(BulkImportUtils.defaultTrim(metadata.recipientDesc, this.context.getDefaultTargetRecipientDescription()));
+        parsedMetadata.setTargetRelyingPartyDescription(BulkImportUtils.defaultTrim(metadata.relyingPartyDesc, this.context.getDefaultTargetRelyingPartyDescription()));
+        parsedMetadata.setTargetProviderDescription(BulkImportUtils.defaultTrim(metadata.providerDesc, this.context.getDefaultTargetProviderDescription()));
+        parsedMetadata.setProviderEligibilityCriteria(BulkImportUtils.defaultTrim(metadata.providerEligibilityCriteria, this.context.getDefaultProviderEligibilityCriteria()));
+        parsedMetadata.setAssessorQualificationsDescription(BulkImportUtils.defaultTrim(metadata.assessorQualificationsDesc, this.context.getDefaultAssessorQualificationsDescription()));
+        parsedMetadata.setExtensionDescription(BulkImportUtils.defaultTrim(metadata.extensionDesc, this.context.getDefaultExtensionDescription()));
         
         parsedMetadata.setTrustmarkRevocationCriteria(BulkImportUtils.defaultTrim(metadata.revocationCriteria, this.context.getDefaultRevocationCriteria()));
         parsedMetadata.setLegalNotice(BulkImportUtils.defaultTrim(metadata.legalNotice, this.context.getDefaultLegalNotice()));

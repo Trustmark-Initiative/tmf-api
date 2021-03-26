@@ -83,8 +83,42 @@ public class BulkReadContextImpl implements BulkReadContext {
     public void setDefaultRevocationCriteria(String _defaultRevocationCriteria) {
         this.defaultRevocationCriteria = _defaultRevocationCriteria;
     }
-    
-    
+
+    private String defaultStakeholderDescription = null;
+    public void setDefaultStakeholderDescription(String _defaultStakeholderDescription) {
+        this.defaultStakeholderDescription = _defaultStakeholderDescription;
+    }
+
+    private String defaultRecipientDescription = null;
+    public void setDefaultRecipientDescription(String _defaultRecipientDescription) {
+        this.defaultRecipientDescription = _defaultRecipientDescription;
+    }
+
+    private String defaultRelyingPartyDescription = null;
+    public void setDefaultRelyingPartyDescription(String _defaultRelyingPartyDescription){
+        this.defaultRelyingPartyDescription = _defaultRelyingPartyDescription;
+    }
+
+    private String defaultProviderDescription = null;
+    public void setDefaultProviderDescription(String _defaultProviderDescription){
+        this.defaultProviderDescription = _defaultProviderDescription;
+    }
+
+    private String defaultProviderEligibilityCriteria = null;
+    public void setDefaultProviderEligibilityCriteria(String _defaultProviderEligibilityCriteria){
+        this.defaultProviderEligibilityCriteria = _defaultProviderEligibilityCriteria;
+    }
+
+    private String defaultAssessorQualificationsDescription = null;
+    public void setDefaultAssessorQualificationsDescription(String _defaultAssessorQualificationsDescription){
+        this.defaultAssessorQualificationsDescription = _defaultAssessorQualificationsDescription;
+    }
+
+    private String defaultExtensionDescription = null;
+    public void setDefaultExtensionDescription(String _defaultExtensionDescription){
+        this.defaultExtensionDescription = _defaultExtensionDescription;
+    }
+
     // Instance Methods
     @Override
     public Entity getTrustmarkDefiningOrganization() {
@@ -186,4 +220,31 @@ public class BulkReadContextImpl implements BulkReadContext {
     public String getDefaultRevocationCriteria() {
         return this.defaultRevocationCriteria;
     }
+
+    @Override
+    public String getDefaultTargetStakeholderDescription() {
+        return this.defaultStakeholderDescription;
+    }
+
+    @Override
+    public String getDefaultTargetRecipientDescription() {
+        return this.defaultRecipientDescription;
+    }
+
+    @Override
+    public String getDefaultTargetRelyingPartyDescription() {
+        return this.defaultRelyingPartyDescription;
+    }
+
+    @Override
+    public String getDefaultTargetProviderDescription() { return this.defaultProviderDescription; }
+
+    @Override
+    public String getDefaultProviderEligibilityCriteria() { return this.defaultProviderEligibilityCriteria; }
+
+    @Override
+    public String getDefaultAssessorQualificationsDescription() { return this.defaultAssessorQualificationsDescription; }
+
+    @Override
+    public String getDefaultExtensionDescription() { return this.defaultExtensionDescription; }
 }

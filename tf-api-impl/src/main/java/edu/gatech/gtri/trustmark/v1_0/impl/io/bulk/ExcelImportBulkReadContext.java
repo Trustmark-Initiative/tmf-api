@@ -39,12 +39,21 @@ public class ExcelImportBulkReadContext extends BulkReadContextImpl {
     public static final String PROPERTY_TFAM_URIS_FOR_EXTERNAL_RESOLUTION = "tpatUrisForExternalResolution";
     public static final Pattern SPLITTER_TFAM_URIS_FOR_EXTERNAL_RESOLUTION = Pattern.compile("\\|");
     
-    public static final String PROPERTY_DEFAULT_VERSION = "defaultVersion";
-    public static final String PROPERTY_DEFAULT_LEGAL_NOTICE = "defaultLegalNotice";
-    public static final String PROPERTY_DEFAULT_NOTES = "defaultNotes";
-    public static final String PROPERTY_DEFAULT_ISSUANCE_CRITERIA = "defaultIssuanceCriteria";
-    public static final String PROPERTY_DEFAULT_REVOCATION_CRITERIA = "defaultRevocationCriteria";
-    
+    public static final String PROPERTY_DEFAULT_VERSION                             = "defaultVersion";
+    public static final String PROPERTY_DEFAULT_LEGAL_NOTICE                        = "defaultLegalNotice";
+    public static final String PROPERTY_DEFAULT_NOTES                               = "defaultNotes";
+    public static final String PROPERTY_DEFAULT_TD_NOTES                            = "defaultTdNotes";
+    public static final String PROPERTY_DEFAULT_TD_LEGAL_NOTICE                     = "defaultTdLegalNotice";
+    public static final String PROPERTY_DEFAULT_ISSUANCE_CRITERIA                   = "defaultIssuanceCriteria";
+    public static final String PROPERTY_DEFAULT_REVOCATION_CRITERIA                 = "defaultRevocationCriteria";
+    public static final String PROPERTY_DEFAULT_TARGET_STAKEHOLDER_DESCRIPTION      = "targetStakeHolderDescription";
+    public static final String PROPERTY_DEFAULT_TARGET_RECIPIENT_DESCRIPTION        = "targetRecipientDescription";
+    public static final String PROPERTY_DEFAULT_TARGET_RELYING_PARTY_DESCRIPTION    = "targetRelyingPartyDescription";
+    public static final String PROPERTY_DEFAULT_TARGET_PROVIDER_DESCRIPTION         = "targetProviderDescription";
+    public static final String PROPERTY_DEFAULT_PROVIDER_ELIGIBILITY_CRITERIA       = "providerEligibilityCriteria";
+    public static final String PROPERTY_DEFAULT_ASSESSOR_QUALIFICATIONS_DESCRIPTION = "assessorQualificationsDescription";
+    public static final String PROPERTY_DEFAULT_EXTENSION_DESCRIPTION               = "extensionDescription";
+
     
     ////// Instance Fields //////
 
@@ -112,12 +121,18 @@ public class ExcelImportBulkReadContext extends BulkReadContextImpl {
         }
         
         // Default Wording
-        this.setDefaultVersion(this.getTrimmedProperty(PROPERTY_DEFAULT_VERSION));
-        this.setDefaultLegalNotice(this.getTrimmedProperty(PROPERTY_DEFAULT_LEGAL_NOTICE));
-        this.setDefaultNotes(this.getTrimmedProperty(PROPERTY_DEFAULT_NOTES));
-        this.setDefaultIssuanceCriteria(this.getTrimmedProperty(PROPERTY_DEFAULT_ISSUANCE_CRITERIA));
-        this.setDefaultRevocationCriteria(this.getTrimmedProperty(PROPERTY_DEFAULT_REVOCATION_CRITERIA));
-        
+        this.setDefaultVersion(this.getTrimmedProperty(                           PROPERTY_DEFAULT_VERSION));
+        this.setDefaultLegalNotice(this.getTrimmedProperty(                       PROPERTY_DEFAULT_LEGAL_NOTICE));
+        this.setDefaultNotes(this.getTrimmedProperty(                             PROPERTY_DEFAULT_NOTES));
+        this.setDefaultIssuanceCriteria(this.getTrimmedProperty(                  PROPERTY_DEFAULT_ISSUANCE_CRITERIA));
+        this.setDefaultRevocationCriteria(this.getTrimmedProperty(                PROPERTY_DEFAULT_REVOCATION_CRITERIA));
+        this.setDefaultStakeholderDescription(this.getTrimmedProperty(            PROPERTY_DEFAULT_TARGET_STAKEHOLDER_DESCRIPTION));
+        this.setDefaultRecipientDescription(this.getTrimmedProperty(              PROPERTY_DEFAULT_TARGET_RECIPIENT_DESCRIPTION));
+        this.setDefaultRelyingPartyDescription(this.getTrimmedProperty(           PROPERTY_DEFAULT_TARGET_RELYING_PARTY_DESCRIPTION));
+        this.setDefaultProviderDescription(this.getTrimmedProperty(               PROPERTY_DEFAULT_TARGET_PROVIDER_DESCRIPTION));
+        this.setDefaultProviderEligibilityCriteria(this.getTrimmedProperty(       PROPERTY_DEFAULT_PROVIDER_ELIGIBILITY_CRITERIA));
+        this.setDefaultAssessorQualificationsDescription(this.getTrimmedProperty( PROPERTY_DEFAULT_ASSESSOR_QUALIFICATIONS_DESCRIPTION));
+        this.setDefaultExtensionDescription(this.getTrimmedProperty(              PROPERTY_DEFAULT_EXTENSION_DESCRIPTION));
     }
     
     

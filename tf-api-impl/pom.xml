@@ -3,7 +3,7 @@
 
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>tf-api-impl</artifactId>
-	<version>1.4.2</version>
+	<version>1.4.3</version>
 	<packaging>jar</packaging>
 
 	<parent>
@@ -14,7 +14,7 @@
 
 	<properties>
 		<tf.api.version>1.4.1</tf.api.version>
-		<junit.version>4.11</junit.version>
+		<junit.version>4.13.1</junit.version>
 	</properties>
 
 
@@ -200,6 +200,12 @@
 			<version>1.6.4</version>
 		</dependency>
 
+		<!--	FOr JSON Web Signature	-->
+		<dependency>
+			<groupId>org.bitbucket.b_c</groupId>
+			<artifactId>jose4j</artifactId>
+			<version>0.7.2</version>
+		</dependency>
 	</dependencies>
 
 	<build>

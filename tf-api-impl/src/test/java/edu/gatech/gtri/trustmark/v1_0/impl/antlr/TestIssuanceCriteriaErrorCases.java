@@ -42,7 +42,7 @@ public class TestIssuanceCriteriaErrorCases extends AbstractTest {
         logger.info("Testing error case with bad id syntax...");
 
         List<AssessmentStepResult> results = new ArrayList<>();
-        String expression = "yes(test-result-1)"; // bad because hyphens are not allowed.
+        String expression = "yes(test result 1)"; // bad because spaces are not allowed.
         IssuanceCriteriaErrorListener errorListener = new IssuanceCriteriaErrorListener();
         IssuanceCriteriaExpressionEvaluator evaluator = execute(expression, results, errorListener);
 
