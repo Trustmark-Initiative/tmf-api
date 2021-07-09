@@ -103,8 +103,8 @@ public class TrustmarkDefinitionBuilderImpl extends AbstractBuilderImpl implemen
     @Override
     public TrustmarkDefinitionBuilder setIdentifier(URI uri) {
         this.getMetadata().setIdentifier(uri);
-        if( this.getMetadata().getTrustmarkReferenceAttributeName() == null )
-            this.setTrustmarkReferenceAttributeName(uri);
+//        if( this.getMetadata().getTrustmarkReferenceAttributeName() == null )
+//            this.setTrustmarkReferenceAttributeName(uri);
         return this;
     }
 
@@ -320,16 +320,16 @@ public class TrustmarkDefinitionBuilderImpl extends AbstractBuilderImpl implemen
         return this;
     }
 
-    @Override
-    public TrustmarkDefinitionBuilder setTrustmarkReferenceAttributeName(String uriString) throws URISyntaxException {
-        return this.setTrustmarkReferenceAttributeName(new URI(uriString));
-    }
-
-    @Override
-    public TrustmarkDefinitionBuilder setTrustmarkReferenceAttributeName(URI uri) {
-        this.getMetadata().setTrustmarkReferenceAttributeName(uri);
-        return this;
-    }
+//    @Override
+//    public TrustmarkDefinitionBuilder setTrustmarkReferenceAttributeName(String uriString) throws URISyntaxException {
+//        return this.setTrustmarkReferenceAttributeName(new URI(uriString));
+//    }
+//
+//    @Override
+//    public TrustmarkDefinitionBuilder setTrustmarkReferenceAttributeName(URI uri) {
+//        this.getMetadata().setTrustmarkReferenceAttributeName(uri);
+//        return this;
+//    }
 
     @Override
     public TrustmarkDefinitionBuilder setTrustmarkDefiningOrganization(Entity entity) {

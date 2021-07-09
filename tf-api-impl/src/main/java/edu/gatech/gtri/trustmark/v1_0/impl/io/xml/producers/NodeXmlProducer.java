@@ -6,7 +6,8 @@ import org.dom4j.Node;
 import org.dom4j.io.OutputFormat;
 import org.dom4j.io.XMLWriter;
 
-import javax.xml.stream.*;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamWriter;
 import java.io.IOException;
 import java.io.StringWriter;
 
@@ -16,29 +17,24 @@ import java.io.StringWriter;
  * <br/><br/>
  * Created by brad on 1/7/16.
  */
-public class NodeXmlProducer extends AbstractXmlProducer implements XmlProducer {
+public class NodeXmlProducer implements XmlProducer<Node> {
 
     private static final Logger log = Logger.getLogger(NodeXmlProducer.class);
 
     @Override
-    public Class getSupportedType() {
+    public Class<Node> getSupportedType() {
         return Node.class;
     }
 
     @Override
-    public void serialize(Object instance, XMLStreamWriter xmlWriter) throws XMLStreamException {
-        if( instance == null || !(instance instanceof Node) )
-            throw new IllegalArgumentException("Invalid argument passed to "+this.getClass().getSimpleName()+"!  Expecting non-null instance of class["+this.getSupportedType().getName()+"]!");
-
-        Node node = (Node) instance;
-
+    public void serialize(Node node, XMLStreamWriter xmlWriter) throws XMLStreamException {
         StringWriter inMemoryStringWriter = new StringWriter();
         XMLWriter writer = new XMLWriter(inMemoryStringWriter, OutputFormat.createPrettyPrint());
         try {
             writer.write(node);
             writer.flush();
             writer.close();
-        }catch(IOException ioe){
+        } catch (IOException ioe) {
             throw new UnsupportedOperationException("Not able to write node to in-memory string!", ioe);
         }
 
@@ -46,13 +42,11 @@ public class NodeXmlProducer extends AbstractXmlProducer implements XmlProducer 
         inMemoryStringWriter = null;
 
 
-        log.debug("Produced this XML string: \n"+inMemoryString);
+        log.debug("Produced this XML string: \n" + inMemoryString);
 
-        writeXmlToStream(inMemoryString, xmlWriter);
+        XmlProducerUtility.writeXmlToStream(inMemoryString, xmlWriter);
 
     }//end serialize
-
-
 
 
 }//end NodeXmlProducer

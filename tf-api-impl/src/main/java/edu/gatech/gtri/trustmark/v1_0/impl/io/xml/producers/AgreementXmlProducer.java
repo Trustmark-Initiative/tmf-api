@@ -1,4 +1,5 @@
 package edu.gatech.gtri.trustmark.v1_0.impl.io.xml.producers;
+
 import edu.gatech.gtri.trustmark.v1_0.impl.io.adio.AbstractDocumentXmlProducer;
 import edu.gatech.gtri.trustmark.v1_0.model.agreement.Agreement;
 
@@ -7,5 +8,7 @@ import edu.gatech.gtri.trustmark.v1_0.model.agreement.Agreement;
  */
 public class AgreementXmlProducer extends AbstractDocumentXmlProducer<Agreement> {
     @Override
-    public Class<Agreement> getSupportedType() { return Agreement.class; }
+    public Class<Agreement> getSupportedType() {
+        return Agreement.class;
+    }
 }

@@ -5,15 +5,20 @@ import edu.gatech.gtri.trustmark.v1_0.io.json.JsonProducer;
 /**
  * Created by brad on 1/7/16.
  */
-public class NumberJsonProducer implements JsonProducer {
+public final class NumberJsonProducer implements JsonProducer<Number, Double> {
 
     @Override
-    public Class getSupportedType() {
+    public Class<Number> getSupportedType() {
         return Number.class;
     }
 
     @Override
-    public Object serialize(Object instance) {
-        return ((Number) instance).doubleValue();
+    public Class<Double> getSupportedTypeOutput() {
+        return Double.class;
+    }
+
+    @Override
+    public Double serialize(Number number) {
+        return number.doubleValue();
     }
 }

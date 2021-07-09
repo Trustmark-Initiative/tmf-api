@@ -1,14 +1,13 @@
 package edu.gatech.gtri.trustmark.v1_0.io.json;
 
-/**
- * Created by brad on 1/7/16.
- */
-public interface JsonProducer {
+public interface JsonProducer<INPUT, OUTPUT> {
 
     /**
      * This is how the system determines to use your custom producer, based on the type of object being serialized.
      */
-    public Class getSupportedType();
+    Class<INPUT> getSupportedType();
+
+    Class<OUTPUT> getSupportedTypeOutput();
 
     /**
      * Performs the serialization.  Although this method returns a generic type, the value is expected to be one of:
@@ -17,9 +16,8 @@ public interface JsonProducer {
      *     <li>JSONArray - from org.json's java library, for arrays of objects</li>
      *     <li>simple types - normal JSON types, like strings, integers, booleans, etc.</li>
      * </ul>
-     *
+     * <p>
      * Note that dates should be serialized as ISO8601 strings, please see {@link JsonUtils}
      */
-    public Object serialize(Object instance);
-
-}//end JsonProducer
+    OUTPUT serialize(INPUT instance);
+}

@@ -1,6 +1,7 @@
 package edu.gatech.gtri.trustmark.v1_0.impl.util;
 
 import edu.gatech.gtri.trustmark.v1_0.util.TrustmarkMailClient;
+import org.apache.log4j.Logger;
 
 import javax.activation.DataHandler;
 
@@ -20,6 +21,8 @@ import javax.mail.util.ByteArrayDataSource;
 import java.util.*;
 
 public class TrustmarkMailClientImpl implements TrustmarkMailClient {
+
+    public static final Logger log = Logger.getLogger(TrustmarkMailClientImpl.class);
 
     public static final String SMTP_USER = "smtp.user";
     public static final String SMTP_PSWD = "smtp.pswd";
@@ -51,13 +54,14 @@ public class TrustmarkMailClientImpl implements TrustmarkMailClient {
      * default constructor, allows for injection
      */
     public TrustmarkMailClientImpl()  {
-        mailProps.put("mail.transport.protocol", "smtps");
+        mailProps.put("mail.transport.protocol", "smtp");
         mailProps.put("mail.smtp.auth", "true");
         mailProps.put("mail.smtp.starttls.enable", "true");
     }
 
     @Override
     public TrustmarkMailClient setUser(String user) {
+        log.debug(String.format("TrustmarkMailClientImpl.setUser %s", user));
         this.user = user;
         return this;
     }
@@ -70,7 +74,7 @@ public class TrustmarkMailClientImpl implements TrustmarkMailClient {
 
     @Override
     public TrustmarkMailClient setSmtpHost(String host) {
-        System.out.println(String.format("TrustmarkMailClientImpl.setSmtpHost %s", host));
+        log.debug(String.format("TrustmarkMailClientImpl.setSmtpHost %s", host));
         mailProps.put("mail.smtp.host", host);
         this.host = host;
         return this;
@@ -78,6 +82,7 @@ public class TrustmarkMailClientImpl implements TrustmarkMailClient {
 
     @Override
     public TrustmarkMailClient setSmtpPort(String port) {
+        log.debug(String.format("TrustmarkMailClientImpl.setPort %s", port));
         mailProps.put("mail.smtp.port", port);
         return this;
     }
@@ -92,6 +97,7 @@ public class TrustmarkMailClientImpl implements TrustmarkMailClient {
 
     @Override
     public TrustmarkMailClient setFromAddress(String addr) {
+        log.debug(String.format("TrustmarkMailClientImpl.setFromAddress %s", addr));
         this.fromAddress = addr;
         return this;
     }
@@ -146,8 +152,10 @@ public class TrustmarkMailClientImpl implements TrustmarkMailClient {
     @Override
     public TrustmarkMailClient setSmtpAuthorization(boolean auth)  {
         if(auth)  {
+            log.debug(String.format("TrustmarkMailClientImpl.setSmtpAuthorization true"));
             mailProps.put("mail.smtp.auth", "true");
         } else {
+            log.debug(String.format("TrustmarkMailClientImpl.setSmtpAuthorization true"));
             mailProps.put("mail.smtp.auth", "false");
         }
         this.authorize = auth;
@@ -156,7 +164,9 @@ public class TrustmarkMailClientImpl implements TrustmarkMailClient {
 
     @Override
     public void sendMail() {
-        Session session = Session.getInstance(mailProps,
+        log.debug(printMailProps());
+
+        Session session = Session.getDefaultInstance(mailProps,
                 new Authenticator() {
                     protected PasswordAuthentication getPasswordAuthentication() {
                         return new PasswordAuthentication(user, pswd);
@@ -190,6 +200,14 @@ public class TrustmarkMailClientImpl implements TrustmarkMailClient {
         } catch(MessagingException me)  {
             me.printStackTrace();
         }
+    }
+
+    private String printMailProps () {
+        String propsText = "Properties: \n";
+        for (Object key: mailProps.keySet()) {
+            propsText += "   " + key + ": " + mailProps.getProperty(key.toString()) + "\n";
+        }
+        return propsText;
     }
 
     /**

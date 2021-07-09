@@ -48,7 +48,7 @@ public class TrustmarkDefinitionXmlDeserializer extends AbstractDeserializer {
         TrustmarkDefinitionMetadataImpl metadata = new TrustmarkDefinitionMetadataImpl();
         metadata.setTypeName("TrustmarkDefinition");
         metadata.setIdentifier(getUri(metadataXml, "./tf:Identifier", true));
-        metadata.setTrustmarkReferenceAttributeName(getUri(metadataXml, "./tf:TrustmarkReferenceAttributeName", true));
+        //metadata.setTrustmarkReferenceAttributeName(getUri(metadataXml, "./tf:TrustmarkReferenceAttributeName", true));
         metadata.setName(getString(metadataXml, "./tf:Name", true));
         metadata.setVersion(getString(metadataXml, "./tf:Version", true));
         metadata.setDescription(getString(metadataXml, "./tf:Description", true));

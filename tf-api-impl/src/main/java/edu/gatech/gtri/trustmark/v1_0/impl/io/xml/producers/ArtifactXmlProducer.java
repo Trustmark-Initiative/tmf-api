@@ -2,7 +2,6 @@ package edu.gatech.gtri.trustmark.v1_0.impl.io.xml.producers;
 
 import edu.gatech.gtri.trustmark.v1_0.io.xml.XmlProducer;
 import edu.gatech.gtri.trustmark.v1_0.model.Artifact;
-import edu.gatech.gtri.trustmark.v1_0.model.Term;
 import org.apache.log4j.Logger;
 
 import javax.xml.stream.XMLStreamException;
@@ -14,23 +13,18 @@ import static edu.gatech.gtri.trustmark.v1_0.impl.TrustmarkFrameworkConstants.NA
 /**
  * Created by brad on 1/7/16.
  */
-public class ArtifactXmlProducer extends AbstractXmlProducer implements XmlProducer {
+public class ArtifactXmlProducer implements XmlProducer<Artifact> {
 
     private static final Logger log = Logger.getLogger(ArtifactXmlProducer.class);
 
     @Override
-    public Class getSupportedType() {
+    public Class<Artifact> getSupportedType() {
         return Artifact.class;
     }
 
     @Override
-    public void serialize(Object instance, XMLStreamWriter xmlWriter) throws XMLStreamException {
-        if( instance == null || !(instance instanceof Artifact) )
-            throw new IllegalArgumentException("Invalid argument passed to "+this.getClass().getSimpleName()+"!  Expecting non-null instance of class["+this.getSupportedType().getName()+"]!");
-
-        Artifact artifact = (Artifact) instance;
-
-        log.debug("Writing XML for Artifact["+artifact.getName()+"]...");
+    public void serialize(Artifact artifact, XMLStreamWriter xmlWriter) throws XMLStreamException {
+        log.debug("Writing XML for Artifact[" + artifact.getName() + "]...");
 
         xmlWriter.writeStartElement(NAMESPACE_URI, "Name");
         xmlWriter.writeCharacters(artifact.getName());

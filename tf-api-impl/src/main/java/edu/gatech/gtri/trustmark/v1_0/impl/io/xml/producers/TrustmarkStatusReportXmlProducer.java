@@ -6,16 +6,15 @@ import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkStatusReport;
 
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
-
 import java.net.URI;
 import java.util.UUID;
 
-import static edu.gatech.gtri.trustmark.v1_0.impl.TrustmarkFrameworkConstants.*;
+import static edu.gatech.gtri.trustmark.v1_0.impl.TrustmarkFrameworkConstants.NAMESPACE_URI;
 
 /**
  * Created by brad on 1/7/16.
  */
-public class TrustmarkStatusReportXmlProducer extends AbstractXmlProducer implements XmlProducer {
+public class TrustmarkStatusReportXmlProducer implements XmlProducer<TrustmarkStatusReport> {
 
     @Override
     public Class getSupportedType() {
@@ -23,13 +22,8 @@ public class TrustmarkStatusReportXmlProducer extends AbstractXmlProducer implem
     }
 
     @Override
-    public void serialize(Object instance, XMLStreamWriter xmlWriter) throws XMLStreamException {
-        if( instance == null || !(instance instanceof TrustmarkStatusReport) )
-            throw new IllegalArgumentException("Invalid argument passed to "+this.getClass().getSimpleName()+"!  Expecting non-null instance of class["+this.getSupportedType().getName()+"]!");
-
-        TrustmarkStatusReport tsr = (TrustmarkStatusReport) instance;
-
-        String uuidIdAttribute = "TSR_" + System.currentTimeMillis()+"_"+ UUID.randomUUID().toString().toUpperCase().replace("-", "");
+    public void serialize(TrustmarkStatusReport tsr, XMLStreamWriter xmlWriter) throws XMLStreamException {
+        String uuidIdAttribute = "TSR_" + System.currentTimeMillis() + "_" + UUID.randomUUID().toString().toUpperCase().replace("-", "");
         xmlWriter.writeAttribute(NAMESPACE_URI, "id", uuidIdAttribute);
 
         // TODO Digital Signature?
@@ -48,8 +42,8 @@ public class TrustmarkStatusReportXmlProducer extends AbstractXmlProducer implem
         xmlWriter.writeCharacters(XmlUtils.toDateTimeString(tsr.getStatusDateTime()));
         xmlWriter.writeEndElement(); // end "StatusCode"
 
-        if( tsr.getSupersederTrustmarkReferences() != null && !tsr.getSupersederTrustmarkReferences().isEmpty() ){
-            for( URI ref : tsr.getSupersederTrustmarkReferences() ){
+        if (tsr.getSupersederTrustmarkReferences() != null && !tsr.getSupersederTrustmarkReferences().isEmpty()) {
+            for (URI ref : tsr.getSupersederTrustmarkReferences()) {
                 xmlWriter.writeStartElement(NAMESPACE_URI, "SupersederTrustmarkReference");
                 xmlWriter.writeStartElement(NAMESPACE_URI, "Identifier");
                 xmlWriter.writeCharacters(ref.toString());
@@ -58,15 +52,15 @@ public class TrustmarkStatusReportXmlProducer extends AbstractXmlProducer implem
             }
         }
 
-        if( tsr.getNotes() != null ){
+        if (tsr.getNotes() != null) {
             xmlWriter.writeStartElement(NAMESPACE_URI, "Notes");
             xmlWriter.writeCharacters(tsr.getNotes());
             xmlWriter.writeEndElement(); // end "Notes"
         }
 
-        if( tsr.getExtension() != null ) {
+        if (tsr.getExtension() != null) {
             xmlWriter.writeStartElement(NAMESPACE_URI, "Extension");
-            writeXml(tsr.getExtension(), xmlWriter);
+            XmlProducerUtility.writeXml(tsr.getExtension(), xmlWriter);
 //            xmlWriter.writeEndElement(); // end "Extension"
         }
 

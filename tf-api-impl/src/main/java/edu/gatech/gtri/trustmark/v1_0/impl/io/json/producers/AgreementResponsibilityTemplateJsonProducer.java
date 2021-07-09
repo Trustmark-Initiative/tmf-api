@@ -8,5 +8,7 @@ import edu.gatech.gtri.trustmark.v1_0.model.agreement.AgreementResponsibilityTem
  */
 public class AgreementResponsibilityTemplateJsonProducer extends AbstractDocumentJsonProducer<AgreementResponsibilityTemplate> {
     @Override
-    public Class<AgreementResponsibilityTemplate> getSupportedType() { return AgreementResponsibilityTemplate.class; }
+    public Class<AgreementResponsibilityTemplate> getSupportedType() {
+        return AgreementResponsibilityTemplate.class;
+    }
 }

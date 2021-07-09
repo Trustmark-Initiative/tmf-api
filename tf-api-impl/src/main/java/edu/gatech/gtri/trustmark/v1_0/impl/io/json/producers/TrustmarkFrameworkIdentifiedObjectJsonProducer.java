@@ -7,27 +7,27 @@ import org.json.JSONObject;
 /**
  * Created by brad on 1/7/16.
  */
-public class TrustmarkFrameworkIdentifiedObjectJsonProducer extends AbstractJsonProducer implements JsonProducer {
+public final class TrustmarkFrameworkIdentifiedObjectJsonProducer implements JsonProducer<TrustmarkFrameworkIdentifiedObject, JSONObject> {
 
 
     @Override
-    public Class getSupportedType() {
+    public Class<TrustmarkFrameworkIdentifiedObject> getSupportedType() {
         return TrustmarkFrameworkIdentifiedObject.class;
     }
 
     @Override
-    public Object serialize(Object instance) {
-        if( instance == null || !(instance instanceof TrustmarkFrameworkIdentifiedObject) )
-            throw new IllegalArgumentException("Invalid argument passed to "+this.getClass().getSimpleName()+"!  Expecting non-null instance of class["+this.getSupportedType().getName()+"]!");
+    public Class<JSONObject> getSupportedTypeOutput() {
+        return JSONObject.class;
+    }
 
-        TrustmarkFrameworkIdentifiedObject tfiObj = (TrustmarkFrameworkIdentifiedObject) instance;
-
+    @Override
+    public JSONObject serialize(TrustmarkFrameworkIdentifiedObject tfiObject) {
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("Identifier", tfiObj.getIdentifier());
-        jsonObject.put("Name", tfiObj.getName());
-        jsonObject.put("Number", tfiObj.getNumber());
-        jsonObject.put("Version", tfiObj.getVersion());
-        jsonObject.put("Description", tfiObj.getDescription());
+        jsonObject.put("Identifier", tfiObject.getIdentifier());
+        jsonObject.put("Name", tfiObject.getName());
+        jsonObject.put("Number", tfiObject.getNumber());
+        jsonObject.put("Version", tfiObject.getVersion());
+        jsonObject.put("Description", tfiObject.getDescription());
         return jsonObject;
     }
 }

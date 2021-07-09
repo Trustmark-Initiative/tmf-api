@@ -7,45 +7,30 @@ import org.json.XML;
 
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
-import java.util.HashMap;
 
 /**
  * Created by brad on 1/7/16.
  */
-public class JSONObjectXmlProducer extends AbstractXmlProducer implements XmlProducer {
+public class JSONObjectXmlProducer implements XmlProducer<JSONObject> {
 
     private static final Logger log = Logger.getLogger(JSONObjectXmlProducer.class);
 
     @Override
-    public Class getSupportedType() {
+    public Class<JSONObject> getSupportedType() {
         return JSONObject.class;
     }
 
     @Override
-    public void serialize(Object instance, XMLStreamWriter xmlWriter) throws XMLStreamException {
-        if( instance == null || !(instance instanceof JSONObject) )
-            throw new IllegalArgumentException("Invalid argument passed to "+this.getClass().getSimpleName()+"!  Expecting non-null instance of class["+this.getSupportedType().getName()+"]!");
-
-        JSONObject jsonObj = (JSONObject) instance;
-
-//        HashMap attributes = new HashMap<>();
-//        for( String key : jsonObj.keySet() ){
-//            if( key.startsWith("$") ){
-//                Object val = jsonObj.remove(key);
-//                attributes.put(key, val);
-//            }
-//        }
-
+    public void serialize(JSONObject jsonObj, XMLStreamWriter xmlWriter) throws XMLStreamException {
         String xml = XML.toString(jsonObj);
 
         xml = xml.replaceAll("\\<\\$", "<");
         xml = xml.replaceAll("\\<\\/\\$", "</");
 
-        log.debug("Generated JSONObject XML: "+xml);
+        log.debug("Generated JSONObject XML: " + xml);
 
-        writeXmlToStream(xml, xmlWriter);
+        XmlProducerUtility.writeXmlToStream(xml, xmlWriter);
     }
-
 
 
 }

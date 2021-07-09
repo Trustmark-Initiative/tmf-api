@@ -33,8 +33,8 @@ public class TdEmptyCheckValidator implements TrustmarkDefinitionValidator {
         if(StringUtils.isBlank(td.getMetadata().getName()) )
             results.add(new ValidationResultImpl(ValidationSeverity.FATAL, "All Trustmark Definitions require a Name.", "Metadata.Name"));
 
-        if( td.getMetadata().getTrustmarkReferenceAttributeName() == null || StringUtils.isBlank(td.getMetadata().getTrustmarkReferenceAttributeName().toString()) )
-            results.add(new ValidationResultImpl(ValidationSeverity.FATAL, "All Trustmark Definitions require a Reference Attribute Name.", "Metadata.TrustmarkReferenceAttributeName"));
+//        if( td.getMetadata().getTrustmarkReferenceAttributeName() == null || StringUtils.isBlank(td.getMetadata().getTrustmarkReferenceAttributeName().toString()) )
+//            results.add(new ValidationResultImpl(ValidationSeverity.FATAL, "All Trustmark Definitions require a Reference Attribute Name.", "Metadata.TrustmarkReferenceAttributeName"));
 
         if(StringUtils.isBlank(td.getMetadata().getVersion()) )
             results.add(new ValidationResultImpl(ValidationSeverity.FATAL, "All Trustmark Definitions require a Version.", "Metadata.Version"));

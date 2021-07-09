@@ -680,12 +680,15 @@ public class TestExcelBulkReader extends AbstractTest {
         
         // Default Wording
         contextImpl.setDefaultVersion("1.0");
-        contextImpl.setDefaultLegalNotice("This document and the information contained herein is provided on an \"AS IS\" basis, and the Georgia Tech Research Institute disclaims all warranties, express or implied, including but not limited to any warranty that the use of the information herein will not infringe any rights or any implied warranties or merchantability or fitness for a particular purpose. In addition, the Georgia Tech Research Institute disclaims legal liability for any loss incurred as a result of the use or reliance on the document or the information contained herein.");
-        contextImpl.setDefaultNotes("The Georgia Tech Research Institute (GTRI) has published this document with the support of the National Strategy for Trusted Identities in Cyberspace (NSTIC) via the National Institute of Standards and Technology (NIST). The views expressed herein do not necessarily reflect the official policies of GTRI, NIST or NSTIC; nor does mention of trade names, commercial practices, or organizations imply endorsement by the U.S. Government.");
+        contextImpl.setDefaulTiptLegalNotice("This document and the information contained herein is provided on an \"AS IS\" basis, and the Georgia Tech Research Institute disclaims all warranties, express or implied, including but not limited to any warranty that the use of the information herein will not infringe any rights or any implied warranties or merchantability or fitness for a particular purpose. In addition, the Georgia Tech Research Institute disclaims legal liability for any loss incurred as a result of the use or reliance on the document or the information contained herein.");
+        contextImpl.setDefaultTipNotes("The Georgia Tech Research Institute (GTRI) has published this document with the support of the National Strategy for Trusted Identities in Cyberspace (NSTIC) via the National Institute of Standards and Technology (NIST). The views expressed herein do not necessarily reflect the official policies of GTRI, NIST or NSTIC; nor does mention of trade names, commercial practices, or organizations imply endorsement by the U.S. Government.");
         contextImpl.setDefaultIssuanceCriteria("yes(ALL)");
         contextImpl.setDefaultRevocationCriteria("For any trustmark issued under this Trustmark Definition, the Trustmark Provider must revoke the trustmark upon any condition whereby one or more Conformance Criteria cease to be satisfied.​");
         contextImpl.setDefaultStakeholderDescription("StakeholderDescription from NIST Special Publication 800-53.");
         contextImpl.setDefaultRecipientDescription("RecipientDescription from NIST Special Publication 800-53.");
+
+        contextImpl.setDefaultTdLegalNotice("Default TD Legal Notice");
+        contextImpl.setDefaultTdNotes("Default TD Notes");
 
         return contextImpl;
     }

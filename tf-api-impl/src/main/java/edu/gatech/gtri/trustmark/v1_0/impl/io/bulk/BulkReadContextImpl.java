@@ -63,15 +63,25 @@ public class BulkReadContextImpl implements BulkReadContext {
     public void setDefaultVersion(String _defaultVersion) {
         this.defaultVersion = _defaultVersion;
     }
-    
-    private String defaultLegalNotice = null;
-    public void setDefaultLegalNotice(String _defaultLegalNotice) {
-        this.defaultLegalNotice = _defaultLegalNotice;
+
+    private String defaultTdLegalNotice = null;
+    public void setDefaultTdLegalNotice(String _defaultTdLegalNotice) {
+        this.defaultTdLegalNotice = _defaultTdLegalNotice;
+    }
+
+    private String defaultTdNotes = null;
+    public void setDefaultTdNotes(String _defaultTdNotes) {
+        this.defaultTdNotes = _defaultTdNotes;
+    }
+
+    private String defaultTipLegalNotice = null;
+    public void setDefaulTiptLegalNotice(String _defaultTipLegalNotice) {
+        this.defaultTipLegalNotice = _defaultTipLegalNotice;
     }
     
-    private String defaultNotes = null;
-    public void setDefaultNotes(String _defaultNotes) {
-        this.defaultNotes = _defaultNotes;
+    private String defaultTipNotes = null;
+    public void setDefaultTipNotes(String _defaultTipNotes) {
+        this.defaultTipNotes = _defaultTipNotes;
     }
     
     private String defaultIssuanceCriteria;
@@ -174,7 +184,7 @@ public class BulkReadContextImpl implements BulkReadContext {
             try {
                 tfs = tfsFactory.createService(tfamBaseUrl);
             }catch(Exception ex){
-                System.out.printf("Unable to create TrustmarkFrameworkService (API Client) for URL[%s]. %s\n", tfamBaseUrl, ex.getMessage());
+                logger.debug(String.format("Unable to create TrustmarkFrameworkService (API Client) for URL[%s]. %s", tfamBaseUrl, ex.getMessage()));
             }
             try {
                 TrustmarkFrameworkIdentifiedObject tfido = serviceReferenceNameResolver.resolve(tfs, reference);
@@ -183,7 +193,7 @@ public class BulkReadContextImpl implements BulkReadContext {
                 }
             }
             catch (Exception ex) {
-                System.out.printf("Error resolving external artifact [%s]. %s\n", reference, ex.getMessage());
+                logger.debug(String.format("Error resolving external artifact [%s]. %s", reference, ex.getMessage()));
             }
             if (result != null) {
                 break;
@@ -202,15 +212,25 @@ public class BulkReadContextImpl implements BulkReadContext {
     }
     
     @Override
-    public String getDefaultLegalNotice() {
-        return this.defaultLegalNotice;
+    public String getDefaultTipLegalNotice() {
+        return this.defaultTipLegalNotice;
     }
     
     @Override
-    public String getDefaultNotes() {
-        return this.defaultNotes;
+    public String getDefaultTipNotes() {
+        return this.defaultTipNotes;
     }
-    
+
+    @Override
+    public String getDefaultTdLegalNotice() {
+        return this.defaultTdLegalNotice;
+    }
+
+    @Override
+    public String getDefaultTdNotes() {
+        return this.defaultTdNotes;
+    }
+
     @Override
     public String getDefaultIssuanceCriteria() {
         return this.defaultIssuanceCriteria;

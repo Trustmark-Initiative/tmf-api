@@ -4,104 +4,111 @@ import edu.gatech.gtri.trustmark.v1_0.FactoryLoader;
 import edu.gatech.gtri.trustmark.v1_0.TrustmarkFramework;
 import edu.gatech.gtri.trustmark.v1_0.io.json.JsonProducer;
 import edu.gatech.gtri.trustmark.v1_0.io.json.JsonUtils;
-import edu.gatech.gtri.trustmark.v1_0.model.*;
+import edu.gatech.gtri.trustmark.v1_0.model.AssessmentStep;
+import edu.gatech.gtri.trustmark.v1_0.model.ConformanceCriterion;
+import edu.gatech.gtri.trustmark.v1_0.model.Source;
+import edu.gatech.gtri.trustmark.v1_0.model.Term;
+import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkDefinition;
+import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkFrameworkIdentifiedObject;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
+
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.producers.JsonProducerUtility.toJson;
 
 /**
  * Created by brad on 1/7/16.
  */
-public class TrustmarkDefinitionJsonProducer extends AbstractJsonProducer implements JsonProducer {
+public final class TrustmarkDefinitionJsonProducer implements JsonProducer<TrustmarkDefinition, JSONObject> {
 
     @Override
-    public Class getSupportedType() {
+    public Class<TrustmarkDefinition> getSupportedType() {
         return TrustmarkDefinition.class;
     }
 
     @Override
-    public Object serialize(Object instance) {
-        if( instance == null || !(instance instanceof TrustmarkDefinition) )
-            throw new IllegalArgumentException("Invalid argument passed to "+this.getClass().getSimpleName()+"!  Expecting non-null instance of class["+this.getSupportedType().getName()+"]!");
+    public Class<JSONObject> getSupportedTypeOutput() {
+        return JSONObject.class;
+    }
 
-        TrustmarkDefinition td = (TrustmarkDefinition) instance;
-
+    @Override
+    public JSONObject serialize(TrustmarkDefinition td) {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("$TMF_VERSION", FactoryLoader.getInstance(TrustmarkFramework.class).getTrustmarkFrameworkVersion());
         jsonObject.put("$Type", TrustmarkDefinition.class.getSimpleName());
 
         JSONObject metadataJson = new JSONObject();
         metadataJson.put("Identifier", td.getMetadata().getIdentifier().toString());
-        metadataJson.put("TrustmarkReferenceAttributeName", td.getMetadata().getTrustmarkReferenceAttributeName().toString());
+        //metadataJson.put("TrustmarkReferenceAttributeName", td.getMetadata().getTrustmarkReferenceAttributeName().toString());
         metadataJson.put("Name", td.getMetadata().getName());
         metadataJson.put("Version", td.getMetadata().getVersion());
         metadataJson.put("Description", td.getMetadata().getDescription());
         metadataJson.put("PublicationDateTime", JsonUtils.toDateTimeString(td.getMetadata().getPublicationDateTime()));
         metadataJson.put("TrustmarkDefiningOrganization", toJson(td.getMetadata().getTrustmarkDefiningOrganization()));
-        if( td.getMetadata().getTargetStakeholderDescription() != null )
+        if (td.getMetadata().getTargetStakeholderDescription() != null)
             metadataJson.put("TargetStakeholderDescription", td.getMetadata().getTargetStakeholderDescription());
-        if( td.getMetadata().getTargetRecipientDescription() != null )
+        if (td.getMetadata().getTargetRecipientDescription() != null)
             metadataJson.put("TargetRecipientDescription", td.getMetadata().getTargetRecipientDescription());
-        if( td.getMetadata().getTargetRelyingPartyDescription() != null )
+        if (td.getMetadata().getTargetRelyingPartyDescription() != null)
             metadataJson.put("TargetRelyingPartyDescription", td.getMetadata().getTargetRelyingPartyDescription());
-        if( td.getMetadata().getTargetProviderDescription() != null )
+        if (td.getMetadata().getTargetProviderDescription() != null)
             metadataJson.put("TargetProviderDescription", td.getMetadata().getTargetProviderDescription());
-        if( td.getMetadata().getProviderEligibilityCriteria() != null )
+        if (td.getMetadata().getProviderEligibilityCriteria() != null)
             metadataJson.put("ProviderEligibilityCriteria", td.getMetadata().getProviderEligibilityCriteria());
-        if( td.getMetadata().getAssessorQualificationsDescription() != null )
+        if (td.getMetadata().getAssessorQualificationsDescription() != null)
             metadataJson.put("AssessorQualificationsDescription", td.getMetadata().getAssessorQualificationsDescription());
-        if( td.getMetadata().getTrustmarkRevocationCriteria() != null )
+        if (td.getMetadata().getTrustmarkRevocationCriteria() != null)
             metadataJson.put("TrustmarkRevocationCriteria", td.getMetadata().getTrustmarkRevocationCriteria());
-        if( td.getMetadata().getExtensionDescription() != null )
+        if (td.getMetadata().getExtensionDescription() != null)
             metadataJson.put("ExtensionDescription", td.getMetadata().getExtensionDescription());
-        if( td.getMetadata().getLegalNotice() != null )
+        if (td.getMetadata().getLegalNotice() != null)
             metadataJson.put("LegalNotice", td.getMetadata().getLegalNotice());
-        if( td.getMetadata().getNotes() != null )
+        if (td.getMetadata().getNotes() != null)
             metadataJson.put("Notes", td.getMetadata().getNotes());
 
-        if( td.getMetadata().isDeprecated() )
+        if (td.getMetadata().isDeprecated())
             metadataJson.put("Deprecated", Boolean.TRUE);
 
-        if( collectionNotEmpty(td.getMetadata().getSupersedes()) || collectionNotEmpty(td.getMetadata().getSupersededBy()) ){
+        if (JsonProducerUtility.collectionNotEmpty(td.getMetadata().getSupersedes()) || JsonProducerUtility.collectionNotEmpty(td.getMetadata().getSupersededBy())) {
             JSONObject supersessionsJson = new JSONObject();
-            if( collectionNotEmpty(td.getMetadata().getSupersedes()) ){
+            if (JsonProducerUtility.collectionNotEmpty(td.getMetadata().getSupersedes())) {
                 JSONArray supersedesObjs = new JSONArray();
-                for( TrustmarkFrameworkIdentifiedObject supersedes : td.getMetadata().getSupersedes() ){
-                    supersedesObjs.put(createJsonReference(supersedes));
+                for (TrustmarkFrameworkIdentifiedObject supersedes : td.getMetadata().getSupersedes()) {
+                    supersedesObjs.put(JsonProducerUtility.createJsonReference(supersedes));
                 }
                 supersessionsJson.put("Supersedes", supersedesObjs);
             }
-            if( collectionNotEmpty(td.getMetadata().getSupersededBy()) ){
+            if (JsonProducerUtility.collectionNotEmpty(td.getMetadata().getSupersededBy())) {
                 JSONArray supersedesObjs = new JSONArray();
-                for( TrustmarkFrameworkIdentifiedObject supersededBy : td.getMetadata().getSupersededBy() ){
-                    supersedesObjs.put(createJsonReference(supersededBy));
+                for (TrustmarkFrameworkIdentifiedObject supersededBy : td.getMetadata().getSupersededBy()) {
+                    supersedesObjs.put(JsonProducerUtility.createJsonReference(supersededBy));
                 }
                 supersessionsJson.put("SupersededBy", supersedesObjs);
             }
             metadataJson.put("Supersessions", supersessionsJson);
         }
 
-        if( td.getMetadata().getSatisfies() != null && !td.getMetadata().getSatisfies().isEmpty() ){
+        if (td.getMetadata().getSatisfies() != null && !td.getMetadata().getSatisfies().isEmpty()) {
             JSONArray satisfiesObjs = new JSONArray();
-            for( TrustmarkFrameworkIdentifiedObject supersedes : td.getMetadata().getSatisfies() ){
-                satisfiesObjs.put(createJsonReference(supersedes));
+            for (TrustmarkFrameworkIdentifiedObject supersedes : td.getMetadata().getSatisfies()) {
+                satisfiesObjs.put(JsonProducerUtility.createJsonReference(supersedes));
             }
             metadataJson.put("Satisfies", satisfiesObjs);
         }
-        if( collectionNotEmpty(td.getMetadata().getKnownConflicts()) ){
+        if (JsonProducerUtility.collectionNotEmpty(td.getMetadata().getKnownConflicts())) {
             JSONArray knownConflictsArray = new JSONArray();
-            for( TrustmarkFrameworkIdentifiedObject knownConflict : td.getMetadata().getKnownConflicts() ){
-                knownConflictsArray.put(createJsonReference(knownConflict));
+            for (TrustmarkFrameworkIdentifiedObject knownConflict : td.getMetadata().getKnownConflicts()) {
+                knownConflictsArray.put(JsonProducerUtility.createJsonReference(knownConflict));
             }
             metadataJson.put("KnownConflicts", knownConflictsArray);
         }
 
 
-
-        if( td.getMetadata().getKeywords() != null && td.getMetadata().getKeywords().size() > 0 ){
+        if (td.getMetadata().getKeywords() != null && td.getMetadata().getKeywords().size() > 0) {
             JSONArray keywords = new JSONArray();
-            for( String keyword : td.getMetadata().getKeywords() ){
+            for (String keyword : td.getMetadata().getKeywords()) {
                 keywords.put(keyword);
             }
             metadataJson.put("Keywords", keywords);
@@ -111,9 +118,9 @@ public class TrustmarkDefinitionJsonProducer extends AbstractJsonProducer implem
 
 
         List<Term> terms = td.getTermsSorted();
-        if( !terms.isEmpty() ){
+        if (!terms.isEmpty()) {
             JSONArray termsArray = new JSONArray();
-            for( Term term : terms ){
+            for (Term term : terms) {
                 termsArray.put(toJson(term));
             }
             jsonObject.put("Terms", termsArray);
@@ -122,7 +129,7 @@ public class TrustmarkDefinitionJsonProducer extends AbstractJsonProducer implem
 
         Collection<Source> sources = td.getSources();
         JSONArray sourcesArray = new JSONArray();
-        for( Source source : sources ){
+        for (Source source : sources) {
             sourcesArray.put(toJson(source));
         }
         jsonObject.put("Sources", sourcesArray);
@@ -130,7 +137,7 @@ public class TrustmarkDefinitionJsonProducer extends AbstractJsonProducer implem
 
         jsonObject.put("ConformanceCriteriaPreface", td.getConformanceCriteriaPreface());
         JSONArray critArray = new JSONArray();
-        for(ConformanceCriterion crit : td.getConformanceCriteria()){
+        for (ConformanceCriterion crit : td.getConformanceCriteria()) {
             critArray.put(toJson(crit));
         }
         jsonObject.put("ConformanceCriteria", critArray);
@@ -138,7 +145,7 @@ public class TrustmarkDefinitionJsonProducer extends AbstractJsonProducer implem
 
         jsonObject.put("AssessmentStepsPreface", td.getAssessmentStepPreface());
         JSONArray stepArray = new JSONArray();
-        for(AssessmentStep step : td.getAssessmentSteps()){
+        for (AssessmentStep step : td.getAssessmentSteps()) {
             stepArray.put(toJson(step));
         }
         jsonObject.put("AssessmentSteps", stepArray);

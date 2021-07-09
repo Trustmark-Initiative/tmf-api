@@ -319,13 +319,13 @@ public class TrustInteroperabilityProfileUtilsImpl implements TrustInteroperabil
                             return FactoryLoader.getInstance(TrustmarkDefinitionResolver.class).resolve(UrlUtils.ensureFormatParameter(t.getIdentifier(), "json"));
                         }));
                     } else {        // don't know what it is, shouldn't ever get here
-                        System.out.printf("THREAD! Cannot determine type of object at: %s\n", t.getIdentifier().toString());
+                        log.error("THREAD! Cannot determine type of object at: %s" + t.getIdentifier().toString());
                     }
                 } else {
                     tipTreeNode.addChild(priorDownloads.get(t.getIdentifier()));   //  already got this one, no need to download
                 }
             }  else {
-                System.out.printf("THREAD! Detected cycle in TIP identifier: %s\n", t.getIdentifier().toString());   // bad news
+                log.error("THREAD! Detected cycle in TIP identifier: %s" +  t.getIdentifier().toString());   // bad news
             }
         });
 
@@ -334,7 +334,7 @@ public class TrustInteroperabilityProfileUtilsImpl implements TrustInteroperabil
                 TipTreeNodeImpl ttn = new TipTreeNodeImpl(v.get());
                 tipTreeNode.addChild(ttn);
             } catch (InterruptedException | ExecutionException ee) {
-                System.out.printf("THREAD! Error resolving TD: %s\n", k.toString());
+                log.error("THREAD! Error resolving TD: %s" +  k.toString());
                 tipTreeNode.addChild(new TipTreeNodeErrorImpl(ee, k));
             }
         });
@@ -346,7 +346,7 @@ public class TrustInteroperabilityProfileUtilsImpl implements TrustInteroperabil
                 tipTreeNode.addChild(ttn);
                 buildTipTreeHelper(tprof, ttn, ancestors, priorDownloads);  //  retrieve tips and tds for child TIP
             } catch (InterruptedException | ExecutionException ee) {
-                System.out.printf("THREAD! Error retrieving TIP: %s\n", k.toString());
+                log.error("THREAD! Error retrieving TIP: " + k.toString());
                 tipTreeNode.addChild(new TipTreeNodeErrorImpl(ee, k));
             }
         });

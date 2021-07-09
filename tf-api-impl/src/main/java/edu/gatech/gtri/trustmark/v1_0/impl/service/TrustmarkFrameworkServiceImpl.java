@@ -132,7 +132,9 @@ public class TrustmarkFrameworkServiceImpl implements TrustmarkFrameworkService 
             return null;
         }
         else if (totalCount == 1) {
-            System.out.printf("******  getTrustmarkDefinitionByName %s %s\n", results.getObjects().get(0).getName(), results.getObjects().get(0).getDescription());
+            log.debug(String.format("******  getTrustmarkDefinitionByName %s %s\n",
+                    results.getObjects().get(0).getName(),
+                    results.getObjects().get(0).getDescription()));
             return results.getObjects().get(0);
         }
         else {
@@ -407,7 +409,7 @@ public class TrustmarkFrameworkServiceImpl implements TrustmarkFrameworkService 
             byNameUrl = UrlUtils.ensureParameter(byNameUrl, "versionRegex", versionRegex);
             byNameUrl = UrlUtils.ensureFormatParameter(byNameUrl, "json");
         }catch(Throwable t){
-            System.out.printf("*** BUILT URL for searching -> %s | %s | %s |\n", byNameUrl, nameRegex, versionRegex);
+            log.debug(String.format("*** BUILT URL for searching -> %s | %s | %s ", byNameUrl, nameRegex, versionRegex));
             log.error("Error while adding nameRegex and versionRegex patterns to URL!", t);
             throw new RemoteException("Unable to build remote By-Name URL!", t);
         }

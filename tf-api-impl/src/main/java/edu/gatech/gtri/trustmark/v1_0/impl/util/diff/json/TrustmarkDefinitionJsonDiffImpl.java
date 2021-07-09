@@ -35,7 +35,7 @@ public class TrustmarkDefinitionJsonDiffImpl extends AbstractJsonDiff<TrustmarkD
             JsonDiffField.valueDistance("Metadata.TargetRecipientDescription"),
             JsonDiffField.valueDistance("Metadata.TargetRelyingPartyDescription"),
             JsonDiffField.valueDistance("Metadata.TargetStakeholderDescription"),
-            JsonDiffField.valueDistance("Metadata.TrustmarkReferenceAttributeName"),
+//            JsonDiffField.valueDistance("Metadata.TrustmarkReferenceAttributeName"),
 
             // ignored metadata fields
             JsonDiffField.valueIgnore("Metadata.PublicationDateTime"),

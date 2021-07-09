@@ -7,7 +7,7 @@
     xsi:schemaLocation="https://trustmarkinitiative.org/specifications/trustmark-framework/1.4/schema/ ../../../main/resources/META-INF/xml-schema/tf.xsd">
     <tf:Metadata>
         <tf:Identifier>http://tdo.example/td</tf:Identifier>
-        <tf:TrustmarkReferenceAttributeName>TrustmarkReferenceAttributeName</tf:TrustmarkReferenceAttributeName>
+        <!-- tf:TrustmarkReferenceAttributeName>TrustmarkReferenceAttributeName</tf:TrustmarkReferenceAttributeName-->
         <tf:Name>Trustmark Definition Name</tf:Name>
         <tf:Version>1.0.0</tf:Version>
         <tf:Description>This is a description of this Trustmark Definition.</tf:Description>

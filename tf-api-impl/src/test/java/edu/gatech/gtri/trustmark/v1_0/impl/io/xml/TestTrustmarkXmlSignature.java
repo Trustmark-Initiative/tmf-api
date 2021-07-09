@@ -2,37 +2,27 @@ package edu.gatech.gtri.trustmark.v1_0.impl.io.xml;
 
 import edu.gatech.gtri.trustmark.v1_0.impl.AbstractTest;
 import org.apache.commons.io.FileUtils;
-import static org.junit.Assert.assertTrue;
-
-import org.apache.logging.log4j.core.tools.picocli.CommandLine;
 import org.junit.Test;
-
-
-import java.io.*;
-
-import java.math.BigInteger;
-import java.security.*;
-import java.security.cert.*;
-import java.security.cert.Certificate;
-import java.util.Base64;
-import java.util.Date;
-
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
-import sun.security.x509.*;
+
 import javax.xml.bind.DatatypeConverter;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import javax.crypto.spec.*;
-import javax.crypto.*;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import java.io.*;
+import java.security.GeneralSecurityException;
+import java.security.KeyFactory;
+import java.security.cert.Certificate;
+import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.spec.PKCS8EncodedKeySpec;
+
+import static org.junit.Assert.assertTrue;
 
 
 /**
@@ -56,7 +46,7 @@ public class TestTrustmarkXmlSignature extends AbstractTest {
         File xmlFile = new File(TRUSTMARK_FULL_FILE);
         String trustmarkXml = FileUtils.readFileToString(xmlFile);
 
-        TrustmarkXmlSignatureImpl xmlSign = new TrustmarkXmlSignatureImpl();
+        XmlSignatureImpl xmlSign = new XmlSignatureImpl();
 
         String referenceUri = "tf:id";
         String signedXml = xmlSign.generateXmlSignature(x509Certificate, privateKey, referenceUri, trustmarkXml);

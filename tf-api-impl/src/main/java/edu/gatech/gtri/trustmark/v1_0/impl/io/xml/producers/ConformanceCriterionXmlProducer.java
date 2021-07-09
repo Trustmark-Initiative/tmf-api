@@ -3,8 +3,6 @@ package edu.gatech.gtri.trustmark.v1_0.impl.io.xml.producers;
 import edu.gatech.gtri.trustmark.v1_0.io.xml.XmlProducer;
 import edu.gatech.gtri.trustmark.v1_0.model.Citation;
 import edu.gatech.gtri.trustmark.v1_0.model.ConformanceCriterion;
-import edu.gatech.gtri.trustmark.v1_0.model.Contact;
-import edu.gatech.gtri.trustmark.v1_0.model.Entity;
 import org.apache.log4j.Logger;
 
 import javax.xml.stream.XMLStreamException;
@@ -15,26 +13,21 @@ import static edu.gatech.gtri.trustmark.v1_0.impl.TrustmarkFrameworkConstants.NA
 /**
  * Created by brad on 1/7/16.
  */
-public class ConformanceCriterionXmlProducer extends AbstractXmlProducer implements XmlProducer {
+public class ConformanceCriterionXmlProducer implements XmlProducer<ConformanceCriterion> {
 
     private static final Logger log = Logger.getLogger(ConformanceCriterionXmlProducer.class);
 
 
     @Override
-    public Class getSupportedType() {
+    public Class<ConformanceCriterion> getSupportedType() {
         return ConformanceCriterion.class;
     }
 
     @Override
-    public void serialize(Object instance, XMLStreamWriter xmlWriter) throws XMLStreamException {
-        if( instance == null || !(instance instanceof ConformanceCriterion) )
-            throw new IllegalArgumentException("Invalid argument passed to "+this.getClass().getSimpleName()+"!  Expecting non-null instance of class["+this.getSupportedType().getName()+"]!");
+    public void serialize(ConformanceCriterion crit, XMLStreamWriter xmlWriter) throws XMLStreamException {
+        log.debug("Writing XML for ConformanceCriterion #" + crit.getNumber() + ": " + crit.getName());
 
-        ConformanceCriterion crit = (ConformanceCriterion) instance;
-
-        log.debug("Writing XML for ConformanceCriterion #"+crit.getNumber()+": "+crit.getName());
-
-        String id = "Criterion"+crit.getNumber();
+        String id = "Criterion" + crit.getNumber();
         xmlWriter.writeAttribute("tf", NAMESPACE_URI, "id", id);
 
         xmlWriter.writeStartElement(NAMESPACE_URI, "Number");
@@ -49,15 +42,15 @@ public class ConformanceCriterionXmlProducer extends AbstractXmlProducer impleme
         xmlWriter.writeCharacters(crit.getDescription());
         xmlWriter.writeEndElement();
 
-        if( crit.getCitations() != null && crit.getCitations().size() > 0 ){
-            for(Citation citation : crit.getCitations()){
+        if (crit.getCitations() != null && crit.getCitations().size() > 0) {
+            for (Citation citation : crit.getCitations()) {
                 xmlWriter.writeStartElement(NAMESPACE_URI, "Citation");
-                writeXml(citation, xmlWriter);
+                XmlProducerUtility.writeXml(citation, xmlWriter);
                 xmlWriter.writeEndElement();
             }
         }
 
-        log.debug("Successfully wrote XML for Criterion #"+crit.getNumber());
+        log.debug("Successfully wrote XML for Criterion #" + crit.getNumber());
     }//end serialize()
 
 }//end class EntityXmlProducer

@@ -7,22 +7,22 @@ import org.json.JSONObject;
 /**
  * Created by brad on 1/7/16.
  */
-public class SourceJsonProducer extends AbstractJsonProducer implements JsonProducer {
+public final class SourceJsonProducer implements JsonProducer<Source, JSONObject> {
 
     @Override
-    public Class getSupportedType() {
+    public Class<Source> getSupportedType() {
         return Source.class;
     }
 
     @Override
-    public Object serialize(Object instance) {
-        if( instance == null || !(instance instanceof Source) )
-            throw new IllegalArgumentException("Invalid argument passed to "+this.getClass().getSimpleName()+"!  Expecting non-null instance of class["+this.getSupportedType().getName()+"]!");
+    public Class<JSONObject> getSupportedTypeOutput() {
+        return JSONObject.class;
+    }
 
-        Source source = (Source) instance;
-
+    @Override
+    public JSONObject serialize(Source source) {
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("$id", "source"+source.getIdentifier().hashCode());
+        jsonObject.put("$id", "source" + source.getIdentifier().hashCode());
         jsonObject.put("Identifier", source.getIdentifier());
         jsonObject.put("Reference", source.getReference());
         return jsonObject;

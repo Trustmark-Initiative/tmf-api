@@ -1,4 +1,5 @@
 package edu.gatech.gtri.trustmark.v1_0.impl.io.json.producers;
+
 import edu.gatech.gtri.trustmark.v1_0.impl.io.adio.AbstractDocumentJsonProducer;
 import edu.gatech.gtri.trustmark.v1_0.model.agreement.Agreement;
 
@@ -7,5 +8,7 @@ import edu.gatech.gtri.trustmark.v1_0.model.agreement.Agreement;
  */
 public class AgreementJsonProducer extends AbstractDocumentJsonProducer<Agreement> {
     @Override
-    public Class<Agreement> getSupportedType() { return Agreement.class; }
+    public Class<Agreement> getSupportedType() {
+        return Agreement.class;
+    }
 }

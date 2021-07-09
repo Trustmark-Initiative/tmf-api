@@ -1,30 +1,21 @@
 package edu.gatech.gtri.trustmark.v1_0.impl.io.adio;
 
-import edu.gatech.gtri.trustmark.v1_0.impl.io.json.AbstractDeserializer;
-import edu.gatech.gtri.trustmark.v1_0.impl.io.xml.XmlHelper;
-import edu.gatech.gtri.trustmark.v1_0.io.ParseException;
-import org.dom4j.Element;
-import org.json.JSONObject;
+import edu.gatech.gtri.trustmark.v1_0.FactoryLoader;
+import edu.gatech.gtri.trustmark.v1_0.impl.io.AbstractResolverFromURIResolver;
+import edu.gatech.gtri.trustmark.v1_0.impl.io.AbstractResolverUtility;
+import edu.gatech.gtri.trustmark.v1_0.impl.io.adio.codecs.Codec;
+import edu.gatech.gtri.trustmark.v1_0.io.URIResolver;
 
 /**
  * Created by Nicholas on 01/25/2017.
  */
-public class AdioTest1Resolver extends AbstractDocumentResolver<AdioTest1> {
-    @Override
-    public Class<AdioTest1> getSupportedType() {
-        return AdioTest1.class;
-    }
-    
-    @Override
-    public Element getValidatedXml(String xmlString) throws ParseException {
-        // not validating against TF schema
-        return XmlHelper.readWithDom4j(xmlString);
-    }
-    
-    @Override
-    public JSONObject getValidatedJson(String jsonString) throws ParseException {
-        JSONObject result = new JSONObject(jsonString);
-        AbstractDeserializer.isSupportedVersion(result); // only checking for version, not supported type
-        return result;
+public class AdioTest1Resolver extends AbstractResolverFromURIResolver<AdioTest1> {
+
+    public AdioTest1Resolver() {
+        super(
+                string -> Codec.loadCodecFor(AdioTest1.class).jsonDeserializer.deserializeRootObjectNode(AbstractResolverUtility.getValidatedJsonIsSupportedVersion(string), string),
+                string -> Codec.loadCodecFor(AdioTest1.class).xmlDeserializer.deserializeRootObjectNode(AbstractResolverUtility.getUnvalidatedXml(string), string),
+                entity -> entity,
+                FactoryLoader.getInstance(URIResolver.class));
     }
 }
