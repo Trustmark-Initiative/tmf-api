@@ -70,8 +70,8 @@ public interface TrustmarkDefinitionBuilder extends Builder {
     public TrustmarkDefinitionBuilder setLegalNotice(String notice);
     public TrustmarkDefinitionBuilder setNotes(String notes);
 
-    public TrustmarkDefinitionBuilder setTrustmarkReferenceAttributeName(String uriString) throws URISyntaxException;
-    public TrustmarkDefinitionBuilder setTrustmarkReferenceAttributeName(URI uri);
+//    public TrustmarkDefinitionBuilder setTrustmarkReferenceAttributeName(String uriString) throws URISyntaxException;
+//    public TrustmarkDefinitionBuilder setTrustmarkReferenceAttributeName(URI uri);
 
     public TrustmarkDefinitionBuilder setTrustmarkDefiningOrganization(Entity entity);
     public TrustmarkDefinitionBuilder setTrustmarkDefiningOrganization(URI uri, String name, String contactName, String contactEmail);

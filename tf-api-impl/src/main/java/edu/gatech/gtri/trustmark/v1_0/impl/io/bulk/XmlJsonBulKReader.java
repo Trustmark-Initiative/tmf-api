@@ -89,7 +89,7 @@ public class XmlJsonBulKReader implements BulkReader {
     @Override
     public BulkReadResult readBulkFrom(BulkReadContext context, List<File> inputFiles) throws Exception {
         bulkReadListenerDelegator.start();
-        System.out.println("XmlJsonBulkReader.readBulkFrom !");
+        log.debug("XmlJsonBulkReader.readBulkFrom ");
         List<TrustmarkDefinition> tds = new ArrayList<>();
         List<TrustInteroperabilityProfile> tips = new ArrayList<>();
         List<String> invalidParameters = new ArrayList<>();
@@ -137,7 +137,7 @@ public class XmlJsonBulKReader implements BulkReader {
                 if( identifier != null ) {
                     log.debug("  -> Setting identifier to "+identifier);
                     ((TrustmarkDefinitionMetadataImpl) td.getMetadata()).setIdentifier(identifier);
-                    ((TrustmarkDefinitionMetadataImpl) td.getMetadata()).setTrustmarkReferenceAttributeName(new URI(identifier.toString()+"/trustmark-reference/"));
+                    //((TrustmarkDefinitionMetadataImpl) td.getMetadata()).setTrustmarkReferenceAttributeName(new URI(identifier.toString()+"/trustmark-reference/"));
                 }
 
                 if (context.getTrustmarkDefiningOrganization() != null) {
@@ -145,22 +145,38 @@ public class XmlJsonBulKReader implements BulkReader {
                     ((TrustmarkDefinitionMetadataImpl) td.getMetadata()).setTrustmarkDefiningOrganization(context.getTrustmarkDefiningOrganization());
                 }
 
-                // TODO As per Matt decision, we should just overwrite them all.
+                // Keep what's in the spreadsheet, if not included populate with defaults
                 ((TrustmarkDefinitionMetadataImpl) td.getMetadata()).setTrustmarkRevocationCriteria(context.getDefaultRevocationCriteria());
 
-                ((TrustmarkDefinitionMetadataImpl) td.getMetadata()).setLegalNotice(context.getDefaultLegalNotice());
-
-                if (StringUtils.isEmpty(td.getMetadata().getNotes())) {
-                    ((TrustmarkDefinitionMetadataImpl) td.getMetadata()).setNotes(context.getDefaultNotes());
+                if (StringUtils.isEmpty(td.getMetadata().getLegalNotice())) {
+                    ((TrustmarkDefinitionMetadataImpl) td.getMetadata()).setLegalNotice(context.getDefaultTdLegalNotice());
                 }
 
-                ((TrustmarkDefinitionMetadataImpl) td.getMetadata()).setTargetStakeholderDescription(context.getDefaultTargetStakeholderDescription());
-                ((TrustmarkDefinitionMetadataImpl) td.getMetadata()).setTargetRecipientDescription(context.getDefaultTargetRecipientDescription());
-                ((TrustmarkDefinitionMetadataImpl) td.getMetadata()).setTargetRelyingPartyDescription(context.getDefaultTargetRelyingPartyDescription());
-                ((TrustmarkDefinitionMetadataImpl) td.getMetadata()).setTargetProviderDescription(context.getDefaultTargetProviderDescription());
-                ((TrustmarkDefinitionMetadataImpl) td.getMetadata()).setProviderEligibilityCriteria(context.getDefaultProviderEligibilityCriteria());
-                ((TrustmarkDefinitionMetadataImpl) td.getMetadata()).setAssessorQualificationsDescription(context.getDefaultAssessorQualificationsDescription());
-                ((TrustmarkDefinitionMetadataImpl) td.getMetadata()).setExtensionDescription(context.getDefaultExtensionDescription());
+                if (StringUtils.isEmpty(td.getMetadata().getNotes())) {
+                    ((TrustmarkDefinitionMetadataImpl) td.getMetadata()).setNotes(context.getDefaultTdNotes());
+                }
+
+                if (StringUtils.isEmpty(td.getMetadata().getTargetStakeholderDescription())) {
+                    ((TrustmarkDefinitionMetadataImpl) td.getMetadata()).setTargetStakeholderDescription(context.getDefaultTargetStakeholderDescription());
+                }
+                if (StringUtils.isEmpty(td.getMetadata().getTargetRecipientDescription())) {
+                    ((TrustmarkDefinitionMetadataImpl) td.getMetadata()).setTargetRecipientDescription(context.getDefaultTargetRecipientDescription());
+                }
+                if (StringUtils.isEmpty(td.getMetadata().getTargetRelyingPartyDescription())) {
+                    ((TrustmarkDefinitionMetadataImpl) td.getMetadata()).setTargetRelyingPartyDescription(context.getDefaultTargetRelyingPartyDescription());
+                }
+                if (StringUtils.isEmpty(td.getMetadata().getTargetProviderDescription())) {
+                    ((TrustmarkDefinitionMetadataImpl) td.getMetadata()).setTargetProviderDescription(context.getDefaultTargetProviderDescription());
+                }
+                if (StringUtils.isEmpty(td.getMetadata().getProviderEligibilityCriteria())) {
+                    ((TrustmarkDefinitionMetadataImpl) td.getMetadata()).setProviderEligibilityCriteria(context.getDefaultProviderEligibilityCriteria());
+                }
+                if (StringUtils.isEmpty(td.getMetadata().getAssessorQualificationsDescription())) {
+                    ((TrustmarkDefinitionMetadataImpl) td.getMetadata()).setAssessorQualificationsDescription(context.getDefaultAssessorQualificationsDescription());
+                }
+                if (StringUtils.isEmpty(td.getMetadata().getExtensionDescription())) {
+                    ((TrustmarkDefinitionMetadataImpl) td.getMetadata()).setExtensionDescription(context.getDefaultExtensionDescription());
+                }
             }
         }
         bulkReadListenerDelegator.finishedProcessingRawTDs(tds);
@@ -199,10 +215,10 @@ public class XmlJsonBulKReader implements BulkReader {
                     ((TrustInteroperabilityProfileImpl) tip).setIssuer(context.getTrustInteroperabilityProfileIssuer());
                 }
 
-                ((TrustInteroperabilityProfileImpl) tip).setLegalNotice(context.getDefaultLegalNotice());
+                ((TrustInteroperabilityProfileImpl) tip).setLegalNotice(context.getDefaultTipLegalNotice());
 
                 if (StringUtils.isEmpty(tip.getNotes())) {
-                    ((TrustInteroperabilityProfileImpl) tip).setNotes(context.getDefaultNotes());
+                    ((TrustInteroperabilityProfileImpl) tip).setNotes(context.getDefaultTipNotes());
                 }
 
             }

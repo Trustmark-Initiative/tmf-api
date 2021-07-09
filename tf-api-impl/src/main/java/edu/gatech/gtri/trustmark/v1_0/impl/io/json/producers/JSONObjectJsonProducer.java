@@ -6,7 +6,7 @@ import org.json.JSONObject;
 /**
  * Created by brad on 1/7/16.
  */
-public class JSONObjectJsonProducer implements JsonProducer {
+public final class JSONObjectJsonProducer implements JsonProducer<JSONObject, JSONObject> {
 
     @Override
     public Class getSupportedType() {
@@ -14,7 +14,12 @@ public class JSONObjectJsonProducer implements JsonProducer {
     }
 
     @Override
-    public Object serialize(Object instance) {
-        return instance;
+    public Class<JSONObject> getSupportedTypeOutput() {
+        return JSONObject.class;
+    }
+
+    @Override
+    public JSONObject serialize(JSONObject jsonObject) {
+        return jsonObject;
     }
 }

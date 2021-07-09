@@ -38,12 +38,15 @@ public class ExcelImportBulkReadContext extends BulkReadContextImpl {
     
     public static final String PROPERTY_TFAM_URIS_FOR_EXTERNAL_RESOLUTION = "tpatUrisForExternalResolution";
     public static final Pattern SPLITTER_TFAM_URIS_FOR_EXTERNAL_RESOLUTION = Pattern.compile("\\|");
-    
+
     public static final String PROPERTY_DEFAULT_VERSION                             = "defaultVersion";
-    public static final String PROPERTY_DEFAULT_LEGAL_NOTICE                        = "defaultLegalNotice";
-    public static final String PROPERTY_DEFAULT_NOTES                               = "defaultNotes";
+
+    public static final String PROPERTY_DEFAULT_TIP_NOTES                           = "defaultTipNotes";
+    public static final String PROPERTY_DEFAULT_TIP_LEGAL_NOTICE                    = "defaultTipLegalNotice";
+
     public static final String PROPERTY_DEFAULT_TD_NOTES                            = "defaultTdNotes";
     public static final String PROPERTY_DEFAULT_TD_LEGAL_NOTICE                     = "defaultTdLegalNotice";
+
     public static final String PROPERTY_DEFAULT_ISSUANCE_CRITERIA                   = "defaultIssuanceCriteria";
     public static final String PROPERTY_DEFAULT_REVOCATION_CRITERIA                 = "defaultRevocationCriteria";
     public static final String PROPERTY_DEFAULT_TARGET_STAKEHOLDER_DESCRIPTION      = "targetStakeHolderDescription";
@@ -122,8 +125,6 @@ public class ExcelImportBulkReadContext extends BulkReadContextImpl {
         
         // Default Wording
         this.setDefaultVersion(this.getTrimmedProperty(                           PROPERTY_DEFAULT_VERSION));
-        this.setDefaultLegalNotice(this.getTrimmedProperty(                       PROPERTY_DEFAULT_LEGAL_NOTICE));
-        this.setDefaultNotes(this.getTrimmedProperty(                             PROPERTY_DEFAULT_NOTES));
         this.setDefaultIssuanceCriteria(this.getTrimmedProperty(                  PROPERTY_DEFAULT_ISSUANCE_CRITERIA));
         this.setDefaultRevocationCriteria(this.getTrimmedProperty(                PROPERTY_DEFAULT_REVOCATION_CRITERIA));
         this.setDefaultStakeholderDescription(this.getTrimmedProperty(            PROPERTY_DEFAULT_TARGET_STAKEHOLDER_DESCRIPTION));
@@ -133,6 +134,12 @@ public class ExcelImportBulkReadContext extends BulkReadContextImpl {
         this.setDefaultProviderEligibilityCriteria(this.getTrimmedProperty(       PROPERTY_DEFAULT_PROVIDER_ELIGIBILITY_CRITERIA));
         this.setDefaultAssessorQualificationsDescription(this.getTrimmedProperty( PROPERTY_DEFAULT_ASSESSOR_QUALIFICATIONS_DESCRIPTION));
         this.setDefaultExtensionDescription(this.getTrimmedProperty(              PROPERTY_DEFAULT_EXTENSION_DESCRIPTION));
+
+        this.setDefaulTiptLegalNotice(this.getTrimmedProperty(                    PROPERTY_DEFAULT_TIP_LEGAL_NOTICE));
+        this.setDefaultTipNotes(this.getTrimmedProperty(                          PROPERTY_DEFAULT_TIP_NOTES));
+
+        this.setDefaultTdLegalNotice(this.getTrimmedProperty(                     PROPERTY_DEFAULT_TD_LEGAL_NOTICE));
+        this.setDefaultTdNotes(this.getTrimmedProperty(                           PROPERTY_DEFAULT_TD_NOTES));
     }
     
     

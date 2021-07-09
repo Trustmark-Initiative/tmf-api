@@ -25,7 +25,7 @@ public class TrustExpressionUtils {
     //  STATIC METHODS
     //==================================================================================================================
     public static void validate(String trustExpression) throws TrustExpressionSyntaxException {
-        System.out.println("Testing expression: " + trustExpression);
+        logger.debug("Testing expression: " + trustExpression);
         TrustExpressionANTLRErrorListener errorListener = new TrustExpressionANTLRErrorListener();
         TrustExpressionParser parser = buildTEParser(trustExpression, null, errorListener);
         parser.trustExpression(); // Causes the parser to start parsing.
@@ -79,9 +79,9 @@ public class TrustExpressionUtils {
     private static void throwFirstError(TrustExpressionANTLRErrorListener errorListener ) throws TrustExpressionSyntaxException {
         if( errorListener.getSyntaxErrors().size() > 0 ){
             if( errorListener.getSyntaxErrors().size() > 1 ){
-                System.out.println("Suppressing "+(errorListener.getSyntaxErrors().size() - 1) +" syntax errors: ");
+                logger.debug("Suppressing "+(errorListener.getSyntaxErrors().size() - 1) +" syntax errors: ");
                 for( int i = 1; i < errorListener.getSyntaxErrors().size(); i++ ){
-                    System.out.println("    " + errorListener.getSyntaxErrors().get(i).getMessage());
+                    logger.debug("    " + errorListener.getSyntaxErrors().get(i).getMessage());
                 }
             }
             throw errorListener.getSyntaxErrors().get(0); // We just throw the first.

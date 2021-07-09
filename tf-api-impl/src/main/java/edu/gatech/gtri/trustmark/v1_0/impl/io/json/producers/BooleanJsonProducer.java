@@ -5,7 +5,7 @@ import edu.gatech.gtri.trustmark.v1_0.io.json.JsonProducer;
 /**
  * Created by brad on 1/7/16.
  */
-public class BooleanJsonProducer implements JsonProducer {
+public final class BooleanJsonProducer implements JsonProducer<Boolean, Boolean> {
 
     @Override
     public Class getSupportedType() {
@@ -13,7 +13,12 @@ public class BooleanJsonProducer implements JsonProducer {
     }
 
     @Override
-    public Object serialize(Object instance) {
-        return instance;
+    public Class<Boolean> getSupportedTypeOutput() {
+        return Boolean.class;
+    }
+
+    @Override
+    public Boolean serialize(Boolean b) {
+        return b;
     }
 }

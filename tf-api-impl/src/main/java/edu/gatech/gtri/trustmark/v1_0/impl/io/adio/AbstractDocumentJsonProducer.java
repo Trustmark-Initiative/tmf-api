@@ -11,24 +11,24 @@ import java.io.Writer;
 /**
  * Created by Nicholas on 02/01/2017.
  */
-public abstract class AbstractDocumentJsonProducer<T> implements JsonProducer {
-
-    ////// Instance Methods - Abstract //////
+public abstract class AbstractDocumentJsonProducer<INPUT> implements JsonProducer<INPUT, JSONObject> {
 
     @Override
-    public abstract Class<T> getSupportedType();
-
-
-    ////// Instance Methods - Concrete //////
+    public abstract Class<INPUT> getSupportedType();
 
     @Override
-    public Object serialize(Object instance) {
+    public Class<JSONObject> getSupportedTypeOutput() {
+        return JSONObject.class;
+    }
+
+    @Override
+    public JSONObject serialize(INPUT instance) {
         StringWriter stringWriter = new StringWriter();
         serialize(this.getSupportedType(), instance, stringWriter);
         String resultJson = stringWriter.toString();
         return new JSONObject(resultJson);
     }
-    
+
     public static <T> void serialize(Class<T> supportedType, Object instance, Writer writer) {
         JSONWriter jsonWriter = new JSONWriter(writer);
         Codec<T> codec = Codec.loadCodecFor(supportedType);

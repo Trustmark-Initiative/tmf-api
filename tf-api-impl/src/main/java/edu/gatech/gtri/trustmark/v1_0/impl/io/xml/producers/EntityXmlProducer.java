@@ -13,22 +13,17 @@ import static edu.gatech.gtri.trustmark.v1_0.impl.TrustmarkFrameworkConstants.NA
 /**
  * Created by brad on 1/7/16.
  */
-public class EntityXmlProducer extends AbstractXmlProducer implements XmlProducer {
+public class EntityXmlProducer implements XmlProducer<Entity> {
 
     private static final Logger log = Logger.getLogger(EntityXmlProducer.class);
 
     @Override
-    public Class getSupportedType() {
+    public Class<Entity> getSupportedType() {
         return Entity.class;
     }
 
     @Override
-    public void serialize(Object instance, XMLStreamWriter xmlWriter) throws XMLStreamException {
-        if( instance == null || !(instance instanceof Entity) )
-            throw new IllegalArgumentException("Invalid argument passed to "+this.getClass().getSimpleName()+"!  Expecting non-null instance of class["+this.getSupportedType().getName()+"]!");
-
-        Entity entity = (Entity) instance;
-
+    public void serialize(Entity entity, XMLStreamWriter xmlWriter) throws XMLStreamException {
         xmlWriter.writeStartElement(NAMESPACE_URI, "Identifier");
         xmlWriter.writeCharacters(entity.getIdentifier().toString());
         xmlWriter.writeEndElement(); //end "Identifier"
@@ -37,13 +32,13 @@ public class EntityXmlProducer extends AbstractXmlProducer implements XmlProduce
         xmlWriter.writeCharacters(entity.getName());
         xmlWriter.writeEndElement(); //end "Name"
 
-        if( entity.getContacts() != null && !entity.getContacts().isEmpty() ){
-            log.debug("entity["+entity.getIdentifier().toString()+"] has "+entity.getContacts().size()+" contacts.");
-            for( Contact contact : entity.getContacts() ){
-                if( contact == null )
-                    throw new UnsupportedOperationException("A Contact under an entity["+entity.getIdentifier().toString()+"] was found to be null!");
+        if (entity.getContacts() != null && !entity.getContacts().isEmpty()) {
+            log.debug("entity[" + entity.getIdentifier().toString() + "] has " + entity.getContacts().size() + " contacts.");
+            for (Contact contact : entity.getContacts()) {
+                if (contact == null)
+                    throw new UnsupportedOperationException("A Contact under an entity[" + entity.getIdentifier().toString() + "] was found to be null!");
                 xmlWriter.writeStartElement(NAMESPACE_URI, "Contact");
-                writeXml(contact, xmlWriter);
+                XmlProducerUtility.writeXml(contact, xmlWriter);
                 xmlWriter.writeEndElement();
             }
         }

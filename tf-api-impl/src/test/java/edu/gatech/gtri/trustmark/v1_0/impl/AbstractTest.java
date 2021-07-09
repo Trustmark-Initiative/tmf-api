@@ -102,7 +102,7 @@ public abstract class AbstractTest {
 
         // Metadata
         assertThat(td.getMetadata().getIdentifier().toString(), equalTo("http://tdo.example/td"));
-        assertThat(td.getMetadata().getTrustmarkReferenceAttributeName().toString(), equalTo("TrustmarkReferenceAttributeName"));
+//        assertThat(td.getMetadata().getTrustmarkReferenceAttributeName().toString(), equalTo("TrustmarkReferenceAttributeName"));
         assertThat(td.getMetadata().getName(), equalTo("Trustmark Definition Name"));
         assertThat(td.getMetadata().getVersion(), equalTo("1.0.0"));
         assertThat(td.getMetadata().getDescription(), equalTo("This is a description of this Trustmark Definition."));

@@ -4,7 +4,13 @@ import edu.gatech.gtri.trustmark.v1_0.FactoryLoader;
 import edu.gatech.gtri.trustmark.v1_0.TrustmarkFramework;
 import edu.gatech.gtri.trustmark.v1_0.io.json.JsonProducer;
 import edu.gatech.gtri.trustmark.v1_0.io.json.JsonUtils;
-import edu.gatech.gtri.trustmark.v1_0.model.*;
+import edu.gatech.gtri.trustmark.v1_0.model.AbstractTIPReference;
+import edu.gatech.gtri.trustmark.v1_0.model.Entity;
+import edu.gatech.gtri.trustmark.v1_0.model.Source;
+import edu.gatech.gtri.trustmark.v1_0.model.Term;
+import edu.gatech.gtri.trustmark.v1_0.model.TrustInteroperabilityProfile;
+import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkDefinitionRequirement;
+import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkFrameworkIdentifiedObject;
 import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -13,25 +19,27 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.producers.JsonProducerUtility.toJson;
+
 /**
  * Created by brad on 1/7/16.
  */
-public class TIPJsonProducer extends AbstractJsonProducer implements JsonProducer {
+public final class TIPJsonProducer implements JsonProducer<TrustInteroperabilityProfile, JSONObject> {
 
     private static final Logger log = Logger.getLogger(TIPJsonProducer.class);
 
     @Override
-    public Class getSupportedType() {
+    public Class<TrustInteroperabilityProfile> getSupportedType() {
         return TrustInteroperabilityProfile.class;
     }
 
     @Override
-    public Object serialize(Object instance) {
-        if( instance == null || !(instance instanceof TrustInteroperabilityProfile) )
-            throw new IllegalArgumentException("Invalid argument passed to "+this.getClass().getSimpleName()+"!  Expecting non-null instance of class["+this.getSupportedType().getName()+"]!");
+    public Class<JSONObject> getSupportedTypeOutput() {
+        return JSONObject.class;
+    }
 
-        TrustInteroperabilityProfile tip = (TrustInteroperabilityProfile) instance;
-
+    @Override
+    public JSONObject serialize(TrustInteroperabilityProfile tip) {
         JSONObject jsonObject = new JSONObject();
 
         jsonObject.put("$TMF_VERSION", FactoryLoader.getInstance(TrustmarkFramework.class).getTrustmarkFrameworkVersion());
@@ -44,56 +52,55 @@ public class TIPJsonProducer extends AbstractJsonProducer implements JsonProduce
 //        jsonObject.put("Moniker", tip.getMoniker());
 
         jsonObject.put("PublicationDateTime", JsonUtils.toDateTimeString(tip.getPublicationDateTime()));
-        if( tip.getLegalNotice() != null )
+        if (tip.getLegalNotice() != null)
             jsonObject.put("LegalNotice", tip.getLegalNotice());
-        if( tip.getNotes() != null )
+        if (tip.getNotes() != null)
             jsonObject.put("Notes", tip.getNotes());
 
         jsonObject.put("Issuer", toJson(tip.getIssuer()));
 
-        if( tip.isDeprecated() )
+        if (tip.isDeprecated())
             jsonObject.put("Deprecated", Boolean.TRUE);
 
-        if( collectionNotEmpty(tip.getSupersedes()) || collectionNotEmpty(tip.getSupersededBy()) ){
+        if (JsonProducerUtility.collectionNotEmpty(tip.getSupersedes()) || JsonProducerUtility.collectionNotEmpty(tip.getSupersededBy())) {
             JSONObject supersessionsJson = new JSONObject();
-            if( collectionNotEmpty(tip.getSupersedes()) ){
+            if (JsonProducerUtility.collectionNotEmpty(tip.getSupersedes())) {
                 JSONArray supersedesObjs = new JSONArray();
-                for( TrustmarkFrameworkIdentifiedObject supersedes : tip.getSupersedes() ){
-                    supersedesObjs.put(createJsonReference(supersedes));
+                for (TrustmarkFrameworkIdentifiedObject supersedes : tip.getSupersedes()) {
+                    supersedesObjs.put(JsonProducerUtility.createJsonReference(supersedes));
                 }
                 supersessionsJson.put("Supersedes", supersedesObjs);
             }
-            if( collectionNotEmpty(tip.getSupersededBy()) ){
+            if (JsonProducerUtility.collectionNotEmpty(tip.getSupersededBy())) {
                 JSONArray supersedesObjs = new JSONArray();
-                for( TrustmarkFrameworkIdentifiedObject supersededBy : tip.getSupersededBy() ){
-                    supersedesObjs.put(createJsonReference(supersededBy));
+                for (TrustmarkFrameworkIdentifiedObject supersededBy : tip.getSupersededBy()) {
+                    supersedesObjs.put(JsonProducerUtility.createJsonReference(supersededBy));
                 }
                 supersessionsJson.put("SupersededBy", supersedesObjs);
             }
             jsonObject.put("Supersessions", supersessionsJson);
         }
 
-        if( tip.getSatisfies() != null && !tip.getSatisfies().isEmpty() ){
+        if (tip.getSatisfies() != null && !tip.getSatisfies().isEmpty()) {
             JSONArray satisfiesObjs = new JSONArray();
-            for( TrustmarkFrameworkIdentifiedObject supersedes : tip.getSatisfies() ){
-                satisfiesObjs.put(createJsonReference(supersedes));
+            for (TrustmarkFrameworkIdentifiedObject supersedes : tip.getSatisfies()) {
+                satisfiesObjs.put(JsonProducerUtility.createJsonReference(supersedes));
             }
             jsonObject.put("Satisfies", satisfiesObjs);
         }
 
-        if( collectionNotEmpty(tip.getKnownConflicts()) ){
+        if (JsonProducerUtility.collectionNotEmpty(tip.getKnownConflicts())) {
             JSONArray knownConflictsArray = new JSONArray();
-            for( TrustmarkFrameworkIdentifiedObject knownConflict : tip.getKnownConflicts() ){
-                knownConflictsArray.put(createJsonReference(knownConflict));
+            for (TrustmarkFrameworkIdentifiedObject knownConflict : tip.getKnownConflicts()) {
+                knownConflictsArray.put(JsonProducerUtility.createJsonReference(knownConflict));
             }
             jsonObject.put("KnownConflicts", knownConflictsArray);
         }
 
 
-
-        if( tip.getKeywords() != null && tip.getKeywords().size() > 0 ){
+        if (tip.getKeywords() != null && tip.getKeywords().size() > 0) {
             JSONArray keywords = new JSONArray();
-            for( String keyword : tip.getKeywords() ){
+            for (String keyword : tip.getKeywords()) {
                 keywords.put(keyword);
             }
             jsonObject.put("Keywords", keywords);
@@ -101,9 +108,9 @@ public class TIPJsonProducer extends AbstractJsonProducer implements JsonProduce
 
 
         List<Term> terms = tip.getTermsSorted();
-        if( !terms.isEmpty() ){
+        if (!terms.isEmpty()) {
             JSONArray termsArray = new JSONArray();
-            for( Term term : terms ){
+            for (Term term : terms) {
                 termsArray.put(toJson(term));
             }
             jsonObject.put("Terms", termsArray);
@@ -112,7 +119,7 @@ public class TIPJsonProducer extends AbstractJsonProducer implements JsonProduce
 
         Collection<Source> sources = tip.getSources();
         JSONArray sourcesArray = new JSONArray();
-        for( Source source : sources ){
+        for (Source source : sources) {
             sourcesArray.put(toJson(source));
         }
         jsonObject.put("Sources", sourcesArray);
@@ -126,24 +133,24 @@ public class TIPJsonProducer extends AbstractJsonProducer implements JsonProduce
         JSONArray tdRequirementsArray = new JSONArray();
         HashMap<String, String> encounteredEntities = new HashMap<>();
 
-        for(AbstractTIPReference abstractTIPReference : tip.getReferences() ){
+        for (AbstractTIPReference abstractTIPReference : tip.getReferences()) {
             JSONObject refObj = (JSONObject) toJson(abstractTIPReference);  // Should match up with 'TrustmarkFrameworkIdentifiedObject'
             refObj.put("$id", abstractTIPReference.getId());
-            if( abstractTIPReference.isTrustmarkDefinitionRequirement() ){
+            if (abstractTIPReference.isTrustmarkDefinitionRequirement()) {
                 TrustmarkDefinitionRequirement tdReqRef = (TrustmarkDefinitionRequirement) abstractTIPReference;
                 List<Entity> providers = tdReqRef.getProviderReferences();
                 refObj.put("$Type", "TrustmarkDefinitionRequirement");
                 refObj.put("TrustmarkDefinitionReference", toTMIRefJson(tdReqRef));
-                if( providers != null && providers.size() > 0 ){
+                if (providers != null && providers.size() > 0) {
                     JSONArray providersArray = new JSONArray();
-                    for( Entity provider : providers ){
-                        if( encounteredEntities.containsKey(provider.getIdentifier().toString()) ){
+                    for (Entity provider : providers) {
+                        if (encounteredEntities.containsKey(provider.getIdentifier().toString())) {
                             String providerRef = encounteredEntities.get(provider.getIdentifier().toString());
                             JSONObject providerRefJson = new JSONObject();
-                            providerRefJson.put("$ref", "#"+providerRef);
+                            providerRefJson.put("$ref", "#" + providerRef);
                             providersArray.put(providerRefJson);
-                        }else{
-                            String providerRef = "provider"+provider.getIdentifier().toString().hashCode();
+                        } else {
+                            String providerRef = "provider" + provider.getIdentifier().toString().hashCode();
                             encounteredEntities.put(provider.getIdentifier().toString(), providerRef);
                             JSONObject providerJson = (JSONObject) toJson(provider);
                             providerJson.put("$id", providerRef);
@@ -153,22 +160,22 @@ public class TIPJsonProducer extends AbstractJsonProducer implements JsonProduce
                     refObj.put("ProviderReferences", providersArray);
                 }
                 tdRequirementsArray.put(refObj);
-            }else if( abstractTIPReference.isTrustInteroperabilityProfileReference() ){
+            } else if (abstractTIPReference.isTrustInteroperabilityProfileReference()) {
                 refObj.put("$Type", "TrustInteroperabilityProfileReference");
                 fillTMIRefJson(refObj, abstractTIPReference);
                 tipReferencesArray.put(refObj);
-            }else{
-                throw new UnsupportedOperationException("Encountered unknown AbstractTIPReference type: "+abstractTIPReference.getClass().getName());
+            } else {
+                throw new UnsupportedOperationException("Encountered unknown AbstractTIPReference type: " + abstractTIPReference.getClass().getName());
             }
         }
-        if( tipReferencesArray.length() > 0 ){
+        if (tipReferencesArray.length() > 0) {
             referencesObject.put("TrustInteroperabilityProfileReferences", tipReferencesArray);
         }
-        if( tdRequirementsArray.length() > 0 ){
+        if (tdRequirementsArray.length() > 0) {
             referencesObject.put("TrustmarkDefinitionRequirements", tdRequirementsArray);
         }
-        if( tipReferencesArray.length() == 0 && tdRequirementsArray.length() == 0 ) {
-            log.warn("TIP["+tip.getIdentifier().toString()+"] does not have either TD requirement references or TIP references, and is not valid.");
+        if (tipReferencesArray.length() == 0 && tdRequirementsArray.length() == 0) {
+            log.warn("TIP[" + tip.getIdentifier().toString() + "] does not have either TD requirement references or TIP references, and is not valid.");
             throw new RuntimeException("A TIP Must have either TIP references or TD Requirement References to be considered valid.");
         }
         jsonObject.put("References", referencesObject);
@@ -182,20 +189,20 @@ public class TIPJsonProducer extends AbstractJsonProducer implements JsonProduce
         return json;
     }
 
-    private void fillTMIRefJson(JSONObject json, TrustmarkFrameworkIdentifiedObject tmio){
-        if( tmio.getIdentifier() != null )
+    private void fillTMIRefJson(JSONObject json, TrustmarkFrameworkIdentifiedObject tmio) {
+        if (tmio.getIdentifier() != null)
             json.put("Identifier", tmio.getIdentifier().toString());
-        if( notEmpty(tmio.getName()) )
+        if (notEmpty(tmio.getName()))
             json.put("Name", tmio.getName());
-        if( tmio.getNumber()!=null)
+        if (tmio.getNumber() != null)
             json.put("Number", tmio.getNumber());
-        if( notEmpty(tmio.getVersion()) )
+        if (notEmpty(tmio.getVersion()))
             json.put("Version", tmio.getVersion());
-        if( notEmpty(tmio.getDescription()) )
+        if (notEmpty(tmio.getDescription()))
             json.put("Description", tmio.getDescription());
     }
 
-    private boolean notEmpty(String str){
+    private boolean notEmpty(String str) {
         return str != null && str.trim().length() > 0;
     }
 

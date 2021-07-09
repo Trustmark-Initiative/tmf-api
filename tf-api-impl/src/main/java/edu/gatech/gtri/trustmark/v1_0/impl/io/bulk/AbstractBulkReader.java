@@ -118,7 +118,7 @@ public abstract class AbstractBulkReader implements BulkReader {
 
             result = new BulkReadResultImpl(resultingTDs, resultingTips, allRawData.getInvalidParameters());
         } catch(Throwable t) {
-            log.error("Error perforing bulk read!", t);
+            log.error("Error performing bulk read!", t);
             this.listenerCollection.fireErrorDuringBulkRead(t);
             
             // Rethrow the exception:
@@ -132,7 +132,7 @@ public abstract class AbstractBulkReader implements BulkReader {
     
     protected final void ensureFileIsSupported(File inputFile) throws UnsupportedOperationException {
         if (!this.fileIsSupported(inputFile)) {
-            throw new UnsupportedOperationException("File type not supported.");
+            throw new UnsupportedOperationException("File type not supported " + inputFile.getName());
         }
     }
 }

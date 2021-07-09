@@ -9,23 +9,25 @@ import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkParameterBinding;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.producers.JsonProducerUtility.toJson;
+
 /**
  * Created by brad on 1/7/16.
  */
-public class TrustmarkJsonProducer extends AbstractJsonProducer implements JsonProducer {
+public final class TrustmarkJsonProducer implements JsonProducer<Trustmark, JSONObject> {
 
     @Override
-    public Class getSupportedType() {
+    public Class<Trustmark> getSupportedType() {
         return Trustmark.class;
     }
 
     @Override
-    public Object serialize(Object instance) {
-        if( instance == null || !(instance instanceof Trustmark) )
-            throw new IllegalArgumentException("Invalid argument passed to "+this.getClass().getSimpleName()+"!  Expecting non-null instance of class["+this.getSupportedType().getName()+"]!");
+    public Class<JSONObject> getSupportedTypeOutput() {
+        return JSONObject.class;
+    }
 
-        Trustmark trustmark = (Trustmark) instance;
-
+    @Override
+    public JSONObject serialize(Trustmark trustmark) {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("$TMF_VERSION", FactoryLoader.getInstance(TrustmarkFramework.class).getTrustmarkFrameworkVersion());
         jsonObject.put("$Type", Trustmark.class.getSimpleName());
@@ -39,17 +41,17 @@ public class TrustmarkJsonProducer extends AbstractJsonProducer implements JsonP
         jsonObject.put("Provider", toJson(trustmark.getProvider()));
         jsonObject.put("Recipient", toJson(trustmark.getRecipient()));
 
-        if( trustmark.hasExceptions() ){
+        if (trustmark.hasExceptions()) {
             JSONArray exceptionInfo = new JSONArray();
-            for( String exceptionInfostring : trustmark.getExceptionInfo() ){
+            for (String exceptionInfostring : trustmark.getExceptionInfo()) {
                 exceptionInfo.put(exceptionInfostring);
             }
             jsonObject.put("ExceptionInfo", exceptionInfo);
         }
 
-        if( trustmark.getParameterBindings() != null && !trustmark.getParameterBindings().isEmpty() ){
+        if (trustmark.getParameterBindings() != null && !trustmark.getParameterBindings().isEmpty()) {
             JSONArray bindingArray = new JSONArray();
-            for(TrustmarkParameterBinding binding : trustmark.getParameterBindings() ){
+            for (TrustmarkParameterBinding binding : trustmark.getParameterBindings()) {
                 JSONObject bindingJson = new JSONObject();
                 bindingJson.put("$identifier", binding.getIdentifier());
                 bindingJson.put("$kind", binding.getParameterKind().toString());
@@ -59,15 +61,14 @@ public class TrustmarkJsonProducer extends AbstractJsonProducer implements JsonP
             jsonObject.put("ParameterBindings", bindingArray);
         }
 
-        if( trustmark.getDefinitionExtension() != null ){
+        if (trustmark.getDefinitionExtension() != null) {
             jsonObject.put("DefinitionExtensions", toJson(trustmark.getDefinitionExtension()));
         }
-        if( trustmark.getProviderExtension() != null ){
+        if (trustmark.getProviderExtension() != null) {
             jsonObject.put("ProviderExtensions", toJson(trustmark.getProviderExtension()));
         }
         return jsonObject;
     }
-
 
 
 }//end TrustmarkJsonProducer

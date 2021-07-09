@@ -14,22 +14,16 @@ import static edu.gatech.gtri.trustmark.v1_0.impl.TrustmarkFrameworkConstants.NA
 /**
  * Created by brad on 1/7/16.
  */
-public class TrustmarkXmlProducer extends AbstractXmlProducer implements XmlProducer {
-
+public class TrustmarkXmlProducer implements XmlProducer<Trustmark> {
 
     @Override
-    public Class getSupportedType() {
+    public Class<Trustmark> getSupportedType() {
         return Trustmark.class;
     }
 
     @Override
-    public void serialize(Object instance, XMLStreamWriter xmlWriter) throws XMLStreamException {
-        if( instance == null || !(instance instanceof Trustmark) )
-            throw new IllegalArgumentException("Invalid argument passed to "+this.getClass().getSimpleName()+"!  Expecting non-null instance of class["+this.getSupportedType().getName()+"]!");
-
-        Trustmark trustmark = (Trustmark) instance;
-
-        String uuidIdAttribute = "TM_"+System.currentTimeMillis()+"_"+ UUID.randomUUID().toString().toUpperCase().replace("-", "");
+    public void serialize(Trustmark trustmark, XMLStreamWriter xmlWriter) throws XMLStreamException {
+        String uuidIdAttribute = "TM_" + System.currentTimeMillis() + "_" + UUID.randomUUID().toString().toUpperCase().replace("-", "");
         xmlWriter.writeAttribute(NAMESPACE_URI, "id", uuidIdAttribute);
 
         xmlWriter.writeStartElement(NAMESPACE_URI, "Identifier");
@@ -37,7 +31,7 @@ public class TrustmarkXmlProducer extends AbstractXmlProducer implements XmlProd
         xmlWriter.writeEndElement(); //end "Identifier"
 
         xmlWriter.writeStartElement(NAMESPACE_URI, "TrustmarkDefinitionReference");
-        writeXml(trustmark.getTrustmarkDefinitionReference(), xmlWriter);
+        XmlProducerUtility.writeXml(trustmark.getTrustmarkDefinitionReference(), xmlWriter);
         xmlWriter.writeEndElement();
 
         xmlWriter.writeStartElement(NAMESPACE_URI, "IssueDateTime");
@@ -61,24 +55,24 @@ public class TrustmarkXmlProducer extends AbstractXmlProducer implements XmlProd
         xmlWriter.writeEndElement();
 
         xmlWriter.writeStartElement(NAMESPACE_URI, "Provider");
-        writeXml(trustmark.getProvider(), xmlWriter);
+        XmlProducerUtility.writeXml(trustmark.getProvider(), xmlWriter);
         xmlWriter.writeEndElement();
 
         xmlWriter.writeStartElement(NAMESPACE_URI, "Recipient");
-        writeXml(trustmark.getRecipient(), xmlWriter);
+        XmlProducerUtility.writeXml(trustmark.getRecipient(), xmlWriter);
         xmlWriter.writeEndElement();
 
-        if( trustmark.hasExceptions() ){
-            for( String s : trustmark.getExceptionInfo() ) {
+        if (trustmark.hasExceptions()) {
+            for (String s : trustmark.getExceptionInfo()) {
                 xmlWriter.writeStartElement(NAMESPACE_URI, "ExceptionInfo");
                 xmlWriter.writeCharacters(s);
                 xmlWriter.writeEndElement();
             }
         }
 
-        if( trustmark.getParameterBindings() != null &&  !trustmark.getParameterBindings().isEmpty() ){
+        if (trustmark.getParameterBindings() != null && !trustmark.getParameterBindings().isEmpty()) {
             xmlWriter.writeStartElement(NAMESPACE_URI, "ParameterBindings");
-            for(TrustmarkParameterBinding binding : trustmark.getParameterBindings() ){
+            for (TrustmarkParameterBinding binding : trustmark.getParameterBindings()) {
                 xmlWriter.writeStartElement(NAMESPACE_URI, "ParameterBinding");
                 xmlWriter.writeAttribute(NAMESPACE_URI, "identifier", binding.getIdentifier());
                 xmlWriter.writeAttribute(NAMESPACE_URI, "kind", binding.getParameterKind().toString());
@@ -88,21 +82,20 @@ public class TrustmarkXmlProducer extends AbstractXmlProducer implements XmlProd
             xmlWriter.writeEndElement(); //end tf:ParameterBindings
         }
 
-        if( trustmark.getDefinitionExtension() != null ){
+        if (trustmark.getDefinitionExtension() != null) {
             xmlWriter.writeStartElement(NAMESPACE_URI, "DefinitionExtension");
-            writeXml(trustmark.getDefinitionExtension(), xmlWriter);
+            XmlProducerUtility.writeXml(trustmark.getDefinitionExtension(), xmlWriter);
             xmlWriter.writeEndElement();
         }
 
-        if( trustmark.getProviderExtension() != null ){
+        if (trustmark.getProviderExtension() != null) {
             xmlWriter.writeStartElement(NAMESPACE_URI, "ProviderExtension");
-            writeXml(trustmark.getProviderExtension(), xmlWriter);
+            XmlProducerUtility.writeXml(trustmark.getProviderExtension(), xmlWriter);
             xmlWriter.writeEndElement();
         }
 
 
     }//end serialize()
-
 
 
 }

@@ -15,7 +15,7 @@ import java.util.List;
 public class TrustmarkDefinitionMetadataImpl extends TrustmarkFrameworkIdentifiedObjectImpl implements TrustmarkDefinition.Metadata {
 
 
-    private URI trustmarkReferenceAttributeName;
+//    private URI trustmarkReferenceAttributeName;
     private Date publicationDateTime;
     private Entity trustmarkDefiningOrganization;
     private String targetStakeholderDescription;
@@ -51,14 +51,14 @@ public class TrustmarkDefinitionMetadataImpl extends TrustmarkFrameworkIdentifie
         this.getKnownConflicts().add(tmfi);
     }
 
-    @Override
-    public URI getTrustmarkReferenceAttributeName() {
-        return trustmarkReferenceAttributeName;
-    }
-
-    public void setTrustmarkReferenceAttributeName(URI trustmarkReferenceAttributeName) {
-        this.trustmarkReferenceAttributeName = trustmarkReferenceAttributeName;
-    }
+//    @Override
+//    public URI getTrustmarkReferenceAttributeName() {
+//        return trustmarkReferenceAttributeName;
+//    }
+//
+//    public void setTrustmarkReferenceAttributeName(URI trustmarkReferenceAttributeName) {
+//        this.trustmarkReferenceAttributeName = trustmarkReferenceAttributeName;
+//    }
 
     @Override
     public Date getPublicationDateTime() {

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="US-ASCII"?>
+<?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:tf="https://trustmarkinitiative.org/specifications/trustmark-framework/1.4/schema/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" targetNamespace="https://trustmarkinitiative.org/specifications/trustmark-framework/1.4/schema/" elementFormDefault="qualified" attributeFormDefault="qualified" version="1">
     <xs:import namespace="http://www.w3.org/2000/09/xmldsig#" schemaLocation="xmldsig-core-schema.xsd"/>
 
@@ -393,15 +393,6 @@
                                     <xs:documentation>
                                         The globally unique Trustmark Definition
                                         Identifier for this Trustmark
-                                        Definition.
-                                    </xs:documentation>
-                                </xs:annotation>
-                            </xs:element>
-                            <xs:element name="TrustmarkReferenceAttributeName" type="xs:anyURI" minOccurs="1" maxOccurs="1">
-                                <xs:annotation>
-                                    <xs:documentation>
-                                        The name of the attribute that refers to
-                                        a Trustmark issued under this Trustmark
                                         Definition.
                                     </xs:documentation>
                                 </xs:annotation>
@@ -1183,7 +1174,7 @@
             <xs:documentation>
                 constrains the value space of the EnumValue element
                 within a Trustmark Definition to a text string
-                containing alphanumeric characters, underscores, and spaces.
+                not containing pipe (|), single quote, or double quote.
             </xs:documentation>
         </xs:annotation>
         <xs:restriction base="xs:string">

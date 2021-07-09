@@ -1,20 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-
-	<modelVersion>4.0.0</modelVersion>
-	<artifactId>tf-api</artifactId>
-    <packaging>jar</packaging>
-
+    <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>edu.gatech.gtri.trustmark</groupId>
         <artifactId>tf-api-parent</artifactId>
-        <version>1.4.1</version>
+        <version>1.4.5</version>
     </parent>
-
+    <artifactId>tf-api</artifactId>
+    <version>1.4.5</version>
+    <packaging>jar</packaging>
     <properties>
-	<tf.api.version>1.4.1</tf.api.version>
+        <tf.api.version>1.4.4</tf.api.version>
     </properties>
-
     <dependencies>
         <dependency>
             <groupId>com.sun.mail</groupId>
@@ -22,16 +19,18 @@
             <version>1.6.4</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>org.gtri.functionaljava</groupId>
+            <artifactId>functionaljava</artifactId>
+            <version>4.10.0-GTRI</version>
+        </dependency>
     </dependencies>
-
     <build>
         <resources>
             <resource>
-                <directory>${basedir}/src/main/resources</directory>
                 <filtering>true</filtering>
+                <directory>${basedir}/src/main/resources</directory>
             </resource>
         </resources>
-
     </build>
-
 </project>

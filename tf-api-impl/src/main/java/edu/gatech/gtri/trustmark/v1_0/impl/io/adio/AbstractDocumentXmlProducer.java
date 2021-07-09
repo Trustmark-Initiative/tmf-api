@@ -9,20 +9,14 @@ import javax.xml.stream.XMLStreamWriter;
 /**
  * Created by Nicholas on 02/01/2017.
  */
-public abstract class AbstractDocumentXmlProducer<T> implements XmlProducer {
-    
-    ////// Instance Methods - Abstract //////
+public abstract class AbstractDocumentXmlProducer<INPUT> implements XmlProducer<INPUT> {
 
     @Override
-    public abstract Class<T> getSupportedType();
-
-
-    ////// Instance Methods - Concrete //////
+    public abstract Class<INPUT> getSupportedType();
 
     @Override
-    public void serialize(Object instance, XMLStreamWriter xmlWriter) throws XMLStreamException {
-        Codec<T> codec = Codec.loadCodecFor(this.getSupportedType());
+    public void serialize(INPUT instance, XMLStreamWriter xmlWriter) throws XMLStreamException {
+        Codec<INPUT> codec = Codec.loadCodecFor(this.getSupportedType());
         codec.xmlSerializer.serializeRootObject(xmlWriter, instance);
     }
-    
 }

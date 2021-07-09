@@ -69,17 +69,29 @@ public interface BulkReadContext {
     String getDefaultVersion();
     
     /**
-     * Gets the default legal notice that will be used during an entire bulk read operation.
+     * Gets the default TIP legal notice that will be used during an entire bulk read operation.
      * @return a valid legal notice String
      */
-    String getDefaultLegalNotice();
+    String getDefaultTipLegalNotice();
     
     /**
-     * Gets the default notes that will be used during an entire bulk read operation.
+     * Gets the default TIP notes that will be used during an entire bulk read operation.
      * @return a String with notes
      */
-    String getDefaultNotes();
-    
+    String getDefaultTipNotes();
+
+    /**
+     * Gets the default TD legal notice that will be used during an entire bulk read operation.
+     * @return a valid legal notice String
+     */
+    String getDefaultTdLegalNotice();
+
+    /**
+     * Gets the default TD notes that will be used during an entire bulk read operation.
+     * @return a String with notes
+     */
+    String getDefaultTdNotes();
+
     /**
      * Gets the default issuance criteria that will be used during an entire bulk read operation.
      * @return a valid issuance criteria String.
@@ -91,8 +103,6 @@ public interface BulkReadContext {
      * @return a valid revocation criteria String
      */
     String getDefaultRevocationCriteria();
-
-    //FIXME missing TrustmarkRevocationCriteria
 
     /**
      * Gets the default target stakeholder description that will be used during an entire bulk read operation.

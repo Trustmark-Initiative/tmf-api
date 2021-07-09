@@ -1,98 +1,95 @@
 package edu.gatech.gtri.trustmark.v1_0.impl.io.xml;
 
-import edu.gatech.gtri.trustmark.v1_0.impl.io.AbstractManagerImpl;
 import edu.gatech.gtri.trustmark.v1_0.io.xml.XmlManager;
 import edu.gatech.gtri.trustmark.v1_0.io.xml.XmlProducer;
 import org.apache.log4j.Logger;
+import org.gtri.fj.data.HashMap;
+import org.gtri.fj.data.Option;
 
-import java.util.*;
+import java.util.ServiceLoader;
 
-/**
- * Created by brad on 1/7/16.
- */
-public class XmlManagerImpl extends AbstractManagerImpl implements XmlManager {
-    //==================================================================================================================
-    //  Private Static Variables
-    //==================================================================================================================
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.ManagerUtility.getClassAndAncestorList;
+import static java.util.Objects.requireNonNull;
+import static org.gtri.fj.data.HashMap.hashMap;
+import static org.gtri.fj.data.List.iteratorList;
+import static org.gtri.fj.data.Option.somes;
+
+public class XmlManagerImpl implements XmlManager {
+
     private static final Logger log = Logger.getLogger(XmlManagerImpl.class);
 
-    //==================================================================================================================
-    //  Constructors
-    //==================================================================================================================
-    public XmlManagerImpl(){
+    private HashMap<Class, XmlProducer> xmlProducerCache;
+
+    public XmlManagerImpl() {
         loadDefaults();
     }
 
-    //==================================================================================================================
-    //  Instance Variables
-    //==================================================================================================================
-    private Boolean producerCacheLock = Boolean.FALSE;
-    private Map<Class, XmlProducer> producerCache;
-    //==================================================================================================================
-    //  Public Interface Methods
-    //==================================================================================================================
+    private synchronized void loadDefaults() {
+        log.debug("Loading XmlProducer ...");
+
+        xmlProducerCache = hashMap();
+
+        iteratorList(ServiceLoader.load(XmlProducer.class).iterator()).forEach(xmlProducer -> {
+            log.debug("Loading XmlProducer " + xmlProducer.getClass().getName() + " (" + xmlProducer.getSupportedType().getName() + ") ...");
+
+            xmlProducerCache.set(xmlProducer.getSupportedType(), xmlProducer);
+        });
+    }
+
     @Override
-    public XmlProducer findProducer(Class type) {
-        synchronized (producerCacheLock) {
-            log.debug("Finding XmlProducer for Class["+type.getName()+"]");
-            XmlProducer producer = this.producerCache.get(type);
-            if( producer == null ){
-                List<Class> classesList = buildClassCheckList(type);
-                if( classesList != null && !classesList.isEmpty() ){
-                    for( Class classPossibility : classesList ){
-                        if( this.producerCache.containsKey(classPossibility) ){
-                            producer = this.producerCache.get(classPossibility);
-                            break;
-                        }
-                    }
-                }
+    public synchronized XmlProducer<?> findProducer(
+            final Class supportedType) {
+
+        requireNonNull(supportedType);
+
+        log.debug("Finding XmlProducer for (" + supportedType.getName() + ") ...");
+
+        return somes(getClassAndAncestorList(supportedType)
+                .map(key -> xmlProducerCache.get(key)))
+                .headOption()
+                .toNull();
+    }
+
+    @Override
+    public synchronized <INPUT> Option<XmlProducer<INPUT>> findProducerStrict(
+            final Class<INPUT> supportedType) {
+
+        requireNonNull(supportedType);
+
+        log.debug("Finding XmlProducer for (" + supportedType.getName() + ") ...");
+
+        return xmlProducerCache.get(supportedType)
+                .map(xmlProducer -> (XmlProducer<INPUT>) xmlProducer);
+    }
+
+    @Override
+    public synchronized <INPUT> void register(
+            final XmlProducer<INPUT> xmlProducer) {
+
+        requireNonNull(xmlProducer);
+
+        log.debug("Registering XmlProducer for " + xmlProducer.getClass().getName() + " (" + xmlProducer.getSupportedType().getName() + ") ...");
+
+        this.xmlProducerCache.set(xmlProducer.getSupportedType(), xmlProducer);
+    }
+
+    @Override
+    public synchronized <INPUT> void unregister(
+            final XmlProducer<INPUT> xmlProducer) {
+
+        requireNonNull(xmlProducer);
+
+        this.findProducerStrict(xmlProducer.getSupportedType()).forEach(xmlProducerCached -> {
+            if (xmlProducerCached.equals(xmlProducer)) {
+                log.info("Unregistering XmlProducer for " + xmlProducer.getClass().getName() + " (" + xmlProducer.getSupportedType().getName() + ") ...");
+
+                this.xmlProducerCache.delete(xmlProducer.getSupportedType());
             }
-            return producer;
-        }
+        });
     }
 
     @Override
-    public void register(XmlProducer producer) {
-        synchronized (producerCacheLock) {
-            log.info("Registering XmlProducer["+producer.getClass().getName()+"] to handle type["+producer.getSupportedType().getName()+"]...");
-            this.producerCache.put(producer.getSupportedType(), producer);
-        }
-    }
-
-    @Override
-    public void unregister(XmlProducer producer) {
-        synchronized (producerCacheLock){
-            XmlProducer cached = this.findProducer(producer.getSupportedType());
-            if( cached.equals(producer) ){
-                log.info("Unregistering XmlProducer["+producer.getClass().getName()+"]...");
-                this.producerCache.remove(producer.getSupportedType());
-            }
-        }
-    }
-
-    @Override
-    public void reloadDefaults(){
+    public synchronized void reloadDefaults() {
         this.loadDefaults();
     }
-    //==================================================================================================================
-    //  Private Helper Methods
-    //==================================================================================================================
-    private void loadDefaults(){
-        log.debug("Loading default XML Serializers...");
-        synchronized (producerCacheLock) {
-            this.producerCache = null;
-            this.producerCache = new HashMap<Class, XmlProducer>();
-
-            ServiceLoader<XmlProducer> loader = ServiceLoader.load(XmlProducer.class);
-            Iterator<XmlProducer> producers = loader.iterator();
-            while(producers.hasNext()){
-                XmlProducer producer = producers.next();
-                log.debug("Assigning XmlProducer["+producer.getClass().getName()+"] to handle Type["+producer.getSupportedType().getName()+"]...");
-                this.producerCache.put(producer.getSupportedType(), producer);
-            }
-
-        }
-    }//end loadDefaults()
-
-
 }

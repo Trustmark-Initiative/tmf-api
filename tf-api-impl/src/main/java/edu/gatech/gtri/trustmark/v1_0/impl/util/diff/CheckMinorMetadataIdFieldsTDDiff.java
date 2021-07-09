@@ -41,7 +41,7 @@ public class CheckMinorMetadataIdFieldsTDDiff extends AbstractTDDiff {
         checkMinorMetadataIdField(results, m1.getTargetRecipientDescription(), m2.getTargetRecipientDescription(), "targetRecipientDescription");
         checkMinorMetadataIdField(results, m1.getTargetRelyingPartyDescription(), m2.getTargetRelyingPartyDescription(), "targetRelyingPartyDescription");
         checkMinorMetadataIdField(results, m1.getTargetStakeholderDescription(), m2.getTargetStakeholderDescription(), "targetStakeholderDescription");
-        checkMinorMetadataIdField(results, m1.getTrustmarkReferenceAttributeName().toString(), m2.getTrustmarkReferenceAttributeName().toString(), "trustmarkReferenceAttributeName");
+//        checkMinorMetadataIdField(results, m1.getTrustmarkReferenceAttributeName().toString(), m2.getTrustmarkReferenceAttributeName().toString(), "trustmarkReferenceAttributeName");
     }//end checkMinorMetadataIdFields()
 
     private void checkMinorMetadataIdField(ArrayList<TrustmarkDefinitionDiffResult> results, String f1, String f2, String fieldName){

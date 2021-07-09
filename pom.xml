@@ -1,51 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-
     <modelVersion>4.0.0</modelVersion>
-    <packaging>pom</packaging>
-    <version>1.4.1</version>
-    <groupId>edu.gatech.gtri.trustmark</groupId>
-    <artifactId>tf-api-parent</artifactId>
-    <name>Trustmark Framework Java API</name>
-
     <parent>
         <groupId>org.gtri</groupId>
         <artifactId>super-pom</artifactId>
         <version>2.0.0</version>
     </parent>
-
+    <groupId>edu.gatech.gtri.trustmark</groupId>
+    <artifactId>tf-api-parent</artifactId>
+    <version>1.4.5</version>
+    <packaging>pom</packaging>
+    <name>Trustmark Framework Java API</name>
     <modules>
         <module>required-deps</module>
         <module>tf-api</module>
         <module>tf-api-impl</module>
     </modules>
-
-
+    <distributionManagement>
+        <repository>
+            <uniqueVersion>false</uniqueVersion>
+            <id>GTRI</id>
+            <name>GTRI External Repository</name>
+            <url>https://maven.gtri.gatech.edu/artifactory/external</url>
+        </repository>
+        <snapshotRepository>
+            <uniqueVersion>true</uniqueVersion>
+            <id>GTRI</id>
+            <name>GTRI External Repository</name>
+            <url>https://maven.gtri.gatech.edu/artifactory/external-snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
         <timestamp>${maven.build.timestamp}</timestamp>
-
         <!-- This is the version of the tf this library version is compatible with. -->
         <trustmark.framework.version>1.4</trustmark.framework.version>
-
-
     </properties>
-
     <dependencies>
-        <!-- ========================================= -->
-        <!-- Test DEPENDENCIES -->
-        <!-- ========================================= -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.13.1</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.hamcrest</groupId>
-            <artifactId>hamcrest-all</artifactId>
-            <version>1.3</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -60,9 +55,112 @@
             <version>2.13.3</version>
             <scope>test</scope>
         </dependency>
-
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-all</artifactId>
+            <version>1.3</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
+    <repositories>
+        <repository>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <id>GTRI</id>
+            <url>https://maven.gtri.gatech.edu/repos/external</url>
+        </repository>
+        <repository>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <id>GTRI-SNAPSHOT</id>
+            <url>https://maven.gtri.gatech.edu/repos/external-snapshots</url>
+        </repository>
+    </repositories>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.github.ekryd.sortpom</groupId>
+                <artifactId>sortpom-maven-plugin</artifactId>
+                <version>3.0.0</version>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                    <expandEmptyElements>false</expandEmptyElements>
+                    <predefinedSortOrder>recommended_2008_06</predefinedSortOrder>
+                    <sortDependencies>scope,groupId,artifactId</sortDependencies>
+                    <sortPlugins>groupId,artifactId</sortPlugins>
+                    <sortProperties>true</sortProperties>
+                    <sortModules>true</sortModules>
+                    <createBackupFile>false</createBackupFile>
+                    <keepBlankLines>true</keepBlankLines>
+                    <nrOfIndentSpace>4</nrOfIndentSpace>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>sort</goal>
+                        </goals>
+                        <phase>validate</phase>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.2</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
 
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.2.0</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <configuration>
+                    <additionalparam>${javadoc.opts.doclint}</additionalparam>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.6</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                        <phase>prepare-package</phase>
+                    </execution>
+                    <execution>
+                        <id>report-aggregate</id>
+                        <goals>
+                            <goal>report-aggregate</goal>
+                        </goals>
+                        <phase>prepare-package</phase>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
     <profiles>
         <profile>
             <id>doclint-java8-disable</id>
@@ -74,36 +172,4 @@
             </properties>
         </profile>
     </profiles>
-
-    <build>
-
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.2</version>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <configuration>
-                    <additionalparam>${javadoc.opts.doclint}</additionalparam>
-                </configuration>
-            </plugin>
-        </plugins>
-
-    </build>
-
-
-    <repositories>
-        <repository>
-            <id>gtri-public</id>
-            <url>https://maven.gtri.gatech.edu/repos/public</url>
-        </repository>
-    </repositories>
-
 </project>

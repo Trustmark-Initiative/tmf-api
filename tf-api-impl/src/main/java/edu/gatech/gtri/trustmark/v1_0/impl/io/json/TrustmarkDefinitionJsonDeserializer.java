@@ -38,7 +38,7 @@ public class TrustmarkDefinitionJsonDeserializer extends AbstractDeserializer {
         TrustmarkDefinitionMetadataImpl metadata = new TrustmarkDefinitionMetadataImpl();
         metadata.setTypeName("TrustmarkDefinition");
         metadata.setIdentifier(getUri(metadataJson, "Identifier", true));
-        metadata.setTrustmarkReferenceAttributeName(getUri(metadataJson, "TrustmarkReferenceAttributeName", true));
+        //metadata.setTrustmarkReferenceAttributeName(getUri(metadataJson, "TrustmarkReferenceAttributeName", true));
         metadata.setName(getString(metadataJson, "Name", true));
         metadata.setVersion(getString(metadataJson, "Version", true));
         metadata.setDescription(getString(metadataJson, "Description", true));
@@ -56,8 +56,10 @@ public class TrustmarkDefinitionJsonDeserializer extends AbstractDeserializer {
         metadata.setLegalNotice(getString(metadataJson, "LegalNotice", false));
         metadata.setNotes(getString(metadataJson, "Notes", false));
         if( metadataJson.has("Deprecated") ){
+            log.debug("Setting Deprecated to: " + metadataJson.getBoolean("Deprecated"));
             metadata.setDeprecated(metadataJson.getBoolean("Deprecated"));
         }else{
+            log.debug("Setting Deprecated to false");
             metadata.setDeprecated(false);
         }
 

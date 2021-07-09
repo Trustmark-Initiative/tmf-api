@@ -74,7 +74,7 @@ public interface TrustmarkDefinition extends HasSource, Sourced, TermsUsed {
          * this Trustmark Definition. Guaranteed to be non-null for validated
          * objects.
          */
-        public URI getTrustmarkReferenceAttributeName();
+//        public URI getTrustmarkReferenceAttributeName();
 
         /**
          * The Trustmark Defining Organization that defined and published this

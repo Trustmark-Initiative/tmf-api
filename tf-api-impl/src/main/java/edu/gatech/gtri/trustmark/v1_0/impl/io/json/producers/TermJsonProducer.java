@@ -8,25 +8,25 @@ import org.json.JSONObject;
 /**
  * Created by brad on 1/7/16.
  */
-public class TermJsonProducer extends AbstractJsonProducer implements JsonProducer {
+public final class TermJsonProducer implements JsonProducer<Term, JSONObject> {
 
     @Override
-    public Class getSupportedType() {
+    public Class<Term> getSupportedType() {
         return Term.class;
     }
 
     @Override
-    public Object serialize(Object instance) {
-        if( instance == null || !(instance instanceof Term) )
-            throw new IllegalArgumentException("Invalid argument passed to "+this.getClass().getSimpleName()+"!  Expecting non-null instance of class["+this.getSupportedType().getName()+"]!");
+    public Class<JSONObject> getSupportedTypeOutput() {
+        return JSONObject.class;
+    }
 
-        Term term = (Term) instance;
-
+    @Override
+    public JSONObject serialize(Term term) {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("Name", term.getName());
-        if( !term.getAbbreviations().isEmpty() ){
+        if (!term.getAbbreviations().isEmpty()) {
             JSONArray abbreviations = new JSONArray();
-            for( String abbr : term.getAbbreviations() ){
+            for (String abbr : term.getAbbreviations()) {
                 abbreviations.put(abbr);
             }
             jsonObject.put("Abbreviations", abbreviations);
