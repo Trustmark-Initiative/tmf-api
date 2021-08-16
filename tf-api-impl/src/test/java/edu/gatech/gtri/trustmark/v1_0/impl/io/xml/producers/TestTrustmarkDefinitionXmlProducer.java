@@ -11,7 +11,8 @@ import edu.gatech.gtri.trustmark.v1_0.io.SerializerFactory;
 import edu.gatech.gtri.trustmark.v1_0.io.xml.XmlManager;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkDefinition;
 import org.apache.commons.io.FileUtils;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.junit.Test;
 
 import java.io.File;
@@ -25,7 +26,7 @@ import static org.hamcrest.Matchers.*;
  * Created by brad on 1/7/16.
  */
 public class TestTrustmarkDefinitionXmlProducer extends AbstractTest {
-    private static final Logger logger = Logger.getLogger(TestTrustmarkDefinitionXmlProducer.class);
+    private static final Logger logger = LogManager.getLogger(TestTrustmarkDefinitionXmlProducer.class);
 
     public static final String TD_FULL_FILE = "./src/test/resources/TDs/td-full.json";
 

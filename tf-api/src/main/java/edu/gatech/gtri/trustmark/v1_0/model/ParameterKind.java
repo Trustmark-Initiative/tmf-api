@@ -1,5 +1,9 @@
 package edu.gatech.gtri.trustmark.v1_0.model;
 
+import org.gtri.fj.function.F1;
+
+import static java.util.Objects.requireNonNull;
+
 /**
  * Created by brad on 5/20/16.
  */
@@ -33,20 +37,20 @@ public enum ParameterKind {
     /**
      * Compares the given string t
      */
-    public static ParameterKind fromString( String str ){
+    public static ParameterKind fromString(String str) {
         String strCmp = str;
-        if( strCmp == null ) strCmp = "";
+        if (strCmp == null) strCmp = "";
         strCmp = strCmp.trim();
         ParameterKind kind = null;
-        for( ParameterKind cur : ParameterKind.values() ){
-            if( cur.toString().equalsIgnoreCase(strCmp) ){
+        for (ParameterKind cur : ParameterKind.values()) {
+            if (cur.toString().equalsIgnoreCase(strCmp)) {
                 kind = cur;
                 break;
             }
         }
         return kind;
     }
-    
+
     /**
      * Includes constant values useful for reading or writing parameter values.
      */
@@ -56,4 +60,38 @@ public enum ParameterKind {
          */
         public static final String ENUM_MULTI_SEPARATOR = "|";
     }
+
+    public <T1> T1 match(
+            F1<ParameterKind, T1> fParameterKindBoolean,
+            F1<ParameterKind, T1> fParameterKindDatetime,
+            F1<ParameterKind, T1> fParameterKindEnum,
+            F1<ParameterKind, T1> fParameterKindEnumMulti,
+            F1<ParameterKind, T1> fParameterKindNumber,
+            F1<ParameterKind, T1> fParameterKindString,
+            F1<ParameterKind, T1> f) {
+
+        requireNonNull(fParameterKindBoolean);
+        requireNonNull(fParameterKindDatetime);
+        requireNonNull(fParameterKindEnum);
+        requireNonNull(fParameterKindEnumMulti);
+        requireNonNull(fParameterKindNumber);
+        requireNonNull(fParameterKindString);
+        requireNonNull(f);
+
+        return
+                this == BOOLEAN ?
+                        fParameterKindBoolean.f(this) :
+                        this == DATETIME ?
+                                fParameterKindDatetime.f(this) :
+                                this == ENUM ?
+                                        fParameterKindEnum.f(this) :
+                                        this == ENUM_MULTI ?
+                                                fParameterKindEnumMulti.f(this) :
+                                                this == NUMBER ?
+                                                        fParameterKindNumber.f(this) :
+                                                        this == STRING ?
+                                                                fParameterKindString.f(this) :
+                                                                f.f(this);
+    }
+
 }

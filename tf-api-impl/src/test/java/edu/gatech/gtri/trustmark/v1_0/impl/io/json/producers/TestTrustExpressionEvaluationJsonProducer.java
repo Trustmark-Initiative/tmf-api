@@ -1,36 +1,45 @@
 package edu.gatech.gtri.trustmark.v1_0.impl.io.json.producers;
 
 import edu.gatech.gtri.trustmark.v1_0.FactoryLoader;
+import edu.gatech.gtri.trustmark.v1_0.impl.io.TrustInteroperabilityProfileResolverFromMap;
+import edu.gatech.gtri.trustmark.v1_0.impl.io.TrustmarkDefinitionResolverFromMap;
 import edu.gatech.gtri.trustmark.v1_0.impl.model.EntityImpl;
 import edu.gatech.gtri.trustmark.v1_0.impl.model.TrustInteroperabilityProfileImpl;
+import edu.gatech.gtri.trustmark.v1_0.impl.model.TrustmarkDefinitionImpl;
 import edu.gatech.gtri.trustmark.v1_0.impl.model.TrustmarkDefinitionRequirementImpl;
+import edu.gatech.gtri.trustmark.v1_0.impl.tip.trustexpression.evaluator.TrustExpressionEvaluatorImpl;
+import edu.gatech.gtri.trustmark.v1_0.impl.tip.trustexpression.parser.TrustExpressionParserImpl;
+import edu.gatech.gtri.trustmark.v1_0.io.TrustmarkResolver;
 import edu.gatech.gtri.trustmark.v1_0.io.json.JsonManager;
 import edu.gatech.gtri.trustmark.v1_0.io.json.JsonProducer;
-import edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.TrustExpressionEvaluation;
-import edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.TrustInteroperabilityProfileTrustExpressionEvaluator;
-import edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.TrustInteroperabilityProfileTrustExpressionEvaluatorFactory;
-import edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.TrustInteroperabilityProfileTrustExpressionParser;
-import edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.TrustInteroperabilityProfileTrustExpressionParserFactory;
-import org.apache.log4j.Logger;
+import edu.gatech.gtri.trustmark.v1_0.model.AbstractTIPReference;
+import edu.gatech.gtri.trustmark.v1_0.model.TrustInteroperabilityProfile;
+import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkDefinition;
+import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkDefinitionRequirement;
+import edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.evaluator.TrustExpressionEvaluation;
+import edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.evaluator.TrustExpressionEvaluator;
+import edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.parser.TrustExpressionParser;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.gtri.fj.data.List;
+import org.gtri.fj.data.TreeMap;
+import org.gtri.fj.product.P5;
 import org.json.JSONObject;
 import org.junit.Test;
 
 import java.net.URI;
+import java.util.HashMap;
 
-import static edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.TrustExpression.and;
-import static edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.TrustExpression.not;
-import static edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.TrustExpression.or;
-import static edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.TrustExpression.terminal;
+import static java.lang.String.format;
 import static java.util.Collections.singletonList;
-import static org.gtri.fj.data.Either.right;
+import static org.gtri.fj.data.List.arrayList;
 import static org.gtri.fj.data.List.nil;
-import static org.gtri.fj.data.NonEmptyList.nel;
-import static org.gtri.fj.data.Option.none;
+import static org.gtri.fj.lang.StringUtility.stringOrd;
 import static org.gtri.fj.product.P.p;
 
 public class TestTrustExpressionEvaluationJsonProducer {
 
-    private static final Logger log = Logger.getLogger(TIPJsonProducer.class);
+    private static final Logger log = LogManager.getLogger(TIPJsonProducer.class);
     private static final JsonManager jsonManager = FactoryLoader.getInstance(JsonManager.class);
 
     @Test
@@ -50,29 +59,57 @@ public class TestTrustExpressionEvaluationJsonProducer {
 
     private void testHelper(String trustExpression) {
 
-        final EntityImpl entity = new EntityImpl();
-        entity.setIdentifier(URI.create("uri"));
+        final P5<TrustInteroperabilityProfileResolverFromMap, TrustmarkDefinitionResolverFromMap, URI, TrustInteroperabilityProfile, TreeMap<String, TrustmarkDefinitionRequirement>> resolver = resolver(trustExpression, arrayList("A"));
+        final TrustExpressionParser trustExpressionParser = new TrustExpressionParserImpl(resolver._1(), resolver._2());
 
-        final TrustmarkDefinitionRequirementImpl trustmarkDefinitionRequirement = new TrustmarkDefinitionRequirementImpl();
-        trustmarkDefinitionRequirement.setId("A");
-        trustmarkDefinitionRequirement.setProviderReferences(singletonList(entity));
-
-        final TrustInteroperabilityProfileImpl trustInteroperabilityProfile = new TrustInteroperabilityProfileImpl();
-        trustInteroperabilityProfile.setTrustExpression(trustExpression);
-        trustInteroperabilityProfile.setIdentifier(URI.create("uri"));
-        trustInteroperabilityProfile.setReferences(singletonList(trustmarkDefinitionRequirement));
-
-        final TrustInteroperabilityProfileTrustExpressionEvaluatorFactory trustInteroperabilityProfileTrustExpressionEvaluatorFactory = FactoryLoader.getInstance(TrustInteroperabilityProfileTrustExpressionEvaluatorFactory.class);
-        final TrustInteroperabilityProfileTrustExpressionEvaluator trustInteroperabilityProfileTrustExpressionEvaluator = trustInteroperabilityProfileTrustExpressionEvaluatorFactory.createDefaultEvaluator();
-
-        final TrustInteroperabilityProfileTrustExpressionParserFactory trustInteroperabilityProfileTrustExpressionParserFactory = FactoryLoader.getInstance(TrustInteroperabilityProfileTrustExpressionParserFactory.class);
-        final TrustInteroperabilityProfileTrustExpressionParser trustInteroperabilityProfileTrustExpressionParser = trustInteroperabilityProfileTrustExpressionParserFactory.createDefaultParser();
+        final TrustExpressionEvaluator trustExpressionEvaluator = new TrustExpressionEvaluatorImpl(
+                FactoryLoader.getInstance(TrustmarkResolver.class),
+                trustExpressionParser);
 
         JsonProducer<TrustExpressionEvaluation, JSONObject> jsonProducer = jsonManager.findProducerStrict(TrustExpressionEvaluation.class, JSONObject.class).some();
 
-        log.info(jsonProducer.serialize(trustInteroperabilityProfileTrustExpressionEvaluator.evaluate(
-                trustInteroperabilityProfileTrustExpressionParser.parse(trustInteroperabilityProfile),
+        log.info(jsonProducer.serialize(trustExpressionEvaluator.evaluate(
+                trustExpressionParser.parse(resolver._4()),
                 nil())).toString(2));
+    }
+
+    private P5<TrustInteroperabilityProfileResolverFromMap, TrustmarkDefinitionResolverFromMap, URI, TrustInteroperabilityProfile, TreeMap<String, TrustmarkDefinitionRequirement>> resolver(
+            final String trustExpression,
+            final List<String> trustmarkDefinitionRequirementIdentifierList) {
+
+        final URI trustInteroperabilityProfileReferenceURI = URI.create("trust-interoperability-profile-reference");
+
+        final TreeMap<String, TrustmarkDefinitionRequirement> trustmarkDefinitionRequirementMap = TreeMap.treeMap(stringOrd, trustmarkDefinitionRequirementIdentifierList.map(trustmarkDefinitionRequirementIdentifier -> {
+
+            final EntityImpl entity = new EntityImpl();
+            entity.setIdentifier(URI.create(format("entity-uri-%s", trustmarkDefinitionRequirementIdentifier)));
+
+            final URI trustmarkDefinitionRequirementURI = URI.create(format("trustmark-definition-requirement-%s", trustmarkDefinitionRequirementIdentifier));
+
+            final TrustmarkDefinitionRequirementImpl trustmarkDefinitionRequirement = new TrustmarkDefinitionRequirementImpl();
+            trustmarkDefinitionRequirement.setIdentifier(trustmarkDefinitionRequirementURI);
+            trustmarkDefinitionRequirement.setId(trustmarkDefinitionRequirementIdentifier);
+            trustmarkDefinitionRequirement.setProviderReferences(singletonList(entity));
+
+            return p(trustmarkDefinitionRequirementIdentifier, trustmarkDefinitionRequirement);
+        }));
+
+        final TrustmarkDefinitionImpl trustmarkDefinition = new TrustmarkDefinitionImpl();
+
+        final TrustInteroperabilityProfileImpl trustInteroperabilityProfileReferenced = new TrustInteroperabilityProfileImpl();
+        trustInteroperabilityProfileReferenced.setIdentifier(trustInteroperabilityProfileReferenceURI);
+        trustInteroperabilityProfileReferenced.setTrustExpression(trustExpression);
+        trustInteroperabilityProfileReferenced.setReferences(trustmarkDefinitionRequirementMap.toList().map(p -> (AbstractTIPReference) p._2()).toCollection());
+
+        final TrustInteroperabilityProfileResolverFromMap trustInteroperabilityProfileResolver = new TrustInteroperabilityProfileResolverFromMap(new HashMap<URI, TrustInteroperabilityProfile>() {{
+            put(trustInteroperabilityProfileReferenced.getIdentifier(), trustInteroperabilityProfileReferenced);
+        }});
+
+        final TrustmarkDefinitionResolverFromMap trustmarkDefinitionResolverFromMap = new TrustmarkDefinitionResolverFromMap(new HashMap<URI, TrustmarkDefinition>() {{
+            trustmarkDefinitionRequirementMap.forEach(p -> put(p._2().getIdentifier(), new TrustmarkDefinitionImpl()));
+        }});
+
+        return p(trustInteroperabilityProfileResolver, trustmarkDefinitionResolverFromMap, trustInteroperabilityProfileReferenceURI, trustInteroperabilityProfileReferenced, trustmarkDefinitionRequirementMap);
     }
 
 }

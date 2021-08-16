@@ -4,7 +4,8 @@ import edu.gatech.gtri.trustmark.v1_0.FactoryLoader;
 import edu.gatech.gtri.trustmark.v1_0.impl.AbstractTest;
 import edu.gatech.gtri.trustmark.v1_0.io.Serializer;
 import edu.gatech.gtri.trustmark.v1_0.io.SerializerFactory;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.junit.Test;
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.MatcherAssert.*;
@@ -14,7 +15,7 @@ import static org.hamcrest.MatcherAssert.*;
  */
 public class TestSerializerFactoryImpl extends AbstractTest {
 
-    private static final Logger log = Logger.getLogger(TestSerializerFactoryImpl.class);
+    private static final Logger log = LogManager.getLogger(TestSerializerFactoryImpl.class);
 
     @Test
     public void testInstantiation() {

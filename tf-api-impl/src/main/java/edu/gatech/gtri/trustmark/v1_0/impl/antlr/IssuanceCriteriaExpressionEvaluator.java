@@ -2,7 +2,8 @@ package edu.gatech.gtri.trustmark.v1_0.impl.antlr;
 
 import edu.gatech.gtri.trustmark.v1_0.model.AssessmentStepResult;
 import edu.gatech.gtri.trustmark.v1_0.model.AssessmentStepResultType;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import java.util.*;
 import java.util.regex.Pattern;
@@ -15,7 +16,7 @@ import java.util.regex.Pattern;
  */
 public class IssuanceCriteriaExpressionEvaluator extends IssuanceCriteriaListenerAdapter {
 
-    private static final Logger log = Logger.getLogger(IssuanceCriteriaExpressionEvaluator.class);
+    private static final Logger log = LogManager.getLogger(IssuanceCriteriaExpressionEvaluator.class);
 
 
     private Boolean satisfied = false;

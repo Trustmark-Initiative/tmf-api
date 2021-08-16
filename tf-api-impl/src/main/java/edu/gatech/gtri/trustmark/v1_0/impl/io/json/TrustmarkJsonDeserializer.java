@@ -3,7 +3,8 @@ package edu.gatech.gtri.trustmark.v1_0.impl.io.json;
 import edu.gatech.gtri.trustmark.v1_0.impl.model.*;
 import edu.gatech.gtri.trustmark.v1_0.io.ParseException;
 import edu.gatech.gtri.trustmark.v1_0.model.*;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -15,7 +16,7 @@ import java.util.Set;
  */
 public class TrustmarkJsonDeserializer extends AbstractDeserializer {
 
-    private static final Logger log = Logger.getLogger(TrustmarkJsonDeserializer.class);
+    private static final Logger log = LogManager.getLogger(TrustmarkJsonDeserializer.class);
 
 
     public static Trustmark deserialize( String jsonString ) throws ParseException {

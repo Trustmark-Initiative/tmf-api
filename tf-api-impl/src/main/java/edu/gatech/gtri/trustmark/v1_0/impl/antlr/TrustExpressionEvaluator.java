@@ -1,6 +1,7 @@
 package edu.gatech.gtri.trustmark.v1_0.impl.antlr;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import java.util.List;
 import java.util.Map;
@@ -16,7 +17,7 @@ public class TrustExpressionEvaluator extends TrustExpressionAdapter {
     //==================================================================================================================
     //  STATIC VARIABLES
     //==================================================================================================================
-    private static final Logger log = Logger.getLogger(TrustExpressionEvaluator.class);
+    private static final Logger log = LogManager.getLogger(TrustExpressionEvaluator.class);
     //==================================================================================================================
     //  STATIC METHODS
     //==================================================================================================================

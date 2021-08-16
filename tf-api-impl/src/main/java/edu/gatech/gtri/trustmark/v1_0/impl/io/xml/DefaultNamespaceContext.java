@@ -1,7 +1,8 @@
 package edu.gatech.gtri.trustmark.v1_0.impl.io.xml;
 
 import edu.gatech.gtri.trustmark.v1_0.impl.TrustmarkFrameworkConstants;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import javax.xml.namespace.NamespaceContext;
 import java.util.*;
@@ -11,7 +12,7 @@ import java.util.*;
  */
 public class DefaultNamespaceContext implements NamespaceContext {
 
-    private static final Logger logger = Logger.getLogger(DefaultNamespaceContext.class);
+    private static final Logger logger = LogManager.getLogger(DefaultNamespaceContext.class);
 
     private int nsCounter = 1;
     Map<String, String> BY_PREFIX_CACHE = new HashMap<>();

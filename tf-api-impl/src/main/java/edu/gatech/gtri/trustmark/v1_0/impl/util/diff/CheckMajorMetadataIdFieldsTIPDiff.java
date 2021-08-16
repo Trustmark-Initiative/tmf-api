@@ -2,7 +2,8 @@ package edu.gatech.gtri.trustmark.v1_0.impl.util.diff;
 
 import edu.gatech.gtri.trustmark.v1_0.model.TrustInteroperabilityProfile;
 import edu.gatech.gtri.trustmark.v1_0.util.diff.*;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -12,7 +13,7 @@ import java.util.Collection;
  */
 public class CheckMajorMetadataIdFieldsTIPDiff extends AbstractTIPDiff {
 
-    private static final Logger log = Logger.getLogger(CheckMajorMetadataIdFieldsTIPDiff.class);
+    private static final Logger log = LogManager.getLogger(CheckMajorMetadataIdFieldsTIPDiff.class);
 
     @Override
     public Collection<TrustInteroperabilityProfileDiffResult> doDiff(TrustInteroperabilityProfile tip1, TrustInteroperabilityProfile tip2) {

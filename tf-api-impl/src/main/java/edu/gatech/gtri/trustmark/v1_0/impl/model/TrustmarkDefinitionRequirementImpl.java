@@ -29,9 +29,7 @@ public class TrustmarkDefinitionRequirementImpl extends TrustmarkFrameworkIdenti
 
     @Override
     public List<Entity> getProviderReferences() {
-        if( providerReferences == null )
-            providerReferences = new ArrayList<Entity>();
-        return providerReferences;
+        return this.providerReferences;
     }
 
     public void setProviderReferences(List<Entity> providerReferences) {
@@ -39,7 +37,9 @@ public class TrustmarkDefinitionRequirementImpl extends TrustmarkFrameworkIdenti
     }
 
     public void addProviderReference(Entity provider){
-        this.getProviderReferences().add(provider);
+        if( this.providerReferences == null )
+            this.providerReferences = new ArrayList<>();
+        this.providerReferences.add(provider);
     }
 
     public Boolean isTrustmarkDefinitionRequirement(){return true;}

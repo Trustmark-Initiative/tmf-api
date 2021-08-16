@@ -1,7 +1,8 @@
 package edu.gatech.gtri.trustmark.v1_0.impl.antlr;
 
 import org.antlr.v4.runtime.Token;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +18,7 @@ public class TrustExpressionVariableProducer extends TrustExpressionAdapter {
     //==================================================================================================================
     //  STATIC VARIABLES
     //==================================================================================================================
-    private static final Logger log = Logger.getLogger(TrustExpressionVariableProducer.class);
+    private static final Logger log = LogManager.getLogger(TrustExpressionVariableProducer.class);
     //==================================================================================================================
     //  INSTANCE VARIABLES
     //==================================================================================================================

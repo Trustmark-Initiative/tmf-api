@@ -4,7 +4,8 @@ import edu.gatech.gtri.trustmark.v1_0.model.*;
 import edu.gatech.gtri.trustmark.v1_0.util.diff.DiffSeverity;
 import edu.gatech.gtri.trustmark.v1_0.util.diff.TrustInteroperabilityProfileDiffResult;
 import edu.gatech.gtri.trustmark.v1_0.util.diff.TrustInteroperabilityProfileDiffType;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ import java.util.List;
  */
 public class ReferencesTIPDiff extends AbstractTIPDiff {
 
-    private static final Logger log = Logger.getLogger(ReferencesTIPDiff.class);
+    private static final Logger log = LogManager.getLogger(ReferencesTIPDiff.class);
 
     @Override
     public Collection<TrustInteroperabilityProfileDiffResult> doDiff(TrustInteroperabilityProfile tip1, TrustInteroperabilityProfile tip2) {

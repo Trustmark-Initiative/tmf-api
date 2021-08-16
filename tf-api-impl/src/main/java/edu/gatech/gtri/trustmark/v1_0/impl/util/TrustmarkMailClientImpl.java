@@ -1,7 +1,8 @@
 package edu.gatech.gtri.trustmark.v1_0.impl.util;
 
 import edu.gatech.gtri.trustmark.v1_0.util.TrustmarkMailClient;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import javax.activation.DataHandler;
 
@@ -22,7 +23,7 @@ import java.util.*;
 
 public class TrustmarkMailClientImpl implements TrustmarkMailClient {
 
-    public static final Logger log = Logger.getLogger(TrustmarkMailClientImpl.class);
+    public static final Logger log = LogManager.getLogger(TrustmarkMailClientImpl.class);
 
     public static final String SMTP_USER = "smtp.user";
     public static final String SMTP_PSWD = "smtp.pswd";

@@ -13,7 +13,8 @@ import edu.gatech.gtri.trustmark.v1_0.io.xml.XmlManager;
 import edu.gatech.gtri.trustmark.v1_0.model.Trustmark;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkStatusReport;
 import org.apache.commons.io.FileUtils;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.junit.Test;
 
 import java.io.File;
@@ -27,7 +28,7 @@ import static org.hamcrest.Matchers.notNullValue;
  * Created by brad on 1/7/16.
  */
 public class TestTrustmarkXmlProducer extends AbstractTest {
-    private static final Logger logger = Logger.getLogger(TestTrustmarkXmlProducer.class);
+    private static final Logger logger = LogManager.getLogger(TestTrustmarkXmlProducer.class);
 
     public static final String TM_FULL_FILE = "./src/test/resources/Trustmarks/trustmark-full.json";
 

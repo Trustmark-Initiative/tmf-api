@@ -1,7 +1,8 @@
 package edu.gatech.gtri.trustmark.v1_0.impl.io.xml;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.w3c.dom.ls.LSInput;
 import org.w3c.dom.ls.LSResourceResolver;
 
@@ -14,7 +15,7 @@ import java.io.StringWriter;
  */
 public class LSResourceResolverImpl implements LSResourceResolver {
 
-    private static Logger log = Logger.getLogger(LSResourceResolverImpl.class);
+    private static Logger log = LogManager.getLogger(LSResourceResolverImpl.class);
 
 
     @Override

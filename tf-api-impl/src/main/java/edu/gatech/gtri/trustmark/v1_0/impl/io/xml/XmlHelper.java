@@ -2,7 +2,8 @@ package edu.gatech.gtri.trustmark.v1_0.impl.io.xml;
 
 import edu.gatech.gtri.trustmark.v1_0.impl.TrustmarkFrameworkConstants;
 import edu.gatech.gtri.trustmark.v1_0.io.ParseException;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
@@ -22,7 +23,7 @@ import java.io.StringReader;
  */
 public class XmlHelper {
 
-    private static final Logger log = Logger.getLogger(XmlHelper.class);
+    private static final Logger log = LogManager.getLogger(XmlHelper.class);
 
     /**
      * Returns true if the XML File uses a legacy namespace.

@@ -5,6 +5,7 @@ import edu.gatech.gtri.trustmark.v1_0.model.Entity;
 
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -57,7 +58,10 @@ public class EntityImpl implements Entity {
     }
 
     public String toString() {
-        return String.format("Entity[%s]", this.getIdentifier() == null ? "" : this.getIdentifier().toString());
+        return String.format("Entity[ identifier = %s, name = %s , contacts = %s ]",
+                this.getIdentifier() == null ? "" : this.getIdentifier().toString(),
+                this.getName() == null ? "" : this.getName(),
+                this.getContacts() == null ? "" : Arrays.toString(this.getContacts().toArray()));
     }
 
 

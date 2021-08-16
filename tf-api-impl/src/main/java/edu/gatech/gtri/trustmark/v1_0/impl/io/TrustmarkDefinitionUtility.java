@@ -6,13 +6,14 @@ import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkDefinition;
 import edu.gatech.gtri.trustmark.v1_0.util.TrustmarkDefinitionUtils;
 import edu.gatech.gtri.trustmark.v1_0.util.ValidationResult;
 import edu.gatech.gtri.trustmark.v1_0.util.ValidationSeverity;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import java.util.Collection;
 
 public class TrustmarkDefinitionUtility {
 
-    private static final Logger log = Logger.getLogger(TrustmarkDefinitionUtility.class);
+    private static final Logger log = LogManager.getLogger(TrustmarkDefinitionUtility.class);
 
     private TrustmarkDefinitionUtility() {
     }

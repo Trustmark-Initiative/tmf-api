@@ -15,7 +15,8 @@ import edu.gatech.gtri.trustmark.v1_0.util.diff.TrustmarkDefinitionDiff;
 import edu.gatech.gtri.trustmark.v1_0.util.diff.TrustmarkDefinitionDiffResult;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
@@ -33,7 +34,7 @@ import java.util.*;
  */
 public class TrustmarkDefinitionUtilsImpl implements TrustmarkDefinitionUtils {
 
-    private static final Logger log = Logger.getLogger(TrustmarkDefinitionUtilsImpl.class);
+    private static final Logger log = LogManager.getLogger(TrustmarkDefinitionUtilsImpl.class);
 
     @Override
     public Boolean isTrustmarkDefinition(File file) {

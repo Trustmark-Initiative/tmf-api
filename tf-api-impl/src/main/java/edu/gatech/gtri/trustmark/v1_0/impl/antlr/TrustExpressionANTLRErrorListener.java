@@ -7,7 +7,8 @@ import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.Recognizer;
 import org.antlr.v4.runtime.atn.ATNConfigSet;
 import org.antlr.v4.runtime.dfa.DFA;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import java.util.*;
 
@@ -22,7 +23,7 @@ public class TrustExpressionANTLRErrorListener implements ANTLRErrorListener {
     //==================================================================================================================
     //  STATIC VARIABLES
     //==================================================================================================================
-    private static final Logger log = Logger.getLogger(TrustExpressionANTLRErrorListener.class);
+    private static final Logger log = LogManager.getLogger(TrustExpressionANTLRErrorListener.class);
     //==================================================================================================================
     //  INSTANCE VARIABLES
     //==================================================================================================================

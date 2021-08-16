@@ -6,7 +6,8 @@ import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkDefinition;
 import edu.gatech.gtri.trustmark.v1_0.util.diff.DiffSeverity;
 import edu.gatech.gtri.trustmark.v1_0.util.diff.TrustmarkDefinitionDiffResult;
 import edu.gatech.gtri.trustmark.v1_0.util.diff.TrustmarkDefinitionDiffType;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import java.util.*;
 
@@ -15,7 +16,7 @@ import java.util.*;
  */
 public class ConformanceCritTDDiff extends AbstractTDDiff {
 
-    private static final Logger log = Logger.getLogger(ConformanceCritTDDiff.class);
+    private static final Logger log = LogManager.getLogger(ConformanceCritTDDiff.class);
 
     @Override
     public Collection<TrustmarkDefinitionDiffResult> doDiff(TrustmarkDefinition td1, TrustmarkDefinition td2) {

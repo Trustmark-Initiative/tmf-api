@@ -3,11 +3,16 @@ package edu.gatech.gtri.trustmark.v1_0.impl.model;
 import edu.gatech.gtri.trustmark.v1_0.model.ParameterKind;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkParameterBinding;
 
-import javax.xml.bind.DatatypeConverter;
+import java.math.BigDecimal;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeParseException;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.List;
 import java.util.regex.Pattern;
+
+import static java.lang.String.format;
 
 /**
  * Created by brad on 5/20/16.
@@ -22,13 +27,26 @@ public class TrustmarkParameterBindingImpl implements TrustmarkParameterBinding,
     public String getIdentifier() {
         return identifier;
     }
+
     @Override
     public Object getValue() {
-        return value;
+        return parameterKind.match(
+                parameterKindBoolean -> getBooleanValue(),
+                parameterKindDatetime -> getDateTimeValue(),
+                parameterKindEnum -> getStringValue(),
+                parameterKindEnumMulti -> getStringListValue(),
+                parameterKindNumber -> getNumericValue(),
+                parameterKindString -> getStringValue(),
+                parameterKindOther -> {
+                    throw new RuntimeException("ParameterKind must be one of BOOLEAN, DATETIME, ENUM, ENUM_MULTI, NUMBER, and STRING.");
+                }
+        );
     }
+
     public ParameterKind getParameterKind() {
         return parameterKind;
     }
+
     @Override
     public String getStringValue() {
         return value;
@@ -47,64 +65,99 @@ public class TrustmarkParameterBindingImpl implements TrustmarkParameterBinding,
     }
 
     @Override
-    public Number getNumericValue() {
-        if( this.getParameterKind() == ParameterKind.NUMBER ){
-            try{
-                return Double.parseDouble(this.getStringValue());
-            }catch(Throwable t){
-                throw new CoerceTypeError("Cannot coerce '"+this.getStringValue()+"' into a Number!", t);
-            }
-        }
-        return null;
+    public BigDecimal getNumericValue() {
+        return parameterKind.match(
+                parameterKindBoolean -> null,
+                parameterKindDatetime -> null,
+                parameterKindEnum -> null,
+                parameterKindEnumMulti -> null,
+                parameterKindNumber -> {
+                    try {
+                        return new BigDecimal(getStringValue());
+                    } catch (Throwable t) {
+                        throw new CoerceTypeError(format("Cannot coerce '%s' into a Number!", getStringValue()), t);
+                    }
+                },
+                parameterKindString -> null,
+                parameterKindOther -> {
+                    throw new RuntimeException("ParameterKind must be one of BOOLEAN, DATETIME, ENUM, ENUM_MULTI, NUMBER, and STRING.");
+                }
+        );
     }
 
     @Override
     public Boolean getBooleanValue() {
-        if( this.getParameterKind() == ParameterKind.BOOLEAN ){
-            try{
-                return Boolean.parseBoolean(this.getStringValue());
-            }catch(Throwable t){
-                throw new CoerceTypeError("Cannot coerce '"+this.getStringValue()+"' into a Boolean!", t);
-            }
-        }
-        return null;
+        return parameterKind.match(
+                parameterKindBoolean -> {
+                    try {
+                        return Boolean.parseBoolean(getStringValue());
+                    } catch (Throwable t) {
+                        throw new CoerceTypeError(format("Cannot coerce '%s' into a Boolean!", getStringValue()), t);
+                    }
+                },
+                parameterKindDatetime -> null,
+                parameterKindEnum -> null,
+                parameterKindEnumMulti -> null,
+                parameterKindNumber -> null,
+                parameterKindString -> null,
+                parameterKindOther -> {
+                    throw new RuntimeException("ParameterKind must be one of BOOLEAN, DATETIME, ENUM, ENUM_MULTI, NUMBER, and STRING.");
+                }
+        );
     }
 
     @Override
-    public Calendar getDateTimeValue() {
-        if( this.getParameterKind() == ParameterKind.DATETIME ){
-            long millisTime = -1;
-            try{
-                millisTime = Long.parseLong(this.getStringValue());
-            }catch(Throwable t){
-                try {
-                    return DatatypeConverter.parseDateTime(this.getStringValue());
-                }catch(Throwable t2){
-                    throw new CoerceTypeError("Cannot coerce '"+this.getStringValue()+"' into a timestamp!  It should be a time in millis or a XML Date Timestamp format.");
+    public Instant getDateTimeValue() {
+        return parameterKind.match(
+                parameterKindBoolean -> null,
+                parameterKindDatetime -> {
+                    try {
+                        return Instant.ofEpochMilli(Long.parseLong(getStringValue()));
+                    } catch (Throwable t) {
+                        try {
+                            return Instant.parse(getStringValue());
+                        } catch (final DateTimeParseException dateTimeParseException) {
+                            try {
+                                return LocalDateTime.parse(getStringValue()).toInstant(ZoneOffset.UTC);
+                            } catch (Throwable t2) {
+                                throw new CoerceTypeError(format("Cannot coerce '%s' into a timestamp!  It should be a time in millis or a XML Date Timestamp format.", getStringValue()));
+                            }
+                        }
+                    }
+                },
+                parameterKindEnum -> null,
+                parameterKindEnumMulti -> null,
+                parameterKindNumber -> null,
+                parameterKindString -> null,
+                parameterKindOther -> {
+                    throw new RuntimeException("ParameterKind must be one of BOOLEAN, DATETIME, ENUM, ENUM_MULTI, NUMBER, and STRING.");
                 }
-            }
-            Calendar c = Calendar.getInstance();
-            c.setTimeInMillis(millisTime);
-            return c;
-        }
-        return null;
+        );
     }
-    
+
     @Override
     public List<String> getStringListValue() {
-        if (this.getParameterKind() == ParameterKind.ENUM_MULTI ){
-            try{
-                String[] valueArray = this.getStringValue().split(Pattern.quote(ParameterKind.IOConstants.ENUM_MULTI_SEPARATOR));
-                return Arrays.asList(valueArray);
-            }catch (Throwable t) {
-                throw new CoerceTypeError("Cannot coerce '"+this.getStringValue()+"' into a String List!", t);
-            }
-        }
-        return null;
+        return parameterKind.match(
+                parameterKindBoolean -> null,
+                parameterKindDatetime -> null,
+                parameterKindEnum -> null,
+                parameterKindEnumMulti -> {
+                    try {
+                        return Arrays.asList(getStringValue().split(Pattern.quote(ParameterKind.IOConstants.ENUM_MULTI_SEPARATOR)));
+                    } catch (Throwable t) {
+                        throw new CoerceTypeError(format("Cannot coerce '%s' into a List<String>!", getStringValue()), t);
+                    }
+                },
+                parameterKindNumber -> null,
+                parameterKindString -> null,
+                parameterKindOther -> {
+                    throw new RuntimeException("ParameterKind must be one of BOOLEAN, DATETIME, ENUM, ENUM_MULTI, NUMBER, and STRING.");
+                }
+        );
     }
-    
+
     @Override
     public int compareTo(TrustmarkParameterBinding o) {
-        return this.getIdentifier().compareToIgnoreCase(o.getIdentifier());
+        return getIdentifier().compareToIgnoreCase(o.getIdentifier());
     }
 }

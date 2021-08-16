@@ -4,7 +4,8 @@ import edu.gatech.gtri.trustmark.v1_0.impl.io.IOUtils;
 import edu.gatech.gtri.trustmark.v1_0.service.Page;
 import edu.gatech.gtri.trustmark.v1_0.service.RemoteException;
 import edu.gatech.gtri.trustmark.v1_0.service.RemoteTrustmarkDefinition;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -19,7 +20,7 @@ import java.util.NoSuchElementException;
  */
 public class TDPageImpl extends AbstractPageImpl implements Page<RemoteTrustmarkDefinition> {
 
-    private static final Logger log = Logger.getLogger(TDPageImpl.class);
+    private static final Logger log = LogManager.getLogger(TDPageImpl.class);
 
     public TDPageImpl(JSONObject jsonObject) throws RemoteException {
         this.count = jsonObject.getLong("trustmarkDefinitionsCount");

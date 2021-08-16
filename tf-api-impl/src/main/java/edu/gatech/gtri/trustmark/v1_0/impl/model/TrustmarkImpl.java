@@ -200,7 +200,7 @@ public class TrustmarkImpl implements Trustmark, Comparable<Trustmark>  {
     }
 
     public String toString(){
-        return String.format("Trustmark[%s]", this.getIdentifier().toString());
+        return String.format("Trustmark[%s]", this.getIdentifier() == null ? null : this.getIdentifier().toString());
     }
 
     public int compareTo(Trustmark that){

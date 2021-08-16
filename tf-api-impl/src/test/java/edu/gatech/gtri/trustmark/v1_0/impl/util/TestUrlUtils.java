@@ -2,7 +2,8 @@ package edu.gatech.gtri.trustmark.v1_0.impl.util;
 
 import edu.gatech.gtri.trustmark.v1_0.impl.AbstractTest;
 import edu.gatech.gtri.trustmark.v1_0.util.UrlUtils;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.junit.Test;
 
 import java.net.URL;
@@ -20,7 +21,7 @@ public class TestUrlUtils extends AbstractTest {
     //==================================================================================================================
     //  STATIC VARIABLES
     //==================================================================================================================
-    private static final Logger log = Logger.getLogger(TestUrlUtils.class);
+    private static final Logger log = LogManager.getLogger(TestUrlUtils.class);
     //==================================================================================================================
     //  TESTS
     //==================================================================================================================

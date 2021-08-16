@@ -6,7 +6,8 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 import edu.gatech.gtri.trustmark.v1_0.impl.tip.TIPEvaluationImpl;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -19,7 +20,7 @@ import edu.gatech.gtri.trustmark.v1_0.tip.TIPEvaluationException;
 
 public class TestTIPEvaluatorJDD extends AbstractJddTestCase {
 
-	private static final Logger logger = Logger.getLogger(TestTIPEvaluatorJDD.class);
+	private static final Logger logger = LogManager.getLogger(TestTIPEvaluatorJDD.class);
 //
 //	@Test
 //	public void executeTestCases() throws TIPEvaluationException {

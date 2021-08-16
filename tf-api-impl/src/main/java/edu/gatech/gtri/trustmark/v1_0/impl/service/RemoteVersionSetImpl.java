@@ -1,7 +1,8 @@
 package edu.gatech.gtri.trustmark.v1_0.impl.service;
 
 import edu.gatech.gtri.trustmark.v1_0.service.RemoteVersionSet;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -14,7 +15,7 @@ import java.util.Date;
  */
 public class RemoteVersionSetImpl extends RemoteObjectImpl implements RemoteVersionSet {
 
-    private static final Logger log = Logger.getLogger(RemoteVersionSetImpl.class);
+    private static final Logger log = LogManager.getLogger(RemoteVersionSetImpl.class);
 
     public RemoteVersionSetImpl(){}
     public RemoteVersionSetImpl(JSONObject json){

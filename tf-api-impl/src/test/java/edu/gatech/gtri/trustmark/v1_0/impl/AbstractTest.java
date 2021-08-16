@@ -1,17 +1,14 @@
 package edu.gatech.gtri.trustmark.v1_0.impl;
 
 import edu.gatech.gtri.trustmark.v1_0.FactoryLoader;
-import edu.gatech.gtri.trustmark.v1_0.impl.io.adio.codecs.Codec;
-import edu.gatech.gtri.trustmark.v1_0.impl.io.json.SerializerJson;
-import edu.gatech.gtri.trustmark.v1_0.impl.io.xml.SerializerXml;
 import edu.gatech.gtri.trustmark.v1_0.io.ResolveException;
 import edu.gatech.gtri.trustmark.v1_0.io.TrustmarkDefinitionResolver;
 import edu.gatech.gtri.trustmark.v1_0.model.*;
-import edu.gatech.gtri.trustmark.v1_0.model.agreement.Agreement;
 import edu.gatech.gtri.trustmark.v1_0.util.diff.DiffSeverity;
 import edu.gatech.gtri.trustmark.v1_0.util.diff.json.*;
 import org.apache.commons.io.IOUtils;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.json.JSONObject;
 import org.json.XML;
 import org.junit.After;
@@ -42,7 +39,7 @@ public abstract class AbstractTest {
 
     protected static final String OUTPUT_DIR = "./target";
 
-    protected static Logger logger = Logger.getLogger(AbstractTest.class);
+    protected static Logger logger = LogManager.getLogger(AbstractTest.class);
 
     @Before
     public void printStart(){

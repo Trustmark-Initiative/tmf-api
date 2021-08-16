@@ -10,7 +10,8 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -31,7 +32,7 @@ public abstract class AbstractHtmlSerializer extends AbstractSerializer {
 
     public static final String TEMPLATE_BASE = "/META-INF/tmf/freemarker/";
 
-    private static final Logger log = Logger.getLogger(AbstractHtmlSerializer.class);
+    private static final Logger log = LogManager.getLogger(AbstractHtmlSerializer.class);
     private static Configuration freemarker;
 
     public AbstractHtmlSerializer(String name, String description, String mimeType) {

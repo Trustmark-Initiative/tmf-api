@@ -5,7 +5,8 @@ import edu.gatech.gtri.trustmark.v1_0.impl.AbstractTest;
 import edu.gatech.gtri.trustmark.v1_0.io.bulk.BulkReadResult;
 import edu.gatech.gtri.trustmark.v1_0.io.bulk.BulkReader;
 import edu.gatech.gtri.trustmark.v1_0.io.bulk.BulkReaderFactory;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.junit.Test;
 
 import java.io.File;
@@ -25,7 +26,7 @@ public class TestXmlJsonBulkReader extends AbstractTest {
     //==================================================================================================================
     //  STATIC VARIABLES
     //==================================================================================================================
-    private static final Logger log = Logger.getLogger(TestXmlJsonBulkReader.class);
+    private static final Logger log = LogManager.getLogger(TestXmlJsonBulkReader.class);
     //==================================================================================================================
     //  TESTS
     //==================================================================================================================

@@ -3,7 +3,8 @@ package edu.gatech.gtri.trustmark.v1_0.impl;
 import edu.gatech.gtri.trustmark.v1_0.impl.dao.HttpResponseFromFile;
 import edu.gatech.gtri.trustmark.v1_0.io.HttpResponse;
 import edu.gatech.gtri.trustmark.v1_0.io.NetworkDownloader;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,7 +22,7 @@ import java.util.regex.Pattern;
  */
 public class RemoteServiceNetworkDownloader implements NetworkDownloader {
 
-    private static final Logger logger = Logger.getLogger(RemoteServiceNetworkDownloader.class);
+    private static final Logger logger = LogManager.getLogger(RemoteServiceNetworkDownloader.class);
 
     public static final String FILE_BASE = "./src/test/resources/spoof_remote_service";
 

@@ -10,14 +10,15 @@ import edu.gatech.gtri.trustmark.v1_0.io.TrustmarkStatusReportResolver;
 import edu.gatech.gtri.trustmark.v1_0.model.Trustmark;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkStatusReport;
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import java.io.IOException;
 import java.net.URL;
 
 public class TrustmarkStatusReportUtility {
 
-    private static final Logger log = Logger.getLogger(TrustmarkStatusReportUtility.class);
+    private static final Logger log = LogManager.getLogger(TrustmarkStatusReportUtility.class);
 
     private TrustmarkStatusReportUtility() {
     }

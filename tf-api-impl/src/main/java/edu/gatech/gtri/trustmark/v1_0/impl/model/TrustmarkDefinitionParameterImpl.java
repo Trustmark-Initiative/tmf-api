@@ -80,7 +80,9 @@ public class TrustmarkDefinitionParameterImpl implements TrustmarkDefinitionPara
 
     public boolean equals(Object other){
         if( other != null && other instanceof TrustmarkDefinitionParameter ){
-            return this.getIdentifier().equalsIgnoreCase( ((TrustmarkDefinitionParameter) other).getIdentifier() );
+            return
+                    (this.getIdentifier() == null && ((TrustmarkDefinitionParameter) other).getIdentifier() == null) ||
+                    this.getIdentifier().equalsIgnoreCase( ((TrustmarkDefinitionParameter) other).getIdentifier() );
         }
         return false;
     }

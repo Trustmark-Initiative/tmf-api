@@ -6,7 +6,8 @@ import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.Recognizer;
 import org.antlr.v4.runtime.atn.ATNConfigSet;
 import org.antlr.v4.runtime.dfa.DFA;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import java.util.ArrayList;
 import java.util.BitSet;
@@ -17,7 +18,7 @@ import java.util.List;
  */
 public class IssuanceCriteriaErrorListener implements ANTLRErrorListener {
 
-    private static final Logger log = Logger.getLogger(IssuanceCriteriaErrorListener.class);
+    private static final Logger log = LogManager.getLogger(IssuanceCriteriaErrorListener.class);
 
     private List<String> syntaxErrors = new ArrayList<>();
 

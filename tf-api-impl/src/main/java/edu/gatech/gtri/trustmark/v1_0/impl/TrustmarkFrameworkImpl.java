@@ -3,7 +3,8 @@ package edu.gatech.gtri.trustmark.v1_0.impl;
 import edu.gatech.gtri.trustmark.v1_0.FactoryLoader;
 import edu.gatech.gtri.trustmark.v1_0.TrustmarkFramework;
 import edu.gatech.gtri.trustmark.v1_0.io.URIResolver;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import java.util.ResourceBundle;
 
@@ -12,7 +13,7 @@ import java.util.ResourceBundle;
  */
 public class TrustmarkFrameworkImpl implements TrustmarkFramework {
 
-    private static final Logger log = Logger.getLogger(TrustmarkFrameworkImpl.class);
+    private static final Logger log = LogManager.getLogger(TrustmarkFrameworkImpl.class);
 
     private ResourceBundle tfApiResources;
     private ResourceBundle tfApiImplResources;

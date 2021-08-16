@@ -12,7 +12,8 @@ import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkDefinition;
 import edu.gatech.gtri.trustmark.v1_0.util.*;
 import edu.gatech.gtri.trustmark.v1_0.util.diff.TrustInteroperabilityProfileDiff;
 import edu.gatech.gtri.trustmark.v1_0.util.diff.TrustInteroperabilityProfileDiffResult;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.json.JSONObject;
 
 import javax.xml.stream.XMLEventReader;
@@ -42,7 +43,7 @@ import java.util.stream.Collectors;
  */
 public class TrustInteroperabilityProfileUtilsImpl implements TrustInteroperabilityProfileUtils {
 
-    private static final Logger log = Logger.getLogger(TrustInteroperabilityProfileUtilsImpl.class);
+    private static final Logger log = LogManager.getLogger(TrustInteroperabilityProfileUtilsImpl.class);
 
     Comparator<AbstractTIPReference>  orderByNumber = (AbstractTIPReference r1, AbstractTIPReference r2) -> {
         if(r1.getNumber() != null && r2.getNumber() != null)  {

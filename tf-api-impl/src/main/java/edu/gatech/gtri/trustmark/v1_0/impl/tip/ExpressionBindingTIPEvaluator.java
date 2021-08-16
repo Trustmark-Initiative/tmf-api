@@ -13,7 +13,8 @@ import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkParameterBinding;
 import edu.gatech.gtri.trustmark.v1_0.tip.TIPEvaluation;
 import edu.gatech.gtri.trustmark.v1_0.tip.TIPEvaluationException;
 import edu.gatech.gtri.trustmark.v1_0.tip.TIPEvaluator;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import javax.script.Bindings;
 import javax.script.ScriptEngine;
@@ -36,7 +37,7 @@ public class ExpressionBindingTIPEvaluator implements TIPEvaluator {
     //==================================================================================================================
     //  Static Variables
     //==================================================================================================================
-    private static final Logger log = Logger.getLogger(ExpressionBindingTIPEvaluator.class);
+    private static final Logger log = LogManager.getLogger(ExpressionBindingTIPEvaluator.class);
 
     //==================================================================================================================
     //  Interface Implementation

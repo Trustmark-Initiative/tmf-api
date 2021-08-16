@@ -4,7 +4,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.notNullValue;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.junit.Test;
 
 import edu.gatech.gtri.trustmark.v1_0.FactoryLoader;
@@ -17,7 +18,7 @@ import edu.gatech.gtri.trustmark.v1_0.impl.assessment.juel.IssuanceCriteriaEvalu
  */
 public class TestIssuanceCriteriaEvaluatorJUELFactory extends AbstractTest {
 
-    private static final Logger logger = Logger.getLogger(TestIssuanceCriteriaEvaluatorJUELFactory.class);
+    private static final Logger logger = LogManager.getLogger(TestIssuanceCriteriaEvaluatorJUELFactory.class);
 
 
     /**
