@@ -3,7 +3,8 @@ package edu.gatech.gtri.trustmark.v1_0.impl.model;
 import edu.gatech.gtri.trustmark.v1_0.model.BuilderFactory;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustInteroperabilityProfileBuilder;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkDefinitionBuilder;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 /**
  * Default implementation of the {@link BuilderFactory}.
@@ -15,7 +16,7 @@ public class BuilderFactoryImpl implements BuilderFactory {
     //==================================================================================================================
     //  STATIC VARIABLES
     //==================================================================================================================
-    private static final Logger log = Logger.getLogger(BuilderFactoryImpl.class);
+    private static final Logger log = LogManager.getLogger(BuilderFactoryImpl.class);
     //==================================================================================================================
     //  PUBLIC METHODS
     //==================================================================================================================

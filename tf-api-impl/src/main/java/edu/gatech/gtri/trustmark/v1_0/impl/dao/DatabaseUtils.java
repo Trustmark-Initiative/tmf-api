@@ -1,7 +1,8 @@
 package edu.gatech.gtri.trustmark.v1_0.impl.dao;
 
 import com.j256.ormlite.db.*;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -19,7 +20,7 @@ public class DatabaseUtils {
     //==================================================================================================================
     //  STATIC VARIABLES
     //==================================================================================================================
-    private static final Logger log = Logger.getLogger(DatabaseUtils.class);
+    private static final Logger log = LogManager.getLogger(DatabaseUtils.class);
 
     public static Map<String, DatabaseType> TYPE_MAPPINGS = new HashMap<>();
     //==================================================================================================================

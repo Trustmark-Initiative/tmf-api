@@ -1,7 +1,8 @@
 package edu.gatech.gtri.trustmark.v1_0.impl.io.json;
 
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 
 import java.security.PrivateKey;
@@ -17,7 +18,7 @@ import org.jose4j.jws.*;
  */
 public class TrustmarkJsonWebSignatureImpl {
 
-    private static final Logger log = Logger.getLogger(TrustmarkJsonWebSignatureImpl.class);
+    private static final Logger log = LogManager.getLogger(TrustmarkJsonWebSignatureImpl.class);
 
     public TrustmarkJsonWebSignatureImpl() throws Exception {
     }

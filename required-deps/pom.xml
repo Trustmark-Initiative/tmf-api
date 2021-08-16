@@ -4,10 +4,10 @@
     <parent>
         <groupId>edu.gatech.gtri.trustmark</groupId>
         <artifactId>tf-api-parent</artifactId>
-        <version>1.4.5</version>
+        <version>1.4.6</version>
     </parent>
     <artifactId>required-deps</artifactId>
-    <version>1.4.5</version>
+    <version>1.4.6</version>
     <packaging>pom</packaging>
     <build>
         <plugins>

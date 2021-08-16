@@ -1,7 +1,8 @@
 package edu.gatech.gtri.trustmark.v1_0.impl.io.xml;
 
 import edu.gatech.gtri.trustmark.v1_0.impl.io.TrustmarkResolverImpl;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.w3c.dom.*;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
@@ -39,7 +40,7 @@ import java.util.*;
  */
 public class XmlSignatureImpl {
 
-    private static final Logger log = Logger.getLogger(XmlSignatureImpl.class);
+    private static final Logger log = LogManager.getLogger(XmlSignatureImpl.class);
 
     public XmlSignatureImpl() throws Exception {
     }

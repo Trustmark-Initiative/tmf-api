@@ -11,10 +11,13 @@ import edu.gatech.gtri.trustmark.v1_0.model.Term;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustInteroperabilityProfile;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkDefinitionRequirement;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkFrameworkIdentifiedObject;
-import org.apache.log4j.Logger;
+import org.apache.commons.lang.StringUtils;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -26,7 +29,7 @@ import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.producers.JsonProducer
  */
 public final class TIPJsonProducer implements JsonProducer<TrustInteroperabilityProfile, JSONObject> {
 
-    private static final Logger log = Logger.getLogger(TIPJsonProducer.class);
+    private static final Logger log = LogManager.getLogger(TIPJsonProducer.class);
 
     @Override
     public Class<TrustInteroperabilityProfile> getSupportedType() {
@@ -139,25 +142,34 @@ public final class TIPJsonProducer implements JsonProducer<TrustInteroperability
             if (abstractTIPReference.isTrustmarkDefinitionRequirement()) {
                 TrustmarkDefinitionRequirement tdReqRef = (TrustmarkDefinitionRequirement) abstractTIPReference;
                 List<Entity> providers = tdReqRef.getProviderReferences();
+                log.trace("Providers = [" + (providers == null ? "" : Arrays.toString(providers.toArray())) + "]");
                 refObj.put("$Type", "TrustmarkDefinitionRequirement");
                 refObj.put("TrustmarkDefinitionReference", toTMIRefJson(tdReqRef));
                 if (providers != null && providers.size() > 0) {
                     JSONArray providersArray = new JSONArray();
                     for (Entity provider : providers) {
+                        if(provider.getIdentifier() == null || StringUtils.isEmpty(provider.getIdentifier().toString())){
+                            log.trace("Skipping adding empty provider reference = [" + provider + "]");
+                            continue;
+                        }
                         if (encounteredEntities.containsKey(provider.getIdentifier().toString())) {
+                            log.trace("Adding new provider reference = [" + provider + "]");
                             String providerRef = encounteredEntities.get(provider.getIdentifier().toString());
                             JSONObject providerRefJson = new JSONObject();
                             providerRefJson.put("$ref", "#" + providerRef);
                             providersArray.put(providerRefJson);
                         } else {
                             String providerRef = "provider" + provider.getIdentifier().toString().hashCode();
+                            log.trace("Adding a reference to an existing provider = [" + provider + "] providerRef = [" + providerRef + "]");
                             encounteredEntities.put(provider.getIdentifier().toString(), providerRef);
                             JSONObject providerJson = (JSONObject) toJson(provider);
                             providerJson.put("$id", providerRef);
                             providersArray.put(providerJson);
                         }
                     }
-                    refObj.put("ProviderReferences", providersArray);
+                    if(providersArray != null && providersArray.length() > 0) {
+                        refObj.put("ProviderReferences", providersArray);
+                    }
                 }
                 tdRequirementsArray.put(refObj);
             } else if (abstractTIPReference.isTrustInteroperabilityProfileReference()) {

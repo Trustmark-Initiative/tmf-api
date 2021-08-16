@@ -1,7 +1,8 @@
 package edu.gatech.gtri.trustmark.v1_0.impl.service;
 
 import edu.gatech.gtri.trustmark.v1_0.service.RemoteObject;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -19,7 +20,7 @@ import java.util.Map;
  */
 public abstract class RemoteObjectImpl implements RemoteObject {
 
-    private static final Logger log = Logger.getLogger(RemoteObjectImpl.class);
+    private static final Logger log = LogManager.getLogger(RemoteObjectImpl.class);
 
     protected Date getDateFromString( String string ){
         try{

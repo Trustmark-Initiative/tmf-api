@@ -7,7 +7,8 @@ import edu.gatech.gtri.trustmark.v1_0.io.ParseException;
 import edu.gatech.gtri.trustmark.v1_0.model.Trustmark;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkStatusCode;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkStatusReport;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.dom4j.Element;
 import org.dom4j.Node;
 
@@ -20,7 +21,7 @@ import java.util.List;
  */
 public class TrustmarkStatusReportXmlDeserializer extends AbstractDeserializer {
 
-    private static final Logger log = Logger.getLogger(TrustmarkStatusReportXmlDeserializer.class);
+    private static final Logger log = LogManager.getLogger(TrustmarkStatusReportXmlDeserializer.class);
 
     public static TrustmarkStatusReport deserialize(String xml ) throws ParseException {
         log.debug("Request to deserialize TrustmarkStatusReport XML...");

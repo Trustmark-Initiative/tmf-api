@@ -1,6 +1,7 @@
 package edu.gatech.gtri.trustmark.v1_0;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.junit.After;
 import org.junit.Before;
 
@@ -9,7 +10,7 @@ import org.junit.Before;
  */
 public abstract class AbstractTest {
 
-    private static Logger logger = Logger.getLogger(AbstractTest.class);
+    private static Logger logger = LogManager.getLogger(AbstractTest.class);
 
     @Before
     public void printStart(){

@@ -14,8 +14,11 @@ import edu.gatech.gtri.trustmark.v1_0.util.TrustmarkDefinitionUtils;
 import edu.gatech.gtri.trustmark.v1_0.util.diff.DiffSeverity;
 import edu.gatech.gtri.trustmark.v1_0.util.diff.TrustmarkDefinitionDiffResult;
 import edu.gatech.gtri.trustmark.v1_0.util.diff.json.*;
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
+//import org.apache.log4j.Level;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.Level.*;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.Test;
@@ -597,9 +600,9 @@ public class TestExcelBulkReader extends AbstractTest {
         String text = new String(Files.readAllBytes(jsonFile.toPath()));
         JSONObject json = new JSONObject(text);
 
-        Logger jsonLogger = Logger.getLogger("edu.gatech.gtri.trustmark.v1_0.impl.io.json");
-        Level originalLogLevelForJSON = jsonLogger.getLevel();
-        jsonLogger.setLevel(Level.WARN);
+//        Logger jsonLogger = LogManager.getLogger("edu.gatech.gtri.trustmark.v1_0.impl.io.json");
+//        Level originalLogLevelForJSON = jsonLogger.getLevel();
+//        jsonLogger.setLevel(Level.WARN);
         JSONArray tds = json.optJSONArray("trustmarkDefinitions");
         if( tds != null ){
             for( int i = 0; i < tds.length(); i++ ){
@@ -622,7 +625,7 @@ public class TestExcelBulkReader extends AbstractTest {
             }
         }
 
-        jsonLogger.setLevel(originalLogLevelForJSON);
+//        jsonLogger.setLevel(originalLogLevelForJSON);
         return result;
     }
 

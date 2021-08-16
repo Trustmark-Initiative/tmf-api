@@ -1,6 +1,7 @@
 package edu.gatech.gtri.trustmark.v1_0.model;
 
-import java.util.Calendar;
+import java.math.BigDecimal;
+import java.time.Instant;
 import java.util.List;
 
 /**
@@ -37,7 +38,7 @@ public interface TrustmarkParameterBinding {
     /**
      * If Kind == NUMBER, then this field will contain the numeric value.  Returns null when Kind != NUMBER.
      */
-    public Number getNumericValue();
+    public BigDecimal getNumericValue();
 
     /**
      * If Kind == BOOLEAN, then this field will contain the Boolean value.  Returns null when Kind != BOOLEAN.
@@ -48,7 +49,7 @@ public interface TrustmarkParameterBinding {
      * If Kind == DATETIME, then this field will return the value as a java.util.Calendar.  Note that it returns null
      * when Kind != DATETIME.
      */
-    public Calendar getDateTimeValue();
+    public Instant getDateTimeValue();
     
     /**
      * If Kind == ENUM_MULTI, then this field will return the multi-selection as a List of String values. Returns null

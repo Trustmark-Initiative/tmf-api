@@ -1,7 +1,8 @@
 package edu.gatech.gtri.trustmark.v1_0.impl.io.bulk;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.dom4j.CharacterData;
 import org.dom4j.Element;
 
@@ -18,7 +19,7 @@ import java.util.regex.Pattern;
  */
 public class BulkImportUtils {
 
-    private static final Logger log = Logger.getLogger(BulkImportUtils.class);
+    private static final Logger log = LogManager.getLogger(BulkImportUtils.class);
 
     private BulkImportUtils() {
         // nothing here right now -- this class is a collection of static methods
@@ -429,7 +430,7 @@ public class BulkImportUtils {
         List<BulkReadRawData.RawTdParameter> result = new ArrayList<>();
         for (String rawParamString : pipeSeparatedCellValue) {
     
-            //Logger.getLogger(BulkImportUtils.class).debug("Parsing parameter from: " + rawParamString);
+            //LogManager.getLogger(BulkImportUtils.class).debug("Parsing parameter from: " + rawParamString);
     
             String[] rawParamStringSplit = rawParamString.split("\\|");
             if (rawParamStringSplit.length != 4) {
@@ -459,9 +460,9 @@ public class BulkImportUtils {
     
             rawParam.isRequired = rawKindInfoMatcher.group(RAW_KIND_INFO_REQUIRED_GROUP) != null;
     
-            //Logger.getLogger(BulkImportUtils.class).debug("Matched string: " + rawKindInfo);
+            //LogManager.getLogger(BulkImportUtils.class).debug("Matched string: " + rawKindInfo);
             //for (int i = 1; i <= rawKindInfoMatcher.groupCount(); ++i) {
-            //    Logger.getLogger(BulkImportUtils.class).debug(String.format("Match #%d: %s", i, rawKindInfoMatcher.group(i)));
+            //    LogManager.getLogger(BulkImportUtils.class).debug(String.format("Match #%d: %s", i, rawKindInfoMatcher.group(i)));
             //}
             
             if (rawKindInfoMatcher.group(RAW_KIND_INFO_ENUM_KIND_GROUP) == null) {
@@ -480,7 +481,7 @@ public class BulkImportUtils {
                 }
             }
     
-            //Logger.getLogger(BulkImportUtils.class).debug("Parsed rawParam: " + rawParam.toJson().toString(2));
+            //LogManager.getLogger(BulkImportUtils.class).debug("Parsed rawParam: " + rawParam.toJson().toString(2));
             
             result.add(rawParam);
         }

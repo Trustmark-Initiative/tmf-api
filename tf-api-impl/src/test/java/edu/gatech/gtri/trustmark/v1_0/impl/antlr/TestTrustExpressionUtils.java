@@ -1,7 +1,8 @@
 package edu.gatech.gtri.trustmark.v1_0.impl.antlr;
 
 import edu.gatech.gtri.trustmark.v1_0.impl.AbstractTest;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -22,7 +23,7 @@ public class TestTrustExpressionUtils extends AbstractTest {
     //==================================================================================================================
     //  STATIC VARIABLES
     //==================================================================================================================
-    private static final Logger log = Logger.getLogger(TestTrustExpressionUtils.class);
+    private static final Logger log = LogManager.getLogger(TestTrustExpressionUtils.class);
     //==================================================================================================================
     //  TEST METHODS
     //==================================================================================================================

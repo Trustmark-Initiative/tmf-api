@@ -1,7 +1,8 @@
 package edu.gatech.gtri.xml.utils;
 
 import edu.gatech.gtri.trustmark.v1_0.impl.TrustmarkFrameworkConstants;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.dom4j.Attribute;
 import org.dom4j.Element;
 import org.json.JSONObject;
@@ -18,7 +19,7 @@ public class XmlToJsonHelper {
     //====================================================================================================================
     //  STATIC VARIABLES
     //====================================================================================================================
-    private static final Logger log = Logger.getLogger(XmlToJsonHelper.class);
+    private static final Logger log = LogManager.getLogger(XmlToJsonHelper.class);
 
     //====================================================================================================================
     //  PUBLIC METHODS

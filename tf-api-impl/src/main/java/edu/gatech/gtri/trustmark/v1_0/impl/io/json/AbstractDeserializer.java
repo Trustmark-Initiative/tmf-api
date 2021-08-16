@@ -7,7 +7,8 @@ import edu.gatech.gtri.trustmark.v1_0.io.ParseException;
 import edu.gatech.gtri.trustmark.v1_0.model.ContactKindCode;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkFrameworkIdentifiedObject;
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,7 +32,7 @@ import java.util.List;
  */
 public abstract class AbstractDeserializer {
 
-    private static final Logger log = Logger.getLogger(AbstractDeserializer.class);
+    private static final Logger log = LogManager.getLogger(AbstractDeserializer.class);
 
     public static TermImpl readTerm(JSONObject termJson ) throws ParseException {
         TermImpl term = new TermImpl();

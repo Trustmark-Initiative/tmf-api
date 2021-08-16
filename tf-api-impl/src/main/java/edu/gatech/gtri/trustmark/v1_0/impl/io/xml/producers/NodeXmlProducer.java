@@ -1,7 +1,8 @@
 package edu.gatech.gtri.trustmark.v1_0.impl.io.xml.producers;
 
 import edu.gatech.gtri.trustmark.v1_0.io.xml.XmlProducer;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.dom4j.Node;
 import org.dom4j.io.OutputFormat;
 import org.dom4j.io.XMLWriter;
@@ -19,7 +20,7 @@ import java.io.StringWriter;
  */
 public class NodeXmlProducer implements XmlProducer<Node> {
 
-    private static final Logger log = Logger.getLogger(NodeXmlProducer.class);
+    private static final Logger log = LogManager.getLogger(NodeXmlProducer.class);
 
     @Override
     public Class<Node> getSupportedType() {

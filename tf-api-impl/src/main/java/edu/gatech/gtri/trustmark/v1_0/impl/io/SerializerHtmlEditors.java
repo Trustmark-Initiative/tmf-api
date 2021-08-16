@@ -8,7 +8,8 @@ import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkStatusReport;
 import edu.gatech.gtri.trustmark.v1_0.model.agreement.Agreement;
 import edu.gatech.gtri.trustmark.v1_0.model.agreement.AgreementResponsibilityTemplate;
 import freemarker.cache.TemplateLoader;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import java.io.*;
 import java.util.Map;
@@ -18,7 +19,7 @@ import java.util.Map;
  */
 public class SerializerHtmlEditors extends AbstractHtmlSerializer implements Serializer {
 
-    private static final Logger log = Logger.getLogger(AbstractHtmlSerializer.class);
+    private static final Logger log = LogManager.getLogger(AbstractHtmlSerializer.class);
 
     public static final String TD_EDITOR_TEMPLATE = "td-editor.html";
     public static final String TIP_EDITOR_TEMPLATE = "tip-editor.html";

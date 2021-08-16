@@ -5,7 +5,8 @@ import edu.gatech.gtri.trustmark.v1_0.conversion.Converter;
 import edu.gatech.gtri.trustmark.v1_0.conversion.ModelVersion;
 import edu.gatech.gtri.trustmark.v1_0.conversion.ModelVersionSimple;
 import org.apache.commons.io.FileUtils;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLEventReader;
@@ -29,7 +30,7 @@ public class Converter_1_0_to_1_1 implements Converter {
     //==================================================================================================================
     //  STATIC VARIABLES
     //==================================================================================================================
-    private static final Logger log = Logger.getLogger(Converter_1_0_to_1_1.class);
+    private static final Logger log = LogManager.getLogger(Converter_1_0_to_1_1.class);
     public static final String NS_URI_10 = "https://trustmark.gtri.gatech.edu/specifications/trustmark-framework/1.0/schema/";
     public static final String NS_URI_11 = "https://trustmark.gtri.gatech.edu/specifications/trustmark-framework/1.1/schema/";
     public static final String[] SUPPORTED_ELEMENTS = new String[]{"TrustmarkDefinition", "Trustmark", "TrustInteroperabilityProfile", "TrustmarkStatusReport"};

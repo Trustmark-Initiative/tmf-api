@@ -4,7 +4,8 @@ import edu.gatech.gtri.trustmark.v1_0.io.bulk.BulkReadContext;
 import edu.gatech.gtri.trustmark.v1_0.io.bulk.BulkReader;
 import edu.gatech.gtri.trustmark.v1_0.io.bulk.BulkReaderFactory;
 import edu.gatech.gtri.trustmark.v1_0.io.bulk.ExcelBulkReader;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import java.io.File;
 import java.util.Iterator;
@@ -20,7 +21,7 @@ import java.util.ServiceLoader;
  */
 public class BulkReaderFactoryImpl implements BulkReaderFactory {
 
-    private static final Logger logger = Logger.getLogger(BulkReaderFactoryImpl.class);
+    private static final Logger logger = LogManager.getLogger(BulkReaderFactoryImpl.class);
 
     @Override
     public BulkReader createBulkReader(File... inputFiles) {

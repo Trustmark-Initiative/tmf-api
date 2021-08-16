@@ -4,7 +4,8 @@ import edu.gatech.gtri.trustmark.v1_0.impl.model.*;
 import edu.gatech.gtri.trustmark.v1_0.io.ParseException;
 import edu.gatech.gtri.trustmark.v1_0.model.Entity;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustInteroperabilityProfile;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -15,7 +16,7 @@ import java.util.HashMap;
  */
 public class TrustInteroperabilityProfileJsonDeserializer extends AbstractDeserializer {
 
-    private static final Logger log = Logger.getLogger(TrustInteroperabilityProfileJsonDeserializer.class);
+    private static final Logger log = LogManager.getLogger(TrustInteroperabilityProfileJsonDeserializer.class);
 
 
     public static TrustInteroperabilityProfile deserialize(String jsonString ) throws ParseException {

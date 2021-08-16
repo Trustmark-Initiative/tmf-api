@@ -6,7 +6,8 @@ import edu.gatech.gtri.trustmark.v1_0.io.bulk.BulkReadResult;
 import edu.gatech.gtri.trustmark.v1_0.io.bulk.BulkReader;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustInteroperabilityProfile;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkDefinition;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import java.io.File;
 import java.util.*;
@@ -17,7 +18,7 @@ import java.util.*;
 public abstract class AbstractBulkReader implements BulkReader {
 
     // Constants
-    private static final Logger log = Logger.getLogger(AbstractBulkReader.class);
+    private static final Logger log = LogManager.getLogger(AbstractBulkReader.class);
     
     // Instance Fields
     protected final BulkReadListenerCollection listenerCollection = new BulkReadListenerCollection();

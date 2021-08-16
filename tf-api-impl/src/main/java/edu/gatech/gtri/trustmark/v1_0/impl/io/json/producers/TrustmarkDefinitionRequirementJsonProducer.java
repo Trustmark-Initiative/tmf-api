@@ -6,6 +6,9 @@ import edu.gatech.gtri.trustmark.v1_0.io.json.JsonProducer;
 import edu.gatech.gtri.trustmark.v1_0.model.Entity;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkDefinitionRequirement;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkFrameworkIdentifiedObject;
+import org.apache.commons.lang.StringUtils;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.gtri.fj.data.List;
 import org.gtri.fj.data.NonEmptyList;
 import org.gtri.fj.data.Option;
@@ -27,6 +30,8 @@ public class TrustmarkDefinitionRequirementJsonProducer implements JsonProducer<
     private static final JsonProducer<TrustmarkFrameworkIdentifiedObject, JSONObject> jsonProducerForTrustmarkFrameworkIdentifiedObject = jsonManager.findProducerStrict(TrustmarkFrameworkIdentifiedObject.class, JSONObject.class).some();
     private static final JsonProducer<Entity, JSONObject> jsonProducerForEntity = jsonManager.findProducerStrict(Entity.class, JSONObject.class).some();
 
+    private static final Logger log = LogManager.getLogger(TrustmarkDefinitionRequirementJsonProducer.class);
+
     @Override
     public Class<TrustmarkDefinitionRequirement> getSupportedType() {
         return TrustmarkDefinitionRequirement.class;
@@ -46,20 +51,32 @@ public class TrustmarkDefinitionRequirementJsonProducer implements JsonProducer<
             put("$id", trustmarkDefinitionRequirement.getId());
             put("$Type", "TrustmarkDefinitionRequirement");
             put("TrustmarkDefinitionReference", serializeTrustmarkDefinitionReference(trustmarkDefinitionRequirement));
-            serializerProviderReferenceArray(trustmarkDefinitionRequirement).map(providerReferenceArray -> put("ProviderReferences", providerReferenceArray));
+            if(trustmarkDefinitionRequirement.getProviderReferences() != null && !trustmarkDefinitionRequirement.getProviderReferences().isEmpty()) {
+                Option<JSONArray> providerReferenceJSONArray = serializerProviderReferenceArray(trustmarkDefinitionRequirement);
+                if (providerReferenceJSONArray != null)
+                    providerReferenceJSONArray.map(providerReferenceArray -> put("ProviderReferences", providerReferenceArray));
+            }
         }});
     }
 
     private static Option<JSONArray> serializerProviderReferenceArray(final TrustmarkDefinitionRequirement trustmarkDefinitionRequirement) {
-        return NonEmptyList.fromList(fromNull(trustmarkDefinitionRequirement.getProviderReferences())
+        Option<JSONArray> providerReferenceJSONArray;
+        providerReferenceJSONArray = NonEmptyList.fromList(fromNull(trustmarkDefinitionRequirement.getProviderReferences())
                 .map(List::iterableList)
                 .orSome(nil())
+                .filter(entity -> {
+                    if (entity.getIdentifier() == null || StringUtils.isBlank(entity.getIdentifier().toString())) {
+                        return false;
+                    }
+                    return true;
+                })
                 .map(provider ->
                         new JSONObject(new HashMap<String, Object>() {{
                             putAll(jsonProducerForEntity.serialize(provider).toMap());
                             put("$id", "provider" + provider.getIdentifier().toString().hashCode());
                         }})))
                 .map(nel -> new JSONArray(nel.toCollection()));
+        return providerReferenceJSONArray;
     }
 
     private static JSONObject serializeTrustmarkDefinitionReference(final TrustmarkDefinitionRequirement trustmarkDefinitionRequirement) {

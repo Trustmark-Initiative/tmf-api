@@ -1,6 +1,7 @@
 package edu.gatech.gtri.trustmark.v1_0;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.junit.Test;
 
 import static org.hamcrest.MatcherAssert.*;
@@ -11,7 +12,7 @@ import static org.hamcrest.Matchers.*;
  */
 public class TestFactoryLoader extends AbstractTest {
 
-	private static final Logger logger = Logger.getLogger(TestFactoryLoader.class);
+	private static final Logger logger = LogManager.getLogger(TestFactoryLoader.class);
 
 	@Test
 	public void testGetInstance() {

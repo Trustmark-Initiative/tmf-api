@@ -3,7 +3,8 @@ package edu.gatech.gtri.trustmark.v1_0.impl.io.xml.producers;
 import edu.gatech.gtri.trustmark.v1_0.io.xml.XmlProducer;
 import edu.gatech.gtri.trustmark.v1_0.model.Citation;
 import edu.gatech.gtri.trustmark.v1_0.model.ConformanceCriterion;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
@@ -15,7 +16,7 @@ import static edu.gatech.gtri.trustmark.v1_0.impl.TrustmarkFrameworkConstants.NA
  */
 public class ConformanceCriterionXmlProducer implements XmlProducer<ConformanceCriterion> {
 
-    private static final Logger log = Logger.getLogger(ConformanceCriterionXmlProducer.class);
+    private static final Logger log = LogManager.getLogger(ConformanceCriterionXmlProducer.class);
 
 
     @Override

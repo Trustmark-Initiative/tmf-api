@@ -15,7 +15,8 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import java.io.*;
 import java.util.HashMap;
@@ -26,7 +27,7 @@ import java.util.Map;
  */
 public class SerializerHtml extends AbstractHtmlSerializer implements Serializer {
 
-    private static final Logger log = Logger.getLogger(AbstractHtmlSerializer.class);
+    private static final Logger log = LogManager.getLogger(AbstractHtmlSerializer.class);
 
     public static final String TD_TEMPLATE = "trustmark-definition.ftlh";
     public static final String TIP_TEMPLATE = "tip.ftlh";

@@ -5,7 +5,8 @@ import edu.gatech.gtri.trustmark.v1_0.impl.io.IOUtils;
 import edu.gatech.gtri.trustmark.v1_0.io.NetworkDownloader;
 import edu.gatech.gtri.trustmark.v1_0.service.*;
 import edu.gatech.gtri.trustmark.v1_0.util.UrlUtils;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -26,7 +27,7 @@ public class TrustmarkFrameworkServiceImpl implements TrustmarkFrameworkService 
     //==================================================================================================================
     // Static Variables
     //==================================================================================================================
-    public static final Logger log = Logger.getLogger(TrustmarkFrameworkServiceImpl.class);
+    public static final Logger log = LogManager.getLogger(TrustmarkFrameworkServiceImpl.class);
     public static final Long DEFAULT_TIMEOUT = 1000l * 60l * 5l; // Five minute timeout.
     //==================================================================================================================
     // Instance Variables

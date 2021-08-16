@@ -2,7 +2,8 @@ package edu.gatech.gtri.trustmark.v1_0.impl.io.xml.producers;
 
 import edu.gatech.gtri.trustmark.v1_0.io.xml.XmlProducer;
 import edu.gatech.gtri.trustmark.v1_0.model.Artifact;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
@@ -15,7 +16,7 @@ import static edu.gatech.gtri.trustmark.v1_0.impl.TrustmarkFrameworkConstants.NA
  */
 public class ArtifactXmlProducer implements XmlProducer<Artifact> {
 
-    private static final Logger log = Logger.getLogger(ArtifactXmlProducer.class);
+    private static final Logger log = LogManager.getLogger(ArtifactXmlProducer.class);
 
     @Override
     public Class<Artifact> getSupportedType() {

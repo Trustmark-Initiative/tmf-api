@@ -2,7 +2,8 @@ package edu.gatech.gtri.trustmark.v1_0.impl.io.json;
 
 import edu.gatech.gtri.trustmark.v1_0.io.json.JsonManager;
 import edu.gatech.gtri.trustmark.v1_0.io.json.JsonProducer;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.gtri.fj.data.HashMap;
 import org.gtri.fj.data.Option;
 import org.gtri.fj.product.P2;
@@ -18,7 +19,7 @@ import static org.gtri.fj.product.P.p;
 
 public class JsonManagerImpl implements JsonManager {
 
-    private static final Logger log = Logger.getLogger(JsonManagerImpl.class);
+    private static final Logger log = LogManager.getLogger(JsonManagerImpl.class);
 
     private HashMap<P2<Class, Class>, JsonProducer> jsonProducerCache;
 

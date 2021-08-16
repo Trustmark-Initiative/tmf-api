@@ -21,7 +21,8 @@ import edu.gatech.gtri.trustmark.v1_0.model.Trustmark;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkDefinition;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkStatusReport;
 import org.apache.commons.io.FileUtils;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.json.JSONObject;
 import org.junit.Test;
 
@@ -41,7 +42,7 @@ import static org.hamcrest.Matchers.notNullValue;
  * Created by brad on 1/7/16.
  */
 public class TestTrustmarkStatusReportXmlProducer extends AbstractTest {
-    private static final Logger logger = Logger.getLogger(TestTrustmarkStatusReportXmlProducer.class);
+    private static final Logger logger = LogManager.getLogger(TestTrustmarkStatusReportXmlProducer.class);
 
     public static final String TSR_FULL_FILE = "./src/test/resources/TSRs/statusreport-full.json";
 

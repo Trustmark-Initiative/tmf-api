@@ -4,7 +4,8 @@ import edu.gatech.gtri.trustmark.v1_0.util.TrustExpressionHasUndeclaredIdExcepti
 import edu.gatech.gtri.trustmark.v1_0.util.TrustExpressionSyntaxException;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +21,7 @@ public class TrustExpressionUtils {
     //==================================================================================================================
     //  STATIC VARIABLES
     //==================================================================================================================
-    private static final Logger logger = Logger.getLogger(TrustExpressionUtils.class);
+    private static final Logger logger = LogManager.getLogger(TrustExpressionUtils.class);
     //==================================================================================================================
     //  STATIC METHODS
     //==================================================================================================================

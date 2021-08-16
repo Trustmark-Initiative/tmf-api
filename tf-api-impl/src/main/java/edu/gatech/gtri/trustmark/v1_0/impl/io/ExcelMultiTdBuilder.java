@@ -2,7 +2,8 @@ package edu.gatech.gtri.trustmark.v1_0.impl.io;
 
 import edu.gatech.gtri.trustmark.v1_0.io.MultiTrustmarkDefinitionBuilder;
 import edu.gatech.gtri.trustmark.v1_0.model.*;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -24,7 +25,7 @@ public class ExcelMultiTdBuilder implements MultiTrustmarkDefinitionBuilder {
     //==================================================================================================================
     //  Static Variables
     //==================================================================================================================
-    private static final Logger logger = Logger.getLogger(ExcelMultiTdBuilder.class);
+    private static final Logger logger = LogManager.getLogger(ExcelMultiTdBuilder.class);
 
     public static final String FONT_TD_TITLE = "tdTitleFont";
 

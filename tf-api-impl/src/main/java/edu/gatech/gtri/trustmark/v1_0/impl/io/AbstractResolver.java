@@ -3,7 +3,8 @@ package edu.gatech.gtri.trustmark.v1_0.impl.io;
 import edu.gatech.gtri.trustmark.v1_0.io.ParseException;
 import edu.gatech.gtri.trustmark.v1_0.io.ResolveException;
 import org.apache.commons.io.IOUtils;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.gtri.fj.function.Try1;
 
 import java.io.File;
@@ -21,7 +22,7 @@ import static java.util.Objects.requireNonNull;
 
 public abstract class AbstractResolver<T0> {
 
-    private static final Logger log = Logger.getLogger(AbstractResolver.class);
+    private static final Logger log = LogManager.getLogger(AbstractResolver.class);
 
     private final Try1<String, T0, ResolveException> deserializerForJson;
     private final Try1<String, T0, ResolveException> deserializerForXML;

@@ -4,7 +4,7 @@ import edu.gatech.gtri.trustmark.v1_0.FactoryLoader;
 import edu.gatech.gtri.trustmark.v1_0.io.json.JsonManager;
 import edu.gatech.gtri.trustmark.v1_0.io.json.JsonProducer;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustInteroperabilityProfile;
-import edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.TrustExpressionEvaluatorFailure;
+import edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.evaluator.TrustExpressionEvaluatorFailure;
 import org.json.JSONObject;
 import org.kohsuke.MetaInfServices;
 
