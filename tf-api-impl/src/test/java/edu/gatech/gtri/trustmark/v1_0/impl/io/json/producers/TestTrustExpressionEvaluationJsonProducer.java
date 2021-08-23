@@ -39,7 +39,7 @@ import static org.gtri.fj.product.P.p;
 
 public class TestTrustExpressionEvaluationJsonProducer {
 
-    private static final Logger log = LogManager.getLogger(TIPJsonProducer.class);
+    private static final Logger log = LogManager.getLogger(TrustInteroperabilityProfileJsonProducer.class);
     private static final JsonManager jsonManager = FactoryLoader.getInstance(JsonManager.class);
 
     @Test

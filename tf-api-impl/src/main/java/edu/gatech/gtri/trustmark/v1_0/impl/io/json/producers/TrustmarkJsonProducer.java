@@ -2,6 +2,7 @@ package edu.gatech.gtri.trustmark.v1_0.impl.io.json.producers;
 
 import edu.gatech.gtri.trustmark.v1_0.FactoryLoader;
 import edu.gatech.gtri.trustmark.v1_0.TrustmarkFramework;
+import edu.gatech.gtri.trustmark.v1_0.impl.io.IdUtility;
 import edu.gatech.gtri.trustmark.v1_0.io.json.JsonProducer;
 import edu.gatech.gtri.trustmark.v1_0.io.json.JsonUtils;
 import edu.gatech.gtri.trustmark.v1_0.model.Trustmark;
@@ -28,9 +29,12 @@ public final class TrustmarkJsonProducer implements JsonProducer<Trustmark, JSON
 
     @Override
     public JSONObject serialize(Trustmark trustmark) {
+
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("$TMF_VERSION", FactoryLoader.getInstance(TrustmarkFramework.class).getTrustmarkFrameworkVersion());
         jsonObject.put("$Type", Trustmark.class.getSimpleName());
+//        jsonObject.put("$id", trustmark.getId() == null ? IdUtility.trustmarkId() : trustmark.getId()); // TODO: Add $id for consistency.
+
         jsonObject.put("Identifier", trustmark.getIdentifier());
         jsonObject.put("TrustmarkDefinitionReference", toJson(trustmark.getTrustmarkDefinitionReference()));
         jsonObject.put("IssueDateTime", JsonUtils.toDateTimeString(trustmark.getIssueDateTime()));

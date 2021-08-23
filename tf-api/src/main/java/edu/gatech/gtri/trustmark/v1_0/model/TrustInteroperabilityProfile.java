@@ -10,12 +10,16 @@ import java.util.List;
  * a TIP that expresses a trust and interoperability policy in terms of a set of
  * Trustmarks that a Trustmark Recipient must possess, in order to meet its
  * trust and interoperability requirements.
- * 
+ *
  * @author GTRI Trustmark Team
  */
 public interface TrustInteroperabilityProfile
 extends TrustmarkFrameworkIdentifiedObject, HasSource, Supersedable, Categorized, LegallyPublished, Sourced, TermsUsed, Primary, Moniker {
 
+	/**
+	 * The element identifier of the encoded Trust Interoperability Profile. May be null.
+	 */
+	 String getId();
 
 	/**
 	 * The Trust Interoperability Profile Issuer Identifier for the Trust

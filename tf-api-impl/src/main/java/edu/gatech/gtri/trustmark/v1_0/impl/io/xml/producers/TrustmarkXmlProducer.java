@@ -1,5 +1,6 @@
 package edu.gatech.gtri.trustmark.v1_0.impl.io.xml.producers;
 
+import edu.gatech.gtri.trustmark.v1_0.impl.io.IdUtility;
 import edu.gatech.gtri.trustmark.v1_0.io.xml.XmlProducer;
 import edu.gatech.gtri.trustmark.v1_0.io.xml.XmlUtils;
 import edu.gatech.gtri.trustmark.v1_0.model.Trustmark;
@@ -23,8 +24,10 @@ public class TrustmarkXmlProducer implements XmlProducer<Trustmark> {
 
     @Override
     public void serialize(Trustmark trustmark, XMLStreamWriter xmlWriter) throws XMLStreamException {
-        String uuidIdAttribute = "TM_" + System.currentTimeMillis() + "_" + UUID.randomUUID().toString().toUpperCase().replace("-", "");
-        xmlWriter.writeAttribute(NAMESPACE_URI, "id", uuidIdAttribute);
+
+        xmlWriter.writeAttribute(NAMESPACE_URI, "id", trustmark.getId() == null ?
+                IdUtility.trustmarkId() :
+                trustmark.getId());
 
         xmlWriter.writeStartElement(NAMESPACE_URI, "Identifier");
         xmlWriter.writeCharacters(trustmark.getIdentifier().toString());

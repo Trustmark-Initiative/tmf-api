@@ -55,7 +55,7 @@ public class TestJsonManagerImpl extends AbstractTest {
         assertThat(manager, notNullValue());
         JsonProducer producer = manager.findProducer(TrustInteroperabilityProfile.class);
         assertThat(producer, notNullValue());
-        assertThat(producer, instanceOf(TIPJsonProducer.class));
+        assertThat(producer, instanceOf(TrustInteroperabilityProfileJsonProducer.class));
     }
 
 

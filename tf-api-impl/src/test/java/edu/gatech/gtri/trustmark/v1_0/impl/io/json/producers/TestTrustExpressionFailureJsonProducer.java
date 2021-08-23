@@ -21,7 +21,7 @@ import static org.gtri.fj.data.NonEmptyList.nel;
 
 public class TestTrustExpressionFailureJsonProducer {
 
-    private static final Logger log = LogManager.getLogger(TIPJsonProducer.class);
+    private static final Logger log = LogManager.getLogger(TrustInteroperabilityProfileJsonProducer.class);
     private static final JsonManager jsonManager = FactoryLoader.getInstance(JsonManager.class);
 
     @Test

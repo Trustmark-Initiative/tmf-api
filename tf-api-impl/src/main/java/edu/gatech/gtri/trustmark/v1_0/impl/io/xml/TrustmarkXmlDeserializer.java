@@ -38,8 +38,10 @@ public class TrustmarkXmlDeserializer extends AbstractDeserializer {
     public static Trustmark fromDom4j( Element trustmarkXml, String originalSource ) throws ParseException {
         log.debug("Constructing new Trustmark from element["+trustmarkXml.getName()+"]...");
         TrustmarkImpl trustmarkImpl = new TrustmarkImpl();
+
         trustmarkImpl.setOriginalSource(originalSource);
         trustmarkImpl.setOriginalSourceType("text/xml");
+        trustmarkImpl.setId(getString(trustmarkXml, "./@tf:id", false));
 
         trustmarkImpl.setIdentifier(getUri(trustmarkXml, "string(./tf:Identifier)", true));
         trustmarkImpl.setTrustmarkDefinitionReference(
