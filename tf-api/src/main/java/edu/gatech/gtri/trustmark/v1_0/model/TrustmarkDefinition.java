@@ -21,6 +21,11 @@ import edu.gatech.gtri.trustmark.v1_0.model.expression.ExpressionTree;
 public interface TrustmarkDefinition extends HasSource, Sourced, TermsUsed {
 
     /**
+     * The element identifier of the encoded Trustmark Definition. May be null.
+     */
+    public String getId();
+
+    /**
      * A container element for Trustmark Definition Metadata. Guaranteed to be
      * non-null for validated objects.
      */

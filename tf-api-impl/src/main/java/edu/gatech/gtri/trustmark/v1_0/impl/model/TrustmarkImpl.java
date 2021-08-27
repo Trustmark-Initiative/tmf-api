@@ -15,6 +15,7 @@ import java.util.Set;
  */
 public class TrustmarkImpl implements Trustmark, Comparable<Trustmark>  {
 
+    private String id;
     private String originalSource;
     private String originalSourceType;
     private URI identifier;
@@ -30,6 +31,11 @@ public class TrustmarkImpl implements Trustmark, Comparable<Trustmark>  {
     private ExtensionImpl definitionExtension;
     private ExtensionImpl providerExtension;
     private Set<TrustmarkParameterBinding> parameterBindings;
+
+    @Override
+    public String getId() { return id; }
+
+    public void setId(final String id) { this.id = id; }
 
     @Override
     public String getOriginalSource() {

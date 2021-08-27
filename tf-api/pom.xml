@@ -4,13 +4,13 @@
     <parent>
         <groupId>edu.gatech.gtri.trustmark</groupId>
         <artifactId>tf-api-parent</artifactId>
-        <version>1.4.6</version>
+        <version>1.4.9</version>
     </parent>
     <artifactId>tf-api</artifactId>
-    <version>1.4.6</version>
+    <version>1.4.9</version>
     <packaging>jar</packaging>
     <properties>
-        <tf.api.version>1.4.6</tf.api.version>
+        <tf.api.version>1.4.9</tf.api.version>
     </properties>
     <dependencies>
         <dependency>

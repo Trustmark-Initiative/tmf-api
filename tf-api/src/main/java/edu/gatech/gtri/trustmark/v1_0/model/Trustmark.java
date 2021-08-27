@@ -10,11 +10,16 @@ import java.util.Set;
  * machine-readable, cryptographically signed digital artifact that represents a
  * statement of conformance to a well-scoped set of trust and/or
  * interoperability requirements.
- * 
+ *
  * @author GTRI Trustmark Team
  *
  */
 public interface Trustmark extends HasSource {
+
+	/**
+	 * The element identifier of the encoded Trustmark. May be null.
+	 */
+	public String getId();
 
 	/**
 	 * The globally unique Trustmark Identifier for this Trustmark. Section 5.3

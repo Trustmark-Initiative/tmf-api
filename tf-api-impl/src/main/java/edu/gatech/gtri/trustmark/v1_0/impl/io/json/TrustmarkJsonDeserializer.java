@@ -26,8 +26,10 @@ public class TrustmarkJsonDeserializer extends AbstractDeserializer {
         isSupported(jsonObject);
 
         TrustmarkImpl trustmark = new TrustmarkImpl();
+
         trustmark.setOriginalSource(jsonString);
         trustmark.setOriginalSourceType("application/json");
+        trustmark.setId(getString(jsonObject, "$id", false));
 
         trustmark.setIdentifier(getUri(jsonObject, "Identifier", true));
 

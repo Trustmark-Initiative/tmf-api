@@ -41,9 +41,10 @@ public class TrustmarkDefinitionXmlDeserializer extends AbstractDeserializer {
 
     public static TrustmarkDefinition fromDom4j( Element tdXml, String originalSource ) throws ParseException {
         TrustmarkDefinitionImpl td = new TrustmarkDefinitionImpl();
+
         td.setOriginalSource(originalSource);
         td.setOriginalSourceType("text/xml");
-
+        td.setId(getString(tdXml, "/@tf:id", false));
 
         Element metadataXml = (Element) tdXml.selectSingleNode("./tf:Metadata");
         TrustmarkDefinitionMetadataImpl metadata = new TrustmarkDefinitionMetadataImpl();

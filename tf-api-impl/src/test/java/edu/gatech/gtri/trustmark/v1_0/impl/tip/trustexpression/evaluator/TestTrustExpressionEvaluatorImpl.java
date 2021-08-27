@@ -267,7 +267,7 @@ public class TestTrustExpressionEvaluatorImpl {
 
         final TrustExpressionParser trustExpressionParser = new TrustExpressionParserImpl(trustExpressionEnvironment.getTrustInteroperabilityProfileResolver(), trustExpressionEnvironment.getTrustmarkDefinitionResolver());
         final TrustExpressionEvaluator trustExpressionEvaluator = new TrustExpressionEvaluatorImpl(FactoryLoader.getInstance(TrustmarkResolver.class), trustExpressionParser);
-        final TrustInteroperabilityProfile trustInteroperabilityProfile = trustExpressionEnvironment.getTrustInteroperabilityProfile("\"string\"");
+        final TrustInteroperabilityProfile trustInteroperabilityProfile = trustExpressionEnvironment.getTrustInteroperabilityProfile("'string'");
 
         assertEquals(
                 terminal(success(dataValueString(
@@ -674,7 +674,7 @@ public class TestTrustExpressionEvaluatorImpl {
 
         final TrustExpressionParser trustExpressionParser = new TrustExpressionParserImpl(trustExpressionEnvironment.getTrustInteroperabilityProfileResolver(), trustExpressionEnvironment.getTrustmarkDefinitionResolver());
         final TrustExpressionEvaluator trustExpressionEvaluator = new TrustExpressionEvaluatorImpl(FactoryLoader.getInstance(TrustmarkResolver.class), trustExpressionParser);
-        final TrustInteroperabilityProfile trustInteroperabilityProfile1 = trustExpressionEnvironment.getTrustInteroperabilityProfile("contains(A.a, \"string1\")");
+        final TrustInteroperabilityProfile trustInteroperabilityProfile1 = trustExpressionEnvironment.getTrustInteroperabilityProfile("contains(A.a, 'string1')");
         final List<Trustmark> trustmark1 = trustExpressionEnvironment.getTrustmark("A", iterableTreeMap(stringOrd, arrayList(p("a", "string1|string2")))).toList();
 
         assertEquals(
@@ -691,7 +691,7 @@ public class TestTrustExpressionEvaluatorImpl {
                         success(dataValueBoolean(nel(trustInteroperabilityProfile1), true))),
                 trustExpressionEvaluator.evaluate(trustExpressionParser.parse(trustInteroperabilityProfile1), trustmark1).getTrustExpression());
 
-        final TrustInteroperabilityProfile trustInteroperabilityProfile2 = trustExpressionEnvironment.getTrustInteroperabilityProfile("contains(A.b, \"string1\")");
+        final TrustInteroperabilityProfile trustInteroperabilityProfile2 = trustExpressionEnvironment.getTrustInteroperabilityProfile("contains(A.b, 'string1')");
         final List<Trustmark> trustmark2 = trustExpressionEnvironment.getTrustmark("A", iterableTreeMap(stringOrd, arrayList(p("b", "+1.")))).toList();
 
         assertEquals(

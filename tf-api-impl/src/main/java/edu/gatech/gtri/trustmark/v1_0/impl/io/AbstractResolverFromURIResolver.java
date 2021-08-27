@@ -2,8 +2,8 @@ package edu.gatech.gtri.trustmark.v1_0.impl.io;
 
 import edu.gatech.gtri.trustmark.v1_0.io.ResolveException;
 import edu.gatech.gtri.trustmark.v1_0.io.URIResolver;
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.gtri.fj.function.Try1;
 
 import java.net.URI;
@@ -34,16 +34,32 @@ public abstract class AbstractResolverFromURIResolver<T0> extends AbstractResolv
 
         final boolean validate = validateNullable == null ? false : validateNullable;
 
-        log.info(validate ?
-                "Resolving and validating entity URI (" + uri + ") ..." :
-                "Resolving entity URI (" + uri + ") ...");
+        if (uri.getQuery() != null) {
 
-        try {
-            log.debug("Resolving URI (" + uri + "?format=xml) ...");
-            return resolve(uriResolver.resolve(uri + "?format=xml"), validate);
-        } catch (final ResolveException resolveException) {
-            log.debug("Resolving URI (" + uri + ") ...");
+            log.debug(validate ?
+                    "Resolving and validating entity URI (" + uri + ") ..." :
+                    "Resolving entity URI (" + uri + ") ...");
+
             return resolve(uriResolver.resolve(uri), validate);
+
+        } else {
+            try {
+
+                log.debug(validate ?
+                        "Resolving and validating entity URI (" + uri + "?format=xml) ..." :
+                        "Resolving entity URI (" + uri + "?format=xml) ...");
+
+                return resolve(uriResolver.resolve(uri + "?format=xml"), validate);
+
+            } catch (final ResolveException resolveException) {
+
+                log.debug(validate ?
+                        "Resolving and validating entity URI (" + uri + ") ..." :
+                        "Resolving entity URI (" + uri + ") ...");
+
+                return resolve(uriResolver.resolve(uri), validate);
+
+            }
         }
     }
 }

@@ -25,9 +25,9 @@ public class TrustmarkStatusReportJsonDeserializer extends AbstractDeserializer 
         isSupported(jsonObject);
 
         TrustmarkStatusReportImpl tsr = new TrustmarkStatusReportImpl();
+
         tsr.setOriginalSource(jsonString);
         tsr.setOriginalSourceType("application/json");
-
         tsr.setId(getString(jsonObject, "$id", true));
 
         JSONObject tmRefObj = jsonObject.optJSONObject("TrustmarkReference");

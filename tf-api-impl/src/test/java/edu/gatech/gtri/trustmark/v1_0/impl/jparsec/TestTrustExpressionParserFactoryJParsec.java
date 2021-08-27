@@ -115,7 +115,7 @@ public class TestTrustExpressionParserFactoryJParsec {
 
         Assert.assertEquals(
                 terminal(dataLiteralString("string")),
-                parser.parse("\"string\""));
+                parser.parse("'string'"));
 
     }
 
@@ -152,7 +152,7 @@ public class TestTrustExpressionParserFactoryJParsec {
 
         Assert.assertEquals(
                 contains(terminal(dataReferenceTrustmarkDefinitionParameter("A", "A")), terminal(dataLiteralString("string")), dataNonTerminal()),
-                parser.parse("contains(A.A, \"string\")"));
+                parser.parse("contains(A.A, 'string')"));
 
         Assert.assertEquals(
                 exists(terminal(dataReferenceTrustmarkDefinitionParameter("A", "A")), dataNonTerminal()),
@@ -160,27 +160,27 @@ public class TestTrustExpressionParserFactoryJParsec {
 
         Assert.assertEquals(
                 lessThan(terminal(dataLiteralString("string")), terminal(dataLiteralDecimal(new BigDecimal("1.0"))), dataNonTerminal()),
-                parser.parse("\"string\" < 1.0"));
+                parser.parse("'string' < 1.0"));
 
         Assert.assertEquals(
                 lessThanOrEqual(terminal(dataLiteralString("string")), terminal(dataLiteralDecimal(new BigDecimal("1.0"))), dataNonTerminal()),
-                parser.parse("\"string\" <= 1.0"));
+                parser.parse("'string' <= 1.0"));
 
         Assert.assertEquals(
                 greaterThanOrEqual(terminal(dataLiteralString("string")), terminal(dataLiteralDecimal(new BigDecimal("1.0"))), dataNonTerminal()),
-                parser.parse("\"string\" >= 1.0"));
+                parser.parse("'string' >= 1.0"));
 
         Assert.assertEquals(
                 greaterThan(terminal(dataLiteralString("string")), terminal(dataLiteralDecimal(new BigDecimal("1.0"))), dataNonTerminal()),
-                parser.parse("\"string\" > 1.0"));
+                parser.parse("'string' > 1.0"));
 
         Assert.assertEquals(
                 equal(terminal(dataLiteralString("string")), terminal(dataLiteralDecimal(new BigDecimal("1.0"))), dataNonTerminal()),
-                parser.parse("\"string\" == 1.0"));
+                parser.parse("'string' == 1.0"));
 
         Assert.assertEquals(
                 notEqual(terminal(dataLiteralString("string")), terminal(dataLiteralDecimal(new BigDecimal("1.0"))), dataNonTerminal()),
-                parser.parse("\"string\" != 1.0"));
+                parser.parse("'string' != 1.0"));
 
         Assert.assertEquals(
                 not(terminal(dataReferenceTrustmarkDefinitionRequirement("A")), dataNonTerminal()),

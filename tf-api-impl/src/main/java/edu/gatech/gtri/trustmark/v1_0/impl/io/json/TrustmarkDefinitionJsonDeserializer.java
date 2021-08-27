@@ -28,8 +28,10 @@ public class TrustmarkDefinitionJsonDeserializer extends AbstractDeserializer {
         isSupported(jsonObject);
 
         TrustmarkDefinitionImpl td = new TrustmarkDefinitionImpl();
+
         td.setOriginalSource(jsonString);
         td.setOriginalSourceType("application/json");
+        td.setId(getString(jsonObject, "$id", false));
 
         JSONObject metadataJson = jsonObject.optJSONObject("Metadata");
         if( metadataJson == null )

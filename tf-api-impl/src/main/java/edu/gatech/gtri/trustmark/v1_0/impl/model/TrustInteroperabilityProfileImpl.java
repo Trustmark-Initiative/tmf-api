@@ -11,7 +11,7 @@ import java.util.*;
 public class TrustInteroperabilityProfileImpl extends TrustmarkFrameworkIdentifiedObjectImpl
         implements TrustInteroperabilityProfile, Comparable<TrustInteroperabilityProfile>, BulkReadArtifact {
 
-
+    private String id;
     private String originalSource;
     private String originalSourceType;
     private Date publicationDateTime;
@@ -31,6 +31,11 @@ public class TrustInteroperabilityProfileImpl extends TrustmarkFrameworkIdentifi
     private Collection<Term> terms;
     private Collection<Source> sources;
     private transient Map<String, Object> transientDataMap;
+
+    @Override
+    public String getId() { return id; }
+
+    public void setId(final String id) { this.id = id; }
 
     @Override
     public List<TrustmarkFrameworkIdentifiedObject> getKnownConflicts() {

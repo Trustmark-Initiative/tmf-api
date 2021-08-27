@@ -12,8 +12,11 @@ import edu.gatech.gtri.trustmark.v1_0.model.TrustInteroperabilityProfileReferenc
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkDefinition;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkDefinitionParameter;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkDefinitionRequirement;
+import edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.evaluator.TrustExpressionEvaluator;
+import edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.evaluator.TrustExpressionEvaluatorFactory;
 import edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.parser.TrustExpressionParser;
 import edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.parser.TrustExpressionParserFactory;
+import org.gtri.fj.data.List;
 import org.gtri.fj.data.TreeMap;
 import org.gtri.fj.product.P3;
 import org.gtri.fj.product.P5;
@@ -162,7 +165,7 @@ public class TestTrustExpressionParserImpl {
     @Test
     public void testTrustmarkDefinitionRequirementWithTrustExpressionString() {
 
-        final P5<TrustInteroperabilityProfileResolverFromMap, TrustmarkDefinitionResolverFromMap, URI, TrustInteroperabilityProfile, TreeMap<String, TrustmarkDefinitionRequirement>> resolver = TestTrustExpressionUtility.resolver("\"string\"", nil());
+        final P5<TrustInteroperabilityProfileResolverFromMap, TrustmarkDefinitionResolverFromMap, URI, TrustInteroperabilityProfile, TreeMap<String, TrustmarkDefinitionRequirement>> resolver = TestTrustExpressionUtility.resolver("'string'", nil());
         final TrustExpressionParser trustExpressionParser = new TrustExpressionParserImpl(resolver._1(), resolver._2());
 
         assertEquals(
@@ -297,7 +300,7 @@ public class TestTrustExpressionParserImpl {
     @Test
     public void testTrustmarkDefinitionRequirementWithTrustExpressionContains() throws ResolveException {
 
-        final P5<TrustInteroperabilityProfileResolverFromMap, TrustmarkDefinitionResolverFromMap, URI, TrustInteroperabilityProfile, TreeMap<String, P3<TrustmarkDefinitionRequirement, TrustmarkDefinition, TreeMap<String, TrustmarkDefinitionParameter>>>> resolver = TestTrustExpressionUtility.resolver("contains(A.a, \"string\")", TreeMap.iterableTreeMap(stringOrd, arrayList(p("A", arrayList("a")))));
+        final P5<TrustInteroperabilityProfileResolverFromMap, TrustmarkDefinitionResolverFromMap, URI, TrustInteroperabilityProfile, TreeMap<String, P3<TrustmarkDefinitionRequirement, TrustmarkDefinition, TreeMap<String, TrustmarkDefinitionParameter>>>> resolver = TestTrustExpressionUtility.resolver("contains(A.a, 'string')", TreeMap.iterableTreeMap(stringOrd, arrayList(p("A", arrayList("a")))));
         final TrustExpressionParser trustExpressionParser = new TrustExpressionParserImpl(resolver._1(), resolver._2());
 
         assertEquals(
@@ -331,4 +334,19 @@ public class TestTrustExpressionParserImpl {
                 terminal(success(dataReferenceTrustmarkDefinitionRequirement(nel(resolver._4(), trustInteroperabilityProfile), resolver._5().get("B").some()))),
                 trustExpressionParser.parse(trustInteroperabilityProfile));
     }
+
+    @Test
+    public void test() {
+
+        final TrustExpressionParserFactory trustExpressionParserFactory = FactoryLoader.getInstance(TrustExpressionParserFactory.class);
+        final TrustExpressionParser trustExpressionParser = trustExpressionParserFactory.createDefaultParser();
+
+        final TrustExpressionEvaluatorFactory trustExpressionEvaluatorFactory = FactoryLoader.getInstance(TrustExpressionEvaluatorFactory.class);
+        final TrustExpressionEvaluator trustExpressionEvaluator = trustExpressionEvaluatorFactory.createDefaultEvaluator();
+
+        System.out.println(trustExpressionParser.parse("https://artifacts.trustmarkinitiative.org/lib/tips/nief-mandatory-attributes/1.0/"));
+
+        System.out.println(trustExpressionEvaluator.evaluate("https://artifacts.trustmarkinitiative.org/lib/tips/nief-mandatory-attributes/1.0/", nil()).getTrustExpression().getData().fail().head().getTrustInteroperabilityProfileList().map(trustInteroperabilityProfile -> trustInteroperabilityProfile.getIdentifier()));
+    }
+
 }

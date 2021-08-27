@@ -1,5 +1,6 @@
 package edu.gatech.gtri.trustmark.v1_0.impl.io.xml.producers;
 
+import edu.gatech.gtri.trustmark.v1_0.impl.io.IdUtility;
 import edu.gatech.gtri.trustmark.v1_0.io.xml.XmlProducer;
 import edu.gatech.gtri.trustmark.v1_0.model.AssessmentStep;
 import edu.gatech.gtri.trustmark.v1_0.model.ConformanceCriterion;
@@ -32,8 +33,9 @@ public class TrustmarkDefinitionXmlProducer implements XmlProducer<TrustmarkDefi
     public void serialize(TrustmarkDefinition td, XMLStreamWriter xmlWriter) throws XMLStreamException {
         log.debug("Writing XML for TD[" + td.getMetadata().getIdentifier() + "]...");
 
-        String uuidIdAttribute = "TD_" + System.currentTimeMillis() + "_" + UUID.randomUUID().toString().toUpperCase().replace("-", "");
-        xmlWriter.writeAttribute(NAMESPACE_URI, "id", uuidIdAttribute);
+        xmlWriter.writeAttribute(NAMESPACE_URI, "id", td.getId() == null ?
+                IdUtility.trustmarkDefinitionId() :
+                td.getId());
 
         writeMetadata(td, td.getMetadata(), xmlWriter);
 

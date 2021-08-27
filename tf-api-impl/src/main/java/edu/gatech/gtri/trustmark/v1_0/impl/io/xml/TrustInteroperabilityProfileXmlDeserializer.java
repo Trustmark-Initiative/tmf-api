@@ -42,8 +42,10 @@ public class TrustInteroperabilityProfileXmlDeserializer extends AbstractDeseria
     public static TrustInteroperabilityProfile fromDom4j( Element tipXml, String originalSource ) throws ParseException {
         log.debug("Constructing new TrustInteroperabilityProfile from element["+tipXml.getName()+"]...");
         TrustInteroperabilityProfileImpl tip = new TrustInteroperabilityProfileImpl();
+
         tip.setOriginalSource(originalSource);
         tip.setOriginalSourceType("text/xml");
+        tip.setId(getString(tipXml, "/@tf:id", false));
 
         tip.setTypeName("TrustInteroperabilityProfile");
         tip.setIdentifier(getUri(tipXml, "tf:Identifier", true));

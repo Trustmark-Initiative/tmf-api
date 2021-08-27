@@ -1,5 +1,6 @@
 package edu.gatech.gtri.trustmark.v1_0.impl.io.xml.producers;
 
+import edu.gatech.gtri.trustmark.v1_0.impl.io.IdUtility;
 import edu.gatech.gtri.trustmark.v1_0.io.xml.XmlProducer;
 import edu.gatech.gtri.trustmark.v1_0.io.xml.XmlUtils;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkStatusReport;
@@ -23,8 +24,10 @@ public class TrustmarkStatusReportXmlProducer implements XmlProducer<TrustmarkSt
 
     @Override
     public void serialize(TrustmarkStatusReport tsr, XMLStreamWriter xmlWriter) throws XMLStreamException {
-        String uuidIdAttribute = "TSR_" + System.currentTimeMillis() + "_" + UUID.randomUUID().toString().toUpperCase().replace("-", "");
-        xmlWriter.writeAttribute(NAMESPACE_URI, "id", uuidIdAttribute);
+
+        xmlWriter.writeAttribute(NAMESPACE_URI, "id", tsr.getId() == null ?
+                IdUtility.trustmarkStatusReportId() :
+                tsr.getId());
 
         // TODO Digital Signature?
 

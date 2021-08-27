@@ -41,9 +41,9 @@ public class TrustmarkStatusReportXmlDeserializer extends AbstractDeserializer {
     public static TrustmarkStatusReport fromDom4j( Element tsrXml, String originalSource ) throws ParseException {
         log.debug("Constructing new TrustmarkStatusReport from element["+tsrXml.getName()+"]...");
         TrustmarkStatusReportImpl tsr = new TrustmarkStatusReportImpl();
+
         tsr.setOriginalSource(originalSource);
         tsr.setOriginalSourceType("text/xml");
-
         tsr.setId(getString(tsrXml, "./@tf:id", true));
 
         tsr.setTrustmarkReference(getUri(tsrXml, "./tf:TrustmarkReference/tf:Identifier", true));

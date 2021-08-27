@@ -10,6 +10,7 @@ import java.util.*;
  */
 public class TrustmarkDefinitionImpl implements TrustmarkDefinition, Comparable<TrustmarkDefinition>, BulkReadArtifact {
 
+    private String id;
     private String originalSource;
     private String originalSourceType;
     private TrustmarkDefinition.Metadata metadata;
@@ -21,6 +22,11 @@ public class TrustmarkDefinitionImpl implements TrustmarkDefinition, Comparable<
     private List<AssessmentStep> assessmentSteps;
     private String issuanceCriteria;
     private transient Map<String, Object> transientDataMap;
+
+    @Override
+    public String getId() { return id; }
+
+    public void setId(final String id) { this.id = id; }
 
     @Override
     public String getOriginalSource() {

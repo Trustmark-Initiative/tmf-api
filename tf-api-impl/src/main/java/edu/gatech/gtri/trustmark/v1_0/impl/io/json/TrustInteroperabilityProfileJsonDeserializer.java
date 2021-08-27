@@ -26,8 +26,10 @@ public class TrustInteroperabilityProfileJsonDeserializer extends AbstractDeseri
         isSupported(jsonObject);
 
         TrustInteroperabilityProfileImpl tip = new TrustInteroperabilityProfileImpl();
+
         tip.setOriginalSource(jsonString);
         tip.setOriginalSourceType("application/json");
+        tip.setId(getString(jsonObject, "$id", false));
 
         tip.setTypeName("TrustInteroperabilityProfile");
         tip.setIdentifier(getUri(jsonObject, "Identifier", true));
