@@ -177,9 +177,9 @@ public final class TrustExpressionLexerFactoryJParsec {
 
     private static final Pattern patternString =
             Patterns.sequence(
-                    Patterns.isChar('"'),
-                    Patterns.isChar(c -> c != '\"').many(),
-                    Patterns.isChar('"'));
+                    Patterns.isChar('\''),
+                    Patterns.isChar(c -> c != '\'').many(),
+                    Patterns.isChar('\''));
 
     private static final Parser<Void> parserWhitespace =
             Patterns.isChar(Character::isWhitespace).many().toScanner("Scanner for whitespace");

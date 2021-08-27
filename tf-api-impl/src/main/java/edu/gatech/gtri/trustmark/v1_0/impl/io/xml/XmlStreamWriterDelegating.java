@@ -130,19 +130,19 @@ public class XmlStreamWriterDelegating implements XMLStreamWriter {
 
     @Override
     public void writeStartDocument() throws XMLStreamException {
-        log.warn("START DOCUMENT CALLED");
+        log.debug("START DOCUMENT CALLED");
         writer.writeStartDocument();
     }
 
     @Override
     public void writeStartDocument(String version) throws XMLStreamException {
-        log.warn("START DOCUMENT CALLED");
+        log.debug("START DOCUMENT CALLED");
         writer.writeStartDocument(version);
     }
 
     @Override
     public void writeStartDocument(String encoding, String version) throws XMLStreamException {
-        log.warn("START DOCUMENT CALLED");
+        log.debug("START DOCUMENT CALLED");
         writer.writeStartDocument(encoding, version);
     }
 

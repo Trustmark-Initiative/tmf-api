@@ -100,10 +100,6 @@ public final class HashFactoryImpl implements HashFactory {
     private <T1> byte[] hashHelper(final T1 serializeable, final F2<T1, ByteArrayOutputStream, Validation<NonEmptyList<Exception>, ByteArrayOutputStream>> f) throws IOException {
 
         final Validation<NonEmptyList<Exception>, byte[]> digestValidation = f.f(serializeable, new ByteArrayOutputStream())
-                .map(byteArrayOutputStream -> {
-                    System.out.println(new String(byteArrayOutputStream.toByteArray()));
-                    return byteArrayOutputStream;
-                })
                 .map(byteArrayOutputStream -> digest.digest(byteArrayOutputStream.toByteArray()));
 
         if (digestValidation.isSuccess()) {

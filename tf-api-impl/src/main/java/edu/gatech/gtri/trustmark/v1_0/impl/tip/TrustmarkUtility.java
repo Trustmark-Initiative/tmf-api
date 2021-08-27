@@ -82,12 +82,12 @@ public final class TrustmarkUtility {
         final List<Entity> trustmarkDefinitionProviderReferenceList =
                 fromNull(trustmarkDefinitionRequirement.getProviderReferences())
                         .map(List::iterableList)
-                        .orSome(nil());
+                        .orSome(nil())
+                        .filter(entity -> entity.getIdentifier() != null);
 
         return trustmarkDefinitionProviderReferenceList.isEmpty() ?
                 list(trustmark.getProvider()) :
                 trustmarkDefinitionProviderReferenceList
                         .filter(entity -> entity.getIdentifier().equals(trustmark.getProvider().getIdentifier()));
-
     }
 }
