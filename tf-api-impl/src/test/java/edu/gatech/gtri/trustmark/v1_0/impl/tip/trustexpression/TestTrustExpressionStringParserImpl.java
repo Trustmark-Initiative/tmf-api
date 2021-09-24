@@ -1,6 +1,8 @@
 package edu.gatech.gtri.trustmark.v1_0.impl.tip.trustexpression;
 
 import edu.gatech.gtri.trustmark.v1_0.FactoryLoader;
+import edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.TrustExpression;
+import edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.TrustExpressionData;
 import edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.TrustExpressionStringParser;
 import edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.TrustExpressionStringParserFactory;
 import org.junit.Assert;
@@ -79,6 +81,18 @@ public class TestTrustExpressionStringParserImpl {
         Assert.assertEquals(
                 and(terminal(dataReferenceTrustmarkDefinitionRequirement("A")), or(terminal(dataReferenceTrustmarkDefinitionRequirement("B")), terminal(dataReferenceTrustmarkDefinitionRequirement("C")), dataNonTerminal()), dataNonTerminal()),
                 trustExpressionStringParser.parse("A and (B or C)"));
+    }
+
+    @Test
+    public void testInvalid() {
+        TrustExpressionStringParserFactory trustExpressionStringParserFactory = FactoryLoader.getInstance(TrustExpressionStringParserFactory.class);
+        Assert.assertNotNull(trustExpressionStringParserFactory);
+
+        TrustExpressionStringParser trustExpressionStringParser = trustExpressionStringParserFactory.createDefaultParser();
+        Assert.assertNotNull(trustExpressionStringParser);
+
+        Assert.assertThrows(org.jparsec.error.ParserException.class, () -> trustExpressionStringParser.parse("A and B)"));
+
     }
 
 }

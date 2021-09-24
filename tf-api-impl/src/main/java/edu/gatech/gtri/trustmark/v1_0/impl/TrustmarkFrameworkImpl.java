@@ -74,7 +74,7 @@ public class TrustmarkFrameworkImpl implements TrustmarkFramework {
      * Performs any necessary "Sanity Checks" on the system before usage can proceed.
      */
     public void validateSystem() {
-        log.info("Checking necessary pre-requisites for the TF-API system to run...");
+        log.debug("Checking necessary pre-requisites for the TF-API system to run...");
 
         log.debug("Checking that necessary, but not provided, classes are registered with FactoryLoader appropriately...");
         for( Class c : userRequiredClasses ){

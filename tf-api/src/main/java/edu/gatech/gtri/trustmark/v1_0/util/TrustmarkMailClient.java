@@ -37,6 +37,14 @@ public interface TrustmarkMailClient {
     TrustmarkMailClient setSmtpPort(String port);
 
     /**
+     * set the timeout
+     *
+     * @param timeout
+     * @return
+     */
+    TrustmarkMailClient setSmtpTimeout(long timeout);
+
+    /**
      * add a mail recipient to send this email to
      *
      * @param addr

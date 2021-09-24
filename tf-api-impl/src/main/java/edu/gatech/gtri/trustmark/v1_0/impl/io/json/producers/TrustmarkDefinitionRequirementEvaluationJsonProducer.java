@@ -29,11 +29,11 @@ public class TrustmarkDefinitionRequirementEvaluationJsonProducer implements Jso
     private static final JsonManager jsonManager = FactoryLoader.getInstance(JsonManager.class);
 
     // @formatter:off
-    private static final JsonProducer<TrustInteroperabilityProfile,    JSONObject> jsonProducerForTrustInteroperabilityProfile    = jsonManager.findProducerStrict(TrustInteroperabilityProfile.class,    JSONObject.class).some();
-    private static final JsonProducer<Trustmark,                       JSONObject> jsonProducerForTrustmark                       = jsonManager.findProducerStrict(Trustmark.class,                       JSONObject.class).some();
-    private static final JsonProducer<TrustExpressionFailure,          JSONObject> jsonProducerForTrustExpressionFailure          = jsonManager.findProducerStrict(TrustExpressionFailure.class,          JSONObject.class).some();
-    private static final JsonProducer<TrustExpressionEvaluatorFailure, JSONObject> jsonProducerForTrustExpressionEvaluatorFailure = jsonManager.findProducerStrict(TrustExpressionEvaluatorFailure.class, JSONObject.class).some();
-    private static final JsonProducer<TrustmarkDefinitionRequirement,  JSONObject> jsonProducerForTrustmarkDefinitionRequirement  = jsonManager.findProducerStrict(TrustmarkDefinitionRequirement.class,  JSONObject.class).some();
+    private static final JsonProducer<TrustInteroperabilityProfile,    JSONObject> jsonProducerForTrustInteroperabilityProfile    = new TrustInteroperabilityProfileJsonProducer();
+    private static final JsonProducer<Trustmark,                       JSONObject> jsonProducerForTrustmark                       = new TrustmarkJsonProducer();
+    private static final JsonProducer<TrustExpressionFailure,          JSONObject> jsonProducerForTrustExpressionFailure          = new TrustExpressionFailureJsonProducer();
+    private static final JsonProducer<TrustExpressionEvaluatorFailure, JSONObject> jsonProducerForTrustExpressionEvaluatorFailure = new TrustExpressionEvaluatorFailureJsonProducer();
+    private static final JsonProducer<TrustmarkDefinitionRequirement,  JSONObject> jsonProducerForTrustmarkDefinitionRequirement  = new TrustmarkDefinitionRequirementJsonProducer();
     // @formatter:on
 
     private static final Logger log = LogManager.getLogger(TrustmarkDefinitionRequirementEvaluation.class);

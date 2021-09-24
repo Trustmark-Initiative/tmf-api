@@ -1,11 +1,15 @@
 package edu.gatech.gtri.trustmark.v1_0.impl.io.bulk;
 
+import edu.gatech.gtri.trustmark.v1_0.FactoryLoader;
 import edu.gatech.gtri.trustmark.v1_0.impl.TrustmarkFrameworkConstants;
-import edu.gatech.gtri.trustmark.v1_0.impl.antlr.TrustExpressionUtils;
 import edu.gatech.gtri.trustmark.v1_0.impl.io.TrustInteroperabilityProfileSyntaxException;
 import edu.gatech.gtri.trustmark.v1_0.impl.model.*;
 import edu.gatech.gtri.trustmark.v1_0.io.bulk.BulkReadContext;
 import edu.gatech.gtri.trustmark.v1_0.model.*;
+import edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.TrustExpression;
+import edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.TrustExpressionData;
+import edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.TrustExpressionStringParser;
+import edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.TrustExpressionStringParserFactory;
 import edu.gatech.gtri.trustmark.v1_0.util.TrustExpressionSyntaxException;
 import org.apache.commons.collections4.BidiMap;
 import org.apache.commons.collections4.MultiValuedMap;
@@ -57,6 +61,10 @@ public final class BulkReadRawData {
     private static final String TRUST_SPLIT_REFERENCE_WITH_PARMS = "\\s+AND\\s+|\\s*and\\s+|\\s+OR\\s+|\\s+or\\s+";
     private static final String TD_PARAMETER = "}\\.";
     private static final String TD_OPERATOR = ",|<|>|!=|=";
+
+
+    private static final TrustExpressionStringParserFactory trustExpressionStringParserFactory = FactoryLoader.getInstance(TrustExpressionStringParserFactory.class);
+    private static final TrustExpressionStringParser trustExpressionStringParser = trustExpressionStringParserFactory.createDefaultParser();
 
     ////////////////////////
     // Instance Constants //
@@ -173,7 +181,7 @@ public final class BulkReadRawData {
     private Element getRemoteArtifact(String uri, RawArtifact artifact) throws Exception {
         Element result = this.cachedTdsByUri.get(uri);
         if (result == null) {
-            logger.info("Downloading " + artifact.getArtifactAbbr() + " XML for URI[" + uri + "]...");
+            logger.debug("Downloading " + artifact.getArtifactAbbr() + " XML for URI[" + uri + "]...");
             String xmlUri = uri + (uri.contains("?") ? "&" : "?") + "format=xml";
             try {
                 SAXReader reader = new SAXReader();
@@ -264,7 +272,7 @@ public final class BulkReadRawData {
     //////////////////////////////////////////////////
     
     private void parseRawTds() throws Exception {
-        logger.info("Creating TD information from raw data...");
+        logger.debug("Creating TD information from raw data...");
     
         Map<String, RawTdMetadata> monikerToMetadataMap = new HashMap<>(); // Maps TD monikers to metadata
         MultiValuedMap<String, RawTrustmarkDefinition> monikerToCritStepMultiMap = new ArrayListValuedHashMap<>(); // Moniker -> List of <Criteria, Step> tuples. (either may be blank)
@@ -313,7 +321,7 @@ public final class BulkReadRawData {
                 stepCriteriaMap
             );
     
-            logger.info(String.format(
+            logger.debug(String.format(
                 "    TD %s contains %s criteria, %s assessment steps, and %s sources.",
                 parsedTd.getMetadata().getName(),
                 parsedTd.getConformanceCriteria().size(),
@@ -331,7 +339,7 @@ public final class BulkReadRawData {
             this.listenerCollection.fireSetPercentage(100 * rawTdCurrentIndex / rawTdCount);
         }
 
-        logger.info("Checking that there are no ID or Name/Version collisions...");
+        logger.debug("Checking that there are no ID or Name/Version collisions...");
         for( int i = 0; i < this.parsedTds.size(); i++ ){
             TrustmarkDefinition td1 = this.parsedTds.get(i);
             for( int j = 0; j < this.parsedTds.size() && j < i; j++ ){
@@ -898,7 +906,7 @@ public final class BulkReadRawData {
         int rawTipCount = this.rawTips.size();
         int rawTipCurrentIndex = 0;
 
-        logger.info("Processing " + rawTipCount + " raw TIP rows...");
+        logger.debug("Processing " + rawTipCount + " raw TIP rows...");
         // Fix moniker, version, and ID for Raw TIPs first, so that forward references can use the correct ID/Name/Version info
         for (RawTrustInteroperabilityProfile rawTip : this.rawTips) {
             rawTip.version = BulkImportUtils.defaultTrim(rawTip.version, this.context.getDefaultVersion());
@@ -910,7 +918,7 @@ public final class BulkReadRawData {
         this.parsedTips = new ArrayList<>(rawTipCount);
         for (int i = 0; i < rawTips.size(); i++) {
             RawTrustInteroperabilityProfile rawTip = rawTips.get(i);
-            logger.info(String.format("    Creating TIP{%s} from Row #%s in file[%s]...", rawTip.name, rawTip.rowIndex, rawTip.excelFile));
+            logger.debug(String.format("    Creating TIP{%s} from Row #%s in file[%s]...", rawTip.name, rawTip.rowIndex, rawTip.excelFile));
 
             SortedSet<TermImpl> terms = this.gatherTerms(rawTip);
             TrustInteroperabilityProfileImpl parsedTip = this.assembleTrustInteroperabilityProfile(rawTip, terms);
@@ -926,7 +934,7 @@ public final class BulkReadRawData {
         }
         this.listenerCollection.fireSetPercentage(100);
 
-        logger.info("Checking that there are no ID or Name/Version collisions...");
+        logger.debug("Checking that there are no ID or Name/Version collisions...");
         for( int i = 0; i < parsedTips.size(); i++ ){
             TrustInteroperabilityProfile tip1 = parsedTips.get(i);
 
@@ -946,7 +954,7 @@ public final class BulkReadRawData {
             }
         }
 
-        logger.info("Successfully processed " + this.parsedTips.size() + " tips.");
+        logger.debug("Successfully processed " + this.parsedTips.size() + " tips.");
     }
 
     private TrustInteroperabilityProfileImpl assembleTrustInteroperabilityProfile(
@@ -1004,7 +1012,7 @@ public final class BulkReadRawData {
         RawTrustInteroperabilityProfile rawTip,
         TrustInteroperabilityProfileImpl parsedTip
     ) throws TrustExpressionSyntaxException, TrustInteroperabilityProfileSyntaxException {
-        logger.info(String.format("    Processing TIP References for TIP[%s] %s %s...",
+        logger.debug(String.format("    Processing TIP References for TIP[%s] %s %s...",
                 rawTip.name, rawTip.id.toString(), rawTip.trustExpression));
         if (StringUtils.isBlank(rawTip.trustExpression)) {
             // TODO Fill in from "TIP" columns on other pages.
@@ -1027,7 +1035,7 @@ public final class BulkReadRawData {
                         if(parms.length > 1) {
                             String[] parmNm = BulkImportUtils.defaultTrim(parms[1]).split(TD_OPERATOR);
                             if(!doesTDParameterExist(referencedTdName, BulkImportUtils.defaultTrim(parmNm[0]), this.rawTds))  {
-                                logger.info(String.format("INVALID-PARAMETER-FOUND for TD: [%s] referenced in [%s] , file -> %s\n", parmNm[0], referencedTdName, rawTip.excelFile));
+                                logger.debug(String.format("INVALID-PARAMETER-FOUND for TD: [%s] referenced in [%s] , file -> %s\n", parmNm[0], referencedTdName, rawTip.excelFile));
                                 invalidParameters.add(String.format("Invalid Parameter Found [%s] referenced in TD [%s] TIP [%s}, file: %s\n", parmNm[0], referencedTdName, rawTip.name, rawTip.excelFile));
                             }
                         }
@@ -1159,6 +1167,26 @@ public final class BulkReadRawData {
         }
 
         String te = this.assembleTrustExpression(rawTip.trustExpression, TD_TO_XMLID_MAPPING, TIP_TO_XMLID_MAPPING);
+
+        try {
+            TrustExpression<TrustExpressionData> trustExpressionDataTrustExpression =
+                    trustExpressionStringParser.parse(te);
+        } catch (org.jparsec.error.ParserException pe){
+            String errorMsssage = String.format(
+                    "Could not parse Trust Expression in TIP: [%s] in File: [%s], Line #%s.<br/>" +
+                            "Trust Expression: <b>%s</b><br/>" +
+                            "Parse Exception: <i>%s</i>",
+                    rawTip.name,
+                    rawTip.excelFile,
+                    rawTip.rowIndex,
+                    te,
+                    pe.getLocalizedMessage().split(", edu.gatech")[0]);
+            logger.error("**** ERROR - " + errorMsssage);
+            exceptionList.add(new TrustInteroperabilityProfileSyntaxException(
+                    errorMsssage, rawTip.excelFile));
+            throw exceptionList.get(0);
+        }
+
         parsedTip.setTrustExpression(te);
 
         // check the grammar of the Trust Expression
@@ -1170,8 +1198,8 @@ public final class BulkReadRawData {
 //        }
 
         // Finished
-        logger.info("    TIP[" + rawTip.moniker + " : " + rawTip.name + "] has " + referencedTds.size() + " TD references.");
-        logger.info("    TIP[" + rawTip.moniker + " : " + rawTip.name + "] has " + referencedTips.size() + " TIP references.");
+        logger.debug("    TIP[" + rawTip.moniker + " : " + rawTip.name + "] has " + referencedTds.size() + " TD references.");
+        logger.debug("    TIP[" + rawTip.moniker + " : " + rawTip.name + "] has " + referencedTips.size() + " TIP references.");
     }
 
     /**

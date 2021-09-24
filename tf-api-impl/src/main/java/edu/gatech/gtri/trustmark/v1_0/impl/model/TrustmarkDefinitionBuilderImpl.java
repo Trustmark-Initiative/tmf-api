@@ -92,7 +92,7 @@ public class TrustmarkDefinitionBuilderImpl extends AbstractBuilderImpl implemen
 
     @Override
     public TrustmarkDefinition buildWithNoValidation() {
-        log.info("Building trustmark definition with no validation [MAY BE INVALID]...");
+        log.debug("Building trustmark definition with no validation [MAY BE INVALID]...");
         return this.trustmarkDefinition;
     }
 

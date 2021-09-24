@@ -191,13 +191,13 @@ public class XmlSignatureImpl {
         if (coreValidity == false) {
             log.warn("Signature failed core validation");
             boolean sv = signature.getSignatureValue().validate(valContext);
-            log.info(String.format("signature validation status: ", sv));
+            log.debug(String.format("signature validation status: ", sv));
 
             // check the validation status of each Reference
             Iterator i = signature.getSignedInfo().getReferences().iterator();
             for (int j=0; i.hasNext(); j++) {
                 boolean refValid = ((Reference) i.next()).validate(valContext);
-                log.info(String.format("ref[\"+j+\"] validity status: ", refValid));
+                log.debug(String.format("ref[\"+j+\"] validity status: ", refValid));
             }
         } else {
             log.warn("Signature passed core validation");

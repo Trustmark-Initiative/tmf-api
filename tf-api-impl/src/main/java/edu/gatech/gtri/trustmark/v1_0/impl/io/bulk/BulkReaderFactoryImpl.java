@@ -26,7 +26,7 @@ public class BulkReaderFactoryImpl implements BulkReaderFactory {
     @Override
     public BulkReader createBulkReader(File... inputFiles) {
         BulkReader reader = null;
-        logger.info("Creating BulkReader from list of files...");
+        logger.debug("Creating BulkReader from list of files...");
         if( logger.isDebugEnabled() ){
             if( inputFiles != null && inputFiles.length > 0 ){
                 for( File f : inputFiles ){

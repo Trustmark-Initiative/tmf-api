@@ -80,7 +80,8 @@ public class TrustInteroperabilityProfileJsonDiffImpl extends AbstractJsonDiff<T
             ),
             
             // ignored fields
-            JsonDiffField.valueIgnore("PublicationDateTime")
+            JsonDiffField.valueIgnore("PublicationDateTime"),
+            JsonDiffField.valueIgnore("$id")
         );
     }
 }

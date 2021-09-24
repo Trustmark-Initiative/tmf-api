@@ -10,8 +10,8 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -38,7 +38,7 @@ public abstract class AbstractHtmlSerializer extends AbstractSerializer {
     public AbstractHtmlSerializer(String name, String description, String mimeType) {
         super(name, description, mimeType);
         try{
-            log.info("Configuring Freemarker...");
+            log.debug("Configuring Freemarker...");
 
             Configuration cfg = new Configuration(Configuration.VERSION_2_3_23);
             cfg.setDefaultEncoding("UTF-8");
@@ -57,7 +57,7 @@ public abstract class AbstractHtmlSerializer extends AbstractSerializer {
     protected void executeTemplate(Map model, String templateName, Writer writer) throws IOException {
         Template template = freemarker.getTemplate(templateName);
         try {
-            log.info("Executing freemarker template: "+templateName);
+            log.debug("Executing freemarker template: " + templateName);
             StringWriter transientWriter = new StringWriter();
             template.process(model, transientWriter);
             String output = transientWriter.toString();

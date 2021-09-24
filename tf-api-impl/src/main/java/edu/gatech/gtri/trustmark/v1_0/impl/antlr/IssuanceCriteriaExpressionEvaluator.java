@@ -66,7 +66,7 @@ public class IssuanceCriteriaExpressionEvaluator extends IssuanceCriteriaListene
             this.hasError = true;
             this.error = "Expected root expression to have a boolean value, but it was null";
         }else{
-            log.info("Expression evaluated to "+this.satisfied);
+            log.debug("Expression evaluated to "+this.satisfied);
         }
     }
 
@@ -102,7 +102,7 @@ public class IssuanceCriteriaExpressionEvaluator extends IssuanceCriteriaListene
             log.debug("   NOT("+embeddedExprValue+") = "+(!embeddedExprValue));
             expressionEvaluations.put(ctx, !embeddedExprValue);
         }else{
-            log.info("exitExpression()");
+            log.debug("exitExpression()");
         }
     }
 

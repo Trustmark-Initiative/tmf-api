@@ -96,7 +96,7 @@ public class XmlHelper {
             throw new ParseException("An unexpected IO error occurred validating the document!", ioe);
         }
 
-        log.info("XML is valid to schema.");
+        log.debug("XML is valid to schema.");
     }//end validateXml()
 
 

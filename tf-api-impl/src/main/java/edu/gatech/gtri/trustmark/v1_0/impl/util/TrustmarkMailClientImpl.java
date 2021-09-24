@@ -41,6 +41,7 @@ public class TrustmarkMailClientImpl implements TrustmarkMailClient {
     private String host;
     private String fromAddress;
     private boolean authorize = true;
+    private long timeout;
 
     private Object content;
     private String type;
@@ -85,6 +86,13 @@ public class TrustmarkMailClientImpl implements TrustmarkMailClient {
     public TrustmarkMailClient setSmtpPort(String port) {
         log.debug(String.format("TrustmarkMailClientImpl.setPort %s", port));
         mailProps.put("mail.smtp.port", port);
+        return this;
+    }
+
+    @Override
+    public TrustmarkMailClient setSmtpTimeout(final long timeout) {
+        log.debug(String.format("TrustmarkMailClientImpl.setSmtpTimeout %s", timeout));
+        mailProps.put("mail.smtp.timeout", String.valueOf(timeout));
         return this;
     }
 
@@ -167,7 +175,7 @@ public class TrustmarkMailClientImpl implements TrustmarkMailClient {
     public void sendMail() {
         log.debug(printMailProps());
 
-        Session session = Session.getDefaultInstance(mailProps,
+        Session session = Session.getInstance(mailProps,
                 new Authenticator() {
                     protected PasswordAuthentication getPasswordAuthentication() {
                         return new PasswordAuthentication(user, pswd);

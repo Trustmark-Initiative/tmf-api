@@ -20,7 +20,7 @@ public class LSResourceResolverImpl implements LSResourceResolver {
 
     @Override
     public LSInput resolveResource(String type, String namespaceURI, String publicId, String systemId, String baseURI) {
-        log.info("Returning resource "+publicId+", " + systemId+", "+namespaceURI+", "+type);
+        log.debug("Returning resource "+publicId+", " + systemId+", "+namespaceURI+", "+type);
         if( namespaceURI.equals(XmlConstants.XML_SIG_NAMESPACE_URI) ) {
             log.debug("Encountered XML Digital signature namespace, returning that...");
             String contentString = readString(XmlConstants.XML_SIG_SCHEMA_PATH);

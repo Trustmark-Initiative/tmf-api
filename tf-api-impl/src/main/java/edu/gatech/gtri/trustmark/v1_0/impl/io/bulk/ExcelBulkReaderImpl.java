@@ -65,7 +65,7 @@ public class ExcelBulkReaderImpl extends AbstractBulkReader implements ExcelBulk
     
     @Override
     protected void addRawDataFromFile(BulkReadRawData allRawData, File inputFile, int inputFileIndex, Collection<File> allFiles) throws Exception {
-        logger.info(String.format("Processing Excel File[%s] for raw data...", inputFile.getName()));
+        logger.debug(String.format("Processing Excel File[%s] for raw data...", inputFile.getName()));
         Workbook excelWorkbook = WorkbookFactory.create(inputFile);
         
         if (excelWorkbook != null) {
@@ -95,7 +95,7 @@ public class ExcelBulkReaderImpl extends AbstractBulkReader implements ExcelBulk
             List<RawTrustInteroperabilityProfile> rawTips = this.getItemsFromWorkbook(GET_TIPS, inputFile, excelWorkbook, afterTdBeforeTipPercentage, endPercentage);
             allRawData.addRawTips(rawTips);
             
-            logger.info(String.format(
+            logger.debug(String.format(
                 "Finished processing Excel File ['%s']!  Found %s raw TDs, and %s raw TIPs.",
                 inputFile.getName(),
                 rawTds.size(),
@@ -634,10 +634,10 @@ public class ExcelBulkReaderImpl extends AbstractBulkReader implements ExcelBulk
                 rawTip.sources.putAll(this.SOURCES.getFor(row));
                 rawTip.keywords.addAll(this.KEYWORDS.getFor(row));
 
-                logger.info(String.format("    TIP Row #%s has TIP: %s", row.getRowNum() + 1, name));
+                logger.debug(String.format("    TIP Row #%s has TIP: %s", row.getRowNum() + 1, name));
                 // TODO: There are other columns in the spreadsheet, figure those out later.
             } else {
-                logger.info(String.format(
+                logger.debug(String.format(
                     "    TIP Row #%s [sheet %s] has no valid name; must not be a TIP metadata row.",
                     row.getRowNum() + 1,
                     this.sheet.getSheetName()

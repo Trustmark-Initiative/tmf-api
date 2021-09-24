@@ -43,7 +43,7 @@ public class ConformanceCritTDDiff extends AbstractTDDiff {
         log.debug("There are "+inBoth.size()+" criteria which overlap.");
 
         if( inBoth.size() == 0 ){
-            log.info("Since there are no criteria which overlap, we prematurely end criteria diff calculations and throw a Completely Different message.");
+            log.debug("Since there are no criteria which overlap, we prematurely end criteria diff calculations and throw a Completely Different message.");
             TrustmarkDefinitionDiffResultImpl result = new TrustmarkDefinitionDiffResultImpl(
                     TrustmarkDefinitionDiffType.CRITERIA_COMPLETELY_DIFFERENT, DiffSeverity.MAJOR,
                     "conformanceCriteria", "The conformance criteria between TD1 and TD2 have no recognized similarities at all.");

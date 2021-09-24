@@ -57,7 +57,7 @@ public class DaoManagerImpl implements DaoManager {
      * Initializes the system.  For example, checks the data source, makes sure the schema is good, etc.
      */
     private void _init(){
-        log.info("Initializing new DaoManagerImpl...");
+        log.debug("Initializing new DaoManagerImpl...");
 
         log.debug("Connecting using ORMLite...");
         try{
@@ -66,7 +66,7 @@ public class DaoManagerImpl implements DaoManager {
             throw new RuntimeException("Cannot initialize connection from data source!", sqle);
         }
 
-        log.info("Creating caching tables...");
+        log.debug("Creating caching tables...");
         this.createTablesIfNecessary();
 
     }//end _init();

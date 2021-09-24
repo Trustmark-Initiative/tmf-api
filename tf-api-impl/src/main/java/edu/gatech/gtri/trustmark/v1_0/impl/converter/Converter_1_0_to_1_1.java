@@ -77,7 +77,7 @@ public class Converter_1_0_to_1_1 implements Converter {
                     QName elementName = startElementEvent.getName();
                     if( elementName.getNamespaceURI().equals(NS_URI_10) ){
                         if( isSupportedElement(elementName.getLocalPart()) ){
-                            log.info("File["+file.getName()+"] is supported, as it is ["+elementName.getNamespaceURI()+"]: "+elementName.getLocalPart());
+                            log.debug("File["+file.getName()+"] is supported, as it is ["+elementName.getNamespaceURI()+"]: "+elementName.getLocalPart());
                             supports = true;
                         }else{
                             log.warn("File["+file.getName()+"] is not supported, as it's root element is ["+elementName.getLocalPart()+"] which is not supported.");

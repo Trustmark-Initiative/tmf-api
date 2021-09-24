@@ -1,6 +1,7 @@
 package edu.gatech.gtri.trustmark.v1_0.impl.io.json.producers;
 
 import edu.gatech.gtri.trustmark.v1_0.FactoryLoader;
+import edu.gatech.gtri.trustmark.v1_0.impl.io.IdUtility;
 import edu.gatech.gtri.trustmark.v1_0.io.json.JsonManager;
 import edu.gatech.gtri.trustmark.v1_0.io.json.JsonProducer;
 import edu.gatech.gtri.trustmark.v1_0.model.Entity;
@@ -27,8 +28,8 @@ import static org.gtri.fj.data.Option.fromString;
 public class TrustmarkDefinitionRequirementJsonProducer implements JsonProducer<TrustmarkDefinitionRequirement, JSONObject> {
 
     private static final JsonManager jsonManager = FactoryLoader.getInstance(JsonManager.class);
-    private static final JsonProducer<TrustmarkFrameworkIdentifiedObject, JSONObject> jsonProducerForTrustmarkFrameworkIdentifiedObject = jsonManager.findProducerStrict(TrustmarkFrameworkIdentifiedObject.class, JSONObject.class).some();
-    private static final JsonProducer<Entity, JSONObject> jsonProducerForEntity = jsonManager.findProducerStrict(Entity.class, JSONObject.class).some();
+    private static final JsonProducer<TrustmarkFrameworkIdentifiedObject, JSONObject> jsonProducerForTrustmarkFrameworkIdentifiedObject = new TrustmarkFrameworkIdentifiedObjectJsonProducer();
+    private static final JsonProducer<Entity, JSONObject> jsonProducerForEntity = new EntityJsonProducer();
 
     private static final Logger log = LogManager.getLogger(TrustmarkDefinitionRequirementJsonProducer.class);
 
@@ -48,7 +49,7 @@ public class TrustmarkDefinitionRequirementJsonProducer implements JsonProducer<
 
         return new JSONObject(new HashMap<String, Object>() {{
             putAll(jsonProducerForTrustmarkFrameworkIdentifiedObject.serialize(trustmarkDefinitionRequirement).toMap());
-            put("$id", trustmarkDefinitionRequirement.getId());
+            put("$id", trustmarkDefinitionRequirement.getId() == null ? IdUtility.trustmarkDefinitionId() : trustmarkDefinitionRequirement.getId());
             put("$Type", "TrustmarkDefinitionRequirement");
             put("TrustmarkDefinitionReference", serializeTrustmarkDefinitionReference(trustmarkDefinitionRequirement));
             if(trustmarkDefinitionRequirement.getProviderReferences() != null && !trustmarkDefinitionRequirement.getProviderReferences().isEmpty()) {
