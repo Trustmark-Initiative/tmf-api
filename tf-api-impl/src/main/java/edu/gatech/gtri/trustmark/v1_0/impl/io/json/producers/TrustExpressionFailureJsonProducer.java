@@ -35,8 +35,8 @@ import static java.util.Objects.requireNonNull;
 public class TrustExpressionFailureJsonProducer implements JsonProducer<TrustExpressionFailure, JSONObject> {
 
     private static final JsonManager jsonManager = FactoryLoader.getInstance(JsonManager.class);
-    private static final JsonProducer<TrustInteroperabilityProfile, JSONObject> jsonProducerForTrustInteroperabilityProfile = jsonManager.findProducerStrict(TrustInteroperabilityProfile.class, JSONObject.class).some();
-    private static final JsonProducer<TrustmarkDefinitionRequirement, JSONObject> jsonProducerForTrustmarkDefinitionRequirement = jsonManager.findProducerStrict(TrustmarkDefinitionRequirement.class, JSONObject.class).some();
+    private static final JsonProducer<TrustInteroperabilityProfile, JSONObject> jsonProducerForTrustInteroperabilityProfile = new TrustInteroperabilityProfileJsonProducer();
+    private static final JsonProducer<TrustmarkDefinitionRequirement, JSONObject> jsonProducerForTrustmarkDefinitionRequirement = new TrustmarkDefinitionRequirementJsonProducer();
 
     @Override
     public Class<TrustExpressionFailure> getSupportedType() {

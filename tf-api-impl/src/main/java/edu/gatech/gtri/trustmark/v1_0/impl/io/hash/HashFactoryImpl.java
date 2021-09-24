@@ -4,7 +4,6 @@ import edu.gatech.gtri.trustmark.v1_0.FactoryLoader;
 import edu.gatech.gtri.trustmark.v1_0.impl.io.xml.SerializerXml;
 import edu.gatech.gtri.trustmark.v1_0.impl.model.TrustInteroperabilityProfileImpl;
 import edu.gatech.gtri.trustmark.v1_0.impl.model.TrustmarkDefinitionImpl;
-import edu.gatech.gtri.trustmark.v1_0.impl.model.TrustmarkImpl;
 import edu.gatech.gtri.trustmark.v1_0.impl.model.TrustmarkStatusReportImpl;
 import edu.gatech.gtri.trustmark.v1_0.io.TrustInteroperabilityProfileResolver;
 import edu.gatech.gtri.trustmark.v1_0.io.TrustmarkDefinitionResolver;
@@ -117,11 +116,21 @@ public final class HashFactoryImpl implements HashFactory {
     private <T1 extends OutputStream> Validation<NonEmptyList<Exception>, T1> serialize(final TrustmarkDefinition trustmarkDefinition, final T1 outputStream) {
 
         return Try.<T1, Exception>f(() -> {
-            //
+            // TODO: Currently, artifacts ids change every time they're requested; when that changes, the setters below can be removed as well.
+            final String id = trustmarkDefinition.getId();
+            final String originalSource = trustmarkDefinition.getOriginalSource();
+            final String originalSourceType = trustmarkDefinition.getOriginalSourceType();
+
             ((TrustmarkDefinitionImpl) trustmarkDefinition).setId("");
             ((TrustmarkDefinitionImpl) trustmarkDefinition).setOriginalSource(null);
             ((TrustmarkDefinitionImpl) trustmarkDefinition).setOriginalSourceType(null);
+
             serializerXml.serialize(trustmarkDefinition, outputStream);
+
+            ((TrustmarkDefinitionImpl) trustmarkDefinition).setId(id);
+            ((TrustmarkDefinitionImpl) trustmarkDefinition).setOriginalSource(originalSource);
+            ((TrustmarkDefinitionImpl) trustmarkDefinition).setOriginalSourceType(originalSourceType);
+
             return outputStream;
         })._1().f().map(NonEmptyList::nel);
     }
@@ -129,9 +138,6 @@ public final class HashFactoryImpl implements HashFactory {
     private <T1 extends OutputStream> Validation<NonEmptyList<Exception>, T1> serialize(final Trustmark trustmark, final T1 outputStream) {
 
         return Try.<T1, Exception>f(() -> {
-            ((TrustmarkImpl) trustmark).setId("");
-            ((TrustmarkImpl) trustmark).setOriginalSource(null);
-            ((TrustmarkImpl) trustmark).setOriginalSourceType(null);
             serializerXml.serialize(trustmark, outputStream);
             return outputStream;
         })._1().f().map(NonEmptyList::nel);
@@ -140,10 +146,21 @@ public final class HashFactoryImpl implements HashFactory {
     private <T1 extends OutputStream> Validation<NonEmptyList<Exception>, T1> serialize(final TrustmarkStatusReport trustmarkStatusReport, final T1 outputStream) {
 
         return Try.<T1, Exception>f(() -> {
+            // TODO: Currently, artifacts ids change every time they're requested; when that changes, the setters below can be removed as well.
+            final String id = trustmarkStatusReport.getId();
+            final String originalSource = trustmarkStatusReport.getOriginalSource();
+            final String originalSourceType = trustmarkStatusReport.getOriginalSourceType();
+
             ((TrustmarkStatusReportImpl) trustmarkStatusReport).setId("");
             ((TrustmarkStatusReportImpl) trustmarkStatusReport).setOriginalSource(null);
             ((TrustmarkStatusReportImpl) trustmarkStatusReport).setOriginalSourceType(null);
+
             serializerXml.serialize(trustmarkStatusReport, outputStream);
+
+            ((TrustmarkStatusReportImpl) trustmarkStatusReport).setId(id);
+            ((TrustmarkStatusReportImpl) trustmarkStatusReport).setOriginalSource(originalSource);
+            ((TrustmarkStatusReportImpl) trustmarkStatusReport).setOriginalSourceType(originalSourceType);
+
             return outputStream;
         })._1().f().map(NonEmptyList::nel);
     }
@@ -172,10 +189,21 @@ public final class HashFactoryImpl implements HashFactory {
     private <T1 extends OutputStream> Validation<NonEmptyList<Exception>, T1> serialize(final TrustInteroperabilityProfile trustInteroperabilityProfile, final T1 outputStream) {
 
         return Try.<T1, Exception>f(() -> {
+            // TODO: Currently, artifacts ids change every time they're requested; when that changes, the setters below can be removed as well.
+            final String id = trustInteroperabilityProfile.getId();
+            final String originalSource = trustInteroperabilityProfile.getOriginalSource();
+            final String originalSourceType = trustInteroperabilityProfile.getOriginalSourceType();
+
             ((TrustInteroperabilityProfileImpl) trustInteroperabilityProfile).setId("");
             ((TrustInteroperabilityProfileImpl) trustInteroperabilityProfile).setOriginalSource(null);
             ((TrustInteroperabilityProfileImpl) trustInteroperabilityProfile).setOriginalSourceType(null);
+
             serializerXml.serialize(trustInteroperabilityProfile, outputStream);
+
+            ((TrustInteroperabilityProfileImpl) trustInteroperabilityProfile).setId(id);
+            ((TrustInteroperabilityProfileImpl) trustInteroperabilityProfile).setOriginalSource(originalSource);
+            ((TrustInteroperabilityProfileImpl) trustInteroperabilityProfile).setOriginalSourceType(originalSourceType);
+
             return outputStream;
         })._1().f().map(NonEmptyList::nel);
     }

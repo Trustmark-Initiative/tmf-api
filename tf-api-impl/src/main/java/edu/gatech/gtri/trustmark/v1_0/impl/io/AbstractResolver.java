@@ -3,8 +3,8 @@ package edu.gatech.gtri.trustmark.v1_0.impl.io;
 import edu.gatech.gtri.trustmark.v1_0.io.ParseException;
 import edu.gatech.gtri.trustmark.v1_0.io.ResolveException;
 import org.apache.commons.io.IOUtils;
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.gtri.fj.function.Try1;
 
 import java.io.File;
@@ -124,7 +124,7 @@ public abstract class AbstractResolver<T0> {
         requireNonNull(string);
         final boolean validate = validateNullable == null ? false : validateNullable;
 
-        log.info(validate ?
+        log.debug(validate ?
                 "Reading and validating an entity from a string ..." :
                 "Reading an entity from a string ...");
 

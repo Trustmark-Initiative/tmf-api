@@ -7,6 +7,8 @@ import org.apache.logging.log4j.LogManager;
 
 import java.util.*;
 
+import static java.lang.String.format;
+
 /**
  * Created by Nicholas on 09/19/2016.
  */
@@ -57,7 +59,7 @@ public abstract class AbstractTypeSpecificComponentManager<C extends TypeSpecifi
     @Override
     public void register(C component) {
         synchronized (this.componentCacheLock) {
-            log.info("Registering component[" + component.getClass().getName() + "] to handle type[" + component.getSupportedType().getName() + "]...");
+            log.info(format("Registering component '%s' to handle type '%s' ...", component.getClass().getName(), component.getSupportedType().getName()));
             this.componentCache.put(component.getSupportedType(), component);
         }
     }
@@ -67,7 +69,7 @@ public abstract class AbstractTypeSpecificComponentManager<C extends TypeSpecifi
         synchronized (this.componentCacheLock) {
             C cached = this.findComponent(component.getSupportedType());
             if (cached.equals(component)) {
-                log.info("Unregistering component[" + component.getClass().getName() + "]...");
+                log.info(format("Unregistering component '%s' ...", component.getClass().getName()));
                 this.componentCache.remove(component.getSupportedType());
             }
         }

@@ -2,8 +2,8 @@ package edu.gatech.gtri.trustmark.v1_0.impl.io.json;
 
 import edu.gatech.gtri.trustmark.v1_0.io.json.JsonManager;
 import edu.gatech.gtri.trustmark.v1_0.io.json.JsonProducer;
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.gtri.fj.data.HashMap;
 import org.gtri.fj.data.Option;
 import org.gtri.fj.product.P2;
@@ -11,10 +11,10 @@ import org.gtri.fj.product.P2;
 import java.util.ServiceLoader;
 
 import static edu.gatech.gtri.trustmark.v1_0.impl.io.ManagerUtility.getClassAndAncestorList;
+import static java.lang.String.format;
 import static java.util.Objects.requireNonNull;
 import static org.gtri.fj.data.HashMap.hashMap;
 import static org.gtri.fj.data.List.iteratorList;
-import static org.gtri.fj.data.List.list;
 import static org.gtri.fj.product.P.p;
 
 public class JsonManagerImpl implements JsonManager {
@@ -74,7 +74,7 @@ public class JsonManagerImpl implements JsonManager {
 
         requireNonNull(jsonProducer);
 
-        log.debug("Registering JsonProducer for " + jsonProducer.getClass().getName() + " (" + jsonProducer.getSupportedType().getName() + ", " + jsonProducer.getSupportedTypeOutput().getName() + ") ...");
+        log.info("Registering JsonProducer for %s (%s, %s) ...", jsonProducer.getClass().getName(), jsonProducer.getSupportedType().getName(), jsonProducer.getSupportedTypeOutput().getName());
 
         this.jsonProducerCache.set(p(jsonProducer.getSupportedType(), jsonProducer.getSupportedTypeOutput()), jsonProducer);
     }
@@ -87,7 +87,7 @@ public class JsonManagerImpl implements JsonManager {
 
         this.findProducerStrict(jsonProducer.getSupportedType(), jsonProducer.getSupportedTypeOutput()).forEach(jsonProducerCached -> {
             if (jsonProducerCached.equals(jsonProducer)) {
-                log.info("Unregistering JsonProducer for " + jsonProducer.getClass().getName() + " (" + jsonProducer.getSupportedType().getName() + ", " + jsonProducer.getSupportedTypeOutput().getName() + ") ...");
+                log.info(format("Unregistering JsonProducer for %s (%s, %s) ...", jsonProducer.getClass().getName(), jsonProducer.getSupportedType().getName(), jsonProducer.getSupportedTypeOutput().getName()));
 
                 this.jsonProducerCache.delete(p(jsonProducer.getSupportedType(), jsonProducer.getSupportedTypeOutput()));
             }

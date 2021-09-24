@@ -100,8 +100,10 @@ public class TrustmarkDefinitionJsonDiffImpl extends AbstractJsonDiff<TrustmarkD
                 DiffSeverity.MINOR,
                 JsonDiffField.valueExact("Identifier"),
                 JsonDiffField.valueDistance("Reference")
-            )
-            
+            ),
+
+            // ignored fields
+            JsonDiffField.valueIgnore("$id")
         );
     }
 }

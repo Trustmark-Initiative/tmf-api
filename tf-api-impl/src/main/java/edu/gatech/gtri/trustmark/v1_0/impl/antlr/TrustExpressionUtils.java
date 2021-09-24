@@ -33,7 +33,7 @@ public class TrustExpressionUtils {
 
         throwFirstError(errorListener);
 
-        logger.info("Valid Trust Expression: "+trustExpression);
+        logger.debug("Valid Trust Expression: "+trustExpression);
     }
 
     public static void validateWithBindings(String trustExpression, List<String> bindingVars) throws TrustExpressionSyntaxException, TrustExpressionHasUndeclaredIdException {

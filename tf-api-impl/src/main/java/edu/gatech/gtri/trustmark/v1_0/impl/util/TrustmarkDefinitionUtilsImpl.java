@@ -104,12 +104,12 @@ public class TrustmarkDefinitionUtilsImpl implements TrustmarkDefinitionUtils {
             results.add(new ValidationResultImpl(ValidationSeverity.WARNING, "There are no TrustmarkDefinitionValidators defined in the system."));
 
         if( results.size() > 0 ) {
-            log.info(String.format("Validating TD[%s] results in %d results:", td.getMetadata().getIdentifier(), results.size()));
+            log.debug(String.format("Validating TD[%s] results in %d results:", td.getMetadata().getIdentifier(), results.size()));
             for( ValidationResult result : results ){
-                log.info("  "+result.toString());
+                log.debug("  "+result.toString());
             }
         }else{
-            log.info(String.format("Validating TD[%s] looks clean!", td.getMetadata().getIdentifier()));
+            log.debug(String.format("Validating TD[%s] looks clean!", td.getMetadata().getIdentifier()));
         }
         return results;
     }
@@ -124,7 +124,7 @@ public class TrustmarkDefinitionUtilsImpl implements TrustmarkDefinitionUtils {
 
     @Override
     public Collection<TrustmarkDefinitionDiffResult> diff(TrustmarkDefinition td1, TrustmarkDefinition td2) {
-        log.info(String.format("Finding the difference of TD1[%s] and TD2[%s]...", td1.getMetadata().getIdentifier().toString(), td2.getMetadata().getIdentifier().toString()));
+        log.debug(String.format("Finding the difference of TD1[%s] and TD2[%s]...", td1.getMetadata().getIdentifier().toString(), td2.getMetadata().getIdentifier().toString()));
         ArrayList<TrustmarkDefinitionDiffResult> results = new ArrayList<>();
 
         ServiceLoader<TrustmarkDefinitionDiff> loader = ServiceLoader.load(TrustmarkDefinitionDiff.class);
@@ -134,7 +134,7 @@ public class TrustmarkDefinitionUtilsImpl implements TrustmarkDefinitionUtils {
             try{
                 log.debug("Executing "+diffEngine.getClass().getName()+".doDiff('"+td2.getMetadata().getIdentifier()+"', '"+td2.getMetadata().getIdentifier()+"')...");
                 Collection<TrustmarkDefinitionDiffResult> currentResults = diffEngine.doDiff(td1, td2);
-                log.info(String.format("Executing TDDifference[%s] results in %d differences.", diffEngine.getClass().getName(), currentResults.size()));
+                log.debug(String.format("Executing TDDifference[%s] results in %d differences.", diffEngine.getClass().getName(), currentResults.size()));
                 results.addAll(currentResults);
             }catch(Throwable t){
                 log.error("Error executing TrustmarkDefinitionDiff["+diffEngine.getClass().getName()+"]", t);

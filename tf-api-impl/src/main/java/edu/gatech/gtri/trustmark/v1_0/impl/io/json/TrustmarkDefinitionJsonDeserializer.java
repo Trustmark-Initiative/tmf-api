@@ -163,7 +163,7 @@ public class TrustmarkDefinitionJsonDeserializer extends AbstractDeserializer {
 
         td.setIssuanceCriteria(getString(jsonObject, "IssuanceCriteria", true));
 
-        log.info("The JSON TD was successfully deserialized.");
+        log.debug("The JSON TD was successfully deserialized.");
         return td;
     }//end deserialize
 

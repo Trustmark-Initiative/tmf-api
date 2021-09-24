@@ -283,7 +283,7 @@ public class TrustmarkFrameworkServiceImpl implements TrustmarkFrameworkService 
                                 String size = latestDownloadInfoJson.optString("humanSize");
                                 String downloadUrl = latestDownloadInfoJson.optString("url");
 
-                                log.info("The server has successfully built a zip that is size("+size+"), located at: "+downloadUrl);
+                                log.debug("The server has successfully built a zip that is size("+size+"), located at: "+downloadUrl);
                                 byte[] data = FactoryLoader.getInstance(NetworkDownloader.class).download(new URL(downloadUrl)).getBinaryContent();
 
                                 File downloadZip = File.createTempFile("downloadAll-", ".zip");
@@ -292,7 +292,7 @@ public class TrustmarkFrameworkServiceImpl implements TrustmarkFrameworkService 
                                 fout.flush();
                                 fout.close();
 
-                                log.info("Successfully wrote "+size+" to temp file "+downloadZip.getPath()+", notifying all listeners...");
+                                log.debug("Successfully wrote "+size+" to temp file "+downloadZip.getPath()+", notifying all listeners...");
                                 fireDownloadAllComplete(latestDownloadInfoJson, downloadZip, fListeners);
 
                                 monitoring = false; // Stop monitoring, we are finished.
@@ -422,7 +422,7 @@ public class TrustmarkFrameworkServiceImpl implements TrustmarkFrameworkService 
     
     @Override
     public RemoteSearchResult search(String text) throws RemoteException {
-        log.info("Request to search on @|green "+text+"|@");
+        log.debug("Request to search on @|green "+text+"|@");
 
         String searchUrlString = getBaseUrl().toString();
         if( searchUrlString.endsWith("/") ){

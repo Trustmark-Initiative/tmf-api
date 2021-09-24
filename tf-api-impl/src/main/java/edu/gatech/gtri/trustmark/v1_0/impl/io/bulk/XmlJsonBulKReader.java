@@ -117,7 +117,7 @@ public class XmlJsonBulKReader implements BulkReader {
         if( context != null ) {
             bulkReadListenerDelegator.setMessage("Processing TDs...");
             bulkReadListenerDelegator.setPercentage(0);
-            log.info("Context is not null, so we are updating all TDs...");
+            log.debug("Context is not null, so we are updating all TDs...");
             for (int tdIndex = 0; tdIndex < tds.size(); tdIndex++ ) {
                 TrustmarkDefinition td = tds.get(tdIndex);
                 log.debug("TD["+td.getMetadata().getName()+", v"+td.getMetadata().getVersion()+"] is having values overridden using context...");
@@ -188,7 +188,7 @@ public class XmlJsonBulKReader implements BulkReader {
             List<URI> notLocalUris = new ArrayList<>();
             bulkReadListenerDelegator.setMessage("Processing TIPs...");
             bulkReadListenerDelegator.setPercentage(0);
-            log.info("Context is not null, so we are updating all TIPs...");
+            log.debug("Context is not null, so we are updating all TIPs...");
             for (int tipIndex = 0; tipIndex < tips.size(); tipIndex++ ) {
                 TrustInteroperabilityProfile tip = tips.get(tipIndex);
                 log.debug("TIP["+tip.getName()+", v"+tip.getVersion()+"] is having values overridden using context...");
@@ -259,12 +259,12 @@ public class XmlJsonBulKReader implements BulkReader {
             }
 
             if( notLocalUrisByTip.size() > 0 ) {
-                log.info("Found @|green "+notLocalUris.size()+"|@ Remote URIs:");
+                log.debug("Found @|green "+notLocalUris.size()+"|@ Remote URIs:");
                 for( URI containingTipUri : notLocalUrisByTip.keySet() ){
                     List<URI> notLocalUrisForThisTIP = notLocalUrisByTip.get(containingTipUri);
-                    log.info("  -> Containing TIP[@|cyan "+containingTipUri+"|@] has @|green "+notLocalUrisForThisTIP.size()+"|@ remote references: ");
+                    log.debug("  -> Containing TIP[@|cyan "+containingTipUri+"|@] has @|green "+notLocalUrisForThisTIP.size()+"|@ remote references: ");
                     for( URI uri : notLocalUrisForThisTIP ) {
-                        log.info("    -> URI: @|yellow " + uri + "|@");
+                        log.debug("    -> URI: @|yellow " + uri + "|@");
                     }
                 }
             }
@@ -300,16 +300,16 @@ public class XmlJsonBulKReader implements BulkReader {
     public Boolean supports(List<File> inputFiles) {
         List<String> extensions = collectUniqueExtensions(inputFiles);
         if( extensions.size() > 1 ){
-            log.info("There is more than 1 extension used by these files, so they are @|yellow not supported|@ for import by "+this.getClass().getSimpleName()+".  You must have all files be either JSON or XML.");
+            log.debug("There is more than 1 extension used by these files, so they are @|yellow not supported|@ for import by "+this.getClass().getSimpleName()+".  You must have all files be either JSON or XML.");
             return false;
         }
 
         if( extensions.get(0).equalsIgnoreCase("xml") || extensions.get(0).equalsIgnoreCase("json") ){
-            log.info("@|green Supported|@!  This collection of files is exclusively @|cyan "+extensions.get(0)+"|@, so "+this.getClass().getSimpleName()+" can import them.");
+            log.debug("@|green Supported|@!  This collection of files is exclusively @|cyan "+extensions.get(0)+"|@, so "+this.getClass().getSimpleName()+" can import them.");
             return true;
         }
 
-        log.info("These files are @|yellow not supported|@ because extension @|red "+extensions.get(0)+"|@ is not something "+this.getClass().getSimpleName()+" knows how to import.");
+        log.debug("These files are @|yellow not supported|@ because extension @|red "+extensions.get(0)+"|@ is not something "+this.getClass().getSimpleName()+" knows how to import.");
         return false;
     }
 

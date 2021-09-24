@@ -34,7 +34,7 @@ public class TrustInteroperabilityProfileXmlProducer implements XmlProducer<Trus
 
     @Override
     public void serialize(TrustInteroperabilityProfile tip, XMLStreamWriter xmlWriter) throws XMLStreamException {
-        log.debug("Writing XML for TD[" + tip.getIdentifier() + "]...");
+        log.debug("Writing XML for TIP[" + tip.getIdentifier() + "]...");
 
         xmlWriter.writeAttribute(NAMESPACE_URI, "id", tip.getId() == null ?
                 IdUtility.trustInteroperabilityProfileId() :

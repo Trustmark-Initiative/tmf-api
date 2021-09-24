@@ -466,6 +466,9 @@ public class TestExcelBulkReader extends AbstractTest {
         JsonDiffResultCollection resultCollection = this.doJsonDiff(TrustInteroperabilityProfile.class, tipExpected, tipActual);
         assertJsonDiffCount(resultCollection, DiffSeverity.MAJOR, 0);
         assertJsonDiffCount(resultCollection, DiffSeverity.MINOR, 0);
+        //if not provided, "$id" field is being generated on the fly and is currently ignored in TrustInteroperabilityProfileJsonDiffImpl
+//        assertJsonDiffCount(resultCollection, DiffSeverity.MINOR, 1);
+//        assertJsonDiffCount(resultCollection, DiffSeverity.MINOR, JsonDiffType.NOT_COMPARED, 1);
     }
 
     private Serializer getJsonSerializer() {

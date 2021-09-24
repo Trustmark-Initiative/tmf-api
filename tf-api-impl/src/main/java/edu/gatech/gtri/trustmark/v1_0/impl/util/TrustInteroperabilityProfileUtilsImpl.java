@@ -35,6 +35,8 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
+import static java.lang.String.format;
+
 /**
  * A simple implementation of TrustInteroperabilityProfileUtils.  Do not look under the covers of this beast, it is nasty.
  * Implements TrustmarkDefinitionComparator as a delegator to an underlying implementation.
@@ -55,7 +57,7 @@ public class TrustInteroperabilityProfileUtilsImpl implements TrustInteroperabil
 
     @Override
     public Boolean isTrustInteroperabilityProfile(File file) {
-        log.info("Identifying if File[@|cyan "+file.getName()+"|@] is a TIP...");
+        log.debug("Identifying if File[@|cyan "+file.getName()+"|@] is a TIP...");
         try {
             try {
                 log.debug("Trying to read the first XML StartElement event...");
@@ -66,13 +68,13 @@ public class TrustInteroperabilityProfileUtilsImpl implements TrustInteroperabil
                         StartElement se = (StartElement) event;
                         log.debug("Successfully found start element["+se.getName()+"]");
                         if( se.getName().getLocalPart().equalsIgnoreCase("TrustInteroperabilityProfile") ){
-                            log.info("Found TrustInteroperabilityProfile!");
+                            log.debug("Found TrustInteroperabilityProfile!");
                             return true;
                         }
                         break;
                     }
                 }
-                log.info("File["+file.getName()+"] is not a TIP, since we got the first StartElement but it wasn't TrustInteroperabilityProfile!");
+                log.debug("File["+file.getName()+"] is not a TIP, since we got the first StartElement but it wasn't TrustInteroperabilityProfile!");
                 return false; // Since we successfully parsed XML, but first element was NOT TrustInteroperabilityProfile, this is not a TIP.
             }catch(XMLStreamException xmlstreame){
                 // TODO HANDLE ERROR
@@ -87,7 +89,7 @@ public class TrustInteroperabilityProfileUtilsImpl implements TrustInteroperabil
             String typeKey = jsonObject.keySet().stream().filter("$type"::equalsIgnoreCase).findFirst().orElse(null);
             if (typeKey != null) {
                 String typeValue = jsonObject.optString(typeKey, "");
-                log.info("Found $type, next double quoted value is: "+typeValue);
+                log.debug("Found $type, next double quoted value is: "+typeValue);
                 return "TrustInteroperabilityProfile".equalsIgnoreCase(typeValue);
             }
 
@@ -102,7 +104,7 @@ public class TrustInteroperabilityProfileUtilsImpl implements TrustInteroperabil
     @Override
     public Collection<ValidationResult> validate(TrustInteroperabilityProfile tip) {
         ArrayList<ValidationResult> results = new ArrayList<>();
-        log.debug(String.format("Performing TIP[%s] validation...", tip.getIdentifier()));
+        log.debug(format("Performing TIP[%s] validation...", tip.getIdentifier()));
 
         boolean executed = false;
         ServiceLoader<TrustInteroperabilityProfileValidator> validatorLoader = ServiceLoader.load(TrustInteroperabilityProfileValidator.class);
@@ -113,7 +115,7 @@ public class TrustInteroperabilityProfileUtilsImpl implements TrustInteroperabil
                 executed = true;
                 log.debug("Executing TIPValidator["+validator.getClass().getName()+"]...");
                 Collection<ValidationResult> currentResults = validator.validate(tip);
-                log.debug(String.format("TIPValidator[%s] had %d results.", validator.getClass().getName(), currentResults.size()));
+                log.debug(format("TIPValidator[%s] had %d results.", validator.getClass().getName(), currentResults.size()));
                 results.addAll(currentResults);
             }catch(Throwable t){
                 log.error("Error validating TIP with validator: "+validator.getClass().getName(), t);
@@ -125,12 +127,12 @@ public class TrustInteroperabilityProfileUtilsImpl implements TrustInteroperabil
             results.add(new ValidationResultImpl(ValidationSeverity.WARNING, "There are no TrustInteroperabilityProfileValidators defined in the system."));
 
         if( results.size() > 0 ) {
-            log.info(String.format("Validating TIP[%s] results in %d results:", tip.getIdentifier(), results.size()));
+            log.debug(format("Validating TIP[%s] results in %d results:", tip.getIdentifier(), results.size()));
             for( ValidationResult result : results ){
-                log.info("  "+result.toString());
+                log.debug("  "+result.toString());
             }
         }else{
-            log.info(String.format("Validating TIP[%s] looks clean!", tip.getIdentifier()));
+            log.debug(format("Validating TIP[%s] looks clean!", tip.getIdentifier()));
         }
         return results;
     }
@@ -147,7 +149,7 @@ public class TrustInteroperabilityProfileUtilsImpl implements TrustInteroperabil
 
     @Override
     public Collection diff(TrustInteroperabilityProfile tip1, TrustInteroperabilityProfile tip2) {
-        log.info(String.format("Finding the difference of TIP1[%s] and TIP2[%s]...", tip1.getIdentifier().toString(), tip2.getIdentifier().toString()));
+        log.debug(format("Finding the difference of TIP1[%s] and TIP2[%s]...", tip1.getIdentifier().toString(), tip2.getIdentifier().toString()));
         ArrayList<TrustInteroperabilityProfileDiffResult> results = new ArrayList<>();
 
         ServiceLoader<TrustInteroperabilityProfileDiff> loader = ServiceLoader.load(TrustInteroperabilityProfileDiff.class);
@@ -157,7 +159,7 @@ public class TrustInteroperabilityProfileUtilsImpl implements TrustInteroperabil
             try{
                 log.debug("Executing "+diffEngine.getClass().getName()+".doDiff('"+tip1.getIdentifier()+"', '"+tip2.getIdentifier()+"')...");
                 Collection<TrustInteroperabilityProfileDiffResult> currentResults = diffEngine.doDiff(tip1, tip2);
-                log.info(String.format("Executing TIP Difference[%s] results in %d differences.", diffEngine.getClass().getName(), currentResults.size()));
+                log.debug(format("Executing TIP Difference[%s] results in %d differences.", diffEngine.getClass().getName(), currentResults.size()));
                 results.addAll(currentResults);
             }catch(Throwable t){
                 log.error("Error executing TrustInteroperabilityProfileDiff["+diffEngine.getClass().getName()+"]", t);
@@ -165,7 +167,7 @@ public class TrustInteroperabilityProfileUtilsImpl implements TrustInteroperabil
         }
         if( log.isDebugEnabled() ) {
             String differences = debugDifferences(results);
-            log.debug(String.format("Calculated %d differences: \n%s", results.size(), differences));
+            log.debug(format("Calculated %d differences: \n%s", results.size(), differences));
         }
         return results;
     }//end diff()

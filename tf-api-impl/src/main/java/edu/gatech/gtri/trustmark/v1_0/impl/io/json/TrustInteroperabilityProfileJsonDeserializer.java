@@ -264,7 +264,7 @@ public class TrustInteroperabilityProfileJsonDeserializer extends AbstractDeseri
                             if( providerJson.has("$id") ){
                                 EntityImpl provider = readEntityReference(providerJson);
                                 String id = getString(providerJson, "$id", true);
-                                log.info("Storing provider reference #"+id);
+                                log.debug("Storing provider reference #"+id);
                                 providerReferenceMap.put(id, provider);
                             }
                         }
@@ -273,7 +273,7 @@ public class TrustInteroperabilityProfileJsonDeserializer extends AbstractDeseri
                         if( providerJson.has("$id") ){
                             EntityImpl provider = readEntityReference(providerJson);
                             String id = getString(providerJson, "$id", true);
-                            log.info("Storing provider reference #"+id);
+                            log.debug("Storing provider reference #"+id);
                             providerReferenceMap.put(id, provider);
                         }
                     }

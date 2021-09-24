@@ -54,7 +54,7 @@ public class TrustExpressionVariableProducer extends TrustExpressionAdapter {
         log.debug("Entered exitFieldReference("+ctx.getText()+")");
         Token identifier = ctx.identifier;
         String idText = identifier.getText();
-        log.info("Found field reference identifier: "+idText);
+        log.debug("Found field reference identifier: "+idText);
         this.addIdentifier(idText);
     }
 

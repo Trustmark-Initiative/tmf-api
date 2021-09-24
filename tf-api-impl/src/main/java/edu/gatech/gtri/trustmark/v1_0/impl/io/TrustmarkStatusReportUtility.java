@@ -25,7 +25,7 @@ public class TrustmarkStatusReportUtility {
 
     public static TrustmarkStatusReport resolve(Trustmark trustmark, TrustmarkStatusReportResolver trustmarkStatusReportResolver) throws ResolveException {
 
-        log.info("Resolving status report for Trustmark (" + trustmark.getIdentifier() + ") ...");
+        log.debug("Resolving status report for Trustmark (" + trustmark.getIdentifier() + ") ...");
 
         final TrustmarkStatusReportCache cache = FactoryLoader.getInstance(TrustmarkStatusReportCache.class);
 

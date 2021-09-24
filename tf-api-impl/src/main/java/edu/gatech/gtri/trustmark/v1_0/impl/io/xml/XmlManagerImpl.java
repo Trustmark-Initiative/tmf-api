@@ -82,7 +82,7 @@ public class XmlManagerImpl implements XmlManager {
 
         this.findProducerStrict(xmlProducer.getSupportedType()).forEach(xmlProducerCached -> {
             if (xmlProducerCached.equals(xmlProducer)) {
-                log.info("Unregistering XmlProducer for " + xmlProducer.getClass().getName() + " (" + xmlProducer.getSupportedType().getName() + ") ...");
+                log.debug("Unregistering XmlProducer for " + xmlProducer.getClass().getName() + " (" + xmlProducer.getSupportedType().getName() + ") ...");
 
                 this.xmlProducerCache.delete(xmlProducer.getSupportedType());
             }

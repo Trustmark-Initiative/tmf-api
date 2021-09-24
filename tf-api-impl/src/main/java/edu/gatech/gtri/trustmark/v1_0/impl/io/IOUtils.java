@@ -97,7 +97,7 @@ public class IOUtils {
             throw new RemoteException("An error occurred while downloading the URL: "+url.toString(), ioe);
         }
         if( httpResponse.getResponseCode() == 200 ){
-            log.info("Successfully received 200 response from URL: "+url);
+            log.debug("Successfully received 200 response from URL: "+url);
             String response = httpResponse.getContent();
             try{
                 log.debug("Parsing JSON: \n"+response);

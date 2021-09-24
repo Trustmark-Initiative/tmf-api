@@ -48,10 +48,10 @@ public class ExpressionBindingTIPEvaluator implements TIPEvaluator {
         tipEvaluation.setEvaluationDate(Calendar.getInstance().getTime());
         tipEvaluation.setTip(tip);
 
-        log.info("Evaluating TIP[" + tip.getIdentifier().toString() + "] trust expression[" + tip.getTrustExpression() + "]...");
-        log.info("This Org has " + trustmarks.size() + " trustmarks: ");
+        log.debug("Evaluating TIP[" + tip.getIdentifier().toString() + "] trust expression[" + tip.getTrustExpression() + "]...");
+        log.debug("This Org has " + trustmarks.size() + " trustmarks: ");
         for (Trustmark tm : trustmarks) {
-            log.info("   [" + tm.getIdentifier().toString() + "] : TD=[" + tm.getTrustmarkDefinitionReference().getIdentifier().toString() + "] : Issuer[" + tm.getProvider().getIdentifier().toString() + "]");
+            log.debug("   [" + tm.getIdentifier().toString() + "] : TD=[" + tm.getTrustmarkDefinitionReference().getIdentifier().toString() + "] : Issuer[" + tm.getProvider().getIdentifier().toString() + "]");
         }
 
         Map<String, TIPEvaluation> subTipEvaluations = new HashMap<>();

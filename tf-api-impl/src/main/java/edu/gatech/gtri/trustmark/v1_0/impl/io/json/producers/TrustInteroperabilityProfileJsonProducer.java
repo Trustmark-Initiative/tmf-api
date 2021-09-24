@@ -48,8 +48,7 @@ public final class TrustInteroperabilityProfileJsonProducer implements JsonProdu
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("$TMF_VERSION", FactoryLoader.getInstance(TrustmarkFramework.class).getTrustmarkFrameworkVersion());
         jsonObject.put("$Type", TrustInteroperabilityProfile.class.getSimpleName());
-//        jsonObject.put("$id", tip.getId() == null ? IdUtility.trustInteroperabilityProfileId() : tip.getId()); // TODO: Add $id for consistency.
-
+        jsonObject.put("$id", tip.getId() == null ? IdUtility.trustInteroperabilityProfileId() : tip.getId());
         jsonObject.put("Identifier", tip.getIdentifier().toString());
         jsonObject.put("Name", tip.getName());
         jsonObject.put("Version", tip.getVersion());

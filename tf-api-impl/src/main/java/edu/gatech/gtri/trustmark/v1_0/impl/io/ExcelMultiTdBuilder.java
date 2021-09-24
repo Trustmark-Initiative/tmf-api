@@ -177,7 +177,7 @@ public class ExcelMultiTdBuilder implements MultiTrustmarkDefinitionBuilder {
             this.workbook.write(fout);
             fout.flush();
             fout.close();
-            logger.info("Successfully wrote file: " + this.outputFile.getCanonicalPath());
+            logger.debug("Successfully wrote file: " + this.outputFile.getCanonicalPath());
         }catch(Throwable t){
             throw new UnsupportedOperationException("Not able to write out workbook to file!", t);
         }

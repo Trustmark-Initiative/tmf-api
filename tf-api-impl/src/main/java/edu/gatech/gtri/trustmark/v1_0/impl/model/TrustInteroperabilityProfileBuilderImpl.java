@@ -87,7 +87,7 @@ public class TrustInteroperabilityProfileBuilderImpl extends AbstractBuilderImpl
 
     @Override
     public TrustInteroperabilityProfile buildWithNoValidation() {
-        log.info("Building TIP with no validation [MAY BE INVALID]...");
+        log.debug("Building TIP with no validation [MAY BE INVALID]...");
         return this.tip;
     }
 

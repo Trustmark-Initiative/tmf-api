@@ -40,7 +40,7 @@ public final class TrustmarkDefinitionJsonProducer implements JsonProducer<Trust
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("$TMF_VERSION", FactoryLoader.getInstance(TrustmarkFramework.class).getTrustmarkFrameworkVersion());
         jsonObject.put("$Type", TrustmarkDefinition.class.getSimpleName());
-//        jsonObject.put("$id", td.getId() == null ? IdUtility.trustmarkDefinitionId() : td.getId()); // TODO: Add $id for consistency.
+        jsonObject.put("$id", td.getId() == null ? IdUtility.trustmarkDefinitionId() : td.getId());
 
         JSONObject metadataJson = new JSONObject();
         metadataJson.put("Identifier", td.getMetadata().getIdentifier().toString());
