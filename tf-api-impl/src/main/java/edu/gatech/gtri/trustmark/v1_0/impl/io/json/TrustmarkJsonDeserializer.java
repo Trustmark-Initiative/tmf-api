@@ -1,82 +1,80 @@
 package edu.gatech.gtri.trustmark.v1_0.impl.io.json;
 
-import edu.gatech.gtri.trustmark.v1_0.impl.model.*;
+import edu.gatech.gtri.trustmark.v1_0.impl.model.TrustmarkImpl;
+import edu.gatech.gtri.trustmark.v1_0.impl.model.TrustmarkParameterBindingImpl;
 import edu.gatech.gtri.trustmark.v1_0.io.ParseException;
-import edu.gatech.gtri.trustmark.v1_0.model.*;
-import org.apache.logging.log4j.Logger;
+import edu.gatech.gtri.trustmark.v1_0.model.ParameterKind;
+import edu.gatech.gtri.trustmark.v1_0.model.Trustmark;
 import org.apache.logging.log4j.LogManager;
-import org.json.JSONArray;
-import org.json.JSONException;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
 
-import java.util.Set;
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.JsonDeserializerUtility.assertSupported;
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.JsonDeserializerUtility.readDate;
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.JsonDeserializerUtility.readEntity;
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.JsonDeserializerUtility.readExtensionOption;
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.JsonDeserializerUtility.readJSONObject;
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.JsonDeserializerUtility.readJSONObjectList;
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.JsonDeserializerUtility.readString;
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.JsonDeserializerUtility.readStringList;
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.JsonDeserializerUtility.readStringOption;
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.JsonDeserializerUtility.readTrustmarkDefinitionReference;
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.JsonDeserializerUtility.readURI;
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.JsonDeserializerUtility.readURL;
+import static java.util.Objects.requireNonNull;
 
 /**
  * Created by brad on 12/10/15.
  */
-public class TrustmarkJsonDeserializer extends AbstractDeserializer {
+public class TrustmarkJsonDeserializer implements JsonDeserializer<Trustmark> {
 
     private static final Logger log = LogManager.getLogger(TrustmarkJsonDeserializer.class);
 
+    public Trustmark deserialize(final String jsonString) throws ParseException {
+        requireNonNull(jsonString);
 
-    public static Trustmark deserialize( String jsonString ) throws ParseException {
-        log.debug("Deserializing Trustmark JSON...");
+        log.debug("Deserializing Trustmark JSON . . .");
 
-        JSONObject jsonObject = new JSONObject(jsonString);
-        isSupported(jsonObject);
+        final JSONObject jsonObject = new JSONObject(jsonString);
 
-        TrustmarkImpl trustmark = new TrustmarkImpl();
+        assertSupported(jsonObject);
+
+        final TrustmarkImpl trustmark = new TrustmarkImpl();
 
         trustmark.setOriginalSource(jsonString);
-        trustmark.setOriginalSourceType("application/json");
-        trustmark.setId(getString(jsonObject, "$id", false));
+        trustmark.setOriginalSourceType(SerializerJson.APPLICATION_JSON);
 
-        trustmark.setIdentifier(getUri(jsonObject, "Identifier", true));
+        trustmark.setExpirationDateTime(readDate(jsonObject, "ExpirationDateTime"));
+        trustmark.setIdentifier(readURI(jsonObject, "Identifier"));
+        trustmark.setIssueDateTime(readDate(jsonObject, "IssueDateTime"));
+        trustmark.setPolicyURL(readURL(jsonObject, "PolicyURL"));
+        trustmark.setProvider(readEntity(readJSONObject(jsonObject, "Provider")));
+        trustmark.setRecipient(readEntity(readJSONObject(jsonObject, "Recipient")));
+        trustmark.setRelyingPartyAgreementURL(readURL(jsonObject, "RelyingPartyAgreementURL"));
+        trustmark.setStatusURL(readURL(jsonObject, "StatusURL"));
+        trustmark.setTrustmarkDefinitionReference(readTrustmarkDefinitionReference(readJSONObject(jsonObject, "TrustmarkDefinitionReference")));
 
-        trustmark.setTrustmarkDefinitionReference(readTrustmarkFrameworkIdentifiedObject(jsonObject, "TrustmarkDefinitionReference", true));
+        readExtensionOption(jsonObject, "DefinitionExtensions").forEach(trustmark::setDefinitionExtension);
+        readExtensionOption(jsonObject, "ProviderExtensions").forEach(trustmark::setProviderExtension);
 
-        trustmark.setIssueDateTime(getDate(jsonObject, "IssueDateTime", true));
-        trustmark.setExpirationDateTime(getDate(jsonObject, "ExpirationDateTime", true));
+        readJSONObjectList(jsonObject, "ParameterBindings").mapException(TrustmarkJsonDeserializer::readTrustmarkParameterBinding).forEach(trustmark::addParameterBinding);
 
-        trustmark.setPolicyURL(getUrl(jsonObject, "PolicyURL", true));
-        trustmark.setRelyingPartyAgreementURL(getUrl(jsonObject, "RelyingPartyAgreementURL", true));
-        trustmark.setStatusURL(getUrl(jsonObject, "StatusURL", true));
+        readStringList(jsonObject, "ExceptionInfo").forEach(trustmark::addExceptionInfo);
 
-        trustmark.setProvider(readEntity(jsonObject, "Provider", true));
-        trustmark.setRecipient(readEntity(jsonObject, "Recipient", true));
-
-        if( jsonObject.has("ExceptionInfo") ) {
-            if( jsonObject.optJSONArray("ExceptionInfo") != null ){
-                JSONArray jsonArray = jsonObject.optJSONArray("ExceptionInfo");
-                for( int i = 0; i < jsonArray.length(); i++ ){
-                    String exceptionInfo = jsonArray.optString(i);
-                    if( exceptionInfo != null && exceptionInfo.trim().length() > 0 ){
-                        trustmark.addExceptionInfo(exceptionInfo);
-                    }
-                }
-            }else if( jsonObject.optString("ExceptionInfo") != null ){
-                trustmark.addExceptionInfo(jsonObject.optString("ExceptionInfo"));
-            }
-        }
-
-        if( jsonObject.has("ParameterBindings") ){
-            JSONArray paramBindingsArray = jsonObject.getJSONArray("ParameterBindings");
-            for( int i = 0; i < paramBindingsArray.length(); i++ ){
-                JSONObject paramBinding = paramBindingsArray.getJSONObject(i);
-                TrustmarkParameterBindingImpl bindingImpl = new TrustmarkParameterBindingImpl();
-                bindingImpl.setIdentifier(getString(paramBinding, "$identifier", true));
-                bindingImpl.setParameterKind(ParameterKind.fromString(getString(paramBinding, "$kind", true)));
-                bindingImpl.setValue(getString(paramBinding, "value", true));
-                trustmark.addParameterBinding(bindingImpl);
-            }
-        }
-
-        trustmark.setDefinitionExtension(readExtension(jsonObject, "DefinitionExtensions", false));
-        trustmark.setProviderExtension(readExtension(jsonObject, "ProviderExtensions", false));
+        readStringOption(jsonObject, "$id").forEach(trustmark::setId);
 
         return trustmark;
-    }//end deserialize
+    }
 
+    private static TrustmarkParameterBindingImpl readTrustmarkParameterBinding(final JSONObject jsonObject) throws ParseException {
+        requireNonNull(jsonObject);
 
+        final TrustmarkParameterBindingImpl trustmarkParameterBinding = new TrustmarkParameterBindingImpl();
 
-}//end TrustmarkJsonDeserializer()
+        trustmarkParameterBinding.setIdentifier(readString(jsonObject, "$identifier"));
+        trustmarkParameterBinding.setParameterKind(ParameterKind.fromString(readString(jsonObject, "$kind")));
+        trustmarkParameterBinding.setValue(readString(jsonObject, "value"));
+
+        return trustmarkParameterBinding;
+    }
+}

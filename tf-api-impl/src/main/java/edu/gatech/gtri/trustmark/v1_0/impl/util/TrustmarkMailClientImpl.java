@@ -1,11 +1,10 @@
 package edu.gatech.gtri.trustmark.v1_0.impl.util;
 
 import edu.gatech.gtri.trustmark.v1_0.util.TrustmarkMailClient;
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.activation.DataHandler;
-
 import javax.mail.Authenticator;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -18,8 +17,12 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.mail.util.ByteArrayDataSource;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 
 public class TrustmarkMailClientImpl implements TrustmarkMailClient {
 
@@ -55,7 +58,7 @@ public class TrustmarkMailClientImpl implements TrustmarkMailClient {
     /**
      * default constructor, allows for injection
      */
-    public TrustmarkMailClientImpl()  {
+    public TrustmarkMailClientImpl() {
         mailProps.put("mail.transport.protocol", "smtp");
         mailProps.put("mail.smtp.auth", "true");
         mailProps.put("mail.smtp.starttls.enable", "true");
@@ -113,7 +116,7 @@ public class TrustmarkMailClientImpl implements TrustmarkMailClient {
 
     @Override
     public TrustmarkMailClient addCCRecipient(String addr) {
-        if(addr != null && addr.length() > 0)  {
+        if (addr != null && addr.length() > 0) {
             ccList.add(addr);
         }
         return this;
@@ -121,14 +124,14 @@ public class TrustmarkMailClientImpl implements TrustmarkMailClient {
 
     @Override
     public TrustmarkMailClient addBCCRecipient(String addr) {
-        if (addr != null & addr.length() > 0)  {
+        if (addr != null & addr.length() > 0) {
             bccList.add(addr);
         }
         return this;
     }
 
     public TrustmarkMailClient addAttachment(String fn, ByteArrayDataSource bad) {
-        if(fn != null && fn.length() > 0 && bad != null)  {
+        if (fn != null && fn.length() > 0 && bad != null) {
             attachments.put(fn, bad);
         }
         return this;
@@ -159,8 +162,8 @@ public class TrustmarkMailClientImpl implements TrustmarkMailClient {
     }
 
     @Override
-    public TrustmarkMailClient setSmtpAuthorization(boolean auth)  {
-        if(auth)  {
+    public TrustmarkMailClient setSmtpAuthorization(boolean auth) {
+        if (auth) {
             log.debug(String.format("TrustmarkMailClientImpl.setSmtpAuthorization true"));
             mailProps.put("mail.smtp.auth", "true");
         } else {
@@ -186,7 +189,7 @@ public class TrustmarkMailClientImpl implements TrustmarkMailClient {
         session.setDebug(true);
 
         try (Transport transport = session.getTransport();) {
-            Message msg =  new MimeMessage(session);
+            Message msg = new MimeMessage(session);
             msg.setFrom(new InternetAddress(fromAddress));
             msg.setSubject(subject);
             msg.setSentDate(new Date());
@@ -199,21 +202,21 @@ public class TrustmarkMailClientImpl implements TrustmarkMailClient {
 
             loadAttachments(msg);
 
-            if(authorize)  {
+            if (authorize) {
                 transport.connect(host, user, pswd);
-            }  else {
+            } else {
                 transport.connect();
             }
 
             transport.sendMessage(msg, msg.getAllRecipients());
-        } catch(MessagingException me)  {
+        } catch (MessagingException me) {
             me.printStackTrace();
         }
     }
 
-    private String printMailProps () {
+    private String printMailProps() {
         String propsText = "Properties: \n";
-        for (Object key: mailProps.keySet()) {
+        for (Object key : mailProps.keySet()) {
             propsText += "   " + key + ": " + mailProps.getProperty(key.toString()) + "\n";
         }
         return propsText;
@@ -221,13 +224,14 @@ public class TrustmarkMailClientImpl implements TrustmarkMailClient {
 
     /**
      * load all files as attachments to the message
+     *
      * @param msg
      * @return
      * @throws MessagingException
      */
     private boolean loadAttachments(Message msg) throws MessagingException {
 
-        if (attachments.size() > 0)  {  //  set text as the first part of the message then all the file attachments
+        if (attachments.size() > 0) {  //  set text as the first part of the message then all the file attachments
             Multipart multipart = new MimeMultipart();
 
             MimeBodyPart hdrPart = new MimeBodyPart();
@@ -254,10 +258,10 @@ public class TrustmarkMailClientImpl implements TrustmarkMailClient {
     }
 
     private boolean loadBody(Message msg) throws MessagingException {
-        if(text != null)  {
+        if (text != null) {
             msg.setText(text);
             return true;
-        }  else  {
+        } else {
             msg.setContent(content, type);
         }
         return false;
@@ -265,15 +269,16 @@ public class TrustmarkMailClientImpl implements TrustmarkMailClient {
 
     /**
      * load the body part for this email
+     *
      * @param msg
      * @return
      * @throws MessagingException
      */
     private boolean loadBody(MimeBodyPart msg) throws MessagingException {
-        if(text != null)  {
+        if (text != null) {
             msg.setText(text);
             return true;
-        }  else  {
+        } else {
             msg.setContent(content, type);
         }
         return false;
@@ -281,9 +286,10 @@ public class TrustmarkMailClientImpl implements TrustmarkMailClient {
 
     /**
      * load all recipients to the message
+     *
      * @param msg
      */
-    private void loadRecipients(Message msg)  {
+    private void loadRecipients(Message msg) {
         toList.forEach(s -> {
             try {
                 msg.addRecipient(Message.RecipientType.TO, new InternetAddress(s));
@@ -295,9 +301,10 @@ public class TrustmarkMailClientImpl implements TrustmarkMailClient {
 
     /**
      * load all recipients for carbon copy to the message
+     *
      * @param msg
      */
-    private void loadCCRecipients(Message msg)  {
+    private void loadCCRecipients(Message msg) {
         ccList.forEach(s -> {
             try {
                 msg.addRecipient(Message.RecipientType.CC, new InternetAddress(s));
@@ -308,10 +315,11 @@ public class TrustmarkMailClientImpl implements TrustmarkMailClient {
     }
 
     /**
-     *  load all recipients for blind carbon copy to the message
+     * load all recipients for blind carbon copy to the message
+     *
      * @param msg
      */
-    private void loadBCCRecipients(Message msg)  {
+    private void loadBCCRecipients(Message msg) {
         bccList.forEach(s -> {
             try {
                 msg.addRecipient(Message.RecipientType.BCC, new InternetAddress(s));

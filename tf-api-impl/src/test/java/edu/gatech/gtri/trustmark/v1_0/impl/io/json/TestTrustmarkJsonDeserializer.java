@@ -7,8 +7,8 @@ import org.junit.Test;
 
 import java.io.File;
 
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.notNullValue;
 
 /**
  * Created by brad on 12/9/15.
@@ -23,7 +23,7 @@ public class TestTrustmarkJsonDeserializer extends AbstractTest {
 
         File xmlFile = new File(TRUSTMARK_FULL_FILE);
         String json = FileUtils.readFileToString(xmlFile);
-        Trustmark trustmark = TrustmarkJsonDeserializer.deserialize(json);
+        Trustmark trustmark = new TrustmarkJsonDeserializer().deserialize(json);
         assertThat(trustmark, notNullValue());
 
         // TODO Lots more assertions here.

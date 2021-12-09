@@ -6,14 +6,14 @@ import edu.gatech.gtri.trustmark.v1_0.io.Serializer;
 import edu.gatech.gtri.trustmark.v1_0.io.SerializerFactory;
 import edu.gatech.gtri.trustmark.v1_0.io.TrustmarkDefinitionResolver;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkDefinition;
-import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.File;
 import java.io.StringWriter;
 
-import static org.hamcrest.Matchers.*;
-import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.notNullValue;
 
 /**
  * TODO: Write a description here
@@ -32,9 +32,9 @@ public class TestSerializerHtml extends AbstractTest {
     public void testSerializerHtmlResolution() throws Exception {
         Serializer serializer = FactoryLoader.getInstance(SerializerFactory.class).getHtmlSerializer();
         assertThat(serializer, notNullValue());
-        assertThat(serializer.getOutputMimeFormat(), equalTo(SerializerHtml.OUTPUT_MIME_FORMAT));
-        assertThat(serializer.getName(), equalTo(SerializerHtml.NAME));
-        assertThat(serializer.getDescription(), equalTo(SerializerHtml.DESCRIPTION));
+        assertThat(serializer.getOutputMimeFormat(), equalTo("text/html"));
+        assertThat(serializer.getName(), equalTo("HTML Serializer"));
+        assertThat(serializer.getDescription(), equalTo("Serializes data into HTML, suitable for display in a browser"));
         logger.debug("Asserted SerializerHtml Resolution!");
     }
 
@@ -42,7 +42,7 @@ public class TestSerializerHtml extends AbstractTest {
     public void testSerializeSimpleTd() throws Exception {
         String tdFile = TD_SIMPLE;
 
-        logger.debug("Asserting we can serialize TD: "+tdFile);
+        logger.debug("Asserting we can serialize TD: " + tdFile);
 
         Serializer serializer = FactoryLoader.getInstance(SerializerFactory.class).getHtmlSerializer();
         TrustmarkDefinition td = FactoryLoader.getInstance(TrustmarkDefinitionResolver.class).resolve(new File(tdFile));
@@ -56,7 +56,7 @@ public class TestSerializerHtml extends AbstractTest {
         // TODO Improve assertions...
 
 
-        logger.debug("Successfully asserted TD: "+tdFile);
+        logger.debug("Successfully asserted TD: " + tdFile);
     }
 
 

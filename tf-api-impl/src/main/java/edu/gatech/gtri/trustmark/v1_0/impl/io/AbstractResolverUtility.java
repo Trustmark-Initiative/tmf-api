@@ -1,12 +1,14 @@
 package edu.gatech.gtri.trustmark.v1_0.impl.io;
 
-import edu.gatech.gtri.trustmark.v1_0.impl.io.json.AbstractDeserializer;
 import edu.gatech.gtri.trustmark.v1_0.impl.io.xml.XmlHelper;
 import edu.gatech.gtri.trustmark.v1_0.io.ParseException;
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.dom4j.Element;
 import org.json.JSONObject;
+
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.JsonDeserializerUtility.assertSupported;
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.JsonDeserializerUtility.assertSupportedVersion;
 
 public final class AbstractResolverUtility {
 
@@ -57,13 +59,13 @@ public final class AbstractResolverUtility {
 
     public static JSONObject getValidatedJson(String jsonString) throws ParseException {
         JSONObject result = new JSONObject(jsonString);
-        AbstractDeserializer.isSupported(result);
+        assertSupported(result);
         return result;
     }
 
     public static JSONObject getValidatedJsonIsSupportedVersion(String jsonString) throws ParseException {
         JSONObject result = new JSONObject(jsonString);
-        AbstractDeserializer.isSupportedVersion(result);
+        assertSupportedVersion(result);
         return result;
     }
 }

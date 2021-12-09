@@ -5,95 +5,141 @@ import edu.gatech.gtri.trustmark.v1_0.impl.io.AbstractSerializer;
 import edu.gatech.gtri.trustmark.v1_0.impl.io.adio.AbstractDocumentJsonProducer;
 import edu.gatech.gtri.trustmark.v1_0.io.json.JsonManager;
 import edu.gatech.gtri.trustmark.v1_0.io.json.JsonProducer;
+import edu.gatech.gtri.trustmark.v1_0.io.xml.XmlManager;
+import edu.gatech.gtri.trustmark.v1_0.io.xml.XmlProducer;
+import edu.gatech.gtri.trustmark.v1_0.model.HasSource;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustInteroperabilityProfile;
 import edu.gatech.gtri.trustmark.v1_0.model.Trustmark;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkDefinition;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkStatusReport;
 import edu.gatech.gtri.trustmark.v1_0.model.agreement.Agreement;
 import edu.gatech.gtri.trustmark.v1_0.model.agreement.AgreementResponsibilityTemplate;
+import org.gtri.fj.function.TryEffect2;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.Writer;
 import java.util.Map;
 
-/**
- * Created by brad on 12/15/15.
- */
+import static java.lang.String.format;
+
 public class SerializerJson extends AbstractSerializer {
 
-    public static String NAME = "JSON Serializer";
-    public static String DESCRIPTION = "Serializes data into JSON, using the unofficial TF v1.0 JSON format.";
-    public static String OUTPUT_MIME_FORMAT = "application/json";
+    public static final String APPLICATION_JSON = "application/json";
 
-    public SerializerJson(){
-        super(NAME, DESCRIPTION, OUTPUT_MIME_FORMAT);
+    public SerializerJson() {
+        super(
+                "JSON Serializer",
+                "Serializes data into JSON, using the unofficial TF v1.0 JSON format.",
+                APPLICATION_JSON);
     }
 
+    @Override
+    public void serialize(
+            final Trustmark trustmark,
+            final Writer writer,
+            final Map model)
+            throws IOException {
+
+        serializeHelper(trustmark, writer);
+    }
 
     @Override
-    public void serialize(Trustmark trustmark, Writer writer, Map model) throws IOException {
-        if( trustmark.getOriginalSourceType() != null && trustmark.getOriginalSourceType().equalsIgnoreCase("application/json") ){
-            writer.write(trustmark.getOriginalSource());
-            return;
+    public void serialize(
+            final TrustmarkStatusReport trustmarkStatusReport,
+            final Writer writer,
+            final Map model)
+            throws IOException {
+
+        serializeHelper(trustmarkStatusReport, writer);
+    }
+
+    @Override
+    public void serialize(
+            final TrustmarkDefinition trustmarkDefinition,
+            final Writer writer,
+            final Map model)
+            throws IOException {
+
+        serializeHelper(trustmarkDefinition, writer);
+    }
+
+    @Override
+    public void serialize(
+            final TrustInteroperabilityProfile trustInteroperabilityProfile,
+            final Writer writer,
+            final Map model)
+            throws IOException {
+
+        serializeHelper(trustInteroperabilityProfile, writer);
+    }
+
+    @Override
+    public void serialize(
+            final Agreement agreement,
+            final Writer writer,
+            final Map model)
+            throws IOException {
+
+        serializeHelper(agreement, writer, (agreementInner, writerInner) -> AbstractDocumentJsonProducer.serialize(Agreement.class, agreementInner, writerInner));
+    }
+
+    @Override
+    public void serialize(
+            final AgreementResponsibilityTemplate agreementResponsibilityTemplate,
+            final Writer writer,
+            final Map model)
+            throws IOException {
+
+        serializeHelper(agreementResponsibilityTemplate, writer, (agreementResponsibilityTemplateInner, writerInner) -> AbstractDocumentJsonProducer.serialize(AgreementResponsibilityTemplate.class, agreementResponsibilityTemplateInner, writerInner));
+    }
+
+    private void serializeHelper(
+            final HasSource hasSource,
+            final Writer writer)
+            throws IOException {
+
+        serializeHelper(hasSource, writer, (hasSourceInner, writerInner) -> {
+            JSONObject asJson = (JSONObject) this.serialize(hasSourceInner);
+            writerInner.write(asJson.toString(2));
+        });
+    }
+
+    private void serializeHelper(
+            final HasSource hasSource,
+            final Writer writer,
+            final TryEffect2<HasSource, Writer, IOException> serializer)
+            throws IOException {
+
+        if (hasSource.getOriginalSourceType() != null && hasSource.getOriginalSourceType().equalsIgnoreCase(getOutputMimeFormat())) {
+            writer.write(hasSource.getOriginalSource());
+            writer.flush();
+        } else {
+            serializer.f(hasSource, writer);
         }
-
-        JSONObject asJson = (JSONObject) this.serialize(trustmark);
-        writer.write(asJson.toString(2));
-    }
-    @Override
-    public void serialize(TrustmarkStatusReport tsr, Writer writer, Map model) throws IOException {
-        if( tsr.getOriginalSourceType() != null && tsr.getOriginalSourceType().equalsIgnoreCase("application/json") ){
-            writer.write(tsr.getOriginalSource());
-            return;
-        }
-        JSONObject asJson = (JSONObject) this.serialize(tsr);
-        writer.write(asJson.toString(2));
-    }
-    @Override
-    public void serialize(TrustmarkDefinition td, Writer writer, Map model) throws IOException {
-        if( td.getOriginalSourceType() != null && td.getOriginalSourceType().equalsIgnoreCase("application/json") ){
-            writer.write(td.getOriginalSource());
-            return;
-        }
-        JSONObject asJson = (JSONObject) this.serialize(td);
-        writer.write(asJson.toString(2));
-    }
-    @Override
-    public void serialize(TrustInteroperabilityProfile tip, Writer writer, Map model) throws IOException {
-        JSONObject asJson = (JSONObject) this.serialize(tip);
-        writer.write(asJson.toString(2));
-    }
-    @Override
-    public void serialize(Agreement agreement, Writer writer, Map model) throws IOException {
-        if( agreement.getOriginalSourceType() != null && agreement.getOriginalSourceType().equalsIgnoreCase(OUTPUT_MIME_FORMAT) ){
-            writer.write(agreement.getOriginalSource());
-            return;
-        }
-        AbstractDocumentJsonProducer.serialize(Agreement.class, agreement, writer);
-    }
-    @Override
-    public void serialize(AgreementResponsibilityTemplate art, Writer writer, Map model) throws IOException {
-        if( art.getOriginalSourceType() != null && art.getOriginalSourceType().equalsIgnoreCase(OUTPUT_MIME_FORMAT) ){
-            writer.write(art.getOriginalSource());
-            return;
-        }
-        AbstractDocumentJsonProducer.serialize(AgreementResponsibilityTemplate.class, art, writer);
-    }
-    
-    
-    private JsonManager getManager(){
-        return FactoryLoader.getInstance(JsonManager.class);
     }
 
-    public Object serialize(Object thing){
-        JsonManager manager = getManager();
-        if( manager == null )
-            throw new UnsupportedOperationException("No such class loaded: JsonManager.  Cannot serialize object: "+thing.getClass().getName()+": "+thing);
-        JsonProducer producer = manager.findProducer(thing.getClass());
-        if( producer == null )
-            throw new UnsupportedOperationException("Cannot find JsonProducer for class: "+thing.getClass().getName());
-        return producer.serialize(thing);
-    }
+    public Object serialize(
+            final Object object) {
 
-}//end SerializerJson
+        final JsonManager jsonManager = FactoryLoader.getInstance(JsonManager.class);
+
+        if (jsonManager == null) {
+
+            throw new UnsupportedOperationException(format("The system could not find an instance of '%s'; the system could not serialize '%s'.", XmlManager.class.getCanonicalName(), object.getClass().getCanonicalName()));
+
+        } else {
+
+            final JsonProducer jsonProducer = jsonManager.findProducer(object.getClass());
+
+            if (jsonProducer == null) {
+
+                throw new UnsupportedOperationException(format("The system could not find an instance of '%s' for '%s'.", XmlProducer.class.getCanonicalName(), object.getClass().getCanonicalName()));
+
+            } else {
+
+                return jsonProducer.serialize(object);
+            }
+        }
+    }
+}

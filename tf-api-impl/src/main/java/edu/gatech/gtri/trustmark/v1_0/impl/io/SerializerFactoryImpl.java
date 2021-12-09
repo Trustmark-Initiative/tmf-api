@@ -13,17 +13,24 @@ public class SerializerFactoryImpl implements SerializerFactory {
 
     @Override
     public Serializer getSerializer(String contentType) {
-        if (contentType.trim().equalsIgnoreCase("application/json") ){
+        if (contentType.trim().equalsIgnoreCase(SerializerJson.APPLICATION_JSON)) {
+
             return getJsonSerializer();
-        }else if( contentType.trim().equalsIgnoreCase("application/xml") ||
-                contentType.trim().equalsIgnoreCase("text/xml") ){
+
+        } else if (contentType.trim().equalsIgnoreCase(SerializerXml.APPLICATION_XML) || contentType.trim().equalsIgnoreCase(SerializerXml.TEXT_XML)) {
+
             return getXmlSerializer();
-        }else if(contentType.trim().equalsIgnoreCase("text/html")){
+
+        } else if (contentType.trim().equalsIgnoreCase(SerializerHtml.TEXT_HTML)) {
+
             return getHtmlSerializer();
-        }else if(contentType.trim().equalsIgnoreCase("application/pdf")){
+
+        } else if (contentType.trim().equalsIgnoreCase(SerializerPdf.APPLICATION_PDF)) {
+
             return getPdfSerializer();
-        }else{
-            // Could not find anything for the given content type.
+
+        } else {
+
             return null;
         }
     }
@@ -47,7 +54,7 @@ public class SerializerFactoryImpl implements SerializerFactory {
     public Serializer getHtmlEditorSerializer() {
         return new SerializerHtmlEditors();
     }
-    
+
     @Override
     public Serializer getPdfSerializer() {
         return new SerializerPdf();

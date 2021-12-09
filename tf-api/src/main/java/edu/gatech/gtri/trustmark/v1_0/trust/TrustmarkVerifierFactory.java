@@ -1,48 +1,33 @@
 package edu.gatech.gtri.trustmark.v1_0.trust;
 
 import edu.gatech.gtri.trustmark.v1_0.io.TrustmarkStatusReportResolver;
+import edu.gatech.gtri.trustmark.v1_0.model.Entity;
+import org.gtri.fj.data.List;
+import org.gtri.fj.function.F1;
 
-/**
- * Knows how to create instances of {@link TrustmarkVerifier}.
- * 
- * @author GTRI Trustmark Team
- *
- */
+import java.net.URI;
+
 public interface TrustmarkVerifierFactory {
 
-	/**
-	 * Creates a TrustmarkVerifier that
-	 * <ol>
-	 * <ul>
-	 * Trusts all trustmark providers
-	 * </ul>
-	 * <ul>
-	 * Does not have trustmark recipient configuration
-	 * </ul>
-	 * <ul>
-	 * Uses a simple, no-cache TSRProxy
-	 * </ul>
-	 * </ol>
-	 * Since the TrustmarkVerifier will not have trustmark recipient
-	 * configuration, a call to
-	 * {@link TrustmarkVerifier#verifyTrustmarkTrustworthiness(edu.gatech.gtri.trustmark.v1_0.model.Trustmark, Boolean, Boolean)
-	 * with a verifyScope value of true will fail.
-	 */
-	public TrustmarkVerifier createTrustmarkValidator();
+    TrustmarkVerifier createDefaultVerifier();
 
-	/**
-	 * Creates a TrustmarkVerifier with the specified components.
-	 * 
-	 * TODO Scope via "context" string. 
-	 * 
-	 * @param tpConfig
-	 * @param recipientConfiguration
-	 * @param statusReportProxy
-	 * @return
-	 */
-	public TrustmarkVerifier createTrustmarkValidator(
-			TrustedProviderConfiguration tpConfig,
-			RecipientConfiguration recipientConfiguration,
-			TrustmarkStatusReportResolver statusReportProxy);
+    TrustmarkVerifier createVerifier(
+            final List<URI> trustmarkProviderURIList,
+            final List<URI> trustmarkRecipientURIList);
 
+    TrustmarkVerifier createVerifier(
+            final F1<Entity, Boolean> trustmarkProviderFilter,
+            final F1<Entity, Boolean> trustmarkRecipientFilter);
+
+    TrustmarkVerifier createVerifier(
+            final XmlSignatureValidator xmlSignatureValidator,
+            final TrustmarkStatusReportResolver trustmarkStatusReportResolver,
+            final List<URI> trustmarkProviderURINonEmptyList,
+            final List<URI> trustmarkRecipientURINonEmptyList);
+
+    TrustmarkVerifier createVerifier(
+            final XmlSignatureValidator xmlSignatureValidator,
+            final TrustmarkStatusReportResolver trustmarkStatusReportResolver,
+            final F1<Entity, Boolean> trustmarkProviderFilter,
+            final F1<Entity, Boolean> trustmarkRecipientFilter);
 }

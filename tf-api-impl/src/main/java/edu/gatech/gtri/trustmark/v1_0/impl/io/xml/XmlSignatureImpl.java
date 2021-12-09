@@ -1,23 +1,21 @@
 package edu.gatech.gtri.trustmark.v1_0.impl.io.xml;
 
-import edu.gatech.gtri.trustmark.v1_0.impl.io.TrustmarkResolverImpl;
-import org.apache.logging.log4j.Logger;
+import edu.gatech.gtri.trustmark.v1_0.impl.trust.XmlSignatureFailure;
+import edu.gatech.gtri.trustmark.v1_0.impl.trust.XmlSignatureKeySelector;
+import edu.gatech.gtri.trustmark.v1_0.impl.trust.XmlSignatureUtility;
+import edu.gatech.gtri.trustmark.v1_0.trust.XmlSignatureValidatorFailure;
 import org.apache.logging.log4j.LogManager;
-import org.w3c.dom.*;
-import org.w3c.dom.NodeList;
+import org.apache.logging.log4j.Logger;
+import org.gtri.fj.data.Either;
+import org.gtri.fj.data.NonEmptyList;
+import org.gtri.fj.data.Validation;
+import org.gtri.fj.function.F1;
+import org.w3c.dom.Attr;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 
-import javax.xml.crypto.*;
-import javax.xml.crypto.dsig.*;
-import javax.xml.crypto.dsig.dom.DOMSignContext;
-import javax.xml.crypto.dsig.dom.DOMValidateContext;
-import javax.xml.crypto.dsig.keyinfo.KeyInfo;
-import javax.xml.crypto.dsig.keyinfo.KeyInfoFactory;
-import javax.xml.crypto.dsig.keyinfo.KeyValue;
-import javax.xml.crypto.dsig.keyinfo.X509Data;
-import javax.xml.crypto.dsig.spec.C14NMethodParameterSpec;
-import javax.xml.crypto.dsig.spec.DigestMethodParameterSpec;
-import javax.xml.crypto.dsig.spec.TransformParameterSpec;
+import javax.xml.crypto.dsig.XMLSignature;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.OutputKeys;
@@ -25,273 +23,190 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import java.io.*;
-import java.security.Key;
-import java.security.KeyException;
+import java.io.ByteArrayInputStream;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.StringReader;
+import java.io.StringWriter;
 import java.security.PrivateKey;
-import java.security.PublicKey;
-import java.security.cert.*;
-import java.util.*;
+import java.security.cert.X509Certificate;
+
+import static edu.gatech.gtri.trustmark.v1_0.impl.trust.XmlSignatureUtility.sign;
+import static edu.gatech.gtri.trustmark.v1_0.trust.XmlSignatureValidatorFailure.messageFor;
+import static org.gtri.fj.data.Either.left;
+import static org.gtri.fj.data.Either.right;
+import static org.gtri.fj.data.Option.fromNull;
+import static org.gtri.fj.function.Function.identity;
 
 /**
  * Generate the XML Signature for the Trustmark xml string.
- *
+ * <p>
  * Created by robert on 8/29/2020.
  */
-public class XmlSignatureImpl {
+public final class XmlSignatureImpl {
 
     private static final Logger log = LogManager.getLogger(XmlSignatureImpl.class);
 
-    public XmlSignatureImpl() throws Exception {
+    public XmlSignatureImpl() {
     }
 
-    String generateXmlSignature(X509Certificate cert, PrivateKey privateKey, String uri, String xmlString) throws Exception {
+    public String generateXmlSignature(
+            final X509Certificate x509Certificate,
+            final PrivateKey privateKey,
+            final String attributeName,
+            final String xmlString) throws Exception {
 
-        InputStream targetStream = new ByteArrayInputStream(xmlString.getBytes());
+        final InputStream targetStream = new ByteArrayInputStream(xmlString.getBytes());
 
-        return generateXmlSignature(cert, privateKey, uri, targetStream);
+        return generateXmlSignature(x509Certificate, privateKey, targetStream, attributeName);
     }
 
-    String generateXmlSignature(X509Certificate cert, PrivateKey privateKey, String uri, String path, String xmlFile) throws Exception {
+    public String generateXmlSignature(
+            final X509Certificate x509Certificate,
+            final PrivateKey privateKey,
+            final String attributeName,
+            final String path,
+            final String xmlFile) throws Exception {
 
-        InputStream targetStream = new FileInputStream(path + "/" + xmlFile);
+        final InputStream targetStream = new FileInputStream(path + "/" + xmlFile);
 
-        return generateXmlSignature(cert, privateKey, uri, targetStream);
+        return generateXmlSignature(x509Certificate, privateKey, targetStream, attributeName);
     }
 
+    public String generateXmlSignature(
+            final X509Certificate x509Certificate,
+            final PrivateKey privateKey,
+            final InputStream xmlStream,
+            final String attributeName) throws Exception {
 
-    String generateXmlSignature(X509Certificate cert, PrivateKey privateKey, String uri, InputStream xmlStream) throws Exception {
+        final F1<Document, Attr> fAttr = document -> (Attr) document.getDocumentElement().getAttributes().getNamedItem(attributeName);
 
-        // Create a DOM XMLSignatureFactory that will be used to
-        // generate the enveloped signature.
-        XMLSignatureFactory fac = XMLSignatureFactory.getInstance("DOM");
+        final Document document = documentFor(
+                new InputSource(xmlStream),
+                fAttr);
 
+        final Validation<NonEmptyList<XmlSignatureFailure>, Document> documentValidation = sign(
+                document,
+                uriFor(document, fAttr),
+                privateKey,
+                x509Certificate);
 
-        // Instantiate the document to be signed.
-        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-        dbf.setNamespaceAware(true);
-        Document doc = dbf.newDocumentBuilder().parse(xmlStream);
-        Element parent = doc.getDocumentElement();
+        if (documentValidation.isFail()) {
 
-        List<Transform> transforms = new LinkedList();
+            documentValidation
+                    .f().forEach(nel -> nel.forEach(xmlSignatureFailure -> log.error(XmlSignatureFailure.messageFor(xmlSignatureFailure))));
 
-        transforms.add(fac.newTransform("http://www.w3.org/2000/09/xmldsig#enveloped-signature", (TransformParameterSpec)null));
-        transforms.add(fac.newTransform("http://www.w3.org/2001/10/xml-exc-c14n#", (C14NMethodParameterSpec)null));
+            throw documentValidation.fail().head().match(
+                    identity(),
+                    identity(),
+                    identity(),
+                    identity(),
+                    identity(),
+                    identity());
 
-        uri = getSignatureReferenceUri( uri, parent);
-        Reference ref = fac.newReference(uri,
-                fac.newDigestMethod(DigestMethod.SHA256,
-                        (DigestMethodParameterSpec)null), transforms, (String)null, (String)null);
+        } else {
+            // Output the resulting document.
+            final StringWriter stringWriter = new StringWriter();
+            final TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            final Transformer transformer = transformerFactory.newTransformer();
+            transformer.transform(new DOMSource(documentValidation.success()), new StreamResult(stringWriter));
 
-
-        // Create the SignedInfo.
-        // NOTE: SignatureMethod.RSA_SHA256 does not exists. WHY?
-        SignedInfo si = fac.newSignedInfo(fac.newCanonicalizationMethod(CanonicalizationMethod.EXCLUSIVE,
-                (C14NMethodParameterSpec) null), fac.newSignatureMethod("http://www.w3.org/2001/04/xmldsig-more#rsa-sha256", null),
-                Collections.singletonList(ref));
-
-
-        // Create the KeyInfo containing the X509Data.
-        KeyInfoFactory kif = fac.getKeyInfoFactory();
-        List x509Content = new ArrayList();
-        x509Content.add(cert);
-        X509Data xd = kif.newX509Data(x509Content);
-
-        KeyValue keyValue = kif.newKeyValue(cert.getPublicKey());
-
-
-        final List<XMLStructure> newList = new ArrayList<>();
-        newList.add(keyValue);
-        newList.add(xd);
-        KeyInfo ki = kif.newKeyInfo(newList);
-
-
-        // Create a DOMSignContext and specify the RSA PrivateKey and
-        // location of the resulting XMLSignature's parent element.
-        DOMSignContext dsc = null;
-        Node nextSibling = null;
-        if ( parent.hasChildNodes()) {
-            nextSibling = parent.getChildNodes().item(0);
-            while (!(nextSibling instanceof Element) && nextSibling != null) {
-                nextSibling = nextSibling.getNextSibling();
-            }
+            return stringWriter.toString();
         }
-
-        if (nextSibling != null) {
-            dsc = new DOMSignContext(privateKey, parent, nextSibling);
-        }
-        else {
-            dsc = new DOMSignContext(privateKey, parent);
-        }
-
-        dsc.setDefaultNamespacePrefix("ds");
-
-        // Create the XMLSignature, but don't sign it yet.
-        XMLSignature signature = fac.newXMLSignature(si, ki);
-
-        // Marshal, generate, and sign the enveloped signature.
-        signature.sign(dsc);
-
-        // Output the resulting document.
-        OutputStream os = new ByteArrayOutputStream();
-        TransformerFactory tf = TransformerFactory.newInstance();
-        Transformer trans = tf.newTransformer();
-        trans.transform(new DOMSource(doc), new StreamResult(os));
-
-        return os.toString();
     }
 
-    String getSignatureReferenceUri(String uri, final Element rootElement) {
-        String reference = "";
-        if (uri != null) {
-            final Attr referenceAttribute =
-                    (Attr) rootElement.getAttributes().getNamedItem(uri);
-            if (referenceAttribute != null) {
-                // Mark the reference attribute as a valid ID attribute
-                rootElement.setIdAttributeNode(referenceAttribute, true);
-                reference = referenceAttribute.getValue().trim();
-                if (reference.length() > 0) {
-                    reference = "#" + reference;
-                }
-            }
-        }
+    public boolean validateXmlSignature(
+            final String attributeName,
+            final String xmlString) throws Exception {
 
-        return reference;
+        return validateXmlSignature(xmlString, document -> (Attr) document.getDocumentElement().getAttributes().getNamedItem(attributeName));
     }
 
-    boolean validateXmlSignature(String uri,  String signedXmlString) throws Exception {
+    public boolean validateXmlSignature(
+            final String xmlString,
+            final F1<Document, Attr> fAttr) throws Exception {
 
-        // Instantiate the document to be validated
-        Document doc = loadXMLFrom(signedXmlString);
+        final Validation<NonEmptyList<XmlSignatureValidatorFailure>, XMLSignature> xmlSignatureValidation =
+                XmlSignatureUtility.validate(documentFor(
+                        new InputSource(new StringReader(xmlString)),
+                        fAttr), new XmlSignatureKeySelector());
 
-        Element rootElement = doc.getDocumentElement();
-        uri = getSignatureReferenceUri(uri, rootElement);
+        if (xmlSignatureValidation.isFail()) {
 
-        // Find Signature element
-        NodeList nl = doc.getElementsByTagNameNS(XMLSignature.XMLNS, "Signature");
-        if (nl.getLength() == 0) {
-            throw new Exception("Cannot find Signature element");
-        }
+            xmlSignatureValidation
+                    .f().forEach(nel -> nel.forEach(xmlSignatureValidationFailure -> log.error(messageFor(xmlSignatureValidationFailure))));
 
-        // Create a DOM XMLSignatureFactory that will be used to unmarshal the
-        // document containing the XMLSignature
-        XMLSignatureFactory fac = XMLSignatureFactory.getInstance("DOM");
+            final Either<Exception, Boolean> either = xmlSignatureValidation.fail().head()
+                    .match(
+                            (document) -> left(new Exception("The system did not find a signature element.")),
+                            (document, marshalException) -> left(marshalException),
+                            (document, xmlSignatureException) -> left(xmlSignatureException),
+                            (document) -> right(false),
+                            (document, reference) -> right(false));
 
-        // Create a DOMValidateContext and specify a KeyValue KeySelector
-        // and document context
-        DOMValidateContext valContext = new DOMValidateContext(new KeyValueKeySelector(), nl.item(0));
-
-        // unmarshal the XMLSignature
-        XMLSignature signature = fac.unmarshalXMLSignature(valContext);
-
-        // Validate the XMLSignature (generated above)
-        boolean coreValidity = signature.validate(valContext);
-
-        // Check core validation status
-        if (coreValidity == false) {
-            log.warn("Signature failed core validation");
-            boolean sv = signature.getSignatureValue().validate(valContext);
-            log.debug(String.format("signature validation status: ", sv));
-
-            // check the validation status of each Reference
-            Iterator i = signature.getSignedInfo().getReferences().iterator();
-            for (int j=0; i.hasNext(); j++) {
-                boolean refValid = ((Reference) i.next()).validate(valContext);
-                log.debug(String.format("ref[\"+j+\"] validity status: ", refValid));
+            if (either.isLeft()) {
+                throw either.left().value();
+            } else {
+                return either.right().value();
             }
         } else {
-            log.warn("Signature passed core validation");
+            return true;
         }
-
-        return coreValidity;
     }
 
     public static String toString(Document doc) {
         try {
-            StringWriter sw = new StringWriter();
-            TransformerFactory tf = TransformerFactory.newInstance();
-            Transformer transformer = tf.newTransformer();
+            final StringWriter stringWriter = new StringWriter();
+            final TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            Transformer transformer = transformerFactory.newTransformer();
             transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
             transformer.setOutputProperty(OutputKeys.METHOD, "xml");
             transformer.setOutputProperty(OutputKeys.INDENT, "yes");
             transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-
-            transformer.transform(new DOMSource(doc), new StreamResult(sw));
-            return sw.toString();
+            transformer.transform(new DOMSource(doc), new StreamResult(stringWriter));
+            return stringWriter.toString();
         } catch (Exception ex) {
             throw new RuntimeException("Error converting to String", ex);
         }
     }
 
-    Document loadXMLFrom(String xml) throws Exception {
-        InputSource is= new InputSource(new StringReader(xml));
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        factory.setNamespaceAware(true);
-        DocumentBuilder builder = null;
-        builder = factory.newDocumentBuilder();
-        Document doc = builder.parse(is);
-        return doc;
+    private Document documentFor(
+            final InputSource inputSource,
+            final F1<Document, Attr> fAttr) throws Exception {
+
+        // if setSchema worked, we could use this rather than require the client specify the attribute
+        // final Source sourceSchemaForTrustmark = new StreamSource(XmlHelper.class.getResourceAsStream(XmlConstants.TRUSTMARK_FRAMEWORK_SCHEMA_PATH));
+        // final Source sourceSchemaForTrustmark13 = new StreamSource(XmlHelper.class.getResourceAsStream(XmlConstants.TRUSTMARK_FRAMEWORK_SCHEMA_PATH_1_3));
+        // final Source sourceSchemaForTrustmark14 = new StreamSource(XmlHelper.class.getResourceAsStream(XmlConstants.TRUSTMARK_FRAMEWORK_SCHEMA_PATH_1_4));
+        // final Source sourceSchemaForXmlSignature = new StreamSource(XmlHelper.class.getResourceAsStream(XmlConstants.XML_SIG_SCHEMA_PATH));
+
+        // final Source[] sourceSchemaArray = new Source[]{sourceSchemaForTrustmark, sourceSchemaForTrustmark13, sourceSchemaForTrustmark14, sourceSchemaForXmlSignature};
+        // final SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+        // schemaFactory.setResourceResolver(new LSResourceResolverImpl());
+        // final Schema schema = schemaFactory.newSchema(sourceSchemaArray);
+
+        final DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+        documentBuilderFactory.setNamespaceAware(true);
+        // documentBuilderFactory.setSchema(schema);
+
+        final DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+
+        final Document document = documentBuilder.parse(inputSource);
+        // if setSchema worked, we could use this rather than require the client specify the attribute
+        document.getDocumentElement().setIdAttributeNode(fAttr.f(document), true);
+
+        return document;
     }
 
-    /**
-     * KeySelector which retrieves the public key out of the
-     * KeyValue element and returns it.
-     * NOTE: If the key algorithm doesn't match signature algorithm,
-     * then the public key will be ignored.
-     */
-    class KeyValueKeySelector extends KeySelector {
-        public KeySelectorResult select(KeyInfo keyInfo,
-                                        KeySelector.Purpose purpose,
-                                        AlgorithmMethod method,
-                                        XMLCryptoContext context)
-                throws KeySelectorException {
-            if (keyInfo == null) {
-                throw new KeySelectorException("Null KeyInfo object!");
-            }
-            SignatureMethod sm = (SignatureMethod) method;
-            List list = keyInfo.getContent();
+    private String uriFor(
+            final Document document,
+            final F1<Document, Attr> fAttr) {
 
-            for (int i = 0; i < list.size(); i++) {
-                XMLStructure xmlStructure = (XMLStructure) list.get(i);
-                if (xmlStructure instanceof KeyValue) {
-                    PublicKey pk = null;
-                    try {
-                        pk = ((KeyValue)xmlStructure).getPublicKey();
-                    } catch (KeyException ke) {
-                        throw new KeySelectorException(ke);
-                    }
-                    // make sure algorithm is compatible with method
-                    String signatureAlgorithm =  sm.getAlgorithm();
-                    String publicKeyAlgorithm = pk.getAlgorithm();
-                    if (algEquals(sm.getAlgorithm(), pk.getAlgorithm())) {
-                        return new SimpleKeySelectorResult(pk);
-                    }
-                }
-            }
-            throw new KeySelectorException("No KeyValue element found!");
-        }
-
-
-        // This works only for DSA/RSA key types. Other key types will need to be added here.
-        boolean algEquals(String algURI, String algName) {
-            if (algName.equalsIgnoreCase("DSA") &&
-                    algURI.equalsIgnoreCase("http://www.w3.org/2009/xmldsig11#dsa-sha256")) {
-                return true;
-            } else if (algName.equalsIgnoreCase("RSA") &&
-                    algURI.equalsIgnoreCase("http://www.w3.org/2001/04/xmldsig-more#rsa-sha256")) {
-                return true;
-            } else {
-                return false;
-            }
-        }
+        return fromNull(fAttr.f(document))
+                .map(Node::getNodeValue)
+                .map(String::trim)
+                .filter(String::isEmpty)
+                .map(uri -> "#" + uri)
+                .orSome("");
     }
-
-    class SimpleKeySelectorResult implements KeySelectorResult {
-        private PublicKey pk;
-        SimpleKeySelectorResult(PublicKey pk) {
-            this.pk = pk;
-        }
-
-        public Key getKey() { return pk; }
-    }
-}//end TrustmarkXmlSignature
+}

@@ -8,7 +8,7 @@
     </parent>
     <groupId>edu.gatech.gtri.trustmark</groupId>
     <artifactId>tf-api-parent</artifactId>
-    <version>1.4.10</version>
+    <version>1.4.18</version>
     <packaging>pom</packaging>
     <name>Trustmark Framework Java API</name>
     <modules>

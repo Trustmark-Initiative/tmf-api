@@ -4,7 +4,7 @@ import edu.gatech.gtri.trustmark.v1_0.FactoryLoader;
 import edu.gatech.gtri.trustmark.v1_0.io.ResolveException;
 import edu.gatech.gtri.trustmark.v1_0.io.json.JsonManager;
 import edu.gatech.gtri.trustmark.v1_0.io.json.JsonProducer;
-import edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.evaluator.TrustExpressionEvaluatorFailure;
+import edu.gatech.gtri.trustmark.v1_0.tip.evaluator.TrustExpressionEvaluatorFailure;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;

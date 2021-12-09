@@ -4,58 +4,73 @@ import edu.gatech.gtri.trustmark.v1_0.impl.model.TrustmarkStatusReportImpl;
 import edu.gatech.gtri.trustmark.v1_0.io.ParseException;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkStatusCode;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkStatusReport;
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
-import org.json.JSONArray;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
+
+import java.net.URI;
+
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.JsonDeserializerUtility.assertSupported;
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.JsonDeserializerUtility.readDate;
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.JsonDeserializerUtility.readExtensionOption;
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.JsonDeserializerUtility.readJSONObject;
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.JsonDeserializerUtility.readJSONObjectList;
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.JsonDeserializerUtility.readString;
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.JsonDeserializerUtility.readStringOption;
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.JsonDeserializerUtility.readURI;
+import static java.lang.String.format;
+import static java.util.Objects.requireNonNull;
 
 /**
  * Created by brad on 12/10/15.
  */
-public class TrustmarkStatusReportJsonDeserializer extends AbstractDeserializer {
-
+public class TrustmarkStatusReportJsonDeserializer implements JsonDeserializer<TrustmarkStatusReport> {
 
     private static final Logger log = LogManager.getLogger(TrustmarkJsonDeserializer.class);
 
+    public TrustmarkStatusReport deserialize(final String jsonString) throws ParseException {
+        requireNonNull(jsonString);
 
-    public static TrustmarkStatusReport deserialize(String jsonString ) throws ParseException {
-        log.debug("Deserializing TrustmarkStatusReport JSON...");
+        log.debug("Deserializing Trustmark Status Report JSON . . .");
 
-        JSONObject jsonObject = new JSONObject(jsonString);
-        isSupported(jsonObject);
+        final JSONObject jsonObject = new JSONObject(jsonString);
 
-        TrustmarkStatusReportImpl tsr = new TrustmarkStatusReportImpl();
+        assertSupported(jsonObject);
 
-        tsr.setOriginalSource(jsonString);
-        tsr.setOriginalSourceType("application/json");
-        tsr.setId(getString(jsonObject, "$id", true));
+        final TrustmarkStatusReportImpl trustmarkStatusReport = new TrustmarkStatusReportImpl();
 
-        JSONObject tmRefObj = jsonObject.optJSONObject("TrustmarkReference");
-        if( tmRefObj == null )
-            throw new ParseException("TrustmarkStatusReports requires a JSON Object named 'TrustmarkReference' be defined.");
-        tsr.setTrustmarkReference(getUri(tmRefObj, "Identifier", true));
+        trustmarkStatusReport.setOriginalSource(jsonString);
+        trustmarkStatusReport.setOriginalSourceType(SerializerJson.APPLICATION_JSON);
 
-        String statusCodeString = getString(jsonObject, "StatusCode", true);
-        TrustmarkStatusCode statusCode = TrustmarkStatusCode.fromString(statusCodeString);
-        if( statusCode == null )
-            throw new ParseException("Status Code '"+statusCodeString+"' is invalid");
-        tsr.setStatus(statusCode);
+        trustmarkStatusReport.setId(readString(jsonObject, "$id"));
+        trustmarkStatusReport.setStatus(readTrustmarkStatusCode(readString(jsonObject, "StatusCode")));
+        trustmarkStatusReport.setStatusDateTime(readDate(jsonObject, "StatusDateTime"));
+        trustmarkStatusReport.setTrustmarkReference(readURI(readJSONObject(jsonObject, "TrustmarkReference"), "Identifier"));
 
-        tsr.setStatusDateTime(getDate(jsonObject, "StatusDateTime", true));
+        readExtensionOption(jsonObject, "Extension").forEach(trustmarkStatusReport::setExtension);
 
-        JSONArray superseders = jsonObject.optJSONArray("SupersederTrustmarkReferences");
-        if( superseders != null ){
-            for( int i = 0; i < superseders.length(); i++ ){
-                JSONObject supersederObj = (JSONObject) superseders.get(i);
-                tsr.addSupersederTrustmarkReference(getUri(supersederObj, "Identifier", true));
-            }
+        readJSONObjectList(jsonObject, "SupersederTrustmarkReferences").mapException(TrustmarkStatusReportJsonDeserializer::readSupersederTrustmarkReference).forEach(trustmarkStatusReport::addSupersederTrustmarkReference);
+
+        readStringOption(jsonObject, "Notes").forEach(trustmarkStatusReport::setNotes);
+
+        return trustmarkStatusReport;
+    }
+
+    private static TrustmarkStatusCode readTrustmarkStatusCode(final String string) throws ParseException {
+        requireNonNull(string);
+
+        final TrustmarkStatusCode trustmarkStatusCode = TrustmarkStatusCode.fromString(string);
+
+        if (trustmarkStatusCode != null) {
+            return trustmarkStatusCode;
+        } else {
+            throw new ParseException(format("The json object must have the 'TrustmarkStatusCode' property 'StatusCode'."));
         }
+    }
 
-        tsr.setNotes(getString(jsonObject, "Notes", false));
-        tsr.setExtension(readExtension(jsonObject, "Extension", false));
+    private static URI readSupersederTrustmarkReference(final JSONObject jsonObject) throws ParseException {
+        requireNonNull(jsonObject);
 
-        return tsr;
-    }//end deserialize
-
-
+        return readURI(jsonObject, "Identifier");
+    }
 }

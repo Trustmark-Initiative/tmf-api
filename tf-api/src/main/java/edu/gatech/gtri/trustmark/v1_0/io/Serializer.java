@@ -22,54 +22,64 @@ public interface Serializer {
     /**
      * Returns the name of this serializer, which should be a big clue as to what format it writes, ie "JSON Serializer"
      */
-    public String getName();
+    String getName();
 
     /**
      * Returns a short description about what this serializer does, ie "Writes JSON data".  Note that it will probably
      * have more detail than the name field, and return specifics such as version numbers, etc.
      */
-    public String getDescription();
+    String getDescription();
 
     /**
      * Returns the type of output format this serializer can write.  For example, application/json or text/xml.
      */
-    public String getOutputMimeFormat();
+    String getOutputMimeFormat();
 
+    void serialize(final Trustmark trustmark, final Writer writer) throws IOException;
 
+    void serialize(final Trustmark trustmark, final OutputStream outputStream) throws IOException;
 
-    public void serialize(Trustmark trustmark, Writer writer) throws IOException;
-    public void serialize(Trustmark trustmark, OutputStream outputStream) throws IOException;
-    public void serialize(Trustmark trustmark, Writer writer, Map model) throws IOException;
-    public void serialize(Trustmark trustmark, OutputStream outputStream, Map model) throws IOException;
+    void serialize(final Trustmark trustmark, final Writer writer, final Map<Object, Object> model) throws IOException;
 
+    void serialize(final Trustmark trustmark, final OutputStream outputStream, final Map<Object, Object> model) throws IOException;
 
-    public void serialize(TrustmarkStatusReport tsr, Writer writer) throws IOException;
-    public void serialize(TrustmarkStatusReport tsr, OutputStream outputStream) throws IOException;
-    public void serialize(TrustmarkStatusReport tsr, Writer writer, Map model) throws IOException;
-    public void serialize(TrustmarkStatusReport tsr, OutputStream outputStream, Map model) throws IOException;
+    void serialize(final TrustmarkStatusReport trustmarkStatusReport, final Writer writer) throws IOException;
 
+    void serialize(final TrustmarkStatusReport trustmarkStatusReport, final OutputStream outputStream) throws IOException;
 
-    public void serialize(TrustmarkDefinition td, Writer writer) throws IOException;
-    public void serialize(TrustmarkDefinition td, OutputStream outputStream) throws IOException;
-    public void serialize(TrustmarkDefinition td, Writer writer, Map model) throws IOException;
-    public void serialize(TrustmarkDefinition td, OutputStream outputStream, Map model) throws IOException;
+    void serialize(final TrustmarkStatusReport trustmarkStatusReport, final Writer writer, final Map<Object, Object> model) throws IOException;
 
+    void serialize(final TrustmarkStatusReport trustmarkStatusReport, final OutputStream outputStream, final Map<Object, Object> model) throws IOException;
 
-    public void serialize(TrustInteroperabilityProfile tip, Writer writer) throws IOException;
-    public void serialize(TrustInteroperabilityProfile tip, OutputStream outputStream) throws IOException;
-    public void serialize(TrustInteroperabilityProfile tip, Writer writer, Map model) throws IOException;
-    public void serialize(TrustInteroperabilityProfile tip, OutputStream outputStream, Map model) throws IOException;
+    void serialize(final TrustmarkDefinition trustmarkDefinition, final Writer writer) throws IOException;
 
+    void serialize(final TrustmarkDefinition trustmarkDefinition, final OutputStream outputStream) throws IOException;
 
-    public void serialize(Agreement agreement, Writer writer) throws IOException;
-    public void serialize(Agreement agreement, OutputStream outputStream) throws IOException;
-    public void serialize(Agreement agreement, Writer writer, Map model) throws IOException;
-    public void serialize(Agreement agreement, OutputStream outputStream, Map model) throws IOException;
+    void serialize(final TrustmarkDefinition trustmarkDefinition, final Writer writer, final Map<Object, Object> model) throws IOException;
 
+    void serialize(final TrustmarkDefinition trustmarkDefinition, final OutputStream outputStream, final Map<Object, Object> model) throws IOException;
 
-    public void serialize(AgreementResponsibilityTemplate art, Writer writer) throws IOException;
-    public void serialize(AgreementResponsibilityTemplate art, OutputStream outputStream) throws IOException;
-    public void serialize(AgreementResponsibilityTemplate art, Writer writer, Map model) throws IOException;
-    public void serialize(AgreementResponsibilityTemplate art, OutputStream outputStream, Map model) throws IOException;
+    void serialize(final TrustInteroperabilityProfile trustInteroperabilityProfile, final Writer writer) throws IOException;
 
+    void serialize(final TrustInteroperabilityProfile trustInteroperabilityProfile, final OutputStream outputStream) throws IOException;
+
+    void serialize(final TrustInteroperabilityProfile trustInteroperabilityProfile, final Writer writer, final Map<Object, Object> model) throws IOException;
+
+    void serialize(final TrustInteroperabilityProfile trustInteroperabilityProfile, final OutputStream outputStream, final Map<Object, Object> model) throws IOException;
+
+    void serialize(final Agreement agreement, final Writer writer) throws IOException;
+
+    void serialize(final Agreement agreement, final OutputStream outputStream) throws IOException;
+
+    void serialize(final Agreement agreement, final Writer writer, final Map<Object, Object> model) throws IOException;
+
+    void serialize(final Agreement agreement, final OutputStream outputStream, final Map<Object, Object> model) throws IOException;
+
+    void serialize(final AgreementResponsibilityTemplate agreementResponsibilityTemplate, final Writer writer) throws IOException;
+
+    void serialize(final AgreementResponsibilityTemplate agreementResponsibilityTemplate, final OutputStream outputStream) throws IOException;
+
+    void serialize(final AgreementResponsibilityTemplate agreementResponsibilityTemplate, final Writer writer, final Map<Object, Object> model) throws IOException;
+
+    void serialize(final AgreementResponsibilityTemplate agreementResponsibilityTemplate, final OutputStream outputStream, final Map<Object, Object> model) throws IOException;
 }

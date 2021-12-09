@@ -14,13 +14,10 @@ import edu.gatech.gtri.trustmark.v1_0.util.TrustmarkDefinitionUtils;
 import edu.gatech.gtri.trustmark.v1_0.util.diff.DiffSeverity;
 import edu.gatech.gtri.trustmark.v1_0.util.diff.TrustmarkDefinitionDiffResult;
 import edu.gatech.gtri.trustmark.v1_0.util.diff.json.*;
-//import org.apache.log4j.Level;
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.Level.*;
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.File;
@@ -40,6 +37,10 @@ import static org.hamcrest.Matchers.*;
 public class TestExcelBulkReader extends AbstractTest {
 
     final String TPAT_PROPERTIES = "./src/test/resources/tpat_config.properties";
+
+    static{
+        logger = LogManager.getLogger(TestExcelBulkReader.class);
+    }
     //==================================================================================================================
     //  Tests
     //==================================================================================================================
@@ -434,8 +435,38 @@ public class TestExcelBulkReader extends AbstractTest {
         
         logger.info("Successfully tested sources-and-terms TIPs import.");
     }
-    
-    
+
+    @Test
+    public void testDeprecatedSupersededBySupersedesExample() throws Exception {
+        logger.info("Testing excel with Deprecated / SupersededBy / Supersedes information...");
+
+        File excelFile = getFile("DeprecatedSupersededBySupersedes.xlsx");
+        ExcelBulkReader reader = getExcelBulkReader();
+
+        logger.debug("Performing ExcelBulkReader.readBulkFrom() on file["+excelFile+"]...");
+        BulkReadContext readContext = this.getBulkReadContext();
+        BulkReadResult readResult = reader.readBulkFrom(readContext, excelFile);
+        assertThat(readResult, notNullValue());
+        assertThat(readResult.getResultingTrustmarkDefinitions(), notNullValue());
+        assertThat(readResult.getResultingTrustmarkDefinitions().size(), equalTo(1));
+        assertThat(readResult.getResultingTrustInteroperabilityProfiles(), notNullValue()); // Even though it is empty
+        assertThat(readResult.getResultingTrustInteroperabilityProfiles().size(), equalTo(1));
+
+        logger.debug("Validating single TD...");
+        TrustmarkDefinition actualTd = readResult.getResultingTrustmarkDefinitions().get(0);
+        assertThat(actualTd, notNullValue());
+
+        BulkReadResult expectedResult = readJsonToResult("DeprecatedSupersededBySupersedes.json");
+        assertThat(expectedResult, notNullValue());
+        assertThat(expectedResult.getResultingTrustmarkDefinitions().size(), equalTo(1));
+        assertThat(expectedResult.getResultingTrustInteroperabilityProfiles().size(), equalTo(0));
+        TrustmarkDefinition expectedTd = expectedResult.getResultingTrustmarkDefinitions().get(0);
+
+        doDiff(expectedTd, actualTd);
+
+        logger.info("Successfully tested that ExcelBulkReader handles deprecated / superseded by / superseds case case with one TD.");
+    }
+
     //==================================================================================================================
     //  Test Helper Methods
     //==================================================================================================================

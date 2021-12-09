@@ -12,7 +12,7 @@ public class TrustInteroperabilityProfileResolverFromMap extends AbstractResolve
 
     public TrustInteroperabilityProfileResolverFromMap(final Map<URI, TrustInteroperabilityProfile> map) {
         super(
-                TrustInteroperabilityProfileJsonDeserializer::deserialize,
+                new TrustInteroperabilityProfileJsonDeserializer()::deserialize,
                 TrustInteroperabilityProfileXmlDeserializer::deserialize,
                 entity -> entity,
                 map);

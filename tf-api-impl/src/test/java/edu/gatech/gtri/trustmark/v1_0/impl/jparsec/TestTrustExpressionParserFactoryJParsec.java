@@ -1,7 +1,7 @@
 package edu.gatech.gtri.trustmark.v1_0.impl.jparsec;
 
-import edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.TrustExpression;
-import edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.TrustExpressionData;
+import edu.gatech.gtri.trustmark.v1_0.tip.TrustExpression;
+import edu.gatech.gtri.trustmark.v1_0.tip.TrustExpressionData;
 import org.jparsec.Parser;
 import org.junit.Assert;
 import org.junit.Test;
@@ -9,25 +9,25 @@ import org.junit.Test;
 import java.math.BigDecimal;
 import java.time.Instant;
 
-import static edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.TrustExpression.and;
-import static edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.TrustExpression.contains;
-import static edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.TrustExpression.equal;
-import static edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.TrustExpression.exists;
-import static edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.TrustExpression.greaterThan;
-import static edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.TrustExpression.greaterThanOrEqual;
-import static edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.TrustExpression.lessThan;
-import static edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.TrustExpression.lessThanOrEqual;
-import static edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.TrustExpression.not;
-import static edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.TrustExpression.notEqual;
-import static edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.TrustExpression.or;
-import static edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.TrustExpression.terminal;
-import static edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.TrustExpressionData.dataLiteralBoolean;
-import static edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.TrustExpressionData.dataLiteralDateTimeStamp;
-import static edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.TrustExpressionData.dataLiteralDecimal;
-import static edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.TrustExpressionData.dataLiteralString;
-import static edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.TrustExpressionData.dataNonTerminal;
-import static edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.TrustExpressionData.dataReferenceTrustmarkDefinitionParameter;
-import static edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.TrustExpressionData.dataReferenceTrustmarkDefinitionRequirement;
+import static edu.gatech.gtri.trustmark.v1_0.tip.TrustExpression.and;
+import static edu.gatech.gtri.trustmark.v1_0.tip.TrustExpression.contains;
+import static edu.gatech.gtri.trustmark.v1_0.tip.TrustExpression.equal;
+import static edu.gatech.gtri.trustmark.v1_0.tip.TrustExpression.exists;
+import static edu.gatech.gtri.trustmark.v1_0.tip.TrustExpression.greaterThan;
+import static edu.gatech.gtri.trustmark.v1_0.tip.TrustExpression.greaterThanOrEqual;
+import static edu.gatech.gtri.trustmark.v1_0.tip.TrustExpression.lessThan;
+import static edu.gatech.gtri.trustmark.v1_0.tip.TrustExpression.lessThanOrEqual;
+import static edu.gatech.gtri.trustmark.v1_0.tip.TrustExpression.not;
+import static edu.gatech.gtri.trustmark.v1_0.tip.TrustExpression.notEqual;
+import static edu.gatech.gtri.trustmark.v1_0.tip.TrustExpression.or;
+import static edu.gatech.gtri.trustmark.v1_0.tip.TrustExpression.terminal;
+import static edu.gatech.gtri.trustmark.v1_0.tip.TrustExpressionData.dataLiteralBoolean;
+import static edu.gatech.gtri.trustmark.v1_0.tip.TrustExpressionData.dataLiteralDateTimeStamp;
+import static edu.gatech.gtri.trustmark.v1_0.tip.TrustExpressionData.dataLiteralDecimal;
+import static edu.gatech.gtri.trustmark.v1_0.tip.TrustExpressionData.dataLiteralString;
+import static edu.gatech.gtri.trustmark.v1_0.tip.TrustExpressionData.dataNonTerminal;
+import static edu.gatech.gtri.trustmark.v1_0.tip.TrustExpressionData.dataReferenceTrustmarkDefinitionParameter;
+import static edu.gatech.gtri.trustmark.v1_0.tip.TrustExpressionData.dataReferenceTrustmarkDefinitionRequirement;
 
 public class TestTrustExpressionParserFactoryJParsec {
 

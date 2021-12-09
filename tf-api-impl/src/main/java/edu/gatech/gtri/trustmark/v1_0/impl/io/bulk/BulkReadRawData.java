@@ -3,21 +3,38 @@ package edu.gatech.gtri.trustmark.v1_0.impl.io.bulk;
 import edu.gatech.gtri.trustmark.v1_0.FactoryLoader;
 import edu.gatech.gtri.trustmark.v1_0.impl.TrustmarkFrameworkConstants;
 import edu.gatech.gtri.trustmark.v1_0.impl.io.TrustInteroperabilityProfileSyntaxException;
-import edu.gatech.gtri.trustmark.v1_0.impl.model.*;
+import edu.gatech.gtri.trustmark.v1_0.impl.model.ArtifactImpl;
+import edu.gatech.gtri.trustmark.v1_0.impl.model.AssessmentStepImpl;
+import edu.gatech.gtri.trustmark.v1_0.impl.model.CitationImpl;
+import edu.gatech.gtri.trustmark.v1_0.impl.model.ConformanceCriterionImpl;
+import edu.gatech.gtri.trustmark.v1_0.impl.model.SourceImpl;
+import edu.gatech.gtri.trustmark.v1_0.impl.model.TermImpl;
+import edu.gatech.gtri.trustmark.v1_0.impl.model.TrustInteroperabilityProfileImpl;
+import edu.gatech.gtri.trustmark.v1_0.impl.model.TrustInteroperabilityProfileReferenceImpl;
+import edu.gatech.gtri.trustmark.v1_0.impl.model.TrustmarkDefinitionImpl;
+import edu.gatech.gtri.trustmark.v1_0.impl.model.TrustmarkDefinitionMetadataImpl;
+import edu.gatech.gtri.trustmark.v1_0.impl.model.TrustmarkDefinitionParameterImpl;
+import edu.gatech.gtri.trustmark.v1_0.impl.model.TrustmarkDefinitionRequirementImpl;
+import edu.gatech.gtri.trustmark.v1_0.impl.model.TrustmarkFrameworkIdentifiedObjectImpl;
 import edu.gatech.gtri.trustmark.v1_0.io.bulk.BulkReadContext;
-import edu.gatech.gtri.trustmark.v1_0.model.*;
-import edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.TrustExpression;
-import edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.TrustExpressionData;
-import edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.TrustExpressionStringParser;
-import edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.TrustExpressionStringParserFactory;
-import edu.gatech.gtri.trustmark.v1_0.util.TrustExpressionSyntaxException;
+import edu.gatech.gtri.trustmark.v1_0.model.AbstractTIPReference;
+import edu.gatech.gtri.trustmark.v1_0.model.AssessmentStep;
+import edu.gatech.gtri.trustmark.v1_0.model.ParameterKind;
+import edu.gatech.gtri.trustmark.v1_0.model.Term;
+import edu.gatech.gtri.trustmark.v1_0.model.TrustInteroperabilityProfile;
+import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkDefinition;
+import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkFrameworkIdentifiedObject;
+import edu.gatech.gtri.trustmark.v1_0.tip.TrustExpression;
+import edu.gatech.gtri.trustmark.v1_0.tip.TrustExpressionData;
+import edu.gatech.gtri.trustmark.v1_0.tip.TrustExpressionStringParser;
+import edu.gatech.gtri.trustmark.v1_0.tip.TrustExpressionStringParserFactory;
 import org.apache.commons.collections4.BidiMap;
 import org.apache.commons.collections4.MultiValuedMap;
 import org.apache.commons.collections4.bidimap.DualHashBidiMap;
 import org.apache.commons.collections4.multimap.ArrayListValuedHashMap;
 import org.apache.commons.lang.StringUtils;
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
@@ -30,7 +47,19 @@ import java.lang.reflect.Modifier;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -40,11 +69,11 @@ import java.util.stream.Collectors;
  * Created by Nicholas on 9/6/2016.
  */
 public final class BulkReadRawData {
-    
+
     //////////////////////
     // Static Constants //
     //////////////////////
-    
+
     private static final Logger logger = LogManager.getLogger(BulkReadRawData.class);
     private static final String XML_NAMESPACE_TF_NAME = TrustmarkFrameworkConstants.NAMESPACE_PREFIX;
     private static final String XML_NAMESPACE_TF_VALUE = TrustmarkFrameworkConstants.NAMESPACE_URI;
@@ -69,50 +98,71 @@ public final class BulkReadRawData {
     ////////////////////////
     // Instance Constants //
     ////////////////////////
-    
+
     public final BulkReadContext context;
-    
-    
+
+
     //////////////////////////////////////////////
     // Instance Fields/Properties - Parse Flags //
     //////////////////////////////////////////////
-    
+
     private boolean parsedTdsAreValid = false;
     private boolean parsedTipsAreValid = false;
-    
+
     private boolean isTransientDataCollectionEnabled = false;
-    public boolean getIsTransientDataCollectionEnabled() { return this.isTransientDataCollectionEnabled; }
-    public void setIsTransientDataCollectionEnabled(boolean value) { this.isTransientDataCollectionEnabled = value; }
-    
-    
+
+    public boolean getIsTransientDataCollectionEnabled() {
+        return this.isTransientDataCollectionEnabled;
+    }
+
+    public void setIsTransientDataCollectionEnabled(boolean value) {
+        this.isTransientDataCollectionEnabled = value;
+    }
+
+
     ///////////////////////////////////
     // Instance Fields - Cached Data //
     ///////////////////////////////////
-    
-    private final Map<String,Element> cachedTdsByUri = new HashMap<>();
+
+    private final Map<String, Element> cachedTdsByUri = new HashMap<>();
     private final Map<String, String> cachedSources = new HashMap<>();
-    
-    
+
+
     /////////////////////////////////////
     // Instance Properties - Listeners //
     /////////////////////////////////////
-    
+
     private BulkReadListenerCollection listenerCollection;
-    public void setListenerCollection(BulkReadListenerCollection _listenerCollection) { this.listenerCollection = _listenerCollection; }
-    
-    
+
+    public void setListenerCollection(BulkReadListenerCollection _listenerCollection) {
+        this.listenerCollection = _listenerCollection;
+    }
+
+
     ////////////////////////////////////
     // Instance Properties - Raw Data //
     ////////////////////////////////////
 
     private final MultiValuedMap<String, TermImpl> rawTermsByFileName = new ArrayListValuedHashMap<>();
-    public void addTerms(String fileName, List<TermImpl> _terms) { this.makeParseInvalid(); this.rawTermsByFileName.putAll(fileName, _terms); }
+
+    public void addTerms(String fileName, List<TermImpl> _terms) {
+        this.makeParseInvalid();
+        this.rawTermsByFileName.putAll(fileName, _terms);
+    }
 
     private final List<RawTrustmarkDefinition> rawTds = new ArrayList<>();
-    public void addRawTds(List<RawTrustmarkDefinition> _rawTds) { this.makeParseInvalid(); this.rawTds.addAll(_rawTds); }
+
+    public void addRawTds(List<RawTrustmarkDefinition> _rawTds) {
+        this.makeParseInvalid();
+        this.rawTds.addAll(_rawTds);
+    }
 
     private final List<RawTrustInteroperabilityProfile> rawTips = new ArrayList<>();
-    public void addRawTips(List<RawTrustInteroperabilityProfile> _rawTips) { this.makeParseInvalid(); this.rawTips.addAll(_rawTips); }
+
+    public void addRawTips(List<RawTrustInteroperabilityProfile> _rawTips) {
+        this.makeParseInvalid();
+        this.rawTips.addAll(_rawTips);
+    }
 
 
     ////////////////////////////////////////////
@@ -120,17 +170,21 @@ public final class BulkReadRawData {
     ////////////////////////////////////////////
 
     private List<TrustmarkDefinition> parsedTds = null;
+
     public List<TrustmarkDefinition> getParsedTds() throws Exception {
         this.ensureRawTdsAreParsed();
         return Collections.unmodifiableList(this.parsedTds);
     }
+
     private List<TrustInteroperabilityProfile> parsedTips = null;
+
     public List<TrustInteroperabilityProfile> getParsedTips() throws Exception {
         this.ensureRawTipsAreParsed();
         return Collections.unmodifiableList(this.parsedTips);
     }
 
     private List<String> invalidParameters = new ArrayList<>();
+
     public List<String> getInvalidParameters() throws Exception {
         return Collections.unmodifiableList(this.invalidParameters);
     }
@@ -179,7 +233,7 @@ public final class BulkReadRawData {
      * and cache the XML of it.
      */
     private Element getRemoteArtifact(String uri, RawArtifact artifact) throws Exception {
-        Element result = this.cachedTdsByUri.get(uri);
+        Element result = this.cachedTdsByUri.get(uri); //FIXME
         if (result == null) {
             logger.debug("Downloading " + artifact.getArtifactAbbr() + " XML for URI[" + uri + "]...");
             String xmlUri = uri + (uri.contains("?") ? "&" : "?") + "format=xml";
@@ -207,13 +261,22 @@ public final class BulkReadRawData {
         return supersededTdElements;
     }
 
+    private List<Element> getSupersededByArtifactElements(RawArtifact artifact) throws Exception {
+        List<Element> supersededTdElements = new ArrayList<>();
+        for (String uri : artifact.supersedesUris) {
+            supersededTdElements.add(this.getRemoteArtifact(uri, artifact));
+        }
+        return supersededTdElements;
+    }
+
     /**
      * Resolves the source reference from external sources.  Looks at the assessment tool for data.
      */
-    private Map<String,String> lookupSource(String sourceIdentifier, RawTdMetadata metadata) throws Exception {
+    private Map<String, String> lookupSource(String sourceIdentifier, RawTdMetadata metadata) throws Exception {
         Map<String, String> ref = null;
 
         List<Element> supersededTds = this.getSupersededArtifactElements(metadata);
+        //TODO this.getSupersededByArtifactElements(metadata);
 
         Map<String, String> sourcesInSupersededTds = new HashMap<>();
         for (Element td : supersededTds) {
@@ -262,95 +325,100 @@ public final class BulkReadRawData {
                 }
             }
         }
-    
+
         return alreadyFoundTerms;
     }
-    
-    
+
+
     //////////////////////////////////////////////////
     // Instance Methods - Private - Parsing Raw TDs //
     //////////////////////////////////////////////////
-    
+
     private void parseRawTds() throws Exception {
         logger.debug("Creating TD information from raw data...");
-    
+
         Map<String, RawTdMetadata> monikerToMetadataMap = new HashMap<>(); // Maps TD monikers to metadata
         MultiValuedMap<String, RawTrustmarkDefinition> monikerToCritStepMultiMap = new ArrayListValuedHashMap<>(); // Moniker -> List of <Criteria, Step> tuples. (either may be blank)
         Set<String> monikers = monikerToCritStepMultiMap.keySet(); // This is backed by the map, so they change together.
         this.populateMonikerMaps(monikerToMetadataMap, monikerToCritStepMultiMap);
-        
+
         int rawTdCount = monikers.size();
         int rawTdCurrentIndex = 0;
-    
+
         this.listenerCollection.fireSetPercentage(0);
         this.parsedTds = new ArrayList<>(rawTdCount);
         for (String moniker : monikers) {
             RawTdMetadata metadata = monikerToMetadataMap.get(moniker);
             Collection<RawTrustmarkDefinition> criteriaStepPairs = monikerToCritStepMultiMap.get(moniker);
-    
+
             // Validate the supersedes information.  An error is raised if the TD URI cannot be found in the Assessment Tool.
-            for (String supersededUri : metadata.supersedesUris) {
-                Element supersededTdXml = this.getRemoteArtifact(supersededUri, metadata);
-                logger.debug("Successfully validated " + supersededUri + " is a valid superseded URI.");
+            for (String supersedesUri : metadata.supersedesUris) {
+                Element supersedesTdXml = this.getRemoteArtifact(supersedesUri, metadata);
+                logger.debug("Successfully cashed remote artifact " + supersedesUri);
             }
-    
+            for (String supersededByUri : metadata.supersededByUris) {
+                Element supersededByTdXml = this.getRemoteArtifact(supersededByUri, metadata);
+                logger.debug("Successfully cashed remote artifact " + supersededByUri);
+            }
+
+
             this.processMetadata(metadata);
             this.validateMetadata(metadata);
-    
+
             Map<String, String> sources = metadata.sources;
             this.cachedSources.putAll(sources);
-    
+
             Set<String> sourceReferences = new HashSet<>();
             List<RawTdCriterion> criteria = new ArrayList<>();
             List<RawTdAssessmentStep> assessmentSteps = new ArrayList<>();
             MultiValuedMap<String, String> stepCriteriaMap = new ArrayListValuedHashMap<>(); // Maps which assessment step pertains to which criteria.
             this.populateCriteriaStepPairs(criteriaStepPairs, sourceReferences, criteria, assessmentSteps, stepCriteriaMap);
-    
+
             Map<String, String> culledSources = this.cullSources(sourceReferences, sources, metadata);
             SortedSet<TermImpl> terms = this.gatherTerms(metadata);
-            
+
             this.resolveSupersededTds(metadata);
             this.validateRawTdParse(metadata, culledSources, criteria, assessmentSteps);
-            
+
             TrustmarkDefinitionImpl parsedTd = this.assembleTrustmarkDefinition(
-                metadata,
-                terms,
-                culledSources,
-                criteria,
-                assessmentSteps,
-                stepCriteriaMap
+                    metadata,
+                    terms,
+                    culledSources,
+                    criteria,
+                    assessmentSteps,
+                    stepCriteriaMap
             );
-    
+
             logger.debug(String.format(
-                "    TD %s contains %s criteria, %s assessment steps, and %s sources.",
-                parsedTd.getMetadata().getName(),
-                parsedTd.getConformanceCriteria().size(),
-                parsedTd.getAssessmentSteps().size(),
-                parsedTd.getSources().size()
+                    "    TD %s contains %s criteria, %s assessment steps, and %s sources.",
+                    parsedTd.getMetadata().getName(),
+                    parsedTd.getConformanceCriteria().size(),
+                    parsedTd.getAssessmentSteps().size(),
+                    parsedTd.getSources().size()
             ));
             this.parsedTds.add(parsedTd);
-            
+
             ++rawTdCurrentIndex;
             this.listenerCollection.fireSetMessage(String.format(
-                "Parsed %s of %s raw Trustmark Definitions",
-                rawTdCurrentIndex,
-                rawTdCount
+                    "Parsed %s of %s raw Trustmark Definitions",
+                    rawTdCurrentIndex,
+                    rawTdCount
             ));
             this.listenerCollection.fireSetPercentage(100 * rawTdCurrentIndex / rawTdCount);
         }
 
         logger.debug("Checking that there are no ID or Name/Version collisions...");
-        for( int i = 0; i < this.parsedTds.size(); i++ ){
+        for (int i = 0; i < this.parsedTds.size(); i++) {
             TrustmarkDefinition td1 = this.parsedTds.get(i);
-            for( int j = 0; j < this.parsedTds.size() && j < i; j++ ){
+            for (int j = 0; j < this.parsedTds.size() && j < i; j++) {
                 TrustmarkDefinition td2 = this.parsedTds.get(j);
 
-                if( td1.getMetadata().getIdentifier().equals(td2.getMetadata().getIdentifier()) ){
-                    String msg = "Identifier Collision Error.  TD["+td1.getMetadata().getName()+", v"+td1.getMetadata().getVersion()+"] and TD["+td2.getMetadata().getName()+", v"+td2.getMetadata().getVersion()+"] have the same id: "+td1.getMetadata().getIdentifier()+".  This is a problem that must be corrected before the Excel files can be parsed.";
+                if (td1.getMetadata().getIdentifier().equals(td2.getMetadata().getIdentifier())) {
+                    String msg = "Identifier Collision Error.  TD[" + td1.getMetadata().getName() + ", v" + td1.getMetadata().getVersion() + "] and TD[" + td2.getMetadata().getName() + ", v" + td2.getMetadata().getVersion() + "] have the same id: " + td1.getMetadata().getIdentifier() + ".  This is a problem that must be corrected before the Excel files can be parsed.";
                     logger.error(msg);
                     throw new Exception(msg);
-                }else if( td1.getMetadata().getName().equalsIgnoreCase(td2.getMetadata().getName()) && td1.getMetadata().getVersion().equalsIgnoreCase(td2.getMetadata().getVersion()) ){
-                    String msg = "Name/Version Collision Error.  They are Name=["+td1.getMetadata().getName()+"] and Version=["+td1.getMetadata().getVersion()+"].  This is a problem that must be corrected before the Excel files can be parsed.";
+                } else if (td1.getMetadata().getName().equalsIgnoreCase(td2.getMetadata().getName()) && td1.getMetadata().getVersion().equalsIgnoreCase(td2.getMetadata().getVersion())) {
+                    String msg = "Name/Version Collision Error.  They are Name=[" + td1.getMetadata().getName() + "] and Version=[" + td1.getMetadata().getVersion() + "].  This is a problem that must be corrected before the Excel files can be parsed.";
                     logger.error(msg);
                     throw new Exception(msg);
                 }
@@ -360,16 +428,18 @@ public final class BulkReadRawData {
 
         this.listenerCollection.fireSetPercentage(100);
     }
-    
+
     private void populateMonikerMaps(
-        Map<String,RawTdMetadata> monikerToMetadataMap,
-        MultiValuedMap<String,RawTrustmarkDefinition> monikerToCritStepMultiMap
+            Map<String, RawTdMetadata> monikerToMetadataMap,
+            MultiValuedMap<String, RawTrustmarkDefinition> monikerToCritStepMultiMap
     ) {
         String previousMoniker = null;
         for (RawTrustmarkDefinition rawTd : this.rawTds) {
             int displayRowNum = rawTd.rowIndex + 1;
-            if (displayRowNum == 1) { previousMoniker = null; } // Since we may be parsing multiple input files
-            
+            if (displayRowNum == 1) {
+                previousMoniker = null;
+            } // Since we may be parsing multiple input files
+
             String currentMoniker = rawTd.metadata.moniker;
             if (!StringUtils.isBlank(currentMoniker)) {
                 if (!monikerToMetadataMap.containsKey(currentMoniker)) {
@@ -385,49 +455,49 @@ public final class BulkReadRawData {
                 previousMetadata.sources.putAll(rawTd.metadata.sources);
             }
 
-            if( StringUtils.isBlank(currentMoniker) ) {
+            if (StringUtils.isBlank(currentMoniker)) {
                 logger.warn("Could not find any valid moniker for Row #" + displayRowNum + ": " + rawTd);
                 throw new UnsupportedOperationException("Cannot group Row #" + displayRowNum + "!! No moniker or previous moniker!");
             }
-            
+
             monikerToCritStepMultiMap.put(currentMoniker, rawTd);
-        
+
             previousMoniker = currentMoniker;
         }
     }
-    
+
     private void processMetadata(RawTdMetadata metadata) throws Exception {
         URI identifier = this.context.generateIdentifierForTrustmarkDefinition(metadata.moniker, metadata.version);
         metadata.identifier = identifier;
 
-        if( StringUtils.isNotBlank(metadata.extensionDesc) && metadata.extensionDesc.contains("Parameter Name") && metadata.extensionDesc.contains("Parameter Type") ){
+        if (StringUtils.isNotBlank(metadata.extensionDesc) && metadata.extensionDesc.contains("Parameter Name") && metadata.extensionDesc.contains("Parameter Type")) {
             /**
              * This Trustmark Definition includes the following parameterized extensions in the format:<br>     &ltParameter Name&gt:&ltParameter Type&gt |<br> SecurityControlAssessmentFrequencyInDays:Integer
              */
             logger.debug(String.format("Processing metadata extensionDesc from TD '%s': %s", metadata.name, metadata.extensionDesc));
-            
+
             String[] parts = metadata.extensionDesc.split("<br\\/?>");
             String lastPart = parts[parts.length - 1];
             List<RawNameDescPair> paramParts = BulkImportUtils.parseColonPipeFormat(lastPart);
-        
+
             StringBuilder sb = new StringBuilder();
             sb.append(parts[0].trim())
-                .append("<br/>" + "\n");
+                    .append("<br/>" + "\n");
             sb.append("<ul style=\"list-style: none; padding: 0; margin: 0;\">" + "\n");
             for (RawNameDescPair paramData : paramParts) {
                 String name = paramData.name;
                 String type = paramData.desc;
-                
+
                 String idFromName = BulkImportUtils.idFromName(name);
                 sb.append("\n");
                 sb.append("    <li style=\"overflow: scroll;\">" + "\n");
                 sb.append("        <pre style=\"margin-left: 1em;\">&lt;tfe:")
-                    .append(idFromName)
-                    .append(" xmlns:tfe=\"https://trustmark.gtri.gatech.edu/#extension\"&gt;<em>")
-                    .append(type)
-                    .append("</em>&lt;tfe:")
-                    .append(idFromName)
-                    .append("&gt;</pre>" + "\n");
+                        .append(idFromName)
+                        .append(" xmlns:tfe=\"https://trustmark.gtri.gatech.edu/#extension\"&gt;<em>")
+                        .append(type)
+                        .append("</em>&lt;tfe:")
+                        .append(idFromName)
+                        .append("&gt;</pre>" + "\n");
                 sb.append("    </li>" + "\n");
             }
             sb.append("</ul>" + "\n");
@@ -442,12 +512,12 @@ public final class BulkReadRawData {
     }
 
     private void populateCriteriaStepPairs(
-        Collection<RawTrustmarkDefinition> criteriaStepPairs,
-        Set<String> sourceReferences,
-        List<RawTdCriterion> criteria,
-        List<RawTdAssessmentStep> assessmentSteps,
-        MultiValuedMap<String, String> stepCriteriaMap
-    ){
+            Collection<RawTrustmarkDefinition> criteriaStepPairs,
+            Set<String> sourceReferences,
+            List<RawTdCriterion> criteria,
+            List<RawTdAssessmentStep> assessmentSteps,
+            MultiValuedMap<String, String> stepCriteriaMap
+    ) {
         String lastCriterionUUID = null;
         String lastStepUUID = null;
         for (RawTrustmarkDefinition rawTdData : criteriaStepPairs) {
@@ -482,9 +552,9 @@ public final class BulkReadRawData {
     }
 
     private Map<String, String> cullSources(
-        Set<String> sourceReferences,
-        Map<String, String> sources,
-        RawTdMetadata metadata
+            Set<String> sourceReferences,
+            Map<String, String> sources,
+            RawTdMetadata metadata
     ) throws Exception {
         Map<String, String> culledSources = new HashMap<>(); // those sources actually referenced from the criteria data.
         for (String source : sourceReferences) {
@@ -506,13 +576,13 @@ public final class BulkReadRawData {
             // We could not find this source anywhere, so show an error message.
 
             String errorMessage = String.format(
-                "ERROR - Unable to find citation [%s] as referenced by TD[%s : %s]",
-                source,
-                metadata.moniker,
-                metadata.name
+                    "ERROR - Unable to find citation [%s] as referenced by TD[%s : %s]",
+                    source,
+                    metadata.moniker,
+                    metadata.name
             );
             logger.warn(errorMessage);
-            for (Map.Entry<String,String> sourceEntry : sources.entrySet()) {
+            for (Map.Entry<String, String> sourceEntry : sources.entrySet()) {
                 logger.warn("   Possible source: [" + sourceEntry.getKey() + "]");
             }
             throw new UnsupportedOperationException(errorMessage);
@@ -528,7 +598,9 @@ public final class BulkReadRawData {
         for (RawNameDescPair term : artifact.terms) {
             TermImpl termImpl = new TermImpl();
             termImpl.setName(term.name);
-            if (terms.contains(termImpl)) { continue; }
+            if (terms.contains(termImpl)) {
+                continue;
+            }
             // note: currently, inline terms on the TD or TIP sheets can't include abbreviations, only definitions
             termImpl.setDefinition(term.desc);
             terms.add(termImpl);
@@ -544,11 +616,11 @@ public final class BulkReadRawData {
 
         // Add from superceded artifact
         logger.debug(String.format(
-            "For %s[%s : %s], downloading terms from superseded %ss...",
-            artifact.getArtifactAbbr(),
-            artifact.moniker,
-            artifact.name,
-            artifact.getArtifactAbbr()
+                "For %s[%s : %s], downloading terms from superseded %ss...",
+                artifact.getArtifactAbbr(),
+                artifact.moniker,
+                artifact.name,
+                artifact.getArtifactAbbr()
         ));
         Collection<TermImpl> supersededTerms = this.lookupTerms(artifact);
         if (terms.isEmpty()) {
@@ -569,12 +641,12 @@ public final class BulkReadRawData {
                     }
                     if (StringUtils.isBlank(term.getDefinition())) {
                         throw new UnsupportedOperationException(String.format(
-                            "For %s[%s] at location [%s], found term '%s' but no definition.  Does it exist in the Terms page, Terms Column or superseded %s?",
-                            artifact.getArtifactAbbr(),
-                            artifact.name,
-                            artifact.debugLocation,
-                            term.getName(),
-                            artifact.getArtifactAbbr()
+                                "For %s[%s] at location [%s], found term '%s' but no definition.  Does it exist in the Terms page, Terms Column or superseded %s?",
+                                artifact.getArtifactAbbr(),
+                                artifact.name,
+                                artifact.debugLocation,
+                                term.getName(),
+                                artifact.getArtifactAbbr()
                         ));
                     }
                 }
@@ -604,17 +676,22 @@ public final class BulkReadRawData {
             metadata.supersedesUrisResolved.add(identifier);
         }
 
+        List<Element> supersededByTdElements = this.getSupersededByArtifactElements(metadata);
+        for (Element tdElement : supersededByTdElements) {
+            String identifier = this.getTdId(tdElement);
+            metadata.supersededByUrisResolved.add(identifier);
+        }
     }
 
-    private String getTdId(Element tdXml ){
+    private String getTdId(Element tdXml) {
         return BulkImportUtils.selectStringTrimmed(tdXml, "string(/tf:TrustmarkDefinition/tf:Metadata/tf:Identifier)");
     }
 
     private void validateRawTdParse(
-        RawTdMetadata metadata,
-        Map<String, String> sources,
-        List<RawTdCriterion> criteria,
-        List<RawTdAssessmentStep> assessmentSteps
+            RawTdMetadata metadata,
+            Map<String, String> sources,
+            List<RawTdCriterion> criteria,
+            List<RawTdAssessmentStep> assessmentSteps
     ) {
         if (assessmentSteps == null || assessmentSteps.isEmpty()) {
             logger.warn("TD " + metadata.name + " has no assessment steps!");
@@ -647,12 +724,12 @@ public final class BulkReadRawData {
     }
 
     private TrustmarkDefinitionImpl assembleTrustmarkDefinition(
-        RawTdMetadata metadata,
-        SortedSet<TermImpl> terms,
-        Map<String, String> sources,
-        List<RawTdCriterion> criteria,
-        List<RawTdAssessmentStep> assessmentSteps,
-        MultiValuedMap<String, String> stepCriteriaMap
+            RawTdMetadata metadata,
+            SortedSet<TermImpl> terms,
+            Map<String, String> sources,
+            List<RawTdCriterion> criteria,
+            List<RawTdAssessmentStep> assessmentSteps,
+            MultiValuedMap<String, String> stepCriteriaMap
     ) throws Exception {
         TrustmarkDefinitionImpl parsedTd = new TrustmarkDefinitionImpl();
 
@@ -660,15 +737,6 @@ public final class BulkReadRawData {
         TrustmarkDefinitionMetadataImpl parsedMetadata = this.assembleMetadata(metadata);
         parsedTd.setMetadata(parsedMetadata);
         this.putAllArtifactTransientDataIfEnabled(metadata, parsedTd);
-
-        // Supersessions
-        for (String supersedesUri : metadata.supersedesUrisResolved) {
-            TrustmarkFrameworkIdentifiedObjectImpl supersedesTmfio = this.assembleSupersedesTmfio(supersedesUri);
-            parsedMetadata.addToSupersedes(supersedesTmfio);
-        }
-
-        // Keywords
-        parsedMetadata.setKeywords(metadata.keywords);
 
         // Terms
         for (TermImpl term : terms) {
@@ -683,12 +751,14 @@ public final class BulkReadRawData {
 
         // Conformance Criteria
         parsedTd.setConformanceCriteriaPreface(BulkImportUtils.trimOrNull(metadata.criteriaPreface));
-        BidiMap<String,ConformanceCriterionImpl> parsedCriteriaById = new DualHashBidiMap<>();
+        BidiMap<String, ConformanceCriterionImpl> parsedCriteriaById = new DualHashBidiMap<>();
         Set<ConformanceCriterionImpl> parsedCriteria = parsedCriteriaById.values();
         int critCount = 0;
         for (RawTdCriterion crit : criteria) {
             ConformanceCriterionImpl parsedCriterion = this.assembleConformanceCriterion(crit, ++critCount, parsedSourcesById);
-            if (parsedCriteria.contains(parsedCriterion)) { continue; }
+            if (parsedCriteria.contains(parsedCriterion)) {
+                continue;
+            }
             parsedCriteriaById.put(parsedCriterion.getId(), parsedCriterion);
             parsedTd.addConformanceCriterion(parsedCriterion);
         }
@@ -708,10 +778,10 @@ public final class BulkReadRawData {
         return parsedTd;
     }
 
-    private TrustmarkFrameworkIdentifiedObjectImpl assembleSupersedesTmfio(String supersedesUri) throws Exception {
+    private TrustmarkFrameworkIdentifiedObjectImpl assembleTrustmarkDefinitionReference(String trustmarkFrameworkIdentifiedObjectUri) throws Exception {
         // Taken from TrustmarkDefinitionXmlDeserializer's method of deserializing Supersedes comments
         TrustmarkFrameworkIdentifiedObjectImpl tmfio = new TrustmarkFrameworkIdentifiedObjectImpl();
-        tmfio.setIdentifier(new URI(supersedesUri));
+        tmfio.setIdentifier(new URI(trustmarkFrameworkIdentifiedObjectUri));
         tmfio.setTypeName("TrustmarkDefinitionReference");
         return tmfio;
     }
@@ -726,20 +796,20 @@ public final class BulkReadRawData {
         parsedMetadata.setName(metadata.name);
         parsedMetadata.setVersion(metadata.version);
         parsedMetadata.setDescription(BulkImportUtils.defaultTrim(metadata.description));
-        
+
         // If we parsed a time, set it, otherwise set the time to now
-        if ( metadata.publicationDateTime != null )
-           try {
-             parsedMetadata.setPublicationDateTime(new Date(metadata.publicationDateTime));
-          } catch ( java.lang.IllegalArgumentException e ) {
-             // No date or invalidly formatted date, default to now
-             parsedMetadata.setPublicationDateTime(this.getPublicationDateTime());
-         }
+        if (metadata.publicationDateTime != null)
+            try {
+                parsedMetadata.setPublicationDateTime(new Date(metadata.publicationDateTime));
+            } catch (java.lang.IllegalArgumentException e) {
+                // No date or invalidly formatted date, default to now
+                parsedMetadata.setPublicationDateTime(this.getPublicationDateTime());
+            }
         else
-          parsedMetadata.setPublicationDateTime(this.getPublicationDateTime());
- 
+            parsedMetadata.setPublicationDateTime(this.getPublicationDateTime());
+
         parsedMetadata.setTrustmarkDefiningOrganization(this.context.getTrustmarkDefiningOrganization());
-        
+
         parsedMetadata.setTargetStakeholderDescription(BulkImportUtils.defaultTrim(metadata.stakeholderDesc, this.context.getDefaultTargetStakeholderDescription()));
         parsedMetadata.setTargetRecipientDescription(BulkImportUtils.defaultTrim(metadata.recipientDesc, this.context.getDefaultTargetRecipientDescription()));
         parsedMetadata.setTargetRelyingPartyDescription(BulkImportUtils.defaultTrim(metadata.relyingPartyDesc, this.context.getDefaultTargetRelyingPartyDescription()));
@@ -747,19 +817,38 @@ public final class BulkReadRawData {
         parsedMetadata.setProviderEligibilityCriteria(BulkImportUtils.defaultTrim(metadata.providerEligibilityCriteria, this.context.getDefaultProviderEligibilityCriteria()));
         parsedMetadata.setAssessorQualificationsDescription(BulkImportUtils.defaultTrim(metadata.assessorQualificationsDesc, this.context.getDefaultAssessorQualificationsDescription()));
         parsedMetadata.setExtensionDescription(BulkImportUtils.defaultTrim(metadata.extensionDesc, this.context.getDefaultExtensionDescription()));
-        
+
         parsedMetadata.setTrustmarkRevocationCriteria(BulkImportUtils.defaultTrim(metadata.revocationCriteria, this.context.getDefaultRevocationCriteria()));
         parsedMetadata.setLegalNotice(BulkImportUtils.defaultTrim(metadata.legalNotice, this.context.getDefaultTdLegalNotice()));
         parsedMetadata.setNotes(BulkImportUtils.defaultTrim(metadata.notes, this.context.getDefaultTdNotes()));
 
+        // TD Metadata Supersedes
+        //for (String supersedesUri : metadata.supersedesUrisResolved) {
+        for (String supersedesUri : metadata.supersedesUris) {
+            TrustmarkFrameworkIdentifiedObjectImpl supersedesTmfio = this.assembleTrustmarkDefinitionReference(supersedesUri);
+            parsedMetadata.addToSupersedes(supersedesTmfio);
+        }
+
+        // TD Metadata SupersededBy
+        //for (String supersededByUri : metadata.supersededByUrisResolved) {
+        for (String supersededByUri : metadata.supersededByUris) {
+            TrustmarkFrameworkIdentifiedObjectImpl supersededByTmfio = this.assembleTrustmarkDefinitionReference(supersededByUri);
+            parsedMetadata.addToSupersededBy(supersededByTmfio);
+        }
+
+        parsedMetadata.setDeprecated(metadata.deprecated);
+
+        // Keywords
+        parsedMetadata.setKeywords(metadata.keywords);
+
         return parsedMetadata;
     }
-    
-    
+
+
     private Date getPublicationDateTime() throws Exception {
         return Calendar.getInstance().getTime();
     }
-    
+
     private SourceImpl assembleSource(String identifier, String reference) {
         SourceImpl parsedSource = new SourceImpl();
         parsedSource.setIdentifier(identifier);
@@ -781,9 +870,9 @@ public final class BulkReadRawData {
     }
 
     private ConformanceCriterionImpl assembleConformanceCriterion(
-        RawTdCriterion crit,
-        int critNumber,
-        Map<String,SourceImpl> parsedSourcesById
+            RawTdCriterion crit,
+            int critNumber,
+            Map<String, SourceImpl> parsedSourcesById
     ) {
         ConformanceCriterionImpl critImpl = new ConformanceCriterionImpl();
 
@@ -803,10 +892,10 @@ public final class BulkReadRawData {
     }
 
     private AssessmentStepImpl assembleAssessmentStep(
-        RawTdAssessmentStep step,
-        int stepNumber,
-        Map<String,ConformanceCriterionImpl> parsedCriteriaById,
-        MultiValuedMap<String, String> stepCriteriaMap
+            RawTdAssessmentStep step,
+            int stepNumber,
+            Map<String, ConformanceCriterionImpl> parsedCriteriaById,
+            MultiValuedMap<String, String> stepCriteriaMap
     ) {
         AssessmentStepImpl parsedStep = new AssessmentStepImpl();
 
@@ -855,7 +944,9 @@ public final class BulkReadRawData {
             String stepReference = m.group(1);
             String stepId = null;
             for (AssessmentStep step : assessmentSteps) {
-                if (step == null || step.getName() == null) { continue; }
+                if (step == null || step.getName() == null) {
+                    continue;
+                }
                 if (step.getName().equalsIgnoreCase(stepReference)) {
                     //stepId = "Step" + step.getNumber();
                     stepId = step.getId();
@@ -873,7 +964,9 @@ public final class BulkReadRawData {
             AssessmentStep closestStep = null;
             int closestDistance = Integer.MAX_VALUE;
             for (AssessmentStep step : assessmentSteps) {
-                if (step == null || step.getName() == null) { continue; }
+                if (step == null || step.getName() == null) {
+                    continue;
+                }
                 int distance = BulkImportUtils.levenshteinDistance(stepReference.toLowerCase(), step.getName().toLowerCase());
                 if (closestStep == null || distance < closestDistance) {
                     closestStep = step;
@@ -881,12 +974,12 @@ public final class BulkReadRawData {
                 }
             }
             String errorMessage = String.format(
-                "Could not find Step[%s] as referenced from TD[%s] in File[%s], Line #%s. Closest match was: [%s]",
-                stepReference,
-                metadata.name,
-                metadata.excelFile,
-                metadata.rowIndex,
-                closestStep == null ? "NONE FOUND" : String.format("Step%s:%s", closestStep.getNumber(), closestStep.getName())
+                    "Could not find Step[%s] as referenced from TD[%s] in File[%s], Line #%s. Closest match was: [%s]",
+                    stepReference,
+                    metadata.name,
+                    metadata.excelFile,
+                    metadata.rowIndex,
+                    closestStep == null ? "NONE FOUND" : String.format("Step%s:%s", closestStep.getNumber(), closestStep.getName())
             );
             logger.error("**** ERROR - " + errorMessage);
             throw new UnsupportedOperationException(errorMessage);
@@ -926,28 +1019,28 @@ public final class BulkReadRawData {
 
             ++rawTipCurrentIndex;
             this.listenerCollection.fireSetMessage(String.format(
-                "Parsed %s of %s raw Trust Interoperability Profiles",
-                rawTipCurrentIndex,
-                rawTipCount
+                    "Parsed %s of %s raw Trust Interoperability Profiles",
+                    rawTipCurrentIndex,
+                    rawTipCount
             ));
             this.listenerCollection.fireSetPercentage(100 * rawTipCurrentIndex / rawTipCount);
         }
         this.listenerCollection.fireSetPercentage(100);
 
         logger.debug("Checking that there are no ID or Name/Version collisions...");
-        for( int i = 0; i < parsedTips.size(); i++ ){
+        for (int i = 0; i < parsedTips.size(); i++) {
             TrustInteroperabilityProfile tip1 = parsedTips.get(i);
 
             // Do some data set sanity checks (ie, make sure there are no collisions just yet)
             for (int j = 0; j < parsedTips.size() && j < i; j++) {
                 TrustInteroperabilityProfile tip2 = parsedTips.get(j);
 
-                if( tip1.getIdentifier().equals(tip2.getIdentifier()) ){
-                    String msg = "Identifier Collision Error.  TIP["+tip1.getName()+", v"+tip1.getVersion()+"] and TIP["+tip2.getName()+", v"+tip2.getVersion()+"] generate the same id: "+tip1.getIdentifier()+".  This is a problem that must be corrected before the Excel files can be parsed.";
+                if (tip1.getIdentifier().equals(tip2.getIdentifier())) {
+                    String msg = "Identifier Collision Error.  TIP[" + tip1.getName() + ", v" + tip1.getVersion() + "] and TIP[" + tip2.getName() + ", v" + tip2.getVersion() + "] generate the same id: " + tip1.getIdentifier() + ".  This is a problem that must be corrected before the Excel files can be parsed.";
                     logger.error(msg);
                     throw new Exception(msg);
-                }else if( tip1.getName().equalsIgnoreCase(tip2.getName()) && tip1.getVersion().equalsIgnoreCase(tip2.getVersion()) ){
-                    String msg = "Name/Version Collision Error.  They are Name=["+tip1.getName()+"] and Version=["+tip1.getVersion()+"].  This is a problem that must be corrected before the Excel files can be parsed.";
+                } else if (tip1.getName().equalsIgnoreCase(tip2.getName()) && tip1.getVersion().equalsIgnoreCase(tip2.getVersion())) {
+                    String msg = "Name/Version Collision Error.  They are Name=[" + tip1.getName() + "] and Version=[" + tip1.getVersion() + "].  This is a problem that must be corrected before the Excel files can be parsed.";
                     logger.error(msg);
                     throw new Exception(msg);
                 }
@@ -958,8 +1051,8 @@ public final class BulkReadRawData {
     }
 
     private TrustInteroperabilityProfileImpl assembleTrustInteroperabilityProfile(
-        RawTrustInteroperabilityProfile rawTip,
-        Collection<? extends Term> terms
+            RawTrustInteroperabilityProfile rawTip,
+            Collection<? extends Term> terms
     ) throws Exception {
         TrustInteroperabilityProfileImpl parsedTip = new TrustInteroperabilityProfileImpl();
 
@@ -967,8 +1060,8 @@ public final class BulkReadRawData {
         parsedTip.setName(rawTip.name);
         parsedTip.setVersion(rawTip.version);
         parsedTip.setDescription(rawTip.description);
-        if(rawTip.primary != null
-                && ( rawTip.primary.toLowerCase().equals("y")
+        if (rawTip.primary != null
+                && (rawTip.primary.toLowerCase().equals("y")
                 || rawTip.primary.toLowerCase().equals("x")
                 || rawTip.primary.toLowerCase().equals("yes")
                 || rawTip.primary.toLowerCase().equals("true"))
@@ -977,15 +1070,15 @@ public final class BulkReadRawData {
         }
         parsedTip.setMoniker(rawTip.moniker);
         // If we parsed a time, set it, otherwise set the time to now
-        if ( rawTip.publicationDateTime != null )
-           try {
-             parsedTip.setPublicationDateTime(new Date(rawTip.publicationDateTime));
-           } catch ( java.lang.IllegalArgumentException e ) {
-             // No date or invalidly formatted date, default to now
-             parsedTip.setPublicationDateTime(this.getPublicationDateTime());
-           }
+        if (rawTip.publicationDateTime != null)
+            try {
+                parsedTip.setPublicationDateTime(new Date(rawTip.publicationDateTime));
+            } catch (java.lang.IllegalArgumentException e) {
+                // No date or invalidly formatted date, default to now
+                parsedTip.setPublicationDateTime(this.getPublicationDateTime());
+            }
         else
-          parsedTip.setPublicationDateTime(this.getPublicationDateTime());
+            parsedTip.setPublicationDateTime(this.getPublicationDateTime());
 
         parsedTip.setNotes(BulkImportUtils.defaultTrim(rawTip.notes, this.context.getDefaultTipNotes()));
         parsedTip.setLegalNotice(BulkImportUtils.defaultTrim(rawTip.legalNotice, this.context.getDefaultTipLegalNotice()));
@@ -1001,6 +1094,21 @@ public final class BulkReadRawData {
         for (SourceImpl source : parsedSourcesById.values()) {
             parsedTip.addSource(source);
         }
+        // Supersedes
+        //for (String supersedesUri : rawTip.supersedesUrisResolved) {
+        for (String supersedesUri : rawTip.supersedesUris) {
+            TrustmarkFrameworkIdentifiedObjectImpl supersedesByTmfio = this.assembleTrustmarkDefinitionReference(supersedesUri);
+            parsedTip.addToSupersedes(supersedesByTmfio);
+        }
+
+        // SupersededBy
+        //for (String supersededByUri : rawTip.supersededByUrisResolved) {
+        for (String supersededByUri : rawTip.supersededByUris) {
+            TrustmarkFrameworkIdentifiedObjectImpl supersededByTmfio = this.assembleTrustmarkDefinitionReference(supersededByUri);
+            parsedTip.addToSupersededBy(supersededByTmfio);
+        }
+
+        parsedTip.setDeprecated(rawTip.deprecated);
 
         this.processTipReferencesAndTrustExpression(rawTip, parsedTip);
         this.putAllArtifactTransientDataIfEnabled(rawTip, parsedTip);
@@ -1009,17 +1117,17 @@ public final class BulkReadRawData {
     }
 
     private void processTipReferencesAndTrustExpression(
-        RawTrustInteroperabilityProfile rawTip,
-        TrustInteroperabilityProfileImpl parsedTip
-    ) throws TrustExpressionSyntaxException, TrustInteroperabilityProfileSyntaxException {
+            RawTrustInteroperabilityProfile rawTip,
+            TrustInteroperabilityProfileImpl parsedTip
+    ) throws TrustInteroperabilityProfileSyntaxException {
         logger.debug(String.format("    Processing TIP References for TIP[%s] %s %s...",
                 rawTip.name, rawTip.id.toString(), rawTip.trustExpression));
         if (StringUtils.isBlank(rawTip.trustExpression)) {
             // TODO Fill in from "TIP" columns on other pages.
             throw new UnsupportedOperationException(String.format(
-                "BLANK TRUST EXPRESSION NOT YET SUPPORTED: Line #%s in file %s",
-                rawTip.rowIndex,
-                rawTip.excelFile
+                    "BLANK TRUST EXPRESSION NOT YET SUPPORTED: Line #%s in file %s",
+                    rawTip.rowIndex,
+                    rawTip.excelFile
             ));
         }
 
@@ -1028,24 +1136,24 @@ public final class BulkReadRawData {
 
         // validate the TD parameters in the trust expression
         Arrays.asList(rawTip.trustExpression.split(TRUST_SPLIT_REFERENCE_WITH_PARMS)).forEach(s -> {
-                    Matcher tdMatch = TD_REFERENCE_PATTERN.matcher(s);
-                    if(tdMatch.find()) {
-                        String referencedTdName = tdMatch.group(1);
-                        String[] parms = s.split(TD_PARAMETER);
-                        if(parms.length > 1) {
-                            String[] parmNm = BulkImportUtils.defaultTrim(parms[1]).split(TD_OPERATOR);
-                            if(!doesTDParameterExist(referencedTdName, BulkImportUtils.defaultTrim(parmNm[0]), this.rawTds))  {
-                                logger.debug(String.format("INVALID-PARAMETER-FOUND for TD: [%s] referenced in [%s] , file -> %s\n", parmNm[0], referencedTdName, rawTip.excelFile));
-                                invalidParameters.add(String.format("Invalid Parameter Found [%s] referenced in TD [%s] TIP [%s}, file: %s\n", parmNm[0], referencedTdName, rawTip.name, rawTip.excelFile));
-                            }
-                        }
+            Matcher tdMatch = TD_REFERENCE_PATTERN.matcher(s);
+            if (tdMatch.find()) {
+                String referencedTdName = tdMatch.group(1);
+                String[] parms = s.split(TD_PARAMETER);
+                if (parms.length > 1) {
+                    String[] parmNm = BulkImportUtils.defaultTrim(parms[1]).split(TD_OPERATOR);
+                    if (!doesTDParameterExist(referencedTdName, BulkImportUtils.defaultTrim(parmNm[0]), this.rawTds)) {
+                        logger.debug(String.format("INVALID-PARAMETER-FOUND for TD: [%s] referenced in [%s] , file -> %s\n", parmNm[0], referencedTdName, rawTip.excelFile));
+                        invalidParameters.add(String.format("Invalid Parameter Found [%s] referenced in TD [%s] TIP [%s}, file: %s\n", parmNm[0], referencedTdName, rawTip.name, rawTip.excelFile));
                     }
+                }
+            }
         });
 
         //  Split the trust expression into chunks based around the and / ors , preserving the order
         List<String> expressionList = Arrays.asList(rawTip.trustExpression.split(TRUST_SPLIT_REFERENCE))
                 .stream()
-                .map(s -> s.endsWith("}") ? s : s+"}")
+                .map(s -> s.endsWith("}") ? s : s + "}")
                 .filter(TIP_REFERENCE_PATTERN.asPredicate().or(TD_REFERENCE_PATTERN.asPredicate()))
                 .collect(Collectors.toList());
 
@@ -1058,47 +1166,47 @@ public final class BulkReadRawData {
 
         expressionList.forEach(s -> {
             Matcher tipMatch = TIP_REFERENCE_PATTERN.matcher(s);
-            if(tipMatch.find()) {
+            if (tipMatch.find()) {
                 String referencedTipName = tipMatch.group(1);
-                if(referencedTipName.equals(rawTip.name))  {
+                if (referencedTipName.equals(rawTip.name)) {
                     exceptionList.add(new TrustInteroperabilityProfileSyntaxException(
                             String.format("Self referenced TIP Cannot reference itself. TIP: [%s] in [%s]",
                                     referencedTipName, rawTip.name),
                             rawTip.excelFile));
                 }
                 TrustInteroperabilityProfileReferenceImpl referencedTip = this.findReferencedTip(referencedTipName, rawTip);
-                if(referencedTip.getIdentifier() == null && referencedTip.getName() == null)  {
+                if (referencedTip.getIdentifier() == null && referencedTip.getName() == null) {
                     exceptionList.add(new TrustInteroperabilityProfileSyntaxException(
                             String.format("Cannot find reference for TIP: [%s] in [%s]",
                                     referencedTipName, rawTip.name),
                             rawTip.excelFile));
-                }  else {
-                    if(doesCyclicalNameReferenceExist(rawTip.name, referencedTip.getName(), this.rawTips))  {
+                } else {
+                    if (doesCyclicalNameReferenceExist(rawTip.name, referencedTip.getName(), this.rawTips)) {
                         exceptionList.add(new TrustInteroperabilityProfileSyntaxException(
                                 String.format("Cyclical Reference Found for TIP: [%s] referenced in [%s]",
                                         referencedTipName, rawTip.name),
                                 rawTip.excelFile));
                     }
-                    if(doesCyclicalURIReferenceExist(rawTip.id, referencedTip.getIdentifier(), this.rawTips))  {
+                    if (doesCyclicalURIReferenceExist(rawTip.id, referencedTip.getIdentifier(), this.rawTips)) {
                         exceptionList.add(new TrustInteroperabilityProfileSyntaxException(
                                 String.format("Cyclical Reference Found for TIP: [%s] referenced in [%s]",
                                         referencedTipName, rawTip.name),
                                 rawTip.excelFile));
                     }
                     if (referencedTipUris.add(referencedTip.getIdentifier())) {
-                        referencedTip.setNumber(referencedTipUris.size()+referencedTdUris.size());
-                        if(BulkImportUtils.isValidUri(referencedTipName))  {
+                        referencedTip.setNumber(referencedTipUris.size() + referencedTdUris.size());
+                        if (BulkImportUtils.isValidUri(referencedTipName)) {
                             referencedTip.setId(referencedTipName);
                         }
                         referencedTips.add(referencedTip);
                     }
                 }
-            }  else {
+            } else {
                 Matcher tdMatch = TD_REFERENCE_PATTERN.matcher(s);
-                if(tdMatch.find()) {
+                if (tdMatch.find()) {
                     String referencedTdName = tdMatch.group(1);
                     TrustmarkDefinitionRequirementImpl referencedTd = this.findReferencedTd(referencedTdName, rawTip);
-                    if(referencedTd.getIdentifier() == null && referencedTd.getName() == null)  {
+                    if (referencedTd.getIdentifier() == null && referencedTd.getName() == null) {
                         String errorMsssage = String.format(
                                 "Could not find a reference for TD: [%s] as referenced from TIP: [%s] in File: [%s], Line #%s.",
                                 referencedTdName,
@@ -1108,16 +1216,16 @@ public final class BulkReadRawData {
                         );
                         logger.error("**** ERROR - " + errorMsssage);
                         exceptionList.add(new TrustInteroperabilityProfileSyntaxException(
-                                        errorMsssage, rawTip.excelFile));
-                    }  else {
+                                errorMsssage, rawTip.excelFile));
+                    } else {
                         logger.debug(String.format("    TD_REF_REMOTE [ identifier = %s , name = %s, version = %s, description = %s ]",
                                 referencedTd.getIdentifier(),
                                 referencedTd.getName(),
                                 referencedTd.getVersion(),
                                 referencedTd.getDescription()));
                         if (referencedTdUris.add(referencedTd.getIdentifier())) {
-                            referencedTd.setNumber(referencedTipUris.size()+referencedTdUris.size());
-                            if(BulkImportUtils.isValidUri(referencedTdName))  {
+                            referencedTd.setNumber(referencedTipUris.size() + referencedTdUris.size());
+                            if (BulkImportUtils.isValidUri(referencedTdName)) {
                                 referencedTd.setId(referencedTdName);
                             }
                             referencedTds.add(referencedTd);
@@ -1126,7 +1234,7 @@ public final class BulkReadRawData {
                 }
             }
         });
-        if(!exceptionList.isEmpty())  {
+        if (!exceptionList.isEmpty()) {
             throw exceptionList.get(0);
         }
 
@@ -1142,7 +1250,7 @@ public final class BulkReadRawData {
                 tdVarName = "ref_" + (nextRef++);
             }
             String tdReqId = BulkImportUtils.getUniqueVariableName(
-                "TD_", tdVarName, TE_VAR_BLACKLIST_PATTERN, TE_VAR_MAX_LENGTH, TD_XMLID_SET
+                    "TD_", tdVarName, TE_VAR_BLACKLIST_PATTERN, TE_VAR_MAX_LENGTH, TD_XMLID_SET
             );
             referencedTd.setId(tdReqId);
             TD_TO_XMLID_MAPPING.put(tdName.toLowerCase(), referencedTd.getId());
@@ -1159,7 +1267,7 @@ public final class BulkReadRawData {
                 tipVarName = "ref_" + (nextRef++);
             }
             String tipRefId = BulkImportUtils.getUniqueVariableName(
-                "TIP_", tipVarName, TE_VAR_BLACKLIST_PATTERN, TE_VAR_MAX_LENGTH, TIP_XMLID_SET
+                    "TIP_", tipVarName, TE_VAR_BLACKLIST_PATTERN, TE_VAR_MAX_LENGTH, TIP_XMLID_SET
             );
             referencedTip.setId(tipRefId);
             TIP_TO_XMLID_MAPPING.put(tipName.toLowerCase(), referencedTip.getId());
@@ -1171,7 +1279,7 @@ public final class BulkReadRawData {
         try {
             TrustExpression<TrustExpressionData> trustExpressionDataTrustExpression =
                     trustExpressionStringParser.parse(te);
-        } catch (org.jparsec.error.ParserException pe){
+        } catch (org.jparsec.error.ParserException pe) {
             String errorMsssage = String.format(
                     "Could not parse Trust Expression in TIP: [%s] in File: [%s], Line #%s.<br/>" +
                             "Trust Expression: <b>%s</b><br/>" +
@@ -1204,18 +1312,21 @@ public final class BulkReadRawData {
 
     /**
      * checks for references to the parent tip name in the referenced tip, indicating a cyclical refereence
+     *
      * @param parentTip
      * @param referenceTip
      * @param tips
      * @return
      */
-    private boolean doesCyclicalNameReferenceExist(String parentTip, String referenceTip, List<RawTrustInteroperabilityProfile> tips)  {
-        List<RawTrustInteroperabilityProfile> list = tips.stream().filter(tip -> {return tip.name.equals(referenceTip);}).collect(Collectors.toList());
+    private boolean doesCyclicalNameReferenceExist(String parentTip, String referenceTip, List<RawTrustInteroperabilityProfile> tips) {
+        List<RawTrustInteroperabilityProfile> list = tips.stream().filter(tip -> {
+            return tip.name.equals(referenceTip);
+        }).collect(Collectors.toList());
 
-        for (RawTrustInteroperabilityProfile tip : list ) {
+        for (RawTrustInteroperabilityProfile tip : list) {
             Matcher tipMatch = TIP_REFERENCE_PATTERN.matcher(tip.trustExpression);
-            if(tipMatch.find()) {
-                if(parentTip.equals(tipMatch.group(1)))
+            if (tipMatch.find()) {
+                if (parentTip.equals(tipMatch.group(1)))
                     return true;
             }
         }
@@ -1224,24 +1335,30 @@ public final class BulkReadRawData {
 
     /**
      * checks for references to the parent tip URI in the referenced TIP, indicating a cyclical reference
+     *
      * @param parentTip
      * @param referenceTip
      * @param tips
      * @return
      */
-    private boolean doesCyclicalURIReferenceExist(URI parentTip, URI referenceTip, List<RawTrustInteroperabilityProfile> tips)  {
-        List<RawTrustInteroperabilityProfile> list = tips.stream().filter(tip -> {return tip.id.toString().equals(referenceTip);}).collect(Collectors.toList());
-        List<RawTrustInteroperabilityProfile> cyclicalList = list.stream().filter(tip -> {return tip.trustExpression.contains(parentTip.toString());}).collect(Collectors.toList());
+    private boolean doesCyclicalURIReferenceExist(URI parentTip, URI referenceTip, List<RawTrustInteroperabilityProfile> tips) {
+        List<RawTrustInteroperabilityProfile> list = tips.stream().filter(tip -> {
+            return tip.id.toString().equals(referenceTip);
+        }).collect(Collectors.toList());
+        List<RawTrustInteroperabilityProfile> cyclicalList = list.stream().filter(tip -> {
+            return tip.trustExpression.contains(parentTip.toString());
+        }).collect(Collectors.toList());
         return !cyclicalList.isEmpty();
     }
 
     /**
      * checks that a TD has the referenced parameter name
+     *
      * @param tdName
      * @param parameterName
      * @return
      */
-    private boolean doesTDParameterExist(String tdName, String parameterName, List<RawTrustmarkDefinition> tds)  {
+    private boolean doesTDParameterExist(String tdName, String parameterName, List<RawTrustmarkDefinition> tds) {
         boolean rc[] = new boolean[2];
         rc[0] = false;
 
@@ -1251,7 +1368,7 @@ public final class BulkReadRawData {
 
         tdList.forEach(td -> {
             td.assessmentStep.parameters.forEach(parm -> {
-                if(parameterName.equalsIgnoreCase(parm.id))  {
+                if (parameterName.equalsIgnoreCase(parm.id)) {
                     rc[0] = true;
                 }
 //                System.out.printf("TD PARAMETERS %s %s %s\n", parm.name, parm.kindName, parm.id);
@@ -1261,27 +1378,27 @@ public final class BulkReadRawData {
     }
 
     private <T extends AbstractTIPReference, O extends RawObject> T findReferencedArtifact(
-        String referencedArtifactName,
-        RawTrustInteroperabilityProfile referencingTip,
-        List<O> rawObjectList,
-        Function<O, RawArtifact> rawArtifactGetterFromRawObject,
-        Function<O, T> artifactGetterFromRaw,
-        Function<TrustmarkFrameworkIdentifiedObject, T> artifactGetterFromUri,
-        Function<String, TrustmarkFrameworkIdentifiedObject> uriResolverFromArtifactName
+            String referencedArtifactName,
+            RawTrustInteroperabilityProfile referencingTip,
+            List<O> rawObjectList,
+            Function<O, RawArtifact> rawArtifactGetterFromRawObject,
+            Function<O, T> artifactGetterFromRaw,
+            Function<TrustmarkFrameworkIdentifiedObject, T> artifactGetterFromUri,
+            Function<String, TrustmarkFrameworkIdentifiedObject> uriResolverFromArtifactName
     ) {
         // look for this artifact in the current set of raw objects
         referencedArtifactName = BulkImportUtils.defaultTrim(referencedArtifactName);
         for (O rawObject : rawObjectList) {
             RawArtifact rawArtifact = rawArtifactGetterFromRawObject.apply(rawObject);
             if (BulkImportUtils.defaultTrim(rawArtifact.moniker).equals(referencedArtifactName)
-                || BulkImportUtils.defaultTrim(rawArtifact.name).equalsIgnoreCase(referencedArtifactName)
-                ) {
+                    || BulkImportUtils.defaultTrim(rawArtifact.name).equalsIgnoreCase(referencedArtifactName)
+            ) {
                 return artifactGetterFromRaw.apply(rawObject);
-                }
-            if(BulkImportUtils.isValidUri(referencedArtifactName)) {
+            }
+            if (BulkImportUtils.isValidUri(referencedArtifactName)) {
                 try {
                     String urlString = this.context.generateIdentifierForTrustmarkDefinition(rawArtifact.moniker, rawArtifact.version).toString();
-                    if(referencedArtifactName.equals(urlString)) {
+                    if (referencedArtifactName.equals(urlString)) {
                         return artifactGetterFromRaw.apply(rawObject);
                     }
                 } catch (URISyntaxException e) {
@@ -1300,7 +1417,9 @@ public final class BulkReadRawData {
         int closestDistance = Integer.MAX_VALUE;
         for (O rawObject : rawObjectList) {
             RawArtifact rawArtifact = rawArtifactGetterFromRawObject.apply(rawObject);
-            if (rawObject == null || rawArtifact.name == null) { continue; }
+            if (rawObject == null || rawArtifact.name == null) {
+                continue;
+            }
             int distance = BulkImportUtils.levenshteinDistance(referencedArtifactName.toLowerCase(), rawArtifact.name.toLowerCase());
             if (closestMatch == null || distance < closestDistance) {
                 closestMatch = rawObject;
@@ -1309,13 +1428,13 @@ public final class BulkReadRawData {
         }
         RawArtifact closestMatchArtifact = closestMatch == null ? null : rawArtifactGetterFromRawObject.apply(closestMatch);
         String errorMessage = String.format(
-            "Could not find a reference for %s: [%s] as referenced from TIP: [%s] in File: [%s], Line #%s. Closest match was: [%s]",
-            closestMatch == null ? "" : closestMatchArtifact.getArtifactAbbr(),
-            referencedArtifactName,
-            referencingTip.name,
-            referencingTip.excelFile,
-            referencingTip.rowIndex,
-            closestMatch == null ? "NONE FOUND" : closestMatchArtifact.name
+                "Could not find a reference for %s: [%s] as referenced from TIP: [%s] in File: [%s], Line #%s. Closest match was: [%s]",
+                closestMatch == null ? "" : closestMatchArtifact.getArtifactAbbr(),
+                referencedArtifactName,
+                referencingTip.name,
+                referencingTip.excelFile,
+                referencingTip.rowIndex,
+                closestMatch == null ? "NONE FOUND" : closestMatchArtifact.name
         );
         logger.error("**** ERROR - " + errorMessage);
         throw new UnsupportedOperationException(errorMessage);
@@ -1323,13 +1442,13 @@ public final class BulkReadRawData {
 
     private TrustmarkDefinitionRequirementImpl findReferencedTd(String referencedTdName, RawTrustInteroperabilityProfile referencingTip) {
         return this.findReferencedArtifact(
-            referencedTdName,
-            referencingTip,
-            this.rawTds,
-            rawTd -> rawTd.metadata,
-            this::assembleTdRequirement,
-            this::assembleTdRequirement,
-            this.context::resolveReferencedExternalTrustmarkDefinition
+                referencedTdName,
+                referencingTip,
+                this.rawTds,
+                rawTd -> rawTd.metadata,
+                this::assembleTdRequirement,
+                this::assembleTdRequirement,
+                this.context::resolveReferencedExternalTrustmarkDefinition
         );
     }
 
@@ -1354,13 +1473,13 @@ public final class BulkReadRawData {
 
     private TrustInteroperabilityProfileReferenceImpl findReferencedTip(String referencedTipName, RawTrustInteroperabilityProfile referencingTip) {
         return this.findReferencedArtifact(
-            referencedTipName,
-            referencingTip,
-            this.rawTips,
-            rawTip -> rawTip,
-            this::assembleTipReference,
-            this::assembleTipReference,
-            this.context::resolveReferencedExternalTrustInteroperabilityProfile
+                referencedTipName,
+                referencingTip,
+                this.rawTips,
+                rawTip -> rawTip,
+                this::assembleTipReference,
+                this::assembleTipReference,
+                this.context::resolveReferencedExternalTrustInteroperabilityProfile
         );
     }
 
@@ -1402,7 +1521,7 @@ public final class BulkReadRawData {
 
         for (String toReplace : replacements.keySet()) {
             String replacement = replacements.get(toReplace);
-            if(replacement != null) {
+            if (replacement != null) {
                 te = te.replace(toReplace, replacement);
             }
         }
@@ -1417,7 +1536,9 @@ public final class BulkReadRawData {
     ////////////////////////////////////////////////////////
 
     private void putAllArtifactTransientDataIfEnabled(RawArtifact rawArtifact, BulkReadArtifact parsedArtifact) {
-        if (!this.getIsTransientDataCollectionEnabled()) { return; }
+        if (!this.getIsTransientDataCollectionEnabled()) {
+            return;
+        }
         parsedArtifact.getTransientDataMap().putAll(rawArtifact.transientDataMap);
     }
 
@@ -1436,9 +1557,17 @@ public final class BulkReadRawData {
     // Static Methods - Default for Mutable Values on all Raw types //
     //////////////////////////////////////////////////////////////////
 
-    public static <T> List<T> DEFAULT_LIST() { return new ArrayList<>(); }
-    public static <K,V> Map<K,V> DEFAULT_MAP() { return new HashMap<>(); }
-    public static <T extends RawObject> RawCollection<T> DEFAULT_RAW_LIST() { return new RawArrayList<>(); }
+    public static <T> List<T> DEFAULT_LIST() {
+        return new ArrayList<>();
+    }
+
+    public static <K, V> Map<K, V> DEFAULT_MAP() {
+        return new HashMap<>();
+    }
+
+    public static <T extends RawObject> RawCollection<T> DEFAULT_RAW_LIST() {
+        return new RawArrayList<>();
+    }
 
 
     ///////////////////////////////////////////
@@ -1469,20 +1598,18 @@ public final class BulkReadRawData {
                         boolean isNull = fieldValue == null;
                         if (isNull) {
                             fieldValue = JSONObject.NULL;
-                        }
-                        else if (isRawObject) {
-                            RawObject rawObjectValue = (RawObject)fieldValue;
+                        } else if (isRawObject) {
+                            RawObject rawObjectValue = (RawObject) fieldValue;
                             fieldValue = rawObjectValue.toJson();
-                        }
-                        else if (isRawCollection) {
-                            RawCollection rawCollectionValue = (RawCollection)fieldValue;
+                        } else if (isRawCollection) {
+                            RawCollection rawCollectionValue = (RawCollection) fieldValue;
                             fieldValue = rawCollectionValue.toJson();
                         }
                         String jsonKey = field.getName();
                         Object jsonValue = JSONObject.wrap(fieldValue);
                         result.put(jsonKey, jsonValue);
+                    } catch (Exception ex) {
                     }
-                    catch (Exception ex) { }
                 }
             }
 
@@ -1500,15 +1627,21 @@ public final class BulkReadRawData {
         public String name = DEFAULT_STRING;
         public String version = DEFAULT_STRING;
 
+        public Boolean deprecated = DEFAULT_BOOLEAN;
+
         public final List<String> supersedesUris = DEFAULT_LIST();
         public final List<String> supersedesUrisResolved = DEFAULT_LIST();
+
+        public final List<String> supersededByUris = DEFAULT_LIST();
+        public final List<String> supersededByUrisResolved = DEFAULT_LIST();
 
         public final RawCollection<RawNameDescPair> terms = DEFAULT_RAW_LIST();
         public final List<String> termsInclude = DEFAULT_LIST();
         public final List<String> termsExclude = DEFAULT_LIST();
-        public final Map<String,String> sources = DEFAULT_MAP();
+        public final Map<String, String> sources = DEFAULT_MAP();
 
         public abstract String getArtifactAbbr();
+
         public abstract String getEmptyXml();
     }
 
@@ -1530,7 +1663,11 @@ public final class BulkReadRawData {
     public static class RawNameDescPair extends RawObject {
         public String name = DEFAULT_STRING;
         public String desc = DEFAULT_STRING;
-        public RawNameDescPair(String n, String d) { this.name = n; this.desc = d; }
+
+        public RawNameDescPair(String n, String d) {
+            this.name = n;
+            this.desc = d;
+        }
     }
 
     public static class RawTdParameter extends RawObject {
@@ -1588,13 +1725,20 @@ public final class BulkReadRawData {
         public final List<String> keywords = DEFAULT_LIST();
         public final List<String> tips = DEFAULT_LIST();
 
-        @Override public String getArtifactAbbr() { return "TD"; }
-        @Override public String getEmptyXml() { return XML_EMPTY_TD; }
+        @Override
+        public String getArtifactAbbr() {
+            return "TD";
+        }
+
+        @Override
+        public String getEmptyXml() {
+            return XML_EMPTY_TD;
+        }
     }
 
     public static class RawTrustInteroperabilityProfile extends RawArtifact {
         public String category = DEFAULT_STRING;
-        public URI id = DEFAULT_URI;
+        public URI    id = DEFAULT_URI;
         public String description = DEFAULT_STRING;
         public String trustExpression = DEFAULT_STRING;
         public String primary = DEFAULT_STRING;
@@ -1603,7 +1747,14 @@ public final class BulkReadRawData {
         public String legalNotice = DEFAULT_STRING;
         public final List<String> keywords = DEFAULT_LIST();
 
-        @Override public String getArtifactAbbr() { return "TIP"; }
-        @Override public String getEmptyXml() { return XML_EMPTY_TIP; }
+        @Override
+        public String getArtifactAbbr() {
+            return "TIP";
+        }
+
+        @Override
+        public String getEmptyXml() {
+            return XML_EMPTY_TIP;
+        }
     }
 }

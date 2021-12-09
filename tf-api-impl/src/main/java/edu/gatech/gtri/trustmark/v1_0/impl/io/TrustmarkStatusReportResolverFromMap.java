@@ -14,7 +14,7 @@ public class TrustmarkStatusReportResolverFromMap extends AbstractResolverFromMa
 
     public TrustmarkStatusReportResolverFromMap(final Map<URI, TrustmarkStatusReport> map) {
         super(
-                TrustmarkStatusReportJsonDeserializer::deserialize,
+                new TrustmarkStatusReportJsonDeserializer()::deserialize,
                 TrustmarkStatusReportXmlDeserializer::deserialize,
                 entity -> entity,
                 map);

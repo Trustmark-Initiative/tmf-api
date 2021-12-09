@@ -2,13 +2,17 @@ package edu.gatech.gtri.trustmark.v1_0.impl.io;
 
 import edu.gatech.gtri.trustmark.v1_0.FactoryLoader;
 import edu.gatech.gtri.trustmark.v1_0.impl.AbstractTest;
+import edu.gatech.gtri.trustmark.v1_0.impl.io.json.SerializerJson;
 import edu.gatech.gtri.trustmark.v1_0.io.Serializer;
 import edu.gatech.gtri.trustmark.v1_0.io.SerializerFactory;
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.Test;
-import static org.hamcrest.Matchers.*;
-import static org.hamcrest.MatcherAssert.*;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.notNullValue;
 
 /**
  * Created by brad on 12/15/15.
@@ -30,7 +34,7 @@ public class TestSerializerFactoryImpl extends AbstractTest {
         log.info("Instantiating Json Serializer...");
         Serializer serializer = FactoryLoader.getInstance(SerializerFactory.class).getJsonSerializer();
         assertThat(serializer, notNullValue());
-        assertThat(serializer.getOutputMimeFormat(), equalTo("application/json"));
+        assertThat(serializer.getOutputMimeFormat(), equalTo(SerializerJson.APPLICATION_JSON));
     }
 
     @Test

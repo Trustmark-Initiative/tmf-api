@@ -1,288 +1,175 @@
 package edu.gatech.gtri.trustmark.v1_0.impl.io.json;
 
-import edu.gatech.gtri.trustmark.v1_0.impl.model.*;
+import edu.gatech.gtri.trustmark.v1_0.impl.model.TrustInteroperabilityProfileImpl;
+import edu.gatech.gtri.trustmark.v1_0.impl.model.TrustInteroperabilityProfileReferenceImpl;
+import edu.gatech.gtri.trustmark.v1_0.impl.model.TrustmarkDefinitionRequirementImpl;
 import edu.gatech.gtri.trustmark.v1_0.io.ParseException;
+import edu.gatech.gtri.trustmark.v1_0.model.AbstractTIPReference;
 import edu.gatech.gtri.trustmark.v1_0.model.Entity;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustInteroperabilityProfile;
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
-import org.json.JSONArray;
+import org.apache.logging.log4j.Logger;
+import org.gtri.fj.data.List;
+import org.gtri.fj.data.TreeMap;
+import org.gtri.fj.function.Try1;
 import org.json.JSONObject;
 
-import java.util.HashMap;
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.JsonDeserializerUtility.assertSupported;
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.JsonDeserializerUtility.readBooleanOption;
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.JsonDeserializerUtility.readDate;
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.JsonDeserializerUtility.readEntity;
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.JsonDeserializerUtility.readEntityReference;
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.JsonDeserializerUtility.readFromMap;
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.JsonDeserializerUtility.readIntOption;
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.JsonDeserializerUtility.readJSONObject;
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.JsonDeserializerUtility.readJSONObjectList;
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.JsonDeserializerUtility.readJSONObjectOption;
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.JsonDeserializerUtility.readString;
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.JsonDeserializerUtility.readStringList;
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.JsonDeserializerUtility.readStringOption;
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.JsonDeserializerUtility.readURI;
+import static java.lang.Boolean.TRUE;
+import static java.util.Objects.requireNonNull;
+import static org.gtri.fj.data.Option.somes;
+import static org.gtri.fj.lang.StringUtility.stringOrd;
+import static org.gtri.fj.product.P.p;
 
 /**
  * Created by brad on 12/10/15.
  */
-public class TrustInteroperabilityProfileJsonDeserializer extends AbstractDeserializer {
+public class TrustInteroperabilityProfileJsonDeserializer implements JsonDeserializer<TrustInteroperabilityProfile> {
 
     private static final Logger log = LogManager.getLogger(TrustInteroperabilityProfileJsonDeserializer.class);
 
+    public TrustInteroperabilityProfile deserialize(String jsonString) throws ParseException {
+        requireNonNull(jsonString);
 
-    public static TrustInteroperabilityProfile deserialize(String jsonString ) throws ParseException {
-        log.debug("Deserializing TrustInteroperabilityProfile JSON...");
+        log.debug("Deserializing Trust Interoperability Profile JSON . . .");
 
-        JSONObject jsonObject = new JSONObject(jsonString);
-        isSupported(jsonObject);
+        final JSONObject jsonObject = new JSONObject(jsonString);
+        assertSupported(jsonObject);
 
-        TrustInteroperabilityProfileImpl tip = new TrustInteroperabilityProfileImpl();
+        final TrustInteroperabilityProfileImpl trustInteroperabilityProfile = new TrustInteroperabilityProfileImpl();
 
-        tip.setOriginalSource(jsonString);
-        tip.setOriginalSourceType("application/json");
-        tip.setId(getString(jsonObject, "$id", false));
+        trustInteroperabilityProfile.setOriginalSource(jsonString);
+        trustInteroperabilityProfile.setOriginalSourceType(SerializerJson.APPLICATION_JSON);
 
-        tip.setTypeName("TrustInteroperabilityProfile");
-        tip.setIdentifier(getUri(jsonObject, "Identifier", true));
-        tip.setName(getString(jsonObject, "Name", true));
-        tip.setVersion(getString(jsonObject, "Version", true));
-        tip.setDescription(getString(jsonObject, "Description", true));
-        tip.setPublicationDateTime(getDate(jsonObject, "PublicationDateTime", true));
-        tip.setTrustExpression(getString(jsonObject, "TrustExpression", true));
-        String primaryTip =  getString(jsonObject, "Primary", false);
-        if(primaryTip != null && primaryTip.equals("true")) {
-            tip.setPrimary(Boolean.TRUE);
-        }
-        String moniker =  getString(jsonObject, "Moniker", false);
-        if(moniker != null) {
-            tip.setMoniker(moniker);
-        }
-        tip.setLegalNotice(getString(jsonObject, "LegalNotice", false));
-        tip.setNotes(getString(jsonObject, "Notes", false));
+        trustInteroperabilityProfile.setDeprecated(readBooleanOption(jsonObject, "Deprecated").orSome(false));
+        trustInteroperabilityProfile.setDescription(readString(jsonObject, "Description"));
+        trustInteroperabilityProfile.setIdentifier(readURI(jsonObject, "Identifier"));
+        trustInteroperabilityProfile.setIssuer(readEntity(readJSONObject(jsonObject, "Issuer")));
+        trustInteroperabilityProfile.setName(readString(jsonObject, "Name"));
+        trustInteroperabilityProfile.setPublicationDateTime(readDate(jsonObject, "PublicationDateTime"));
+        trustInteroperabilityProfile.setTrustExpression(readString(jsonObject, "TrustExpression"));
+        trustInteroperabilityProfile.setTypeName("TrustInteroperabilityProfile");
+        trustInteroperabilityProfile.setVersion(readString(jsonObject, "Version"));
 
-        tip.setIssuer(readEntity(jsonObject, "Issuer", true));
+        readStringOption(jsonObject, "$id").forEach(trustInteroperabilityProfile::setId);
+        readStringOption(jsonObject, "Primary").filter(primary -> primary.equals("true")).forEach(primary -> trustInteroperabilityProfile.setPrimary(TRUE));
+        readStringOption(jsonObject, "Moniker").forEach(trustInteroperabilityProfile::setMoniker);
+        readStringOption(jsonObject, "LegalNotice").forEach(trustInteroperabilityProfile::setLegalNotice);
+        readStringOption(jsonObject, "Notes").forEach(trustInteroperabilityProfile::setNotes);
 
-        if( jsonObject.has("Deprecated") ){
-            tip.setDeprecated(jsonObject.getBoolean("Deprecated"));
-        }else{
-            tip.setDeprecated(false);
-        }
+        readJSONObjectOption(jsonObject, "Supersessions").foreachDoEffectException(jsonObjectInner -> {
+            readJSONObjectList(jsonObjectInner, "Supersedes").mapException(JsonDeserializerUtility::readTrustmarkDefinitionReference).forEach(trustInteroperabilityProfile::addToSupersedes);
+            readJSONObjectList(jsonObjectInner, "SupersededBy").mapException(JsonDeserializerUtility::readTrustmarkDefinitionReference).forEach(trustInteroperabilityProfile::addToSupersededBy);
+        });
 
-        JSONObject supersessionObj = jsonObject.optJSONObject("Supersessions");
-        if( supersessionObj != null ){
-            log.debug("Encountered TIP Supersessions...");
-            JSONArray supersedesArrayJson = supersessionObj.optJSONArray("Supersedes");
-            if( supersedesArrayJson != null ){
-                for( int supersedesIdx = 0; supersedesIdx < supersedesArrayJson.length(); supersedesIdx++ ){
-                    log.debug("Encountered TIP -> Supersessions -> Supersedes["+supersedesIdx+"]...");
-                    tip.addToSupersedes(readTFIFDirectly(supersedesArrayJson.optJSONObject(supersedesIdx)));
-                }
-            }
-            JSONArray supersededByArrayJson = supersessionObj.optJSONArray("SupersededBy");
-            if( supersededByArrayJson != null ){
-                for( int supersededByIdx = 0; supersededByIdx < supersededByArrayJson.length(); supersededByIdx++ ){
-                    log.debug("Encountered TIP -> Supersessions -> SupersededBy["+supersededByIdx+"]...");
-                    tip.addToSupersededBy(readTFIFDirectly(supersededByArrayJson.optJSONObject(supersededByIdx)));
-                }
-            }
-        }
-        log.debug("There are "+tip.getSupersededBy().size()+" superseded by references and "+tip.getSupersedes().size()+" supersedes references");
+        readJSONObjectList(jsonObject, "KnownConflicts").mapException(JsonDeserializerUtility::readTrustmarkDefinitionReference).forEach(trustInteroperabilityProfile::addToKnownConflict);
+        readJSONObjectList(jsonObject, "Satisfies").mapException(JsonDeserializerUtility::readTrustmarkDefinitionReference).forEach(trustInteroperabilityProfile::addToSatisfies);
+        readJSONObjectList(jsonObject, "Sources").mapException(JsonDeserializerUtility::readSource).forEach(trustInteroperabilityProfile::addSource);
+        readJSONObjectList(jsonObject, "Terms").mapException(JsonDeserializerUtility::readTerm).forEach(trustInteroperabilityProfile::addTerm);
 
+        readStringList(jsonObject, "Keywords").foreachDoEffectException(trustInteroperabilityProfile::addToKeywords);
 
-        JSONArray satisfiesArray = jsonObject.optJSONArray("Satisfies");
-        if( satisfiesArray == null && jsonObject.has("Satisfies") ){
-            satisfiesArray = new JSONArray();
-            satisfiesArray.put(jsonObject.getJSONObject("Satisfies"));
-        }
-        if( satisfiesArray != null && satisfiesArray.length() > 0 ){
-            for( int i = 0; i < satisfiesArray.length(); i++ ){
-                JSONObject satisfiesRefJSON = satisfiesArray.getJSONObject(i);
-                tip.addToSatisfies(readTFIFDirectly(satisfiesRefJSON));
-            }
-        }
+        readReferences(readJSONObject(jsonObject, "References")).forEach(trustInteroperabilityProfile::addReference);
 
-        JSONArray knownConflictsArray = jsonObject.optJSONArray("KnownConflicts");
-        if( knownConflictsArray != null && knownConflictsArray.length() > 0 ){
-            for( int i = 0; i < knownConflictsArray.length(); i++ ){
-                JSONObject knownConclitsRefJSON = knownConflictsArray.optJSONObject(i);
-                tip.addToKnownConflict(readTFIFDirectly(knownConclitsRefJSON));
-            }
-        }
-
-
-        JSONArray termsArrayJson = jsonObject.optJSONArray("Terms");
-        if( termsArrayJson != null ){
-            for( int termIndex = 0; termIndex < termsArrayJson.length(); termIndex++ ){
-                JSONObject termJson = (JSONObject) termsArrayJson.get(termIndex);
-                tip.addTerm(readTerm(termJson));
-            }
-        }
-
-        HashMap<String, SourceImpl> sourceMap = new HashMap<String, SourceImpl>();
-        JSONArray sourcesArrayJson = jsonObject.optJSONArray("Sources");
-        if( sourcesArrayJson != null ){
-            for( int sourcesIndex = 0; sourcesIndex < sourcesArrayJson.length(); sourcesIndex++ ){
-                JSONObject sourceJson = sourcesArrayJson.getJSONObject(sourcesIndex);
-                SourceImpl source = readSource(sourceJson);
-                tip.addSource( source );
-                String id = getString(sourceJson, "$id", false);
-                sourceMap.put(id, source);
-            }
-        }
-
-        JSONArray keywordsArrayJson = jsonObject.optJSONArray("Keywords");
-        if( keywordsArrayJson != null ){
-            for( int keywordIndex = 0; keywordIndex < keywordsArrayJson.length(); keywordIndex++ ){
-                String keyword = (String) keywordsArrayJson.get(keywordIndex);
-                tip.addToKeywords(keyword);
-            }
-        }
-
-
-        HashMap<String, Entity> providerReferenceMap = buildProviderReferenceMap(jsonObject);
-
-        // Now we build all the references...
-        if( jsonObject.has("References") ){
-            JSONObject refsJSON = jsonObject.getJSONObject("References");
-            if( !refsJSON.has("TrustInteroperabilityProfileReferences") && !refsJSON.has("TrustmarkDefinitionRequirements") )
-                throw new ParseException("TrustInteroperabilityProfiles References must contain an array named 'TrustInteroperabilityProfileReferences' or 'TrustmarkDefinitionRequirements'.");
-
-
-            JSONArray tipRefArray = refsJSON.optJSONArray("TrustInteroperabilityProfileReferences");
-            if( tipRefArray != null ) {
-                for (int i = 0; i < tipRefArray.length(); i++ ){
-                    JSONObject tipRefJSON = tipRefArray.getJSONObject(i);
-                    tip.addReference(buildTrustInteroperabilityProfileReference(tipRefJSON));
-                }
-            }
-
-            JSONArray tdReqRefArray = refsJSON.optJSONArray("TrustmarkDefinitionRequirements");
-            if( tdReqRefArray != null ) {
-                for (int i = 0; i < tdReqRefArray.length(); i++ ){
-                    JSONObject tdReqRefJSON = tdReqRefArray.getJSONObject(i);
-                    tip.addReference(buildTrustmarkDefinitionRequirement(tdReqRefJSON, providerReferenceMap));
-                }
-            }
-
-        }else{
-            throw new ParseException("TrustInteroperabilityProfiles are expected to have a 'References' section with TD and TIP references.");
-        }
-
-        return tip;
-    }//end deserialize
-
-    private static TrustmarkDefinitionRequirementImpl buildTrustmarkDefinitionRequirement(JSONObject tdReqObj, HashMap<String, Entity> providerReferenceMap)
-    throws ParseException {
-        TrustmarkDefinitionRequirementImpl tdReq = new TrustmarkDefinitionRequirementImpl();
-        tdReq.setTypeName("TrustmarkDefinitionRequirement");
-        tdReq.setId(getString(tdReqObj, "$id", true));
-
-        if( !tdReqObj.has("TrustmarkDefinitionReference") ){
-            throw new ParseException("TrustmarkDefinitionRequirement is missing the TrustmarkDefinitionReference!");
-        }
-        JSONObject tdRefJSON = tdReqObj.getJSONObject("TrustmarkDefinitionReference");
-        tdReq.setIdentifier(getUri(tdRefJSON, "Identifier", true));
-        tdReq.setName(getString(tdRefJSON, "Name", false));
-        if(exists(tdRefJSON, "Number")) {
-            tdReq.setNumber(getNumber(tdRefJSON, "Number", false).intValue());
-        }
-        tdReq.setVersion(getString(tdRefJSON, "Version", false));
-        tdReq.setDescription(getString(tdRefJSON, "Description", false));
-
-        if( tdReqObj.has("ProviderReferences") || (tdReqObj.has("ProviderReference") && tdReqObj.optJSONArray("ProviderReference") != null)){
-            JSONArray refArray = null;
-            if( tdReqObj.has("ProviderReferences") ) {
-                refArray = tdReqObj.getJSONArray("ProviderReferences");
-            }else{
-                refArray = tdReqObj.optJSONArray("ProviderReference");
-            }
-            for( int i = 0; i < refArray.length(); i++ ){
-                JSONObject refJson = refArray.getJSONObject(i);
-                String refVal = null;
-                if( refJson.has("$id") ){
-                    refVal = refJson.getString("$id");
-                }else if( refJson.has("$ref") ){
-                    refVal = refJson.getString("$ref");
-                    if( refVal.startsWith("#") ){
-                        refVal = refVal.substring(1);
-                    }
-                }
-                Entity provider = providerReferenceMap.get(refVal);
-                if( provider == null )
-                    throw new ParseException("Could not find reference '"+refVal+"' from TD Requirement '"+tdReq.getId()+"' in which there were "+providerReferenceMap.keySet().size()+" total references to find from!");
-                tdReq.addProviderReference(provider);
-            }
-        }else if( tdReqObj.has("ProviderReference") ){
-            JSONObject providerJSON = tdReqObj.optJSONObject("ProviderReference");
-            if( providerJSON != null ){
-                String refVal = null;
-                if( providerJSON.has("$id") ){
-                    refVal = providerJSON.getString("$id");
-                }else if( providerJSON.has("$ref") ){
-                    refVal = providerJSON.getString("$ref");
-                    if( refVal.startsWith("#") ){
-                        refVal = refVal.substring(1);
-                    }
-                }
-                Entity provider = providerReferenceMap.get(refVal);
-                if( provider == null )
-                    throw new ParseException("Could not find reference '"+refVal+"' from TD Requirement '"+tdReq.getId()+"'!");
-                tdReq.addProviderReference(provider);
-            }
-        }
-
-        return tdReq;
+        return trustInteroperabilityProfile;
     }
 
-    private static TrustInteroperabilityProfileReferenceImpl buildTrustInteroperabilityProfileReference(JSONObject tipRefObj)
-    throws ParseException {
-        TrustInteroperabilityProfileReferenceImpl tipRef = new TrustInteroperabilityProfileReferenceImpl();
-        tipRef.setTypeName("TrustInteroperabilityProfileReference");
-        tipRef.setId(getString(tipRefObj, "$id", true));
-        tipRef.setIdentifier(getUri(tipRefObj, "Identifier", true));
-        tipRef.setName(getString(tipRefObj, "Name", false));
-        if (exists(tipRefObj, "Number"))  {
-            tipRef.setNumber(getNumber(tipRefObj, "Number", false).intValue());
-        }
-        tipRef.setVersion(getString(tipRefObj, "Version", false));
-        tipRef.setDescription(getString(tipRefObj, "Description", false));
-        return tipRef;
+    private static List<AbstractTIPReference> readReferences(final JSONObject jsonObject) throws ParseException {
+        requireNonNull(jsonObject);
+
+        if (!jsonObject.has("TrustInteroperabilityProfileReferences") && !jsonObject.has("TrustmarkDefinitionRequirements"))
+            throw new ParseException("The entity must have at least one of the following: TrustInteroperabilityProfileReferences, TrustmarkDefinitionRequirements.");
+
+        final List<JSONObject> jsonObjectProviderReference1 = readJSONObjectList(jsonObject, "TrustmarkDefinitionRequirements")
+                .bindException(jsonObjectTrustmarkDefinitionRequirement -> readJSONObjectList(jsonObjectTrustmarkDefinitionRequirement, "ProviderReference"));
+
+        final List<JSONObject> jsonObjectProviderReference2 = readJSONObjectList(jsonObject, "TrustmarkDefinitionRequirements")
+                .bindException(jsonObjectTrustmarkDefinitionRequirement -> readJSONObjectList(jsonObjectTrustmarkDefinitionRequirement, "ProviderReferences"));
+
+        final TreeMap<String, Entity> map = somes(jsonObjectProviderReference1
+                .append(jsonObjectProviderReference2)
+                .mapException(jsonObjectProviderReference -> readStringOption(jsonObjectProviderReference, "$id")
+                        .mapException(id -> p(id, readEntityReference(jsonObjectProviderReference)))))
+                .foldLeft(tree -> p -> tree.set(p._1(), p._2()), TreeMap.empty(stringOrd));
+
+        final List<TrustInteroperabilityProfileReferenceImpl> trustInteroperabilityProfileReferenceList = readJSONObjectList(jsonObject, "TrustInteroperabilityProfileReferences").mapException(TrustInteroperabilityProfileJsonDeserializer::readTrustInteroperabilityProfileReference);
+        final List<TrustmarkDefinitionRequirementImpl> trustmarkDefinitionRequirementList = readJSONObjectList(jsonObject, "TrustmarkDefinitionRequirements").mapException(readTrustmarkDefinitionRequirement(map));
+
+        return trustInteroperabilityProfileReferenceList.map(trustInteroperabilityProfileReference -> (AbstractTIPReference) trustInteroperabilityProfileReference)
+                .append(trustmarkDefinitionRequirementList.map(trustmarkDefinitionRequirement -> trustmarkDefinitionRequirement));
     }
 
+    private static Try1<JSONObject, TrustmarkDefinitionRequirementImpl, ParseException> readTrustmarkDefinitionRequirement(TreeMap<String, Entity> map) {
+        requireNonNull(map);
 
-    private static HashMap<String, Entity> buildProviderReferenceMap(JSONObject tipJson) throws ParseException {
-        HashMap<String, Entity> providerReferenceMap = new HashMap<>();
+        return jsonObject -> {
+            requireNonNull(jsonObject);
 
-        if( tipJson.has("References") ){
-            JSONObject refsJSON = tipJson.getJSONObject("References");
-            if( !refsJSON.has("TrustInteroperabilityProfileReferences") && !refsJSON.has("TrustmarkDefinitionRequirements") )
-                throw new ParseException("TrustInteroperabilityProfiles References must contain an array named 'TrustInteroperabilityProfileReferences' or 'TrustmarkDefinitionRequirements'.");
+            JSONObject jsonObjectTrustmarkDefinitionReference = readJSONObject(jsonObject, "TrustmarkDefinitionReference");
 
-            JSONArray tdReqRefArray = refsJSON.optJSONArray("TrustmarkDefinitionRequirements");
-            if( tdReqRefArray != null ) {
-                for (int i = 0; i < tdReqRefArray.length(); i++ ){
-                    JSONObject tdReqRefJSON = tdReqRefArray.getJSONObject(i);
-                    if( tdReqRefJSON.has("ProviderReferences") || (tdReqRefJSON.has("ProviderReference") && tdReqRefJSON.optJSONArray("ProviderReference") != null) ){
-                        JSONArray providerRefArray = null;
-                        if( tdReqRefJSON.has("ProviderReferences") ) {
-                            providerRefArray = tdReqRefJSON.getJSONArray("ProviderReferences");
-                        }else{
-                            providerRefArray = tdReqRefJSON.optJSONArray("ProviderReference");
-                        }
-                        log.debug("Found "+providerRefArray.length()+" provider references...");
-                        for( int j = 0; j < providerRefArray.length(); j++ ){
-                            JSONObject providerJson = providerRefArray.getJSONObject(j);
-                            if( providerJson.has("$id") ){
-                                EntityImpl provider = readEntityReference(providerJson);
-                                String id = getString(providerJson, "$id", true);
-                                log.debug("Storing provider reference #"+id);
-                                providerReferenceMap.put(id, provider);
-                            }
-                        }
-                    }else if( tdReqRefJSON.has("ProviderReference") ) {
-                        JSONObject providerJson = tdReqRefJSON.optJSONObject("ProviderReference");
-                        if( providerJson.has("$id") ){
-                            EntityImpl provider = readEntityReference(providerJson);
-                            String id = getString(providerJson, "$id", true);
-                            log.debug("Storing provider reference #"+id);
-                            providerReferenceMap.put(id, provider);
-                        }
-                    }
-                }
+            TrustmarkDefinitionRequirementImpl trustmarkDefinitionRequirement = new TrustmarkDefinitionRequirementImpl();
+
+            trustmarkDefinitionRequirement.setId(readString(jsonObject, "$id"));
+            trustmarkDefinitionRequirement.setIdentifier(readURI(jsonObjectTrustmarkDefinitionReference, "Identifier"));
+            trustmarkDefinitionRequirement.setTypeName("TrustmarkDefinitionRequirement");
+
+            readIntOption(jsonObjectTrustmarkDefinitionReference, "Number").forEach(trustmarkDefinitionRequirement::setNumber);
+
+            readStringOption(jsonObjectTrustmarkDefinitionReference, "Description").forEach(trustmarkDefinitionRequirement::setDescription);
+            readStringOption(jsonObjectTrustmarkDefinitionReference, "Name").forEach(trustmarkDefinitionRequirement::setName);
+            readStringOption(jsonObjectTrustmarkDefinitionReference, "Version").forEach(trustmarkDefinitionRequirement::setVersion);
+
+            readJSONObjectList(jsonObject, "ProviderReference").mapException(readFromMap(map, TrustInteroperabilityProfileJsonDeserializer::readIdOrRef)).forEach(trustmarkDefinitionRequirement::addProviderReference);
+            readJSONObjectList(jsonObject, "ProviderReferences").mapException(readFromMap(map, TrustInteroperabilityProfileJsonDeserializer::readIdOrRef)).forEach(trustmarkDefinitionRequirement::addProviderReference);
+
+            return trustmarkDefinitionRequirement;
+        };
+    }
+
+    private static TrustInteroperabilityProfileReferenceImpl readTrustInteroperabilityProfileReference(final JSONObject jsonObject) throws ParseException {
+        requireNonNull(jsonObject);
+
+        final TrustInteroperabilityProfileReferenceImpl trustInteroperabilityProfileReference = new TrustInteroperabilityProfileReferenceImpl();
+
+        trustInteroperabilityProfileReference.setId(readString(jsonObject, "$id"));
+        trustInteroperabilityProfileReference.setIdentifier(readURI(jsonObject, "Identifier"));
+        trustInteroperabilityProfileReference.setTypeName("TrustInteroperabilityProfileReference");
+
+        readIntOption(jsonObject, "Number").forEach(trustInteroperabilityProfileReference::setNumber);
+
+        readStringOption(jsonObject, "Description").forEach(trustInteroperabilityProfileReference::setDescription);
+        readStringOption(jsonObject, "Name").forEach(trustInteroperabilityProfileReference::setName);
+        readStringOption(jsonObject, "Version").forEach(trustInteroperabilityProfileReference::setVersion);
+
+        return trustInteroperabilityProfileReference;
+    }
+
+    private static String readIdOrRef(final JSONObject jsonObject) throws ParseException {
+        requireNonNull(jsonObject);
+
+        if (jsonObject.has("$id")) {
+            return readString(jsonObject, "$id");
+        } else if (jsonObject.has("$ref")) {
+            if (readString(jsonObject, "$ref").startsWith("#")) {
+                return readString(jsonObject, "$ref").substring(1);
+            } else {
+                return readString(jsonObject, "$ref");
             }
-
+        } else {
+            throw new ParseException();
         }
-        return providerReferenceMap;
-    }//end buildProviderReferenceMap()
-
-
-}//end TrustmarkJsonDeserializer()
+    }
+}

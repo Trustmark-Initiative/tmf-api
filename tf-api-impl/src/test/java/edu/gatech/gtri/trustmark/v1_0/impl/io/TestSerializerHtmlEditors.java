@@ -32,16 +32,16 @@ public class TestSerializerHtmlEditors extends AbstractTest {
     public void testSerializerHtmlEditorResolution() throws Exception {
         Serializer serializer = FactoryLoader.getInstance(SerializerFactory.class).getHtmlEditorSerializer();
         assertThat(serializer, notNullValue());
-        assertThat(serializer.getOutputMimeFormat(), equalTo(SerializerHtmlEditors.OUTPUT_MIME_FORMAT));
-        assertThat(serializer.getName(), equalTo(SerializerHtmlEditors.NAME));
-        assertThat(serializer.getDescription(), equalTo(SerializerHtmlEditors.DESCRIPTION));
+        assertThat(serializer.getOutputMimeFormat(), equalTo("text/html"));
+        assertThat(serializer.getName(), equalTo("HTML Editor Serializer"));
+        assertThat(serializer.getDescription(), equalTo("Serializes data into HTML, suitable for display and editing in a browser"));
         logger.debug("Asserted SerializerHtmlEditors Resolution!");
     }
 
     @Test
     public void testSerializeSimpleTd() throws Exception {
         String tdFile = TD_SIMPLE;
-        logger.debug("Asserting we can serialize TD: "+tdFile);
+        logger.debug("Asserting we can serialize TD: " + tdFile);
 
         Serializer serializer = FactoryLoader.getInstance(SerializerFactory.class).getHtmlEditorSerializer();
         TrustmarkDefinition td = FactoryLoader.getInstance(TrustmarkDefinitionResolver.class).resolve(new File(tdFile));
@@ -56,7 +56,7 @@ public class TestSerializerHtmlEditors extends AbstractTest {
         // TODO Improve assertions...
 
         IOUtils.writeToFile(new File("./target/td-editor.html"), htmlOut);
-        logger.debug("Successfully asserted TD: "+tdFile);
+        logger.debug("Successfully asserted TD: " + tdFile);
     }
 
 

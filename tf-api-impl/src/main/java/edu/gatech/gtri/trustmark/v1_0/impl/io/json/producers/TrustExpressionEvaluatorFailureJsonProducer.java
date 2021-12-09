@@ -1,10 +1,9 @@
 package edu.gatech.gtri.trustmark.v1_0.impl.io.json.producers;
 
-import edu.gatech.gtri.trustmark.v1_0.FactoryLoader;
-import edu.gatech.gtri.trustmark.v1_0.io.json.JsonManager;
 import edu.gatech.gtri.trustmark.v1_0.io.json.JsonProducer;
-import edu.gatech.gtri.trustmark.v1_0.model.TrustInteroperabilityProfile;
-import edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.evaluator.TrustExpressionEvaluatorFailure;
+import edu.gatech.gtri.trustmark.v1_0.tip.evaluator.TrustExpressionEvaluatorFailure;
+import edu.gatech.gtri.trustmark.v1_0.trust.TrustmarkVerifierFailure;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.kohsuke.MetaInfServices;
 
@@ -12,9 +11,6 @@ import static java.util.Objects.requireNonNull;
 
 @MetaInfServices
 public class TrustExpressionEvaluatorFailureJsonProducer implements JsonProducer<TrustExpressionEvaluatorFailure, JSONObject> {
-
-    private static final JsonManager jsonManager = FactoryLoader.getInstance(JsonManager.class);
-    private static final JsonProducer<TrustInteroperabilityProfile, JSONObject> jsonProducerForTrustInteroperabilityProfile = new TrustInteroperabilityProfileJsonProducer();
 
     @Override
     public Class<TrustExpressionEvaluatorFailure> getSupportedType() {
@@ -42,6 +38,11 @@ public class TrustExpressionEvaluatorFailureJsonProducer implements JsonProducer
                     put("Uri", uri.toString());
                     put("Exception", exception.getClass().getSimpleName());
                     put("Message", exception.getMessage());
+                }}),
+                (trustmark, trustmarkVerificationFailureNonEmptyList) -> new JSONObject(new java.util.HashMap<String, Object>() {{
+                    put("$Type", TrustExpressionEvaluatorFailure.TrustExpressionEvaluatorFailureVerify.class.getSimpleName());
+                    put("Uri", trustmark.getIdentifier().toString());
+                    put("Message", new JSONArray(trustmarkVerificationFailureNonEmptyList.map(TrustmarkVerifierFailure::messageFor).toCollection()));
                 }}));
     }
 }

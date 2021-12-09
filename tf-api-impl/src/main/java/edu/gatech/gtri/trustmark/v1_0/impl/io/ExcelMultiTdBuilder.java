@@ -29,13 +29,14 @@ public class ExcelMultiTdBuilder implements MultiTrustmarkDefinitionBuilder {
 
     public static final String FONT_TD_TITLE = "tdTitleFont";
 
-    public static final String CELL_STYLE_TD_TITLE_ROW = "tdTitleRowCellStyle";
-    public static final String CELL_STYLE_TD_TITLE     = "tdTitleCellStyle";
-    public static final String CELL_STYLE_ASS_STEP_ROW = "assStepRowCellStyle";
-    public static final String CELL_STYLE_ASS_STEP_NAME= "stepNameCellStyle";
-    public static final String CELL_STYLE_ASS_STEP_DESC= "stepDescCellStyle";
+    public static final String CELL_STYLE_TD_TITLE_ROW  = "tdTitleRowCellStyle";
+    public static final String CELL_STYLE_TD_TITLE      = "tdTitleCellStyle";
+    public static final String CELL_STYLE_ASS_STEP_ROW  = "assStepRowCellStyle";
+    public static final String CELL_STYLE_ASS_STEP_NAME = "stepNameCellStyle";
+    public static final String CELL_STYLE_ASS_STEP_DESC = "stepDescCellStyle";
 
-    public static final String LISTING_SHEET_NAME= "TDs";
+    public static final String LISTING_SHEET_NAME_TDS                          = "TDs";
+    public static final String LISTING_SHEET_NAME_TIPS                         = "TIPs";
     public static final String TERMS_SHEET_NAME                                = "Terms";
 
 
@@ -46,11 +47,29 @@ public class ExcelMultiTdBuilder implements MultiTrustmarkDefinitionBuilder {
     public static final String LISTING_COL_CITATIONS                           = "Citations";
     public static final String LISTING_COL_ARTIFACTS                           = "Artifacts";
     public static final String LISTING_COL_KEYWORDS                            = "Keywords";
+
+    //TD
     public static final String LISTING_COL_TD_MONIKER                          = "TD Moniker";
     public static final String LISTING_COL_TD_NAME                             = "TD Name";
     public static final String LISTING_COL_TD_VERSION                          = "TD Version";
     public static final String LISTING_COL_TD_DESC                             = "TD Description";
     public static final String LISTING_COL_TD_PUB_TIME                         = "TD Publication DateTime";
+
+    //TIP
+    public static final String LISTING_COL_TIP_MONIKER                         = "TIP Moniker";
+    public static final String LISTING_COL_TIP_NAME                            = "TIP Name";
+    public static final String LISTING_COL_TIP_VERSION                         = "TIP Version";
+    public static final String LISTING_COL_TIP_DESC                            = "TIP Description";
+    public static final String LISTING_COL_TIP_PUB_TIME                        = "TIP Publication DateTime";
+
+    public static final String LISTING_COL_CATEGORY                            = "Category";
+    public static final String LISTING_COL_TRUST_EXPRESSION                    = "Trust Expression";
+    public static final String LISTING_COL_TIP_ID                              = "TIP Id";
+    public static final String LISTING_COL_ISSUER_NAME                         = "Issuer Name";
+    public static final String LISTING_COL_ISSUER_ID                           = "Issuer ID";
+    public static final String LISTING_COL_PRIMARY                             = "Primary";
+
+
     public static final String LISTING_COL_STAKEHOLDER_DESC                    = "Stakeholder Desc";
     public static final String LISTING_COL_RECIPIENT_DESC                      = "Recipient Desc";
     public static final String LISTING_COL_RELYING_PARTY_DESC                  = "Relying Party Desc";
@@ -62,13 +81,24 @@ public class ExcelMultiTdBuilder implements MultiTrustmarkDefinitionBuilder {
     public static final String LISTING_COL_ISSUANCE_CRITERIA                   = "Issuance Criteria";
     public static final String LISTING_COL_CRITERIA_PREFACE                    = "Criteria Preface";
     public static final String LISTING_COL_STEP_PREFACE                        = "Assessment Step Preface";
-    public static final String LISTING_COL_SUPERSEDED_TD                       = "Superseded TD";
+    public static final String LISTING_COL_ASSESSMENT_PREFACE                  = "Assessment Preface";
+    public static final String LISTING_COL_TIPS                                = "TIPs";
+    public static final String LISTING_COL_DEPRECATED                          = "Deprecated";
+    public static final String LISTING_COL_SUPERSEDES                          = "Supersedes";
+    public static final String LISTING_COL_SUPERSEDED_BY                       = "Superseded By";
     public static final String LISTING_COL_NOTES                               = "Notes";
     public static final String LISTING_COL_LEGAL_NOTICE                        = "Legal Notice";
+    public static final String LISTING_TERMS_INCLUDE                           = "Terms Include";
+    public static final String LISTING_TERMS_EXCLUDE                           = "Terms Exclude";
 
     public static final String TERMS_COL_TERM                                  = "Term";
+    public static final String TERMS_COL_TERM_NAME                             = "Term Name";
+    public static final String TERMS_COL_TERM_DEFINITION                       = "Term Definition";
+    public static final String TERMS_COL_TERMS                                 = "Terms";
+    public static final String TERMS_COL_SOURCES                               = "Sources";
     public static final String TERMS_COL_ABBREVIATIONS                         = "Abbreviations";
     public static final String TERMS_COL_DEFINITION                            = "Definition";
+    public static final String TERMS_COL_PARAMETERS                            = "Parameters";
 
     public static final String[] TERMS_COLUMNS = new String[]{      TERMS_COL_TERM,
                                                                     TERMS_COL_ABBREVIATIONS,
@@ -97,7 +127,9 @@ public class ExcelMultiTdBuilder implements MultiTrustmarkDefinitionBuilder {
                                                                     LISTING_COL_ISSUANCE_CRITERIA,
                                                                     LISTING_COL_CRITERIA_PREFACE,
                                                                     LISTING_COL_STEP_PREFACE,
-                                                                    LISTING_COL_SUPERSEDED_TD,
+                                                                    LISTING_COL_DEPRECATED,
+                                                                    LISTING_COL_SUPERSEDES,
+                                                                    LISTING_COL_SUPERSEDED_BY,
                                                                     LISTING_COL_NOTES,
                                                                     LISTING_COL_LEGAL_NOTICE};
 
@@ -158,7 +190,7 @@ public class ExcelMultiTdBuilder implements MultiTrustmarkDefinitionBuilder {
         this.workbook = new HSSFWorkbook();
         this.fonts = createFonts(this.workbook);
         this.cellStyles = createCellStyles(this.workbook, this.fonts);
-        this.tdListSheet = workbook.createSheet(LISTING_SHEET_NAME);
+        this.tdListSheet = workbook.createSheet(LISTING_SHEET_NAME_TDS);
         this.initializeFirstSheet();
         this.listingSheetIndex = 1;
         lastTd = null;
@@ -236,13 +268,27 @@ public class ExcelMultiTdBuilder implements MultiTrustmarkDefinitionBuilder {
             insertCell(tdRow, defaultStyle, LISTING_COLUMN_POSITIONS.get(LISTING_COL_CITATIONS), toPipeColonFormat(citationsToMap(crit.getCitations())) );
             insertCell(tdRow, defaultStyle, LISTING_COLUMN_POSITIONS.get(LISTING_COL_ARTIFACTS), toPipeColonFormat(artifactsToMap(step.getArtifacts())) );
             insertCell(tdRow, defaultStyle, LISTING_COLUMN_POSITIONS.get(LISTING_COL_KEYWORDS), toPipeFormat(td.getMetadata().getKeywords()));
-            List<String> ids = new ArrayList<>();
+
+            //SUPERSEDES
+            List<String> idsSupersedes = new ArrayList<>();
             if( td.getMetadata().getSupersedes() != null && td.getMetadata().getSupersedes().size() > 0 ) {
                 for( TrustmarkFrameworkIdentifiedObject tfi : td.getMetadata().getSupersedes() ){
-                    ids.add(tfi.getIdentifier().toString());
+                    idsSupersedes.add(tfi.getIdentifier().toString());
                 }
             }
-            insertCell(tdRow, defaultStyle, LISTING_COLUMN_POSITIONS.get(LISTING_COL_SUPERSEDED_TD), toPipeFormat(ids));
+            insertCell(tdRow, defaultStyle, LISTING_COLUMN_POSITIONS.get(LISTING_COL_SUPERSEDES), toPipeFormat(idsSupersedes));
+
+            //SUPERSEDED_BY
+            List<String> idsSupersededBy = new ArrayList<>();
+            if( td.getMetadata().getSupersededBy() != null && td.getMetadata().getSupersededBy().size() > 0 ) {
+                for( TrustmarkFrameworkIdentifiedObject tfi : td.getMetadata().getSupersededBy() ){
+                    idsSupersededBy.add(tfi.getIdentifier().toString());
+                }
+            }
+            insertCell(tdRow, defaultStyle, LISTING_COLUMN_POSITIONS.get(LISTING_COL_SUPERSEDED_BY), toPipeFormat(idsSupersededBy));
+
+            //DEPRECATED
+            insertCell(tdRow, defaultStyle, LISTING_COLUMN_POSITIONS.get(LISTING_COL_DEPRECATED), td.getMetadata().isDeprecated());
 
             insertCell(tdRow, defaultStyle, LISTING_COLUMN_POSITIONS.get(LISTING_COL_CRITERIA_PREFACE), td.getConformanceCriteriaPreface());
             insertCell(tdRow, defaultStyle, LISTING_COLUMN_POSITIONS.get(LISTING_COL_STEP_PREFACE), td.getAssessmentStepPreface());

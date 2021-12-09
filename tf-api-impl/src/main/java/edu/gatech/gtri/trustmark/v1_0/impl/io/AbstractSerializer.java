@@ -15,23 +15,34 @@ import java.io.Writer;
 import java.util.HashMap;
 import java.util.Map;
 
+import static java.util.Objects.requireNonNull;
+
 /**
  * Provides some basic implementations of Serializer methods that all of them can use or benefit from.
  * <br/><br/>
+ *
  * @author brad
  * @date 12/9/16
  */
 public abstract class AbstractSerializer implements Serializer {
 
-    public AbstractSerializer(String name, String description, String mimeType){
+    private final String name;
+    private final String description;
+    private final String mimeType;
+
+    public AbstractSerializer(
+            final String name,
+            final String description,
+            final String mimeType) {
+
+        requireNonNull(name);
+        requireNonNull(description);
+        requireNonNull(mimeType);
+
         this.name = name;
         this.description = description;
         this.mimeType = mimeType;
     }
-
-    private String name;
-    private String description;
-    private String mimeType;
 
     @Override
     public String getName() {
@@ -48,100 +59,171 @@ public abstract class AbstractSerializer implements Serializer {
         return mimeType;
     }
 
-    private Map emptyMap() {
-        return new HashMap();
+    @Override
+    public void serialize(
+            final Trustmark trustmark,
+            final Writer writer)
+            throws IOException {
+
+        serialize(trustmark, writer, new HashMap<>());
     }
 
     @Override
-    public void serialize(Trustmark trustmark, Writer writer) throws IOException {
-        serialize(trustmark, writer, emptyMap());
+    public void serialize(
+            final Trustmark trustmark,
+            final OutputStream outputStream)
+            throws IOException {
+
+        serialize(trustmark, outputStream, new HashMap<>());
     }
 
     @Override
-    public void serialize(Trustmark trustmark, OutputStream outputStream) throws IOException {
-        serialize(trustmark, outputStream, emptyMap());
+    public void serialize(
+            final TrustmarkStatusReport trustmarkStatusReport,
+            final Writer writer)
+            throws IOException {
+
+        serialize(trustmarkStatusReport, writer, new HashMap<>());
     }
 
     @Override
-    public void serialize(TrustmarkStatusReport tsr, Writer writer) throws IOException {
-        serialize(tsr, writer, emptyMap());
+    public void serialize(
+            final TrustmarkStatusReport trustmarkStatusReport,
+            final OutputStream outputStream)
+            throws IOException {
+
+        serialize(trustmarkStatusReport, outputStream, new HashMap<>());
     }
 
     @Override
-    public void serialize(TrustmarkStatusReport tsr, OutputStream outputStream) throws IOException {
-        serialize(tsr, outputStream, emptyMap());
+    public void serialize(
+            final TrustmarkDefinition trustmarkDefinition,
+            final Writer writer)
+            throws IOException {
+
+        serialize(trustmarkDefinition, writer, new HashMap<>());
     }
 
     @Override
-    public void serialize(TrustmarkDefinition td, Writer writer) throws IOException {
-        serialize(td, writer, emptyMap());
+    public void serialize(
+            final TrustmarkDefinition trustmarkDefinition,
+            final OutputStream outputStream)
+            throws IOException {
+
+        serialize(trustmarkDefinition, outputStream, new HashMap<>());
     }
 
     @Override
-    public void serialize(TrustmarkDefinition td, OutputStream outputStream) throws IOException {
-        serialize(td, outputStream, emptyMap());
+    public void serialize(
+            final TrustInteroperabilityProfile trustInteroperabilityProfile,
+            final Writer writer)
+            throws IOException {
+
+        serialize(trustInteroperabilityProfile, writer, new HashMap<>());
     }
 
     @Override
-    public void serialize(TrustInteroperabilityProfile tip, Writer writer) throws IOException {
-        serialize(tip, writer, emptyMap());
+    public void serialize(
+            final TrustInteroperabilityProfile trustInteroperabilityProfile,
+            final OutputStream outputStream)
+            throws IOException {
+
+        serialize(trustInteroperabilityProfile, outputStream, new HashMap<>());
     }
 
     @Override
-    public void serialize(TrustInteroperabilityProfile tip, OutputStream outputStream) throws IOException {
-        serialize(tip, outputStream, emptyMap());
+    public void serialize(
+            final Agreement agreement,
+            final Writer writer)
+            throws IOException {
+
+        serialize(agreement, writer, new HashMap<>());
     }
 
     @Override
-    public void serialize(Agreement agreement, Writer writer) throws IOException {
-        serialize(agreement, writer, emptyMap());
+    public void serialize(
+            final Agreement agreement,
+            final OutputStream outputStream)
+            throws IOException {
+
+        serialize(agreement, outputStream, new HashMap<>());
     }
 
     @Override
-    public void serialize(Agreement agreement, OutputStream outputStream) throws IOException {
-        serialize(agreement, outputStream, emptyMap());
+    public void serialize(
+            final AgreementResponsibilityTemplate agreementResponsibilityTemplate,
+            final Writer writer)
+            throws IOException {
+
+        serialize(agreementResponsibilityTemplate, writer, new HashMap<>());
     }
 
     @Override
-    public void serialize(AgreementResponsibilityTemplate art, Writer writer) throws IOException {
-        serialize(art, writer, emptyMap());
+    public void serialize(
+            final AgreementResponsibilityTemplate agreementResponsibilityTemplate,
+            final OutputStream outputStream)
+            throws IOException {
+
+        serialize(agreementResponsibilityTemplate, outputStream, new HashMap<>());
     }
 
     @Override
-    public void serialize(AgreementResponsibilityTemplate art, OutputStream outputStream) throws IOException {
-        serialize(art, outputStream, emptyMap());
+    public void serialize(
+            final Trustmark trustmark,
+            final OutputStream outputStream,
+            final Map<Object, Object> model)
+            throws IOException {
+
+        serialize(trustmark, new OutputStreamWriter(outputStream), model);
     }
 
     @Override
-    public void serialize(Trustmark trustmark, OutputStream outputStream, Map model) throws IOException {
-        OutputStreamWriter writer = new OutputStreamWriter(outputStream);
-        serialize(trustmark, writer, model);
-    }
-    @Override
-    public void serialize(TrustmarkStatusReport tsr, OutputStream outputStream, Map model) throws IOException {
-        OutputStreamWriter writer = new OutputStreamWriter(outputStream);
-        serialize(tsr, writer, model);
-    }
-    @Override
-    public void serialize(TrustmarkDefinition td, OutputStream outputStream, Map model) throws IOException {
-        OutputStreamWriter writer = new OutputStreamWriter(outputStream);
-        serialize(td, writer, model);
-    }
-    @Override
-    public void serialize(TrustInteroperabilityProfile tip, OutputStream outputStream, Map model) throws IOException {
-        OutputStreamWriter writer = new OutputStreamWriter(outputStream);
-        serialize(tip, writer, model);
-    }
-    @Override
-    public void serialize(Agreement agreement, OutputStream outputStream, Map model) throws IOException {
-        OutputStreamWriter writer = new OutputStreamWriter(outputStream);
-        serialize(agreement, writer, model);
-    }
-    @Override
-    public void serialize(AgreementResponsibilityTemplate art, OutputStream outputStream, Map model) throws IOException {
-        OutputStreamWriter writer = new OutputStreamWriter(outputStream);
-        serialize(art, writer, model);
+    public void serialize(
+            final TrustmarkStatusReport trustmarkStatusReport,
+            final OutputStream outputStream,
+            final Map<Object, Object> model)
+            throws IOException {
+
+        serialize(trustmarkStatusReport, new OutputStreamWriter(outputStream), model);
     }
 
+    @Override
+    public void serialize(
+            final TrustmarkDefinition trustmarkDefinition,
+            final OutputStream outputStream,
+            final Map<Object, Object> model)
+            throws IOException {
 
-}/* end AbstractSerializer */
+        serialize(trustmarkDefinition, new OutputStreamWriter(outputStream), model);
+    }
+
+    @Override
+    public void serialize(
+            final TrustInteroperabilityProfile trustInteroperabilityProfile,
+            final OutputStream outputStream,
+            final Map<Object, Object> model)
+            throws IOException {
+
+        serialize(trustInteroperabilityProfile, new OutputStreamWriter(outputStream), model);
+    }
+
+    @Override
+    public void serialize(
+            final Agreement agreement,
+            final OutputStream outputStream,
+            final Map<Object, Object> model)
+            throws IOException {
+
+        serialize(agreement, new OutputStreamWriter(outputStream), model);
+    }
+
+    @Override
+    public void serialize(
+            final AgreementResponsibilityTemplate agreementResponsibilityTemplate,
+            final OutputStream outputStream,
+            final Map<Object, Object> model)
+            throws IOException {
+
+        serialize(agreementResponsibilityTemplate, new OutputStreamWriter(outputStream), model);
+    }
+}

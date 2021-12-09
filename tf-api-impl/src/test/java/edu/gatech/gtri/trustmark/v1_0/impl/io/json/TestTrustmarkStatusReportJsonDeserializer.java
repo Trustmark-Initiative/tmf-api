@@ -1,7 +1,6 @@
 package edu.gatech.gtri.trustmark.v1_0.impl.io.json;
 
 import edu.gatech.gtri.trustmark.v1_0.impl.AbstractTest;
-import edu.gatech.gtri.trustmark.v1_0.model.Trustmark;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkStatusReport;
 import org.apache.commons.io.FileUtils;
 import org.junit.Test;
@@ -24,7 +23,7 @@ public class TestTrustmarkStatusReportJsonDeserializer extends AbstractTest {
 
         File xmlFile = new File(TSR_FULL_FILE);
         String json = FileUtils.readFileToString(xmlFile);
-        TrustmarkStatusReport tsr = TrustmarkStatusReportJsonDeserializer.deserialize(json);
+        TrustmarkStatusReport tsr = new TrustmarkStatusReportJsonDeserializer().deserialize(json);
         assertThat(tsr, notNullValue());
 
         // TODO Lots more assertions here.

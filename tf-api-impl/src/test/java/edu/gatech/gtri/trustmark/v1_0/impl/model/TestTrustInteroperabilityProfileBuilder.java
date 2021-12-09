@@ -2,7 +2,10 @@ package edu.gatech.gtri.trustmark.v1_0.impl.model;
 
 import edu.gatech.gtri.trustmark.v1_0.FactoryLoader;
 import edu.gatech.gtri.trustmark.v1_0.impl.AbstractTest;
-import edu.gatech.gtri.trustmark.v1_0.model.*;
+import edu.gatech.gtri.trustmark.v1_0.model.BuilderException;
+import edu.gatech.gtri.trustmark.v1_0.model.BuilderFactory;
+import edu.gatech.gtri.trustmark.v1_0.model.TrustInteroperabilityProfile;
+import edu.gatech.gtri.trustmark.v1_0.model.TrustInteroperabilityProfileBuilder;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -27,7 +30,6 @@ public class TestTrustInteroperabilityProfileBuilder extends AbstractTest {
 
         logger.info("Successfully created a TrustInteroperabilityProfileBuilder!");
     }
-
 
     @Test
     public void testBuildBareMinimum() throws Exception {
@@ -58,8 +60,6 @@ public class TestTrustInteroperabilityProfileBuilder extends AbstractTest {
         logger.info("Successfully tested buildBareMinimum!");
     }
 
-
-
     @Test
     public void testCatchTrustExpressionError() throws Exception {
         logger.info("Testing that we can catch errors in trust expressions...");
@@ -75,33 +75,10 @@ public class TestTrustInteroperabilityProfileBuilder extends AbstractTest {
         try {
             TrustInteroperabilityProfile tip = builder.build();
             Assert.fail("Expected to catch an error with the TIP's TIP expression, but no such error was given!");
-        }catch(BuilderException be){
-            logger.info("Caught error: "+be);
+        } catch (BuilderException be) {
+            logger.info("Caught error: " + be);
         }
 
         logger.info("Successfully ran test testCatchTrustExpressionError()");
     }
-
-    @Test
-    public void testCatchTrustExpressionErrorIdMissing() throws Exception {
-        logger.info("Testing that we can catch errors in trust expressions...");
-
-        TrustInteroperabilityProfileBuilder builder = FactoryLoader.getInstance(BuilderFactory.class).createTrustInteroperabilityProfileBuilder();
-        builder.setName("Test")
-                .setIdentifier("https://trustmarks.gtri.org/test1")
-                .setIssuerOrganization("https://gtri.org/", "GTRI Test", "Test", "s.brad.lee@gmail.com")
-                .setDescription("a description")
-                .setTrustExpression("tip1 and tip2")
-                .addTrustInteroperabilityProfileReference("tip1", "https://trustmark.gtri.org/tip1");
-
-        try {
-            TrustInteroperabilityProfile tip = builder.build();
-            Assert.fail("Expected to catch an error with the TIP's TIP expression, but no such error was given!");
-        }catch(BuilderException be){
-            logger.info("Caught error: "+be);
-        }
-
-        logger.info("Successfully ran test testCatchTrustExpressionErrorIdMissing()");
-    }
-
 }

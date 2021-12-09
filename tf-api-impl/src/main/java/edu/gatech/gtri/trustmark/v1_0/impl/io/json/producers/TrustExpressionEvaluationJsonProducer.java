@@ -6,14 +6,15 @@ import edu.gatech.gtri.trustmark.v1_0.io.json.JsonProducer;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustInteroperabilityProfile;
 import edu.gatech.gtri.trustmark.v1_0.model.Trustmark;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkDefinitionRequirement;
-import edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.TrustExpression;
-import edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.TrustExpressionFailure;
-import edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.TrustExpressionOperator.TrustExpressionOperatorBinary;
-import edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.TrustExpressionOperator.TrustExpressionOperatorUnary;
-import edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.evaluator.TrustExpressionEvaluation;
-import edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.evaluator.TrustExpressionEvaluatorData;
-import edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.evaluator.TrustExpressionEvaluatorFailure;
-import edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.evaluator.TrustExpressionEvaluatorSource;
+import edu.gatech.gtri.trustmark.v1_0.tip.TrustExpression;
+import edu.gatech.gtri.trustmark.v1_0.tip.TrustExpressionFailure;
+import edu.gatech.gtri.trustmark.v1_0.tip.TrustExpressionOperator.TrustExpressionOperatorBinary;
+import edu.gatech.gtri.trustmark.v1_0.tip.TrustExpressionOperator.TrustExpressionOperatorUnary;
+import edu.gatech.gtri.trustmark.v1_0.tip.evaluator.TrustExpressionEvaluation;
+import edu.gatech.gtri.trustmark.v1_0.tip.evaluator.TrustExpressionEvaluatorData;
+import edu.gatech.gtri.trustmark.v1_0.tip.evaluator.TrustExpressionEvaluatorFailure;
+import edu.gatech.gtri.trustmark.v1_0.tip.evaluator.TrustExpressionEvaluatorSource;
+import edu.gatech.gtri.trustmark.v1_0.trust.TrustmarkVerifierFailure;
 import org.gtri.fj.data.Either;
 import org.gtri.fj.data.List;
 import org.gtri.fj.data.NonEmptyList;
@@ -38,11 +39,8 @@ public class TrustExpressionEvaluationJsonProducer implements JsonProducer<Trust
     private static final JsonManager jsonManager = FactoryLoader.getInstance(JsonManager.class);
 
     // @formatter:off
-    private static final JsonProducer<TrustInteroperabilityProfile,    JSONObject> jsonProducerForTrustInteroperabilityProfile    = new TrustInteroperabilityProfileJsonProducer();
-    private static final JsonProducer<Trustmark,                       JSONObject> jsonProducerForTrustmark                       = new TrustmarkJsonProducer();
     private static final JsonProducer<TrustExpressionFailure,          JSONObject> jsonProducerForTrustExpressionFailure          = new TrustExpressionFailureJsonProducer();
     private static final JsonProducer<TrustExpressionEvaluatorFailure, JSONObject> jsonProducerForTrustExpressionEvaluatorFailure = new TrustExpressionEvaluatorFailureJsonProducer();
-    private static final JsonProducer<TrustmarkDefinitionRequirement,  JSONObject> jsonProducerForTrustmarkDefinitionRequirement  = new TrustmarkDefinitionRequirementJsonProducer();
     // @formatter:on
 
     @Override
@@ -225,32 +223,32 @@ public class TrustExpressionEvaluationJsonProducer implements JsonProducer<Trust
 
         return data.match(
                 (source, type, value) -> new JSONObject(new HashMap<String, Object>() {{
-                    put("TrustExpressionEvaluatorDataType", type);
+                    put("TrustExpressionEvaluatorDataType", type.getClass().getSimpleName());
                     put("TrustExpressionEvaluatorDataValue", value);
                     put("TrustExpressionEvaluatorDataSource", serializeSourceToJSONObject(source));
                 }}),
                 (source, type, value) -> new JSONObject(new HashMap<String, Object>() {{
-                    put("TrustExpressionEvaluatorDataType", type);
+                    put("TrustExpressionEvaluatorDataType", type.getClass().getSimpleName());
                     put("TrustExpressionEvaluatorDataValue", value);
                     put("TrustExpressionEvaluatorDataSource", serializeSourceToJSONObject(source));
                 }}),
                 (source, type, value) -> new JSONObject(new HashMap<String, Object>() {{
-                    put("TrustExpressionEvaluatorDataType", type);
+                    put("TrustExpressionEvaluatorDataType", type.getClass().getSimpleName());
                     put("TrustExpressionEvaluatorDataValue", value);
                     put("TrustExpressionEvaluatorDataSource", serializeSourceToJSONObject(source));
                 }}),
                 (source, type, value) -> new JSONObject(new HashMap<String, Object>() {{
-                    put("TrustExpressionEvaluatorDataType", type);
+                    put("TrustExpressionEvaluatorDataType", type.getClass().getSimpleName());
                     put("TrustExpressionEvaluatorDataValue", value);
                     put("TrustExpressionEvaluatorDataSource", serializeSourceToJSONObject(source));
                 }}),
                 (source, type, value) -> new JSONObject(new HashMap<String, Object>() {{
-                    put("TrustExpressionEvaluatorDataType", type);
+                    put("TrustExpressionEvaluatorDataType", type.getClass().getSimpleName());
                     put("TrustExpressionEvaluatorDataValue", new JSONArray(value.toCollection()));
                     put("TrustExpressionEvaluatorDataSource", serializeSourceToJSONObject(source));
                 }}),
                 (source, type) -> new JSONObject(new HashMap<String, Object>() {{
-                    put("TrustExpressionEvaluatorDataType", type);
+                    put("TrustExpressionEvaluatorDataType", type.getClass().getSimpleName());
                     put("TrustExpressionEvaluatorDataSource", serializeSourceToJSONObject(source));
                 }}));
     }
@@ -261,21 +259,41 @@ public class TrustExpressionEvaluationJsonProducer implements JsonProducer<Trust
         return source.match(
                 trustInteroperabilityProfileNonEmptyList -> new JSONObject(new HashMap<String, Object>() {{
                     put("$Type", source.getClass().getSimpleName());
-                    put("TrustInteroperabilityProfileList", new JSONArray(trustInteroperabilityProfileNonEmptyList.map(jsonProducerForTrustInteroperabilityProfile::serialize).toCollection()));
+                    put("TrustInteroperabilityProfileList", new JSONArray(trustInteroperabilityProfileNonEmptyList.map(TrustExpressionEvaluationJsonProducer::serializeTrustInteroperabilityProfile).toCollection()));
                 }}),
-                (trustInteroperabilityProfileNonEmptyList, trustmarkDefinitionRequirement, trustmarkList) -> new JSONObject(new HashMap<String, Object>() {{
+                (trustInteroperabilityProfileNonEmptyList, trustmarkDefinitionRequirement, trustmarkList, trustmarkVerifierFailureList) -> new JSONObject(new HashMap<String, Object>() {{
                     put("$Type", source.getClass().getSimpleName());
-                    put("TrustInteroperabilityProfileList", new JSONArray(trustInteroperabilityProfileNonEmptyList.map(jsonProducerForTrustInteroperabilityProfile::serialize).toCollection()));
-                    put("TrustmarkDefinitionRequirement", jsonProducerForTrustmarkDefinitionRequirement.serialize(trustmarkDefinitionRequirement));
-                    put("TrustmarkList", new JSONArray(trustmarkList.map(trustmark -> jsonProducerForTrustmark.serialize(trustmark)).toCollection()));
+                    put("TrustInteroperabilityProfileList", new JSONArray(trustInteroperabilityProfileNonEmptyList.map(TrustExpressionEvaluationJsonProducer::serializeTrustInteroperabilityProfile).toCollection()));
+                    put("TrustmarkDefinitionRequirement", serializeTrustmarkDefinitionRequirement(trustmarkDefinitionRequirement));
+                    put("TrustmarkList", new JSONArray(trustmarkList.map(TrustExpressionEvaluationJsonProducer::serializeTrustmark).toCollection()));
+                    put("TrustmarkVerifierFailureList", new JSONArray(trustmarkVerifierFailureList.map(TrustmarkVerifierFailure::messageFor).toCollection()));
                 }}),
                 (trustInteroperabilityProfileNonEmptyList, trustmarkDefinitionRequirement, trustmarkDefinitionParameter, trustmarkNonEmptyList) -> new JSONObject(new HashMap<String, Object>() {{
                     put("$Type", source.getClass().getSimpleName());
-                    put("TrustInteroperabilityProfileList", new JSONArray(trustInteroperabilityProfileNonEmptyList.map(jsonProducerForTrustInteroperabilityProfile::serialize).toCollection()));
-                    put("TrustmarkDefinitionRequirement", jsonProducerForTrustmarkDefinitionRequirement.serialize(trustmarkDefinitionRequirement));
+                    put("TrustInteroperabilityProfileList", new JSONArray(trustInteroperabilityProfileNonEmptyList.map(TrustExpressionEvaluationJsonProducer::serializeTrustInteroperabilityProfile).toCollection()));
+                    put("TrustmarkDefinitionRequirement", serializeTrustmarkDefinitionRequirement(trustmarkDefinitionRequirement));
                     put("TrustmarkDefinitionParameter", trustmarkDefinitionParameter.getIdentifier());
-                    put("TrustmarkList", new JSONArray(trustmarkNonEmptyList.map(trustmark -> jsonProducerForTrustmark.serialize(trustmark)).toCollection()));
+                    put("TrustmarkList", new JSONArray(trustmarkNonEmptyList.map(TrustExpressionEvaluationJsonProducer::serializeTrustmark).toCollection()));
                 }}));
+    }
+
+    private static JSONObject serializeTrustInteroperabilityProfile(final TrustInteroperabilityProfile trustInteroperabilityProfile) {
+        return new JSONObject(new HashMap<String, Object>() {{
+            put("Identifier", trustInteroperabilityProfile.getIdentifier());
+            put("Name", trustInteroperabilityProfile.getName());
+        }});
+    }
+
+    private static JSONObject serializeTrustmarkDefinitionRequirement(final TrustmarkDefinitionRequirement trustmarkDefinitionRequirement) {
+        return new JSONObject(new HashMap<String, Object>() {{
+            put("Name", trustmarkDefinitionRequirement.getName());
+        }});
+    }
+
+    private static JSONObject serializeTrustmark(final Trustmark trustmark) {
+        return new JSONObject(new HashMap<String, Object>() {{
+            put("Identifier", trustmark.getIdentifier());
+        }});
     }
 
     private static Option<TrustInteroperabilityProfile> trustInteroperabilityProfileOption(

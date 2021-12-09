@@ -11,7 +11,7 @@ public class TrustmarkResolverImpl extends AbstractResolverFromURIResolver<Trust
 
     public TrustmarkResolverImpl() {
         super(
-                TrustmarkJsonDeserializer::deserialize,
+                new TrustmarkJsonDeserializer()::deserialize,
                 TrustmarkXmlDeserializer::deserialize,
                 entity -> entity,
                 FactoryLoader.getInstance(URIResolver.class));

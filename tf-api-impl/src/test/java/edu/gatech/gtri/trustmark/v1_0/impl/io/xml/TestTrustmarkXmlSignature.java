@@ -22,6 +22,8 @@ import java.security.cert.X509Certificate;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.spec.PKCS8EncodedKeySpec;
 
+import static edu.gatech.gtri.trustmark.v1_0.impl.TrustmarkFrameworkConstants.NAMESPACE_URI;
+import static edu.gatech.gtri.trustmark.v1_0.impl.TrustmarkFrameworkConstants.NAMESPACE_URI_1_2;
 import static org.junit.Assert.assertTrue;
 
 
@@ -59,6 +61,8 @@ public class TestTrustmarkXmlSignature extends AbstractTest {
         //  with X509_CERTIFICATE_PEM_FILE above):
         //     ./xmlsectool.sh --verifySignature --inFile PathToSignedXmlFile --certificate PathToCertificatePemFile
         //saveXmlToFile(signedXml, "/localPath/signedWithJavaTrustmark.xml");
+
+        System.out.println(signedXml);
         
         boolean validSignature = xmlSign.validateXmlSignature(referenceUri, signedXml);
 

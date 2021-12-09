@@ -4,29 +4,18 @@ package edu.gatech.gtri.trustmark.v1_0.impl.io.json.producers;
 import edu.gatech.gtri.trustmark.v1_0.FactoryLoader;
 import edu.gatech.gtri.trustmark.v1_0.impl.AbstractTest;
 import edu.gatech.gtri.trustmark.v1_0.impl.io.json.TrustmarkDefinitionJsonDeserializer;
-import edu.gatech.gtri.trustmark.v1_0.impl.io.json.TrustmarkJsonDeserializer;
 import edu.gatech.gtri.trustmark.v1_0.impl.io.xml.TrustmarkDefinitionXmlDeserializer;
-import edu.gatech.gtri.trustmark.v1_0.impl.io.xml.TrustmarkXmlDeserializer;
 import edu.gatech.gtri.trustmark.v1_0.io.Serializer;
 import edu.gatech.gtri.trustmark.v1_0.io.SerializerFactory;
-import edu.gatech.gtri.trustmark.v1_0.model.Trustmark;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkDefinition;
-import edu.gatech.gtri.trustmark.v1_0.util.TrustmarkDefinitionUtils;
-import edu.gatech.gtri.trustmark.v1_0.util.diff.TrustmarkDefinitionDiffResult;
 import org.apache.commons.io.FileUtils;
-import org.json.JSONObject;
 import org.junit.Test;
-import org.skyscreamer.jsonassert.JSONCompare;
-import org.skyscreamer.jsonassert.JSONCompareMode;
-import org.skyscreamer.jsonassert.JSONCompareResult;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.StringWriter;
-import java.util.Collection;
 
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.notNullValue;
 
 
 /**
@@ -59,16 +48,15 @@ public class TestTrustmarkDefinitionJsonProducer extends AbstractTest {
 
         String json = jsonWriter.toString();
         assertThat(json, notNullValue());
-        logger.debug("Successfully produced json: \n"+json);
+        logger.debug("Successfully produced json: \n" + json);
 
-        TrustmarkDefinition td2 = TrustmarkDefinitionJsonDeserializer.deserialize(json);
+        TrustmarkDefinition td2 = new TrustmarkDefinitionJsonDeserializer().deserialize(json);
         assertThat(td2, notNullValue());
 
         assertTdFull(td2);
 
 
     }
-
 
 
 }
