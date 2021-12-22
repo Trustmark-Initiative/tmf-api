@@ -3,6 +3,7 @@ package edu.gatech.gtri.trustmark.v1_0.impl.model;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkFrameworkIdentifiedObject;
 
 import java.net.URI;
+import java.util.Objects;
 
 /**
  * Created by brad on 12/7/15.
@@ -66,5 +67,28 @@ public class TrustmarkFrameworkIdentifiedObjectImpl implements TrustmarkFramewor
 
     public void setVersion(String version) {
         this.version = version;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(identifier);
+    }
+
+    public boolean equals(TrustmarkFrameworkIdentifiedObjectImpl object){
+        return Objects.equals(object.getIdentifier(), this.getIdentifier());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+
+        if (o == this) {
+            return true;
+        }
+
+        if (!(o instanceof TrustmarkFrameworkIdentifiedObjectImpl)) {
+            return false;
+        }
+
+        return this.equals((TrustmarkFrameworkIdentifiedObjectImpl) o);
     }
 }

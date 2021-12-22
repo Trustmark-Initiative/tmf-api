@@ -17,8 +17,8 @@ import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkDefinition;
 import edu.gatech.gtri.trustmark.v1_0.util.TrustInteroperabilityProfileUtils;
 import edu.gatech.gtri.trustmark.v1_0.util.TrustmarkDefinitionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.net.URI;
@@ -36,7 +36,7 @@ public class XmlJsonBulKReader implements BulkReader {
     //==================================================================================================================
     //  STATIC VARIABLES
     //==================================================================================================================
-    private static final Logger log = LogManager.getLogger(XmlJsonBulKReader.class);
+    private static final Logger log = LoggerFactory.getLogger(XmlJsonBulKReader.class);
     //==================================================================================================================
     //  STATIC METHODS
     //==================================================================================================================

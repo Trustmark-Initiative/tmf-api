@@ -3,8 +3,8 @@ package edu.gatech.gtri.trustmark.v1_0.impl.io;
 import edu.gatech.gtri.trustmark.v1_0.io.HttpResponse;
 import edu.gatech.gtri.trustmark.v1_0.io.NetworkDownloader;
 import edu.gatech.gtri.trustmark.v1_0.io.SessionResolver;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -17,7 +17,7 @@ import java.util.Map;
  */
 public class NetworkDownloaderImpl implements NetworkDownloader {
 
-    private static final Logger log = LogManager.getLogger(NetworkDownloaderImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(NetworkDownloaderImpl.class);
 
 
     protected byte[] exhaustStream(InputStream inputStream) throws IOException {

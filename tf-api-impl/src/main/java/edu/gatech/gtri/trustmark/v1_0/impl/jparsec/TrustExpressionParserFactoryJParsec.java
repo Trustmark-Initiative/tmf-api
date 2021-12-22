@@ -15,18 +15,18 @@ import edu.gatech.gtri.trustmark.v1_0.impl.jparsec.TrustExpressionLexerToken.Lex
 import edu.gatech.gtri.trustmark.v1_0.impl.jparsec.TrustExpressionLexerToken.LexerTokenOperatorNotEqual;
 import edu.gatech.gtri.trustmark.v1_0.impl.jparsec.TrustExpressionLexerToken.LexerTokenSeparatorComma;
 import edu.gatech.gtri.trustmark.v1_0.impl.jparsec.TrustExpressionLexerToken.LexerTokenSeparatorDot;
-import edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.TrustExpression;
-import edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.TrustExpressionData;
-import edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.TrustExpressionOperator.TrustExpressionOperatorAnd;
-import edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.TrustExpressionOperator.TrustExpressionOperatorBinary;
-import edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.TrustExpressionOperator.TrustExpressionOperatorContains;
-import edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.TrustExpressionOperator.TrustExpressionOperatorEqual;
-import edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.TrustExpressionOperator.TrustExpressionOperatorGreaterThan;
-import edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.TrustExpressionOperator.TrustExpressionOperatorGreaterThanOrEqual;
-import edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.TrustExpressionOperator.TrustExpressionOperatorLessThan;
-import edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.TrustExpressionOperator.TrustExpressionOperatorLessThanOrEqual;
-import edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.TrustExpressionOperator.TrustExpressionOperatorNotEqual;
-import edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.TrustExpressionOperator.TrustExpressionOperatorOr;
+import edu.gatech.gtri.trustmark.v1_0.tip.TrustExpression;
+import edu.gatech.gtri.trustmark.v1_0.tip.TrustExpressionData;
+import edu.gatech.gtri.trustmark.v1_0.tip.TrustExpressionOperator.TrustExpressionOperatorAnd;
+import edu.gatech.gtri.trustmark.v1_0.tip.TrustExpressionOperator.TrustExpressionOperatorBinary;
+import edu.gatech.gtri.trustmark.v1_0.tip.TrustExpressionOperator.TrustExpressionOperatorContains;
+import edu.gatech.gtri.trustmark.v1_0.tip.TrustExpressionOperator.TrustExpressionOperatorEqual;
+import edu.gatech.gtri.trustmark.v1_0.tip.TrustExpressionOperator.TrustExpressionOperatorGreaterThan;
+import edu.gatech.gtri.trustmark.v1_0.tip.TrustExpressionOperator.TrustExpressionOperatorGreaterThanOrEqual;
+import edu.gatech.gtri.trustmark.v1_0.tip.TrustExpressionOperator.TrustExpressionOperatorLessThan;
+import edu.gatech.gtri.trustmark.v1_0.tip.TrustExpressionOperator.TrustExpressionOperatorLessThanOrEqual;
+import edu.gatech.gtri.trustmark.v1_0.tip.TrustExpressionOperator.TrustExpressionOperatorNotEqual;
+import edu.gatech.gtri.trustmark.v1_0.tip.TrustExpressionOperator.TrustExpressionOperatorOr;
 import org.gtri.fj.function.F1;
 import org.gtri.fj.product.P;
 import org.jparsec.Parser;
@@ -41,25 +41,25 @@ import static edu.gatech.gtri.trustmark.v1_0.impl.jparsec.TrustExpressionLexerTo
 import static edu.gatech.gtri.trustmark.v1_0.impl.jparsec.TrustExpressionLexerToken.LexerTokenOperatorOr;
 import static edu.gatech.gtri.trustmark.v1_0.impl.jparsec.TrustExpressionLexerToken.LexerTokenSeparatorParenthesisLeft;
 import static edu.gatech.gtri.trustmark.v1_0.impl.jparsec.TrustExpressionLexerToken.LexerTokenSeparatorParenthesisRight;
-import static edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.TrustExpression.and;
-import static edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.TrustExpression.contains;
-import static edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.TrustExpression.equal;
-import static edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.TrustExpression.exists;
-import static edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.TrustExpression.greaterThan;
-import static edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.TrustExpression.greaterThanOrEqual;
-import static edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.TrustExpression.lessThan;
-import static edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.TrustExpression.lessThanOrEqual;
-import static edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.TrustExpression.not;
-import static edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.TrustExpression.notEqual;
-import static edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.TrustExpression.or;
-import static edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.TrustExpression.terminal;
-import static edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.TrustExpressionData.dataLiteralBoolean;
-import static edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.TrustExpressionData.dataLiteralDateTimeStamp;
-import static edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.TrustExpressionData.dataLiteralDecimal;
-import static edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.TrustExpressionData.dataLiteralString;
-import static edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.TrustExpressionData.dataNonTerminal;
-import static edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.TrustExpressionData.dataReferenceTrustmarkDefinitionParameter;
-import static edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.TrustExpressionData.dataReferenceTrustmarkDefinitionRequirement;
+import static edu.gatech.gtri.trustmark.v1_0.tip.TrustExpression.and;
+import static edu.gatech.gtri.trustmark.v1_0.tip.TrustExpression.contains;
+import static edu.gatech.gtri.trustmark.v1_0.tip.TrustExpression.equal;
+import static edu.gatech.gtri.trustmark.v1_0.tip.TrustExpression.exists;
+import static edu.gatech.gtri.trustmark.v1_0.tip.TrustExpression.greaterThan;
+import static edu.gatech.gtri.trustmark.v1_0.tip.TrustExpression.greaterThanOrEqual;
+import static edu.gatech.gtri.trustmark.v1_0.tip.TrustExpression.lessThan;
+import static edu.gatech.gtri.trustmark.v1_0.tip.TrustExpression.lessThanOrEqual;
+import static edu.gatech.gtri.trustmark.v1_0.tip.TrustExpression.not;
+import static edu.gatech.gtri.trustmark.v1_0.tip.TrustExpression.notEqual;
+import static edu.gatech.gtri.trustmark.v1_0.tip.TrustExpression.or;
+import static edu.gatech.gtri.trustmark.v1_0.tip.TrustExpression.terminal;
+import static edu.gatech.gtri.trustmark.v1_0.tip.TrustExpressionData.dataLiteralBoolean;
+import static edu.gatech.gtri.trustmark.v1_0.tip.TrustExpressionData.dataLiteralDateTimeStamp;
+import static edu.gatech.gtri.trustmark.v1_0.tip.TrustExpressionData.dataLiteralDecimal;
+import static edu.gatech.gtri.trustmark.v1_0.tip.TrustExpressionData.dataLiteralString;
+import static edu.gatech.gtri.trustmark.v1_0.tip.TrustExpressionData.dataNonTerminal;
+import static edu.gatech.gtri.trustmark.v1_0.tip.TrustExpressionData.dataReferenceTrustmarkDefinitionParameter;
+import static edu.gatech.gtri.trustmark.v1_0.tip.TrustExpressionData.dataReferenceTrustmarkDefinitionRequirement;
 import static java.lang.String.format;
 import static org.gtri.fj.data.List.iterableList;
 
@@ -166,10 +166,10 @@ public final class TrustExpressionParserFactoryJParsec {
                     parserExpressionEqualityReference.lazy(),
                     Parsers.sequence(
                             Parsers.or(
-                                    parserTokenOperatorGreaterThan,
-                                    parserTokenOperatorLessThan,
-                                    parserTokenOperatorGreaterThanOrEqual,
-                                    parserTokenOperatorLessThanOrEqual)
+                                            parserTokenOperatorGreaterThan,
+                                            parserTokenOperatorLessThan,
+                                            parserTokenOperatorGreaterThanOrEqual,
+                                            parserTokenOperatorLessThanOrEqual)
                                     .map(lexerToken -> {
                                         final TrustExpressionOperatorBinary trustExpressionOperator =
                                                 lexerToken == LexerTokenOperatorLessThan.OPERATOR_LESS_THAN ?
@@ -208,8 +208,8 @@ public final class TrustExpressionParserFactoryJParsec {
                     parserExpressionAtomReference.lazy(),
                     Parsers.sequence(
                             Parsers.or(
-                                    parserTokenOperatorEqual,
-                                    parserTokenOperatorNotEqual)
+                                            parserTokenOperatorEqual,
+                                            parserTokenOperatorNotEqual)
                                     .map(lexerToken -> {
                                         final TrustExpressionOperatorBinary trustExpressionOperator =
                                                 lexerToken == LexerTokenOperatorEqual.OPERATOR_EQUAL ?

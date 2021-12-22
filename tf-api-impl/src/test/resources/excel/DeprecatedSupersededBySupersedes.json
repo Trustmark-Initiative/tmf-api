@@ -1,0 +1,205 @@
+{
+  "trustmarkDefinitions" : [
+    {
+  "ConformanceCriteria": [{
+    "Description": "The system MUST conform to the following rules regarding negotiation and handling of the Secure Sockets Layer (SSL) and Transport Layer Security (TLS) protocols.\n<ol type=\"a\">\n<li>The system MUST support TLS version 1.2 or higher, and MUST attempt to use TLS version 1.2 or higher before negotiating down to an older version of TLS.<\/li>\n<li>The system SHOULD support TLS version 1.1 and MUST attempt to use TLS version 1.1 before negotiating down to an older version of TLS or SSL in the event that TLS 1.2 or higher cannot be used.<\/li>\n<li>The system SHOULD NOT allow the use of TLS version 1.0 or SSL version 3.<\/li>\n<li>The system MUST NOT allow the use of SSL version 2.<\/li>\n<\/ol>",
+    "Number": 1,
+    "Citations": [{
+      "Description": "Discussion/Review",
+      "Source": {"$ref": "#source2768"}
+    }],
+    "$id": "criterion1",
+    "Name": "Proper Use of TLS"
+  }],
+  "AssessmentSteps": [{
+    "ConformanceCriteria": [{"$ref": "#criterion1"}],
+    "Artifacts": [{
+      "Description": "Provide a TLS Scanner Report from Qualys Scanner or equivalent. See  <a href=\"https://www.ssllabs.com/ssltest/index.html\">https://www.ssllabs.com/ssltest/index.html<\/a>.",
+      "Name": "TLS Scanner Report"
+    }],
+    "Description": "Is the system configured to use TLS and SSL correctly, as specified in the conformance criterion, to protect all of its protocol endpoints? Specifically, does the system first attempt to use TLS 1.2 or higher, and then attempt to use TLS 1.1 if necessary? Note that use of TLS 1.0 or SSL 3 is acceptable but not recommended, and use of SSL 2 is prohibited.",
+    "Number": 1,
+    "$id": "ProperUseofTLS",
+    "Name": "Proper Use of TLS"
+  }],
+  "$TMF_VERSION": "1.4",
+  "AssessmentStepsPreface": "Assessment preface for local TD 1.",
+  "IssuanceCriteria": "yes(all)",
+  "Metadata": {
+    "PublicationDateTime": "2020-04-03T00:00:00.000Z",
+    "Description": "Local TD 1 should be loaded into your TPAT before performing other tests.",
+    "Keywords": [
+      "SAFECOM",
+      "NCSWIC",
+      "Federated ICAM",
+      "Transport Layer Security",
+      "TLS",
+      "Secure Sockets Layer",
+      "SSL",
+      "Secure Hash Algorithm",
+      "SHA"
+    ],
+    "Name": "Local TD 1",
+    "Identifier": "https://trustmark.gtri.gatech.edu/operational-pilot/trustmark-definitions/local-td-1/0.8/",
+    "Supersessions": {
+      "SupersededBy": [
+        {"Identifier": "http://localhost:8080/tpat/tds/local-td-1/1.0/"},
+        {"Identifier": "http://localhost:8080/tpat/tds/local-td-1/0.9/"}
+      ],
+      "Supersedes": [
+        {"Identifier": "http://localhost:8080/tpat/tds/local-td-1/0.7/"},
+        {"Identifier": "http://localhost:8080/tpat/tds/local-td-1/0.6/"}
+      ]
+    },
+    "Version": "0.8",
+    "TrustmarkRevocationCriteria": "Criteria for a Trustmark Revocation",
+    "Deprecated": true,
+    "LegalNotice": "Default TD Legal Notice",
+    "TargetStakeholderDescription": "StakeholderDescription from NIST Special Publication 800-53.",
+    "TargetRecipientDescription": "RecipientDescription from NIST Special Publication 800-53.",
+    "TrustmarkDefiningOrganization": {
+      "OtherContacts": [{
+        "Email": "help@trustmarkinitiative.org",
+        "Kind": "OTHER",
+        "WebsiteURL": "https://trustmarkinitiative.org/tp",
+        "Responder": "Trustmark Support"
+      }],
+      "Identifier": "https://trustmarkinitiative.org/",
+      "PrimaryContact": {
+        "Email": "help@trustmarkinitiative.org",
+        "Kind": "PRIMARY",
+        "WebsiteURL": "https://trustmarkinitiative.org/",
+        "Responder": "Trustmark Support"
+      },
+      "Name": "Trustmark Initiative"
+    },
+    "Notes": "Default TD Notes"
+  },
+  "Terms": [
+    {
+      "Definition": "A well defined piece of information about a user that is transmitted to enable attribute based access control.",
+      "Name": "Attribute"
+    },
+    {
+      "Definition": "A mechanism for making authorization decisions about entities (e.g., users) dynamically based on attributes about those entities.",
+      "Abbreviations": ["ABAC"],
+      "Name": "Attribute-Based Access Control"
+    },
+    {
+      "Definition": "Alternate term for attribute. In some contexts, the term \"claim\" suggests or explicitly denotes a privacy-preserving \"attribute about an attribute\". For example, whereas an attribute may indicate \"Age = 25\", a privacy-preserving claim may indicate \"Age > 21\".",
+      "Name": "Claim"
+    },
+    {
+      "Definition": "A system or software entity that communicates with with a server. Within OpenID Connect (and the related Oauth 2.0 framework on which OpenID Connect is built), client is an alternate term for a relying party.",
+      "Name": "Client"
+    },
+    {
+      "Definition": "A machine-readable meta-language that provides a standard syntax and allows users to define customized markup languages.",
+      "Abbreviations": ["XML"],
+      "Name": "eXtensible Markup Language"
+    },
+    {
+      "Definition": "The Federal Bridge Certificate Authority manages the federal PKI.",
+      "Abbreviations": ["FBCA"],
+      "Name": "Federal Bridge Certificate Authority"
+    },
+    {
+      "Definition": "Refers to a comprehensive approach for dealing with digital identities (and associated attributes), credentials, and access control within a federated environment (across jurisdictional boundaries).",
+      "Abbreviations": ["Federated ICAM"],
+      "Name": "Federated Identity, Credential, and Access Management"
+    },
+    {
+      "Definition": "A software entity that performs user authentication each time an individual presents themselves to a federated identity trust framework or issues user assertions about the individual for a given information technology session.  An identity provider is the Federated ICAM counterpart to a service provider.",
+      "Abbreviations": [
+        "IDP",
+        "IdP"
+      ],
+      "Name": "Identity Provider"
+    },
+    {
+      "Definition": "An open-standard file format that uses human-readable text to transmit data objects consisting of attribute-value pairs and array data types.",
+      "Abbreviations": ["JSON"],
+      "Name": "JavaScript Object Notation"
+    },
+    {
+      "Definition": "A JSON-based token format that includes claims and other data. Typically signed digitally using JSON Web Signature (JWS) and/or encrypted using JSON Web Encryption (JWE).",
+      "Abbreviations": ["JWT"],
+      "Name": "JSON Web Token"
+    },
+    {
+      "Definition": "The National Council of Statewide Interoperability Coordinators (NCSWIC) promotes and coordinates activities designed to ensure the highest level of public safety communications across the United States.",
+      "Abbreviations": ["NCSWIC"],
+      "Name": "National Council of State-Wide Interoperability Coordinators"
+    },
+    {
+      "Definition": "A set of JavaScript Object Notation (JSON) data structures and messaging protocols designed to enable single sign-on between system entities.",
+      "Abbreviations": ["OIDC"],
+      "Name": "OpenID Connect"
+    },
+    {
+      "Definition": "An identity provider system that implements OpenID Connect protocols.",
+      "Abbreviations": ["OP"],
+      "Name": "OpenID Provider"
+    },
+    {
+      "Definition": "Alternate term for a service provider.",
+      "Abbreviations": ["RP"],
+      "Name": "Relying Party"
+    },
+    {
+      "Definition": "Established in 2001 as a Presidential E-Government Initiative, SAFECOM is a mission-guided and stakeholder-supported public safety communications program of the United States Department of Homeland Security.",
+      "Name": "SAFECOM"
+    },
+    {
+      "Definition": "A family of hasing algorithms that provides critical cryptography capabilities necessary for digital signatures, to help ensure non-repudiation and integrity of messages.",
+      "Abbreviations": ["SHA"],
+      "Name": "Secure Hash Algorithm"
+    },
+    {
+      "Definition": "A set of eXtensible Markup Language (XML) data structures and messaging protocols designed to enable single sign-on between system entities.",
+      "Abbreviations": ["SAML"],
+      "Name": "Security Assertion Markup Language"
+    },
+    {
+      "Definition": "A system that provides a user with some service capability, requently within Federated ICAM implementations. A service provider is the Federated ICAM counterpart to an identity provider.",
+      "Abbreviations": ["SP"],
+      "Name": "Service Provider"
+    },
+    {
+      "Definition": "An end-to-end communication protocol that provides on-the-wire encryption for communication sessions between endpoints. Generally considered obsolete, SSL has been superseded by TLS.",
+      "Abbreviations": ["SSL"],
+      "Name": "Seure Sockets Layer"
+    },
+    {
+      "Definition": "A capability that enables a user to authenticate themselves to a single system and reuse the results of that authentication process at multiple partner systems that trust the authenticating system.",
+      "Abbreviations": ["SSO"],
+      "Name": "Single Sign-On"
+    },
+    {
+      "Definition": "Used to mark TDs and TIPs that are meant for testing only.",
+      "Abbreviations": ["TEST"],
+      "Name": "TEST"
+    },
+    {
+      "Definition": "An end-to-end communication protocol that provides on-the-wire encryption for communication sessions between endpoints. TLS has superseded SSL, which is widely regarded as obsolete.",
+      "Abbreviations": ["TLS"],
+      "Name": "Transport Layer Security"
+    },
+    {
+      "Definition": "The means by which the user and a computer system interact, in particular through the use of input devices and software.",
+      "Abbreviations": ["UI"],
+      "Name": "User Interface"
+    }
+  ],
+  "ConformanceCriteriaPreface": "Criteria preface for local TD 1.",
+  "$Type": "TrustmarkDefinition",
+  "Sources": [{
+    "Identifier": "WG",
+    "Reference": "SAFECOM/NCSWIC ICAM Sub-Working Group",
+    "$id": "source2768"
+  }],
+  "$id": "TD_20211109035035_2D97202792374FA989A4372A687B2F38"
+}
+  ],
+  "trustInteroperabilityProfiles" : []
+}

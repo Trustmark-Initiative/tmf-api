@@ -5,8 +5,8 @@ import edu.gatech.gtri.trustmark.v1_0.service.Page;
 import edu.gatech.gtri.trustmark.v1_0.service.RemoteException;
 import edu.gatech.gtri.trustmark.v1_0.service.RemoteTrustInteroperabilityProfile;
 import edu.gatech.gtri.trustmark.v1_0.service.RemoteTrustmarkDefinition;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -21,7 +21,7 @@ import java.util.NoSuchElementException;
  */
 public class TIPPageImpl extends AbstractPageImpl implements Page<RemoteTrustInteroperabilityProfile> {
 
-    private static final Logger log = LogManager.getLogger(TIPPageImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(TIPPageImpl.class);
 
     public TIPPageImpl(JSONObject jsonObject) throws RemoteException {
         this.count = jsonObject.getLong("trustInteroperabilityProfilesCount");

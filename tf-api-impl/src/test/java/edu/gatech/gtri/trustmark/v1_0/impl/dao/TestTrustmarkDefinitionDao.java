@@ -4,8 +4,8 @@ import edu.gatech.gtri.trustmark.v1_0.dao.DaoManager;
 import edu.gatech.gtri.trustmark.v1_0.dao.DaoManagerFactory;
 import edu.gatech.gtri.trustmark.v1_0.dao.TrustmarkDefinitionDao;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkDefinition;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.junit.Test;
 
 import java.util.List;
@@ -21,7 +21,7 @@ import static org.hamcrest.Matchers.*;
  * @date 9/12/16
  */
 public class TestTrustmarkDefinitionDao extends AbstractDaoTest {
-    public static final Logger logger = LogManager.getLogger(TestTrustmarkDefinitionDao.class);
+    public static final Logger logger = LoggerFactory.getLogger(TestTrustmarkDefinitionDao.class);
 
     //==================================================================================================================
     //  TESTS

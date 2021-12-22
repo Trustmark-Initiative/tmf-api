@@ -4,8 +4,8 @@ import edu.gatech.gtri.trustmark.v1_0.impl.model.*;
 import edu.gatech.gtri.trustmark.v1_0.io.ParseException;
 import edu.gatech.gtri.trustmark.v1_0.model.*;
 import org.apache.commons.lang.StringUtils;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.dom4j.Comment;
 import org.dom4j.Element;
 import org.dom4j.Node;
@@ -23,7 +23,7 @@ import java.util.regex.Pattern;
  */
 public class TrustmarkDefinitionXmlDeserializer extends AbstractDeserializer {
 
-    private static final Logger log = LogManager.getLogger(TrustmarkDefinitionXmlDeserializer.class);
+    private static final Logger log = LoggerFactory.getLogger(TrustmarkDefinitionXmlDeserializer.class);
 
     public static TrustmarkDefinition deserialize(String xml ) throws ParseException {
         log.debug("Request to deserialize TrustmarkDefinition XML...");

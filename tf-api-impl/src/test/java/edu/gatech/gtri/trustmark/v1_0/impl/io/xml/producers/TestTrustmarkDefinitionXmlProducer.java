@@ -11,22 +11,22 @@ import edu.gatech.gtri.trustmark.v1_0.io.SerializerFactory;
 import edu.gatech.gtri.trustmark.v1_0.io.xml.XmlManager;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkDefinition;
 import org.apache.commons.io.FileUtils;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import org.junit.Test;
 
 import java.io.File;
 import java.io.StringWriter;
 
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.notNullValue;
 
 
 /**
  * Created by brad on 1/7/16.
  */
 public class TestTrustmarkDefinitionXmlProducer extends AbstractTest {
-    private static final Logger logger = LogManager.getLogger(TestTrustmarkDefinitionXmlProducer.class);
+    private static final Logger logger = LoggerFactory.getLogger(TestTrustmarkDefinitionXmlProducer.class);
 
     public static final String TD_FULL_FILE = "./src/test/resources/TDs/td-full.json";
 
@@ -37,7 +37,7 @@ public class TestTrustmarkDefinitionXmlProducer extends AbstractTest {
         logger.debug("Loading TrustmarkDefinition from file...");
         File jsonFile = new File(TD_FULL_FILE);
         String json = FileUtils.readFileToString(jsonFile);
-        TrustmarkDefinition td = TrustmarkDefinitionJsonDeserializer.deserialize(json);
+        TrustmarkDefinition td = new TrustmarkDefinitionJsonDeserializer().deserialize(json);
         assertThat(td, notNullValue());
         assertTdFull(td);
         logger.debug("Successfully loaded td-full.json!");
@@ -55,7 +55,7 @@ public class TestTrustmarkDefinitionXmlProducer extends AbstractTest {
         serializer.serialize(td, output);
 
         String xml2 = output.toString();
-        logger.debug("Successfully produced XML: \n"+xml2);
+        logger.debug("Successfully produced XML: \n" + xml2);
         XmlHelper.validateXml(xml2);
 
         TrustmarkDefinition td2 = TrustmarkDefinitionXmlDeserializer.deserialize(xml2);
@@ -65,7 +65,6 @@ public class TestTrustmarkDefinitionXmlProducer extends AbstractTest {
 
         logger.info("Successfully output XML using the TrustmarkDefinitionXmlProducer!");
     }//end testXmlOutput()
-
 
 
 }

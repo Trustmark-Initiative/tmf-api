@@ -11,7 +11,7 @@ public final class TrustInteroperabilityProfileResolverImpl extends AbstractReso
 
     public TrustInteroperabilityProfileResolverImpl() {
         super(
-                TrustInteroperabilityProfileJsonDeserializer::deserialize,
+                new TrustInteroperabilityProfileJsonDeserializer()::deserialize,
                 TrustInteroperabilityProfileXmlDeserializer::deserialize,
                 entity -> entity,
                 FactoryLoader.getInstance(URIResolver.class));

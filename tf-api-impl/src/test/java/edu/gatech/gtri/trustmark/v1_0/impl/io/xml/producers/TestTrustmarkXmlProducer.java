@@ -4,17 +4,15 @@ package edu.gatech.gtri.trustmark.v1_0.impl.io.xml.producers;
 import edu.gatech.gtri.trustmark.v1_0.FactoryLoader;
 import edu.gatech.gtri.trustmark.v1_0.impl.AbstractTest;
 import edu.gatech.gtri.trustmark.v1_0.impl.io.json.TrustmarkJsonDeserializer;
-import edu.gatech.gtri.trustmark.v1_0.impl.io.xml.TrustmarkStatusReportXmlDeserializer;
 import edu.gatech.gtri.trustmark.v1_0.impl.io.xml.TrustmarkXmlDeserializer;
 import edu.gatech.gtri.trustmark.v1_0.impl.io.xml.XmlHelper;
 import edu.gatech.gtri.trustmark.v1_0.io.Serializer;
 import edu.gatech.gtri.trustmark.v1_0.io.SerializerFactory;
 import edu.gatech.gtri.trustmark.v1_0.io.xml.XmlManager;
 import edu.gatech.gtri.trustmark.v1_0.model.Trustmark;
-import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkStatusReport;
 import org.apache.commons.io.FileUtils;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import org.junit.Test;
 
 import java.io.File;
@@ -28,7 +26,7 @@ import static org.hamcrest.Matchers.notNullValue;
  * Created by brad on 1/7/16.
  */
 public class TestTrustmarkXmlProducer extends AbstractTest {
-    private static final Logger logger = LogManager.getLogger(TestTrustmarkXmlProducer.class);
+    private static final Logger logger = LoggerFactory.getLogger(TestTrustmarkXmlProducer.class);
 
     public static final String TM_FULL_FILE = "./src/test/resources/Trustmarks/trustmark-full.json";
 
@@ -39,7 +37,7 @@ public class TestTrustmarkXmlProducer extends AbstractTest {
         logger.debug("Loading Trustmark from file...");
         File xmlFile = new File(TM_FULL_FILE);
         String xml = FileUtils.readFileToString(xmlFile);
-        Trustmark tm = TrustmarkJsonDeserializer.deserialize(xml);
+        Trustmark tm = new TrustmarkJsonDeserializer().deserialize(xml);
         assertThat(tm, notNullValue());
         logger.debug("Successfully loaded trustmark-full.json!");
 
@@ -56,7 +54,7 @@ public class TestTrustmarkXmlProducer extends AbstractTest {
         serializer.serialize(tm, output);
 
         String xml2 = output.toString();
-        logger.debug("Successfully produced XML: \n"+xml2);
+        logger.debug("Successfully produced XML: \n" + xml2);
         XmlHelper.validateXml(xml2);
 
         Trustmark trustmark2 = TrustmarkXmlDeserializer.deserialize(xml2);
@@ -66,8 +64,6 @@ public class TestTrustmarkXmlProducer extends AbstractTest {
 
         logger.info("Successfully output XML using the TrustmarkXmlProducer!");
     }
-
-
 
 
 }

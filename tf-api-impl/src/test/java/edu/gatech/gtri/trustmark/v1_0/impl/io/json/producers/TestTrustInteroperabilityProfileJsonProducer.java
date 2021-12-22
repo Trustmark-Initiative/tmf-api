@@ -4,13 +4,10 @@ package edu.gatech.gtri.trustmark.v1_0.impl.io.json.producers;
 import edu.gatech.gtri.trustmark.v1_0.FactoryLoader;
 import edu.gatech.gtri.trustmark.v1_0.impl.AbstractTest;
 import edu.gatech.gtri.trustmark.v1_0.impl.io.json.TrustInteroperabilityProfileJsonDeserializer;
-import edu.gatech.gtri.trustmark.v1_0.impl.io.json.TrustmarkJsonDeserializer;
 import edu.gatech.gtri.trustmark.v1_0.impl.io.xml.TrustInteroperabilityProfileXmlDeserializer;
-import edu.gatech.gtri.trustmark.v1_0.impl.io.xml.TrustmarkXmlDeserializer;
 import edu.gatech.gtri.trustmark.v1_0.io.Serializer;
 import edu.gatech.gtri.trustmark.v1_0.io.SerializerFactory;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustInteroperabilityProfile;
-import edu.gatech.gtri.trustmark.v1_0.model.Trustmark;
 import org.apache.commons.io.FileUtils;
 import org.junit.Test;
 
@@ -48,14 +45,13 @@ public class TestTrustInteroperabilityProfileJsonProducer extends AbstractTest {
         String json = jsonWriter.toString();
         assertThat(json, notNullValue());
 
-        logger.debug("Successfully produced json: \n"+json);
+        logger.debug("Successfully produced json: \n" + json);
 
-        TrustInteroperabilityProfile tip2 = TrustInteroperabilityProfileJsonDeserializer.deserialize(json);
+        TrustInteroperabilityProfile tip2 = new TrustInteroperabilityProfileJsonDeserializer().deserialize(json);
         assertThat(tip2, notNullValue());
         assertTipFull(tip2);
 
     }
-
 
 
 }

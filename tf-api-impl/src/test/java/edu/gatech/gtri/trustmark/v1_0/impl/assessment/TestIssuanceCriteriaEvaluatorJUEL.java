@@ -3,8 +3,8 @@ package edu.gatech.gtri.trustmark.v1_0.impl.assessment;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.junit.Test;
 
 import edu.gatech.gtri.trustmark.v1_0.FactoryLoader;
@@ -18,7 +18,7 @@ import edu.gatech.gtri.trustmark.v1_0.impl.assessment.juel.IssuanceCriteriaEvalu
 
 public class TestIssuanceCriteriaEvaluatorJUEL extends AbstractTest {
 
-    private static final Logger logger = LogManager.getLogger(TestIssuanceCriteriaEvaluatorJUEL.class);
+    private static final Logger logger = LoggerFactory.getLogger(TestIssuanceCriteriaEvaluatorJUEL.class);
 
 
     private void doTest(String testName, String issuanceCriteria, AssessmentResults results, Boolean expectedEvaluation) throws Exception {

@@ -2,8 +2,8 @@ package edu.gatech.gtri.trustmark.v1_0.impl.io.xml.producers;
 
 import edu.gatech.gtri.trustmark.v1_0.io.xml.XmlProducer;
 import edu.gatech.gtri.trustmark.v1_0.model.Term;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
@@ -16,7 +16,7 @@ import static edu.gatech.gtri.trustmark.v1_0.impl.TrustmarkFrameworkConstants.NA
  */
 public class TermXmlProducer implements XmlProducer<Term> {
 
-    private static final Logger log = LogManager.getLogger(TermXmlProducer.class);
+    private static final Logger log = LoggerFactory.getLogger(TermXmlProducer.class);
 
     @Override
     public Class<Term> getSupportedType() {

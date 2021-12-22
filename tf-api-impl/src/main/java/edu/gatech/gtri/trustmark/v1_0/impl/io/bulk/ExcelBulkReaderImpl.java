@@ -20,8 +20,8 @@ import edu.gatech.gtri.trustmark.v1_0.impl.model.TermImpl;
 import edu.gatech.gtri.trustmark.v1_0.io.bulk.ExcelBulkReader;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
@@ -36,18 +36,18 @@ import static edu.gatech.gtri.trustmark.v1_0.impl.io.ExcelMultiTdBuilder.*;
 public class ExcelBulkReaderImpl extends AbstractBulkReader implements ExcelBulkReader {
     
     // Constants
-    private static final Logger logger = LogManager.getLogger(ExcelBulkReaderImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(ExcelBulkReaderImpl.class);
 
     public static final RowMapperGetter<TermImpl> GET_TERMS = new RowMapperGetter<TermImpl>() {
-        @Override public String getSheetName() { return "Terms"; }
+        @Override public String getSheetName() { return TERMS_SHEET_NAME; } //Terms
         @Override public AbstractExcelSheetRowMapper<TermImpl> get(File _file, Sheet _sheet) { return new TermsSheetRowMapper(_file, _sheet); }
     };
     public static final RowMapperGetter<RawTrustmarkDefinition> GET_TDS = new RowMapperGetter<RawTrustmarkDefinition>() {
-        @Override public String getSheetName() { return "TDs"; }
+        @Override public String getSheetName() { return LISTING_SHEET_NAME_TDS; } //TDs
         @Override public AbstractExcelSheetRowMapper<RawTrustmarkDefinition> get(File _file, Sheet _sheet) { return new TDsSheetRowMapper(_file, _sheet); }
     };
     public static final RowMapperGetter<RawTrustInteroperabilityProfile> GET_TIPS = new RowMapperGetter<RawTrustInteroperabilityProfile>() {
-        @Override public String getSheetName() { return "TIPs"; }
+        @Override public String getSheetName() { return LISTING_SHEET_NAME_TIPS; } //TIPs
         @Override public AbstractExcelSheetRowMapper<RawTrustInteroperabilityProfile> get(File _file, Sheet _sheet) { return new TIPsSheetRowMapper(_file, _sheet); }
     };
     
@@ -403,9 +403,9 @@ public class ExcelBulkReaderImpl extends AbstractBulkReader implements ExcelBulk
     
     public static class TermsSheetRowMapper extends AbstractExcelSheetRowMapper<TermImpl> {
         // Instance Fields
-        public final FilteredStringColumn TERM_NAME = new FilteredStringColumn("Term Name");
-        public final FilteredStringColumn TERM_DEFINITION = new FilteredStringColumn("Term Definition");
-        public final PipeListColumn ABBREVIATIONS = new PipeListColumn("Abbreviations");
+        public final FilteredStringColumn TERM_NAME       = new FilteredStringColumn(TERMS_COL_TERM_NAME);
+        public final FilteredStringColumn TERM_DEFINITION = new FilteredStringColumn(TERMS_COL_TERM_DEFINITION);
+        public final PipeListColumn       ABBREVIATIONS   = new PipeListColumn(      TERMS_COL_ABBREVIATIONS);
     
         // Constructor
         public TermsSheetRowMapper(File _file, Sheet _sheet) {
@@ -440,38 +440,40 @@ public class ExcelBulkReaderImpl extends AbstractBulkReader implements ExcelBulk
         public static final String DEFAULT_ISSUANCE_CRITERIA = "yes(ALL)";
         
         // Instance Fields
-        public final FilteredStringColumn STEP_NAME = new FilteredStringColumn(LISTING_COL_STEP_NAME);
-        public final FilteredStringColumn STEP_DESC = new FilteredStringColumn(LISTING_COL_STEP_DESC);
-        public final FilteredStringColumn CRITERION_NAME = new FilteredStringColumn(LISTING_COL_CRIT_NAME);
-        public final FilteredStringColumn CRITERION_DESC = new FilteredStringColumn(LISTING_COL_CRIT_DESC);
-        public final StringColumn TD_MONIKER = new StringColumn(LISTING_COL_TD_MONIKER);
-        public final FilteredStringColumn TD_NAME = new FilteredStringColumn(LISTING_COL_TD_NAME);
-        public final StringColumn TD_VERSION = new StringColumn(LISTING_COL_TD_VERSION);
-        public final FilteredStringColumn TD_DESC = new FilteredStringColumn(LISTING_COL_TD_DESC);
-        public final StringColumn TD_PUB_DATE = new StringColumn(LISTING_COL_TD_PUB_TIME);
-        public final StringColumn STAKEHOLDER_DESC = new StringColumn(LISTING_COL_STAKEHOLDER_DESC);
-        public final StringColumn RECIPIENT_DESC = new StringColumn(LISTING_COL_RECIPIENT_DESC);
-        public final StringColumn RELYING_PARTY_DESC = new StringColumn(LISTING_COL_RELYING_PARTY_DESC);
-        public final StringColumn PROVIDER_DESC = new StringColumn(LISTING_COL_PROVIDER_DESC);
-        public final StringColumn PROVIDER_ELIGIBILITY_CRITERIA = new StringColumn(LISTING_COL_PROVIDER_ELIGIBILITY);
-        public final StringColumn ASSESSOR_QUALIFICATIONS_DESC = new StringColumn(LISTING_COL_ASSESSOR_QUALIFICATIONS_DESC);
-        public final StringColumn REVOCATION_CRITERIA = new StringColumn(LISTING_COL_REVOCATION_CRITERIA);
-        public final StringColumn EXTENSION_DESC = new StringColumn(LISTING_COL_EXTENSION_DESC);
-        public final StringColumn NOTES = new StringColumn(LISTING_COL_NOTES);
-        public final StringColumn LEGAL_NOTICE = new StringColumn(LISTING_COL_LEGAL_NOTICE);
-        public final StringColumn CRITERIA_PREFACE = new StringColumn(LISTING_COL_CRITERIA_PREFACE);
-        public final StringColumn ASSESSMENT_PREFACE = new StringColumn("Assessment Preface");
-        public final StringColumn ISSUANCE_CRITERIA = new StringColumn(LISTING_COL_ISSUANCE_CRITERIA);
-        public final PipeListColumn KEYWORDS = new PipeListColumn(LISTING_COL_KEYWORDS);
-        public final PipeListColumn SUPERSEDES = new PipeListColumn(LISTING_COL_SUPERSEDED_TD);
-        public final PipeListColumn TERMS_INCLUDE = new PipeListColumn("Terms Include");
-        public final PipeListColumn TERMS_EXCLUDE = new PipeListColumn("Terms Exclude");
-        public final PipeListColumn TIPS = new PipeListColumn("TIPs");
-        public final ColonPipeListColumn CITATIONS = new ColonPipeListColumn(LISTING_COL_CITATIONS);
-        public final ColonPipeListColumn ARTIFACTS = new ColonPipeListColumn(LISTING_COL_ARTIFACTS);
-        public final ColonPipeListColumn TERMS = new ColonPipeListColumn("Terms");
-        public final FilteredValueColonPipeMapColumn SOURCES = new FilteredValueColonPipeMapColumn("Sources");
-        public final ParameterListColumn PARAMETERS = new ParameterListColumn("Parameters");
+        public final FilteredStringColumn   STEP_NAME                     = new FilteredStringColumn(            LISTING_COL_STEP_NAME);
+        public final FilteredStringColumn   STEP_DESC                     = new FilteredStringColumn(            LISTING_COL_STEP_DESC);
+        public final FilteredStringColumn   CRITERION_NAME                = new FilteredStringColumn(            LISTING_COL_CRIT_NAME);
+        public final FilteredStringColumn   CRITERION_DESC                = new FilteredStringColumn(            LISTING_COL_CRIT_DESC);
+        public final StringColumn           TD_MONIKER                    = new StringColumn(                    LISTING_COL_TD_MONIKER);
+        public final FilteredStringColumn   TD_NAME                       = new FilteredStringColumn(            LISTING_COL_TD_NAME);
+        public final StringColumn           TD_VERSION                    = new StringColumn(                    LISTING_COL_TD_VERSION);
+        public final FilteredStringColumn   TD_DESC                       = new FilteredStringColumn(            LISTING_COL_TD_DESC);
+        public final StringColumn           TD_PUB_DATE                   = new StringColumn(                    LISTING_COL_TD_PUB_TIME);
+        public final StringColumn           STAKEHOLDER_DESC              = new StringColumn(                    LISTING_COL_STAKEHOLDER_DESC);
+        public final StringColumn           RECIPIENT_DESC                = new StringColumn(                    LISTING_COL_RECIPIENT_DESC);
+        public final StringColumn           RELYING_PARTY_DESC            = new StringColumn(                    LISTING_COL_RELYING_PARTY_DESC);
+        public final StringColumn           PROVIDER_DESC                 = new StringColumn(                    LISTING_COL_PROVIDER_DESC);
+        public final StringColumn           PROVIDER_ELIGIBILITY_CRITERIA = new StringColumn(                    LISTING_COL_PROVIDER_ELIGIBILITY);
+        public final StringColumn           ASSESSOR_QUALIFICATIONS_DESC  = new StringColumn(                    LISTING_COL_ASSESSOR_QUALIFICATIONS_DESC);
+        public final StringColumn           REVOCATION_CRITERIA           = new StringColumn(                    LISTING_COL_REVOCATION_CRITERIA);
+        public final StringColumn           EXTENSION_DESC                = new StringColumn(                    LISTING_COL_EXTENSION_DESC);
+        public final StringColumn           NOTES                         = new StringColumn(                    LISTING_COL_NOTES);
+        public final StringColumn           LEGAL_NOTICE                  = new StringColumn(                    LISTING_COL_LEGAL_NOTICE);
+        public final StringColumn           CRITERIA_PREFACE              = new StringColumn(                    LISTING_COL_CRITERIA_PREFACE);
+        public final StringColumn           ASSESSMENT_PREFACE            = new StringColumn(                    LISTING_COL_ASSESSMENT_PREFACE);
+        public final StringColumn           ISSUANCE_CRITERIA             = new StringColumn(                    LISTING_COL_ISSUANCE_CRITERIA);
+        public final PipeListColumn         KEYWORDS                      = new PipeListColumn(                  LISTING_COL_KEYWORDS);
+        public final StringColumn           DEPRECATED                    = new StringColumn(                    LISTING_COL_DEPRECATED);
+        public final PipeListColumn         SUPERSEDES                    = new PipeListColumn(                  LISTING_COL_SUPERSEDES);
+        public final PipeListColumn         SUPERSEDED_BY                 = new PipeListColumn(                  LISTING_COL_SUPERSEDED_BY);
+        public final PipeListColumn         TERMS_INCLUDE                 = new PipeListColumn(                  LISTING_TERMS_INCLUDE);
+        public final PipeListColumn         TERMS_EXCLUDE                 = new PipeListColumn(                  LISTING_TERMS_EXCLUDE);
+        public final PipeListColumn         TIPS                          = new PipeListColumn(                  LISTING_COL_TIPS);
+        public final ColonPipeListColumn    CITATIONS                     = new ColonPipeListColumn(             LISTING_COL_CITATIONS);
+        public final ColonPipeListColumn    ARTIFACTS                     = new ColonPipeListColumn(             LISTING_COL_ARTIFACTS);
+        public final ColonPipeListColumn    TERMS                         = new ColonPipeListColumn(             TERMS_COL_TERMS);
+        public final FilteredValueColonPipeMapColumn SOURCES              = new FilteredValueColonPipeMapColumn( TERMS_COL_SOURCES);
+        public final ParameterListColumn    PARAMETERS                    = new ParameterListColumn(             TERMS_COL_PARAMETERS);
         
         // Constructor
         public TDsSheetRowMapper(File _file, Sheet _sheet) {
@@ -555,12 +557,16 @@ public class ExcelBulkReaderImpl extends AbstractBulkReader implements ExcelBulk
                 rawTd.metadata.issuanceCriteria = this.ISSUANCE_CRITERIA.getFor(row);
                 // Pipe Lists
                 rawTd.metadata.keywords.addAll(this.KEYWORDS.getFor(row));
-                rawTd.metadata.supersedesUris.addAll(this.SUPERSEDES.getFor(row));
+                rawTd.metadata.deprecated = Boolean.parseBoolean(this.DEPRECATED.getFor(row));
+                rawTd.metadata.supersedesUris.addAll(BulkImportUtils.lowerCaseAll(this.SUPERSEDES.getFor(row)));
+                rawTd.metadata.supersededByUris.addAll(BulkImportUtils.lowerCaseAll(this.SUPERSEDED_BY.getFor(row)));
                 rawTd.metadata.termsInclude.addAll(BulkImportUtils.lowerCaseAll(this.TERMS_INCLUDE.getFor(row)));
                 rawTd.metadata.termsExclude.addAll(BulkImportUtils.lowerCaseAll(this.TERMS_EXCLUDE.getFor(row)));
                 rawTd.metadata.tips.addAll(this.TIPS.getFor(row));
                 // Colon+Pipe Lists
                 rawTd.metadata.terms.addAll(this.TERMS.getFor(row));
+
+                logger.debug(String.format("    TD Row #%s has TD: %s", row.getRowNum() + 1, name));
             }
             
             //logger.debug("  Parsed rawTd: " + rawTd.toJson().toString(2));
@@ -574,26 +580,29 @@ public class ExcelBulkReaderImpl extends AbstractBulkReader implements ExcelBulk
     }
     
     public static class TIPsSheetRowMapper extends AbstractExcelSheetRowMapper<RawTrustInteroperabilityProfile> {
+
         // Instance Fields
-        public final StringColumn                    TIP_CATEGORY         = new StringColumn(                    "Category");
-        public final FilteredStringColumn            TIP_NAME             = new FilteredStringColumn(            "TIP Name");
-        public final FilteredStringColumn            TIP_DESC             = new FilteredStringColumn(            "TIP Description");
-        public final StringColumn                    TIP_VERSION          = new StringColumn(                    "TIP Version");
-        public final StringColumn                    TIP_TRUST_EXPRESSION = new StringColumn(                    "Trust Expression");
-        public final StringColumn                    TIP_ID               = new StringColumn(                    "TIP Id");
-        public final StringColumn                    TIP_ISSUER_NAME      = new StringColumn(                    "Issuer Name");
-        public final StringColumn                    TIP_ISSUER_ID        = new StringColumn(                    "Issuer ID");
-        public final StringColumn                    TIP_PRIMARY          = new StringColumn(                    "Primary");
-        public final StringColumn                    TIP_MONIKER          = new StringColumn(                    "TIP Moniker");
+        public final StringColumn                    TIP_CATEGORY         = new StringColumn(                    LISTING_COL_CATEGORY);
+        public final FilteredStringColumn            TIP_NAME             = new FilteredStringColumn(            LISTING_COL_TIP_NAME);
+        public final FilteredStringColumn            TIP_DESC             = new FilteredStringColumn(            LISTING_COL_TIP_DESC);
+        public final StringColumn                    TIP_VERSION          = new StringColumn(                    LISTING_COL_TIP_VERSION);
+        public final StringColumn                    TIP_TRUST_EXPRESSION = new StringColumn(                    LISTING_COL_TRUST_EXPRESSION);
+        public final StringColumn                    TIP_ID               = new StringColumn(                    LISTING_COL_TIP_ID);
+        public final StringColumn                    TIP_ISSUER_NAME      = new StringColumn(                    LISTING_COL_ISSUER_NAME);
+        public final StringColumn                    TIP_ISSUER_ID        = new StringColumn(                    LISTING_COL_ISSUER_ID);
+        public final StringColumn                    TIP_PRIMARY          = new StringColumn(                    LISTING_COL_PRIMARY);
+        public final StringColumn                    TIP_MONIKER          = new StringColumn(                    LISTING_COL_TIP_MONIKER);
         public final StringColumn                    NOTES                = new StringColumn(                    LISTING_COL_NOTES);
         public final StringColumn                    LEGAL_NOTICE         = new StringColumn(                    LISTING_COL_LEGAL_NOTICE);
-        public final StringColumn                    TIP_PUB_DATE         = new StringColumn(                    "TIP Publication DateTime");
-        public final PipeListColumn                  SUPERSEDES           = new PipeListColumn(                  "Superseded TIP");
-        public final ColonPipeListColumn             TERMS                = new ColonPipeListColumn(             "Terms");
-        public final PipeListColumn                  TERMS_INCLUDE        = new PipeListColumn(                  "Terms Include");
-        public final PipeListColumn                  TERMS_EXCLUDE        = new PipeListColumn(                  "Terms Exclude");
+        public final StringColumn                    TIP_PUB_DATE         = new StringColumn(                    LISTING_COL_TIP_PUB_TIME);
+        public final StringColumn                    DEPRECATED           = new StringColumn(                    LISTING_COL_DEPRECATED);
+        public final PipeListColumn                  SUPERSEDES           = new PipeListColumn(                  LISTING_COL_SUPERSEDES);
+        public final PipeListColumn                  SUPERSEDED_BY        = new PipeListColumn(                  LISTING_COL_SUPERSEDED_BY);
+        public final ColonPipeListColumn             TERMS                = new ColonPipeListColumn(             TERMS_COL_TERMS);
+        public final PipeListColumn                  TERMS_INCLUDE        = new PipeListColumn(                  LISTING_TERMS_INCLUDE);
+        public final PipeListColumn                  TERMS_EXCLUDE        = new PipeListColumn(                  LISTING_TERMS_EXCLUDE);
         public final PipeListColumn                  KEYWORDS             = new PipeListColumn(                  LISTING_COL_KEYWORDS);
-        public final FilteredValueColonPipeMapColumn SOURCES              = new FilteredValueColonPipeMapColumn( "Sources");
+        public final FilteredValueColonPipeMapColumn SOURCES              = new FilteredValueColonPipeMapColumn( TERMS_COL_SOURCES);
         
         // Constructor
         public TIPsSheetRowMapper(File _file, Sheet _sheet) {
@@ -627,6 +636,10 @@ public class ExcelBulkReaderImpl extends AbstractBulkReader implements ExcelBulk
                 if (moniker != null) {
                     rawTip.moniker = BulkImportUtils.cleanseMoniker(moniker);
                 }
+                // Colon+Pipe Lists
+                rawTip.supersedesUris.addAll(BulkImportUtils.lowerCaseAll(this.SUPERSEDES.getFor(row)));
+                rawTip.supersededByUris.addAll(BulkImportUtils.lowerCaseAll(this.SUPERSEDED_BY.getFor(row)));
+                rawTip.deprecated = Boolean.parseBoolean(this.DEPRECATED.getFor(row));
 
                 rawTip.terms.addAll(this.TERMS.getFor(row));
                 rawTip.termsInclude.addAll(BulkImportUtils.lowerCaseAll(this.TERMS_INCLUDE.getFor(row)));

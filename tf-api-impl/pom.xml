@@ -6,15 +6,15 @@
     <parent>
         <groupId>edu.gatech.gtri.trustmark</groupId>
         <artifactId>tf-api-parent</artifactId>
-        <version>1.4.10</version>
+        <version>1.4.21</version>
     </parent>
     <artifactId>tf-api-impl</artifactId>
-    <version>1.4.17</version>
+    <version>1.4.30</version>
     <packaging>jar</packaging>
 
     <properties>
         <junit.version>4.13.1</junit.version>
-        <tf.api.version>1.4.10</tf.api.version>
+        <tf.api.version>1.4.21</tf.api.version>
     </properties>
 
     <dependencies>
@@ -73,7 +73,7 @@
         <dependency>
             <groupId>edu.gatech.gtri.trustmark</groupId>
             <artifactId>tf-api</artifactId>
-            <version>1.4.10</version>
+            <version>1.4.21</version>
         </dependency>
         <dependency>
             <groupId>javax.xml.bind</groupId>
@@ -92,17 +92,22 @@
             <version>4.1</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-core</artifactId>
-            <version>2.14.1</version>
-        </dependency>
-
         <!--	FOr JSON Web Signature	-->
         <dependency>
             <groupId>org.bitbucket.b_c</groupId>
             <artifactId>jose4j</artifactId>
             <version>0.7.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcpkix-jdk15on</artifactId>
+            <version>1.69</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk15on</artifactId>
+            <version>1.69</version>
         </dependency>
         <!-- /For the expression language -->
 
@@ -121,7 +126,7 @@
         <dependency>
             <groupId>org.gtri.functionaljava</groupId>
             <artifactId>functionaljava</artifactId>
-            <version>4.10.0-GTRI</version>
+            <version>4.10.1-GTRI</version>
         </dependency>
 
         <!-- for trust expression parser -->
@@ -230,6 +235,7 @@
             <version>RELEASE</version>
             <scope>test</scope>
         </dependency>
+
     </dependencies>
 
     <build>

@@ -1,8 +1,8 @@
 package edu.gatech.gtri.trustmark.v1_0.impl.dao;
 
 import com.mysql.cj.jdbc.MysqlDataSource;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.sql.DataSource;
 import java.io.*;
@@ -20,7 +20,7 @@ import java.util.Properties;
  */
 public class MysqlDatabaseHelper implements DatabaseHelper {
 
-    private static final Logger logger = LogManager.getLogger(MysqlDatabaseHelper.class);
+    private static final Logger logger = LoggerFactory.getLogger(MysqlDatabaseHelper.class);
     private static Properties MYSQL_PROPS;
 
 

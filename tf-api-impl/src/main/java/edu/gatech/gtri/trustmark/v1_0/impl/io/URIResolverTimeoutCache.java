@@ -1,8 +1,8 @@
 package edu.gatech.gtri.trustmark.v1_0.impl.io;
 
 import edu.gatech.gtri.trustmark.v1_0.io.ResolveException;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -16,7 +16,7 @@ import java.util.Map;
  */
 public class URIResolverTimeoutCache extends AbstractURIResolver {
 
-    private static final Logger log = LogManager.getLogger(URIResolverTimeoutCache.class);
+    private static final Logger log = LoggerFactory.getLogger(URIResolverTimeoutCache.class);
 
     public static final long DEFAULT_TIMEOUT = 60l * 60l * 24l;  // one day in millis
 

@@ -6,8 +6,8 @@ import edu.gatech.gtri.trustmark.v1_0.dao.*;
 import edu.gatech.gtri.trustmark.v1_0.impl.dao.objects.DataObjectContent;
 import edu.gatech.gtri.trustmark.v1_0.impl.dao.objects.TrustInteroperabilityProfileCache;
 import edu.gatech.gtri.trustmark.v1_0.impl.dao.objects.TrustmarkDefinitionCache;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
@@ -23,7 +23,7 @@ public class DaoManagerImpl implements DaoManager {
     //==================================================================================================================
     //  STATIC VARIABLES
     //==================================================================================================================
-    private static final Logger log = LogManager.getLogger(DaoManagerImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(DaoManagerImpl.class);
     //==================================================================================================================
     //  CONSTRUCTORS
     //==================================================================================================================

@@ -6,8 +6,6 @@ import edu.gatech.gtri.trustmark.v1_0.io.ResolveException;
 import edu.gatech.gtri.trustmark.v1_0.io.TrustInteroperabilityProfileResolver;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustInteroperabilityProfile;
 import edu.gatech.gtri.trustmark.v1_0.util.TipTreeNode;
-import edu.gatech.gtri.trustmark.v1_0.util.TrustExpressionHasUndeclaredIdException;
-import edu.gatech.gtri.trustmark.v1_0.util.TrustExpressionSyntaxException;
 import edu.gatech.gtri.trustmark.v1_0.util.TrustInteroperabilityProfileUtils;
 import edu.gatech.gtri.trustmark.v1_0.util.diff.TrustInteroperabilityProfileDiffResult;
 import edu.gatech.gtri.trustmark.v1_0.util.diff.TrustInteroperabilityProfileDiffType;
@@ -17,12 +15,13 @@ import org.junit.Test;
 
 import java.io.File;
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.greaterThan;
+import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.notNullValue;
 
 /**
  * Created by brad on 4/12/16.
@@ -42,7 +41,8 @@ public class TestTrustInteroperabilityProfileUtilsImpl extends AbstractTest {
         return FactoryLoader.getInstance(TrustInteroperabilityProfileUtils.class);
     }
 
-    @Test @Ignore
+    @Test
+    @Ignore
     public void testTreeDownload() throws Exception {
         TipTreeNode treeNode = getUtils().buildTipTree(new URI("https://cjis.trustmarkinitiative.org/lib/trust-interoperability-profiles/nist-800-63-loa-3-profile/1.0/"));
     }
@@ -95,62 +95,19 @@ public class TestTrustInteroperabilityProfileUtilsImpl extends AbstractTest {
         assertThat(differences.size(), equalTo(2));
     }
 
-
-    /*
-     * This method exists simply to test that the Utils class is able to perform validation - actual validations are in the antlr package.
-     */
-    @Test
-    public void testTrustExpressionValidation() throws Exception {
-        logger.info("Testing that TIPUtils can perform trust expression validation as expected...");
-
-        getUtils().validate("td1 and td2");
-        try{
-            getUtils().validate("td1 and td2)"); // Error with mismatched paren.
-            Assert.fail("Expected to fail on extra paren, but didn't!");
-        }catch(TrustExpressionSyntaxException tese){
-            // Successfully got error that was expected.
-        }
-
-        logger.info("Successfully tested TE validation from TIPUtils!");
-    }
-
-
-    /*
-     * This method exists simply to test that the Utils class is able to perform validation - actual validations are in the antlr package.
-     */
-    @Test
-    public void testTrustExpressionValidationWithIdentifiers() throws Exception {
-        logger.info("Testing that TIPUtils can perform trust expression validation as expected (With identifiers)...");
-
-        List<String> list1 = new ArrayList<>();
-        list1.add("td1");
-        list1.add("td2");
-        getUtils().validateWithBindings("td1 and td2", list1);
-        try{
-            getUtils().validateWithBindings("td1 and td2 and td3", list1); // Error with mismatched paren.
-            Assert.fail("Expected to fail on extra paren, but didn't!");
-        }catch(TrustExpressionHasUndeclaredIdException e){
-            // Successfully got error that was expected.
-        }
-
-        logger.info("Successfully tested TE validation from TIPUtils!");
-    }
-
-
-
-    private boolean resultMatches(TrustInteroperabilityProfileDiffResult result, TrustInteroperabilityProfileDiffType type, String locationRegex, String descriptionRegex){
+    private boolean resultMatches(TrustInteroperabilityProfileDiffResult result, TrustInteroperabilityProfileDiffType type, String locationRegex, String descriptionRegex) {
         boolean matches = false;
-        if( result.getDiffType() == type ){
+        if (result.getDiffType() == type) {
             boolean locationMatches = true;
-            if( locationRegex != null ){
+            if (locationRegex != null) {
                 locationMatches = false;
-                if( result.getLocation().matches(locationRegex) || result.getLocation().equalsIgnoreCase(locationRegex) )
+                if (result.getLocation().matches(locationRegex) || result.getLocation().equalsIgnoreCase(locationRegex))
                     locationMatches = true;
             }
             boolean descMatches = true;
-            if( descriptionRegex != null ){
+            if (descriptionRegex != null) {
                 descMatches = false;
-                if( result.getDescription().matches(descriptionRegex) || result.getDescription().equalsIgnoreCase(descriptionRegex) )
+                if (result.getDescription().matches(descriptionRegex) || result.getDescription().equalsIgnoreCase(descriptionRegex))
                     descMatches = true;
             }
             matches = locationMatches && descMatches;
@@ -158,24 +115,24 @@ public class TestTrustInteroperabilityProfileUtilsImpl extends AbstractTest {
         return matches;
     }
 
-    private void assertContains(Collection<TrustInteroperabilityProfileDiffResult> results, TrustInteroperabilityProfileDiffType type, String locationRegex, String descriptionRegex)  {
-        try{
-            if( results == null || results.size() == 0 )
-                Assert.fail("Expecting TIP Diff results to contain Type["+type+"], Location["+locationRegex+"], Description["+descriptionRegex+"] - but the results are empty!");
+    private void assertContains(Collection<TrustInteroperabilityProfileDiffResult> results, TrustInteroperabilityProfileDiffType type, String locationRegex, String descriptionRegex) {
+        try {
+            if (results == null || results.size() == 0)
+                Assert.fail("Expecting TIP Diff results to contain Type[" + type + "], Location[" + locationRegex + "], Description[" + descriptionRegex + "] - but the results are empty!");
 
             boolean found = false;
-            for( TrustInteroperabilityProfileDiffResult result : results ){
-                if( resultMatches(result, type, locationRegex, descriptionRegex) ){
+            for (TrustInteroperabilityProfileDiffResult result : results) {
+                if (resultMatches(result, type, locationRegex, descriptionRegex)) {
                     found = true;
                     break;
                 }
             }
-            if( !found )
-                Assert.fail("Expecting TIP Diff results to contain Type["+type+"], Location["+locationRegex+"], Description["+descriptionRegex+"] - but the result was not found!");
+            if (!found)
+                Assert.fail("Expecting TIP Diff results to contain Type[" + type + "], Location[" + locationRegex + "], Description[" + descriptionRegex + "] - but the result was not found!");
 
-        }catch(Exception t){
+        } catch (Exception t) {
             logger.error("Error evaluating assertContains()!", t);
-            Assert.fail("Error evaluating assertContains(): "+t.toString());
+            Assert.fail("Error evaluating assertContains(): " + t.toString());
         }
     }
 

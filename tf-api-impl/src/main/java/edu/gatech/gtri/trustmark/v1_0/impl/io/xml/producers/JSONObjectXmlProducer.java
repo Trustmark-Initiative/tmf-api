@@ -1,8 +1,8 @@
 package edu.gatech.gtri.trustmark.v1_0.impl.io.xml.producers;
 
 import edu.gatech.gtri.trustmark.v1_0.io.xml.XmlProducer;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.json.JSONObject;
 import org.json.XML;
 
@@ -14,7 +14,7 @@ import javax.xml.stream.XMLStreamWriter;
  */
 public class JSONObjectXmlProducer implements XmlProducer<JSONObject> {
 
-    private static final Logger log = LogManager.getLogger(JSONObjectXmlProducer.class);
+    private static final Logger log = LoggerFactory.getLogger(JSONObjectXmlProducer.class);
 
     @Override
     public Class<JSONObject> getSupportedType() {

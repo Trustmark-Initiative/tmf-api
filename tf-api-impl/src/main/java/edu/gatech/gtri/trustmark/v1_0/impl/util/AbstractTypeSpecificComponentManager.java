@@ -2,8 +2,8 @@ package edu.gatech.gtri.trustmark.v1_0.impl.util;
 
 import edu.gatech.gtri.trustmark.v1_0.util.TypeSpecificComponent;
 import edu.gatech.gtri.trustmark.v1_0.util.TypeSpecificComponentManager;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
@@ -18,7 +18,7 @@ public abstract class AbstractTypeSpecificComponentManager<C extends TypeSpecifi
     // Instance Fields //
     /////////////////////
     
-    private final Logger log = LogManager.getLogger(this.getClass());
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
     private final Object componentCacheLock = Boolean.FALSE;
     private Map<Class, C> componentCache;
     

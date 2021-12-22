@@ -1,91 +1,60 @@
 package edu.gatech.gtri.trustmark.v1_0.impl.io.hash;
 
-import edu.gatech.gtri.trustmark.v1_0.FactoryLoader;
-import edu.gatech.gtri.trustmark.v1_0.impl.io.xml.SerializerXml;
-import edu.gatech.gtri.trustmark.v1_0.impl.model.TrustInteroperabilityProfileImpl;
-import edu.gatech.gtri.trustmark.v1_0.impl.model.TrustmarkDefinitionImpl;
-import edu.gatech.gtri.trustmark.v1_0.impl.model.TrustmarkStatusReportImpl;
-import edu.gatech.gtri.trustmark.v1_0.io.TrustInteroperabilityProfileResolver;
-import edu.gatech.gtri.trustmark.v1_0.io.TrustmarkDefinitionResolver;
-import edu.gatech.gtri.trustmark.v1_0.io.TrustmarkResolver;
-import edu.gatech.gtri.trustmark.v1_0.io.TrustmarkStatusReportResolver;
+import edu.gatech.gtri.trustmark.v1_0.io.hash.CanonFactory;
 import edu.gatech.gtri.trustmark.v1_0.io.hash.HashFactory;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustInteroperabilityProfile;
 import edu.gatech.gtri.trustmark.v1_0.model.Trustmark;
+import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkBindingRegistry;
+import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkBindingRegistrySystem;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkDefinition;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkStatusReport;
-import org.gtri.fj.Ord;
-import org.gtri.fj.data.Either;
-import org.gtri.fj.data.NonEmptyList;
-import org.gtri.fj.data.Validation;
-import org.gtri.fj.function.F2;
-import org.gtri.fj.function.Try;
+import org.gtri.fj.function.Try1;
 import org.kohsuke.MetaInfServices;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.net.URI;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import static java.util.Objects.requireNonNull;
-import static org.gtri.fj.Ord.ord;
-import static org.gtri.fj.data.Either.eitherOrd;
-import static org.gtri.fj.data.Either.reduce;
-import static org.gtri.fj.data.List.iterableList;
-import static org.gtri.fj.data.List.sequenceValidation;
-import static org.gtri.fj.data.NonEmptyList.nonEmptyListSemigroup;
-import static org.gtri.fj.lang.StringUtility.stringOrd;
 
 @MetaInfServices
 public final class HashFactoryImpl implements HashFactory {
 
-    private final Ord<URI> uriOrd = ord((uri1, uri2) -> stringOrd.compare(uri1.toString(), uri2.toString()));
+    private final CanonFactory canonFactory = new CanonFactoryImpl();
 
-    private final MessageDigest digest;
-    private final TrustInteroperabilityProfileResolver trustInteroperabilityProfileResolver;
-    private final TrustmarkDefinitionResolver trustmarkDefinitionResolver;
-    private final TrustmarkStatusReportResolver trustmarkStatusReportResolver;
-    private final TrustmarkResolver trustmarkResolver;
-    private final SerializerXml serializerXml;
-
-    public HashFactoryImpl() throws NoSuchAlgorithmException {
-
-        this.digest = MessageDigest.getInstance("SHA-256");
-        this.trustInteroperabilityProfileResolver = FactoryLoader.getInstance(TrustInteroperabilityProfileResolver.class);
-        this.trustmarkDefinitionResolver = FactoryLoader.getInstance(TrustmarkDefinitionResolver.class);
-        this.trustmarkStatusReportResolver = FactoryLoader.getInstance(TrustmarkStatusReportResolver.class);
-        this.trustmarkResolver = FactoryLoader.getInstance(TrustmarkResolver.class);
-        this.serializerXml = new SerializerXml();
+    public HashFactoryImpl() {
     }
 
+    @Override
     public byte[] hash(final TrustmarkDefinition trustmarkDefinition) throws IOException {
 
         requireNonNull(trustmarkDefinition);
 
-        return hashHelper(trustmarkDefinition, this::serialize);
+        return hashHelper(trustmarkDefinition, canonFactory::canon);
     }
 
+    @Override
     public byte[] hash(final Trustmark trustmark) throws IOException {
 
         requireNonNull(trustmark);
 
-        return hashHelper(trustmark, this::serialize);
+        return hashHelper(trustmark, canonFactory::canon);
     }
 
+    @Override
     public byte[] hash(final TrustmarkStatusReport trustmarkStatusReport) throws IOException {
 
         requireNonNull(trustmarkStatusReport);
 
-        return hashHelper(trustmarkStatusReport, this::serialize);
+        return hashHelper(trustmarkStatusReport, canonFactory::canon);
     }
 
+    @Override
     public byte[] hash(final TrustInteroperabilityProfile trustInteroperabilityProfile) throws IOException {
 
         requireNonNull(trustInteroperabilityProfile);
 
-        return hashHelper(trustInteroperabilityProfile, this::serialize);
+        return hashHelper(trustInteroperabilityProfile, canonFactory::canon);
     }
 
     @Override
@@ -93,118 +62,35 @@ public final class HashFactoryImpl implements HashFactory {
 
         requireNonNull(trustInteroperabilityProfile);
 
-        return hashHelper(trustInteroperabilityProfile, this::serializeWithReference);
+        return hashHelper(trustInteroperabilityProfile, canonFactory::canonWithReference);
     }
 
-    private <T1> byte[] hashHelper(final T1 serializeable, final F2<T1, ByteArrayOutputStream, Validation<NonEmptyList<Exception>, ByteArrayOutputStream>> f) throws IOException {
+    @Override
+    public byte[] hash(final TrustmarkBindingRegistry trustmarkBindingRegistry) throws IOException {
 
-        final Validation<NonEmptyList<Exception>, byte[]> digestValidation = f.f(serializeable, new ByteArrayOutputStream())
-                .map(byteArrayOutputStream -> digest.digest(byteArrayOutputStream.toByteArray()));
+        requireNonNull(trustmarkBindingRegistry);
 
-        if (digestValidation.isSuccess()) {
+        return hashHelper(trustmarkBindingRegistry, canonFactory::canon);
+    }
 
-            return digestValidation.success();
+    @Override
+    public byte[] hash(final TrustmarkBindingRegistrySystem trustmarkBindingRegistrySystem) throws IOException {
 
-        } else {
+        requireNonNull(trustmarkBindingRegistrySystem);
 
-            digestValidation.fail().forEach(exception -> exception.printStackTrace());
+        return hashHelper(trustmarkBindingRegistrySystem, canonFactory::canon);
+    }
 
-            throw new IOException(String.join("\n", digestValidation.fail().map(exception -> exception.getMessage()).toList().toJavaList()));
+    private <T1> byte[] hashHelper(final T1 serializeable, final Try1<T1, byte[], IOException> f) throws IOException {
+
+        try {
+
+            return MessageDigest.getInstance("SHA-256").digest(f.f(serializeable));
+
+        } catch (final NoSuchAlgorithmException noSuchAlgorithmException) {
+
+            throw new IOException(noSuchAlgorithmException);
+
         }
-    }
-
-    private <T1 extends OutputStream> Validation<NonEmptyList<Exception>, T1> serialize(final TrustmarkDefinition trustmarkDefinition, final T1 outputStream) {
-
-        return Try.<T1, Exception>f(() -> {
-            // TODO: Currently, artifacts ids change every time they're requested; when that changes, the setters below can be removed as well.
-            final String id = trustmarkDefinition.getId();
-            final String originalSource = trustmarkDefinition.getOriginalSource();
-            final String originalSourceType = trustmarkDefinition.getOriginalSourceType();
-
-            ((TrustmarkDefinitionImpl) trustmarkDefinition).setId("");
-            ((TrustmarkDefinitionImpl) trustmarkDefinition).setOriginalSource(null);
-            ((TrustmarkDefinitionImpl) trustmarkDefinition).setOriginalSourceType(null);
-
-            serializerXml.serialize(trustmarkDefinition, outputStream);
-
-            ((TrustmarkDefinitionImpl) trustmarkDefinition).setId(id);
-            ((TrustmarkDefinitionImpl) trustmarkDefinition).setOriginalSource(originalSource);
-            ((TrustmarkDefinitionImpl) trustmarkDefinition).setOriginalSourceType(originalSourceType);
-
-            return outputStream;
-        })._1().f().map(NonEmptyList::nel);
-    }
-
-    private <T1 extends OutputStream> Validation<NonEmptyList<Exception>, T1> serialize(final Trustmark trustmark, final T1 outputStream) {
-
-        return Try.<T1, Exception>f(() -> {
-            serializerXml.serialize(trustmark, outputStream);
-            return outputStream;
-        })._1().f().map(NonEmptyList::nel);
-    }
-
-    private <T1 extends OutputStream> Validation<NonEmptyList<Exception>, T1> serialize(final TrustmarkStatusReport trustmarkStatusReport, final T1 outputStream) {
-
-        return Try.<T1, Exception>f(() -> {
-            // TODO: Currently, artifacts ids change every time they're requested; when that changes, the setters below can be removed as well.
-            final String id = trustmarkStatusReport.getId();
-            final String originalSource = trustmarkStatusReport.getOriginalSource();
-            final String originalSourceType = trustmarkStatusReport.getOriginalSourceType();
-
-            ((TrustmarkStatusReportImpl) trustmarkStatusReport).setId("");
-            ((TrustmarkStatusReportImpl) trustmarkStatusReport).setOriginalSource(null);
-            ((TrustmarkStatusReportImpl) trustmarkStatusReport).setOriginalSourceType(null);
-
-            serializerXml.serialize(trustmarkStatusReport, outputStream);
-
-            ((TrustmarkStatusReportImpl) trustmarkStatusReport).setId(id);
-            ((TrustmarkStatusReportImpl) trustmarkStatusReport).setOriginalSource(originalSource);
-            ((TrustmarkStatusReportImpl) trustmarkStatusReport).setOriginalSourceType(originalSourceType);
-
-            return outputStream;
-        })._1().f().map(NonEmptyList::nel);
-    }
-
-    private <T1 extends OutputStream> Validation<NonEmptyList<Exception>, T1> serializeWithReference(final TrustInteroperabilityProfile trustInteroperabilityProfile, final T1 outputStream) {
-
-        return sequenceValidation(nonEmptyListSemigroup(), iterableList(trustInteroperabilityProfile.getReferences())
-                .map(abstractTIPReference -> abstractTIPReference.match(
-                        trustmarkDefinitionRequirement -> Either.<URI, URI>left(trustmarkDefinitionRequirement.getIdentifier()),
-                        trustInteroperabilityProfileReference -> Either.<URI, URI>right(trustInteroperabilityProfileReference.getIdentifier())))
-                .sort(eitherOrd(uriOrd, uriOrd))
-                .map(either -> reduce(either.bimap(
-                        left -> Try.<TrustmarkDefinition, Exception>f(() -> trustmarkDefinitionResolver.resolve(left))._1()
-                                .f().map(NonEmptyList::nel)
-                                .map(reference -> Either.<TrustmarkDefinition, TrustInteroperabilityProfile>left(reference)),
-                        right -> Try.<TrustInteroperabilityProfile, Exception>f(() -> trustInteroperabilityProfileResolver.resolve(right))._1()
-                                .f().map(NonEmptyList::nel)
-                                .map(reference -> Either.<TrustmarkDefinition, TrustInteroperabilityProfile>right(reference))))))
-                .bind(list -> list.foldLeft(
-                        (outputStreamValidation, either) -> outputStreamValidation.bind(outputStreamInner -> reduce(either.bimap(
-                                left -> serialize(left, outputStreamInner),
-                                right -> serializeWithReference(right, outputStreamInner)))),
-                        serialize(trustInteroperabilityProfile, outputStream)));
-    }
-
-    private <T1 extends OutputStream> Validation<NonEmptyList<Exception>, T1> serialize(final TrustInteroperabilityProfile trustInteroperabilityProfile, final T1 outputStream) {
-
-        return Try.<T1, Exception>f(() -> {
-            // TODO: Currently, artifacts ids change every time they're requested; when that changes, the setters below can be removed as well.
-            final String id = trustInteroperabilityProfile.getId();
-            final String originalSource = trustInteroperabilityProfile.getOriginalSource();
-            final String originalSourceType = trustInteroperabilityProfile.getOriginalSourceType();
-
-            ((TrustInteroperabilityProfileImpl) trustInteroperabilityProfile).setId("");
-            ((TrustInteroperabilityProfileImpl) trustInteroperabilityProfile).setOriginalSource(null);
-            ((TrustInteroperabilityProfileImpl) trustInteroperabilityProfile).setOriginalSourceType(null);
-
-            serializerXml.serialize(trustInteroperabilityProfile, outputStream);
-
-            ((TrustInteroperabilityProfileImpl) trustInteroperabilityProfile).setId(id);
-            ((TrustInteroperabilityProfileImpl) trustInteroperabilityProfile).setOriginalSource(originalSource);
-            ((TrustInteroperabilityProfileImpl) trustInteroperabilityProfile).setOriginalSourceType(originalSourceType);
-
-            return outputStream;
-        })._1().f().map(NonEmptyList::nel);
     }
 }

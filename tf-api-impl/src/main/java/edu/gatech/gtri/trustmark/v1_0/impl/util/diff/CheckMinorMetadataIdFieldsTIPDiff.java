@@ -4,8 +4,8 @@ import edu.gatech.gtri.trustmark.v1_0.model.TrustInteroperabilityProfile;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkDefinition;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkFrameworkIdentifiedObject;
 import edu.gatech.gtri.trustmark.v1_0.util.diff.*;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -16,7 +16,7 @@ import java.util.List;
  */
 public class CheckMinorMetadataIdFieldsTIPDiff extends AbstractTIPDiff {
 
-    private static final Logger log = LogManager.getLogger(CheckMinorMetadataIdFieldsTIPDiff.class);
+    private static final Logger log = LoggerFactory.getLogger(CheckMinorMetadataIdFieldsTIPDiff.class);
 
     @Override
     public Collection<TrustInteroperabilityProfileDiffResult> doDiff(TrustInteroperabilityProfile tip1, TrustInteroperabilityProfile tip2) {

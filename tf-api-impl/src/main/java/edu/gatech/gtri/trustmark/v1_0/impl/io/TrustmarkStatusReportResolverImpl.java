@@ -13,7 +13,7 @@ public class TrustmarkStatusReportResolverImpl extends AbstractResolverFromURIRe
 
     public TrustmarkStatusReportResolverImpl() {
         super(
-                TrustmarkStatusReportJsonDeserializer::deserialize,
+                new TrustmarkStatusReportJsonDeserializer()::deserialize,
                 TrustmarkStatusReportXmlDeserializer::deserialize,
                 entity -> entity,
                 FactoryLoader.getInstance(URIResolver.class));

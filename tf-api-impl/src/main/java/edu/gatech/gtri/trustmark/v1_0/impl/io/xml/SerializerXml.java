@@ -5,179 +5,168 @@ import edu.gatech.gtri.trustmark.v1_0.TrustmarkFramework;
 import edu.gatech.gtri.trustmark.v1_0.impl.TrustmarkFrameworkConstants;
 import edu.gatech.gtri.trustmark.v1_0.impl.io.AbstractSerializer;
 import edu.gatech.gtri.trustmark.v1_0.impl.io.adio.codecs.Codec;
-import edu.gatech.gtri.trustmark.v1_0.io.Serializer;
 import edu.gatech.gtri.trustmark.v1_0.io.xml.XmlManager;
 import edu.gatech.gtri.trustmark.v1_0.io.xml.XmlProducer;
+import edu.gatech.gtri.trustmark.v1_0.model.HasSource;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustInteroperabilityProfile;
 import edu.gatech.gtri.trustmark.v1_0.model.Trustmark;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkDefinition;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkStatusReport;
 import edu.gatech.gtri.trustmark.v1_0.model.agreement.Agreement;
 import edu.gatech.gtri.trustmark.v1_0.model.agreement.AgreementResponsibilityTemplate;
-import org.apache.commons.io.input.XmlStreamReaderException;
 
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.Map;
 
-/**
- * Created by brad on 12/15/15.
- */
+import static java.lang.String.format;
+
 public class SerializerXml extends AbstractSerializer {
 
-    public static String NAME = "XML Serializer";
-    public static String DESCRIPTION = "Serializes data into XML, using the official TF v1.1 XML format.";
-    public static String OUTPUT_MIME_FORMAT = "text/xml";
+    public static final String TEXT_XML = "text/xml";
+    public static final String APPLICATION_XML = "application/xml";
 
-    public SerializerXml(){
-        super(NAME, DESCRIPTION, OUTPUT_MIME_FORMAT);
+    public SerializerXml() {
+        super(
+                "XML Serializer",
+                "Serializes data into XML, using the official TF v1.1 XML format.",
+                TEXT_XML);
     }
 
     @Override
-    public void serialize(Trustmark trustmark, Writer writer, Map model) throws IOException {
-        if( trustmark.getOriginalSourceType() != null && trustmark.getOriginalSourceType().equalsIgnoreCase("text/xml") ){
-            writer.write(trustmark.getOriginalSource());
-            writer.flush();
-            return;
-        }
+    public void serialize(
+            final Trustmark trustmark,
+            final Writer writer,
+            final Map model)
+            throws IOException {
 
-        try {
-            serialize(writer, trustmark, "Trustmark");
-        }catch(XMLStreamException xmlse){
-            throw new IOException("Unexpected error while streaming XML!", xmlse);
-        }
+        serializeHelper(trustmark, writer, "Trustmark");
     }
+
     @Override
-    public void serialize(TrustmarkStatusReport tsr, Writer writer, Map model) throws IOException {
-        if( tsr.getOriginalSourceType() != null && tsr.getOriginalSourceType().equalsIgnoreCase("text/xml") ){
-            writer.write(tsr.getOriginalSource());
-            writer.flush();
-            return;
-        }
+    public void serialize(
+            final TrustmarkStatusReport trustmarkStatusReport,
+            final Writer writer,
+            final Map model)
+            throws IOException {
 
-        try {
-            serialize(writer, tsr, "TrustmarkStatusReport");
-        }catch(XMLStreamException xmlse){
-            throw new IOException("Unexpected error while streaming XML!", xmlse);
-        }
+        serializeHelper(trustmarkStatusReport, writer, "TrustmarkStatusReport");
     }
+
     @Override
-    public void serialize(TrustmarkDefinition td, Writer writer, Map model) throws IOException {
-        if( td.getOriginalSourceType() != null && td.getOriginalSourceType().equalsIgnoreCase("text/xml") ){
-            writer.write(td.getOriginalSource());
-            writer.flush();
-            return;
-        }
+    public void serialize(
+            final TrustmarkDefinition trustmarkDefinition,
+            final Writer writer,
+            final Map model)
+            throws IOException {
 
-        try {
-            serialize(writer, td, "TrustmarkDefinition");
-        }catch(XMLStreamException xmlse){
-            throw new IOException("Unexpected error while streaming XML!", xmlse);
-        }
+        serializeHelper(trustmarkDefinition, writer, "TrustmarkDefinition");
     }
+
     @Override
-    public void serialize(TrustInteroperabilityProfile tip, Writer writer, Map model) throws IOException {
-        if( tip.getOriginalSourceType() != null && tip.getOriginalSourceType().equalsIgnoreCase("text/xml") ){
-            writer.write(tip.getOriginalSource());
-            writer.flush();
-            return;
-        }
+    public void serialize(
+            final TrustInteroperabilityProfile trustInteroperabilityProfile,
+            final Writer writer,
+            final Map model)
+            throws IOException {
 
-        try {
-            serialize(writer, tip, "TrustInteroperabilityProfile");
-        }catch(XMLStreamException xmlse){
-            throw new IOException("Unexpected error while streaming XML!", xmlse);
-        }
+        serializeHelper(trustInteroperabilityProfile, writer, "TrustInteroperabilityProfile");
     }
+
     @Override
-    public void serialize(Agreement agreement, Writer writer, Map model) throws IOException {
-        if( agreement.getOriginalSourceType() != null && agreement.getOriginalSourceType().equalsIgnoreCase(OUTPUT_MIME_FORMAT) ){
-            writer.write(agreement.getOriginalSource());
-            writer.flush();
-            return;
-        }
+    public void serialize(
+            final Agreement agreement,
+            final Writer writer,
+            final Map model)
+            throws IOException {
 
-        try {
-            Codec<Agreement> codec = Codec.loadCodecFor(Agreement.class);
-            serialize(writer, agreement, codec.getRootElementName());
-        }catch(XMLStreamException xmlse){
-            throw new IOException("Unexpected error while streaming XML!", xmlse);
-        }
+        serializeHelper(agreement, writer, Codec.loadCodecFor(Agreement.class).getRootElementName());
     }
+
     @Override
-    public void serialize(AgreementResponsibilityTemplate art, Writer writer, Map model) throws IOException {
-        if( art.getOriginalSourceType() != null && art.getOriginalSourceType().equalsIgnoreCase(OUTPUT_MIME_FORMAT) ){
-            writer.write(art.getOriginalSource());
+    public void serialize(
+            final AgreementResponsibilityTemplate agreementResponsibilityTemplate,
+            final Writer writer,
+            final Map model)
+            throws IOException {
+
+        serializeHelper(agreementResponsibilityTemplate, writer, Codec.loadCodecFor(AgreementResponsibilityTemplate.class).getRootElementName());
+    }
+
+    private void serializeHelper(
+            final HasSource hasSource,
+            final Writer writer,
+            final String elementName)
+            throws IOException {
+
+        if (hasSource.getOriginalSourceType() != null && hasSource.getOriginalSourceType().equalsIgnoreCase(getOutputMimeFormat())) {
+
+            writer.write(hasSource.getOriginalSource());
             writer.flush();
-            return;
+
+        } else {
+
+            try {
+
+                serialize(writer, hasSource, elementName);
+
+            } catch (XMLStreamException xmlStreamException) {
+
+                throw new IOException("Unexpected error while streaming XML!", xmlStreamException);
+            }
         }
+    }
 
-        try {
-            Codec<AgreementResponsibilityTemplate> codec = Codec.loadCodecFor(AgreementResponsibilityTemplate.class);
-            serialize(writer, art, codec.getRootElementName());
-        }catch(XMLStreamException xmlse){
-            throw new IOException("Unexpected error while streaming XML!", xmlse);
+    public void serialize(
+            final Writer writer,
+            final Object object,
+            final String elementName) throws XMLStreamException {
+
+        serialize(writer, object, elementName, TrustmarkFrameworkConstants.NAMESPACE_URI);
+    }
+
+    public void serialize(
+            final Writer writer,
+            final Object object,
+            final String elementName,
+            final String elementNamespaceUri) throws XMLStreamException {
+
+        final XmlManager xmlManager = FactoryLoader.getInstance(XmlManager.class);
+
+        if (xmlManager == null) {
+
+            throw new UnsupportedOperationException(format("The system could not find an instance of '%s'; the system could not serialize '%s'.", XmlManager.class.getCanonicalName(), object.getClass().getCanonicalName()));
+
+        } else {
+
+            final XmlProducer xmlProducer = xmlManager.findProducer(object.getClass());
+
+            if (xmlProducer == null) {
+
+                throw new UnsupportedOperationException(format("The system could not find an instance of '%s' for '%s'.", XmlProducer.class.getCanonicalName(), object.getClass().getCanonicalName()));
+
+            } else {
+
+                final XMLOutputFactory outputFactory = XMLOutputFactory.newInstance();
+                final XMLStreamWriter xmlStreamWriter = outputFactory.createXMLStreamWriter(writer);
+                final XmlStreamWriterDelegating xmlStreamWriterDelegating = new XmlStreamWriterDelegating(xmlStreamWriter);
+                xmlStreamWriterDelegating.setNamespaceContext(new DefaultNamespaceContext());
+                xmlStreamWriterDelegating.writeStartDocument("UTF-8", "1.0");
+                xmlStreamWriterDelegating.writeComment("Serialized by the GTRI Trustmark Framework API, version: " + FactoryLoader.getInstance(TrustmarkFramework.class).getApiImplVersion());
+                xmlStreamWriterDelegating.writeStartElement(elementNamespaceUri, elementName);
+                xmlStreamWriterDelegating.writeNamespace(TrustmarkFrameworkConstants.NAMESPACE_PREFIX, elementNamespaceUri);
+                xmlStreamWriterDelegating.writeNamespace("xsi", "http://www.w3.org/2001/XMLSchema-instance");
+                xmlStreamWriterDelegating.writeNamespace("ds", "http://www.w3.org/2000/09/xmldsig#");
+
+                xmlProducer.serialize(object, xmlStreamWriterDelegating);
+
+                xmlStreamWriterDelegating.writeEndElement();
+                xmlStreamWriterDelegating.writeEndDocument();
+                xmlStreamWriterDelegating.flush();
+            }
         }
     }
-
-
-    private XmlManager getManager(){
-        return FactoryLoader.getInstance(XmlManager.class);
-    }
-
-    public void serialize(Writer writer, Object thing, String rootElementName, String nsUri) throws XMLStreamException {
-        XmlManager manager = getManager();
-        if( manager == null )
-            throw new UnsupportedOperationException("No such class loaded: JsonManager.  Cannot serialize object: "+thing.getClass().getName()+": "+thing);
-        XmlProducer producer = manager.findProducer(thing.getClass());
-        if( producer == null )
-            throw new UnsupportedOperationException("Cannot find JsonProducer for class: "+thing.getClass().getName());
-
-        XMLOutputFactory outputFactory = XMLOutputFactory.newInstance();
-        XMLStreamWriter xmlStreamWriter = outputFactory.createXMLStreamWriter(writer);
-        XmlStreamWriterDelegating delegatingStreamWriter = new XmlStreamWriterDelegating(xmlStreamWriter);
-        delegatingStreamWriter.setNamespaceContext(new DefaultNamespaceContext());
-        delegatingStreamWriter.writeStartDocument("UTF-8", "1.0");
-        delegatingStreamWriter.writeComment("Serialized by the GTRI Trustmark Framework API, version: "+ FactoryLoader.getInstance(TrustmarkFramework.class).getApiImplVersion());
-        delegatingStreamWriter.writeStartElement(nsUri, rootElementName);
-        delegatingStreamWriter.writeNamespace(TrustmarkFrameworkConstants.NAMESPACE_PREFIX, nsUri);
-        delegatingStreamWriter.writeNamespace("xsi", "http://www.w3.org/2001/XMLSchema-instance");
-        delegatingStreamWriter.writeNamespace("ds", "http://www.w3.org/2000/09/xmldsig#");
-
-        producer.serialize(thing, delegatingStreamWriter);
-
-        delegatingStreamWriter.writeEndElement(); // end rootElementName
-        delegatingStreamWriter.writeEndDocument();
-    }
-
-    public void serialize(Writer writer, Object thing, String rootElementName) throws XMLStreamException {
-        XmlManager manager = getManager();
-        if( manager == null )
-            throw new UnsupportedOperationException("No such class loaded: JsonManager.  Cannot serialize object: "+thing.getClass().getName()+": "+thing);
-        XmlProducer producer = manager.findProducer(thing.getClass());
-        if( producer == null )
-            throw new UnsupportedOperationException("Cannot find JsonProducer for class: "+thing.getClass().getName());
-
-        XMLOutputFactory outputFactory = XMLOutputFactory.newInstance();
-        XMLStreamWriter xmlStreamWriter = outputFactory.createXMLStreamWriter(writer);
-        XmlStreamWriterDelegating delegatingStreamWriter = new XmlStreamWriterDelegating(xmlStreamWriter);
-        delegatingStreamWriter.setNamespaceContext(new DefaultNamespaceContext());
-        delegatingStreamWriter.writeStartDocument("UTF-8", "1.0");
-        delegatingStreamWriter.writeComment("Serialized by the GTRI Trustmark Framework API, version: "+ FactoryLoader.getInstance(TrustmarkFramework.class).getApiImplVersion());
-        delegatingStreamWriter.writeStartElement(TrustmarkFrameworkConstants.NAMESPACE_URI, rootElementName);
-        delegatingStreamWriter.writeNamespace(TrustmarkFrameworkConstants.NAMESPACE_PREFIX, TrustmarkFrameworkConstants.NAMESPACE_URI);
-        delegatingStreamWriter.writeNamespace("xsi", "http://www.w3.org/2001/XMLSchema-instance");
-        delegatingStreamWriter.writeNamespace("ds", "http://www.w3.org/2000/09/xmldsig#");
-
-        producer.serialize(thing, delegatingStreamWriter);
-
-        delegatingStreamWriter.writeEndElement(); // end rootElementName
-        delegatingStreamWriter.writeEndDocument();
-    }
-
-}//end SerializerJson
+}

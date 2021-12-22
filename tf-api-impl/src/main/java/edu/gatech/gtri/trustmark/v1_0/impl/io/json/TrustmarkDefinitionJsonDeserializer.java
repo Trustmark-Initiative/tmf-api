@@ -1,262 +1,206 @@
 package edu.gatech.gtri.trustmark.v1_0.impl.io.json;
 
-import edu.gatech.gtri.trustmark.v1_0.impl.model.*;
+import edu.gatech.gtri.trustmark.v1_0.impl.model.ArtifactImpl;
+import edu.gatech.gtri.trustmark.v1_0.impl.model.AssessmentStepImpl;
+import edu.gatech.gtri.trustmark.v1_0.impl.model.CitationImpl;
+import edu.gatech.gtri.trustmark.v1_0.impl.model.ConformanceCriterionImpl;
+import edu.gatech.gtri.trustmark.v1_0.impl.model.SourceImpl;
+import edu.gatech.gtri.trustmark.v1_0.impl.model.TrustmarkDefinitionImpl;
+import edu.gatech.gtri.trustmark.v1_0.impl.model.TrustmarkDefinitionMetadataImpl;
+import edu.gatech.gtri.trustmark.v1_0.impl.model.TrustmarkDefinitionParameterImpl;
 import edu.gatech.gtri.trustmark.v1_0.io.ParseException;
-import edu.gatech.gtri.trustmark.v1_0.model.*;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
-import org.json.JSONArray;
+import edu.gatech.gtri.trustmark.v1_0.model.ParameterKind;
+import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkDefinition;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
+import org.gtri.fj.data.TreeMap;
+import org.gtri.fj.function.Try1;
 import org.json.JSONObject;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.HashMap;
-import java.util.Map;
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.JsonDeserializerUtility.assertSupported;
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.JsonDeserializerUtility.readBooleanOption;
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.JsonDeserializerUtility.readDate;
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.JsonDeserializerUtility.readEntity;
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.JsonDeserializerUtility.readFromMap;
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.JsonDeserializerUtility.readInt;
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.JsonDeserializerUtility.readJSONObject;
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.JsonDeserializerUtility.readJSONObjectList;
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.JsonDeserializerUtility.readJSONObjectOption;
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.JsonDeserializerUtility.readSource;
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.JsonDeserializerUtility.readString;
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.JsonDeserializerUtility.readStringList;
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.JsonDeserializerUtility.readStringOption;
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.JsonDeserializerUtility.readURI;
+import static java.util.Objects.requireNonNull;
+import static org.gtri.fj.lang.StringUtility.stringOrd;
+import static org.gtri.fj.product.P.p;
 
 /**
  * Created by brad on 12/10/15.
  */
-public class TrustmarkDefinitionJsonDeserializer extends AbstractDeserializer {
+public class TrustmarkDefinitionJsonDeserializer implements JsonDeserializer<TrustmarkDefinition> {
 
-    private static final Logger log = LogManager.getLogger(TrustmarkDefinitionJsonDeserializer.class);
+    private static final Logger log = LoggerFactory.getLogger(TrustmarkDefinitionJsonDeserializer.class);
 
+    public TrustmarkDefinition deserialize(String jsonString) throws ParseException {
+        requireNonNull(jsonString);
 
-    public static TrustmarkDefinition deserialize(String jsonString ) throws ParseException {
-        log.debug("Deserializing TrustmarkDefinition JSON...");
+        log.debug("Deserializing Trustmark Definition JSON . . .");
 
-        JSONObject jsonObject = new JSONObject(jsonString);
-        isSupported(jsonObject);
+        final JSONObject jsonObject = new JSONObject(jsonString);
+        assertSupported(jsonObject);
 
-        TrustmarkDefinitionImpl td = new TrustmarkDefinitionImpl();
+        final TrustmarkDefinitionImpl trustmarkDefinition = new TrustmarkDefinitionImpl();
 
-        td.setOriginalSource(jsonString);
-        td.setOriginalSourceType("application/json");
-        td.setId(getString(jsonObject, "$id", false));
+        final TreeMap<String, SourceImpl> sourceTreeMap = readJSONObjectList(jsonObject, "Sources")
+                .mapException(jsonObjectInner -> p(readString(jsonObjectInner, "$id"), readSource(jsonObjectInner)))
+                .foldLeft(tree -> p -> tree.set(p._1(), p._2()), TreeMap.empty(stringOrd));
 
-        JSONObject metadataJson = jsonObject.optJSONObject("Metadata");
-        if( metadataJson == null )
-            throw new ParseException("A TrustmarkDefinition JSON object is required to have a sub-object named 'Metadata'.");
+        final TreeMap<String, ConformanceCriterionImpl> conformanceCriterionTreeMap = readJSONObjectList(jsonObject, "ConformanceCriteria")
+                .mapException(readConformanceCriterion(sourceTreeMap))
+                .foldLeft(tree -> conformanceCriterion -> tree.set(conformanceCriterion.getId(), conformanceCriterion), TreeMap.empty(stringOrd));
 
+        trustmarkDefinition.setOriginalSource(jsonString);
+        trustmarkDefinition.setOriginalSourceType(SerializerJson.APPLICATION_JSON);
 
-        TrustmarkDefinitionMetadataImpl metadata = new TrustmarkDefinitionMetadataImpl();
-        metadata.setTypeName("TrustmarkDefinition");
-        metadata.setIdentifier(getUri(metadataJson, "Identifier", true));
-        //metadata.setTrustmarkReferenceAttributeName(getUri(metadataJson, "TrustmarkReferenceAttributeName", true));
-        metadata.setName(getString(metadataJson, "Name", true));
-        metadata.setVersion(getString(metadataJson, "Version", true));
-        metadata.setDescription(getString(metadataJson, "Description", true));
-        metadata.setPublicationDateTime(getDate(metadataJson, "PublicationDateTime", true));
-        metadata.setTrustmarkDefiningOrganization(readEntity(metadataJson, "TrustmarkDefiningOrganization", true));
+        trustmarkDefinition.setIssuanceCriteria(readString(jsonObject, "IssuanceCriteria"));
+        trustmarkDefinition.setMetadata(readMetadata(readJSONObject(jsonObject, "Metadata")));
 
-        metadata.setTargetStakeholderDescription(getString(metadataJson, "TargetStakeholderDescription", false));
-        metadata.setTargetRecipientDescription(getString(metadataJson, "TargetRecipientDescription", false));
-        metadata.setTargetRelyingPartyDescription(getString(metadataJson, "TargetRelyingPartyDescription", false));
-        metadata.setTargetProviderDescription(getString(metadataJson, "TargetProviderDescription", false));
-        metadata.setProviderEligibilityCriteria(getString(metadataJson, "ProviderEligibilityCriteria", false));
-        metadata.setAssessorQualificationsDescription(getString(metadataJson, "AssessorQualificationsDescription", false));
-        metadata.setTrustmarkRevocationCriteria(getString(metadataJson, "TrustmarkRevocationCriteria", false));
-        metadata.setExtensionDescription(getString(metadataJson, "ExtensionDescription", false));
-        metadata.setLegalNotice(getString(metadataJson, "LegalNotice", false));
-        metadata.setNotes(getString(metadataJson, "Notes", false));
-        if( metadataJson.has("Deprecated") ){
-            log.debug("Setting Deprecated to: " + metadataJson.getBoolean("Deprecated"));
-            metadata.setDeprecated(metadataJson.getBoolean("Deprecated"));
-        }else{
-            log.debug("Setting Deprecated to false");
-            metadata.setDeprecated(false);
-        }
+        readJSONObjectList(jsonObject, "AssessmentSteps").mapException(readAssessmentStep(conformanceCriterionTreeMap)).forEach(trustmarkDefinition::addAssessmentStep);
+        readJSONObjectList(jsonObject, "Terms").mapException(JsonDeserializerUtility::readTerm).forEach(trustmarkDefinition::addTerm);
 
-        td.setMetadata(metadata);
+        readStringOption(jsonObject, "$id").forEach(trustmarkDefinition::setId);
+        readStringOption(jsonObject, "AssessmentStepsPreface").forEach(trustmarkDefinition::setAssessmentStepPreface);
+        readStringOption(jsonObject, "ConformanceCriteriaPreface").forEach(trustmarkDefinition::setConformanceCriteriaPreface);
 
-        JSONObject supersessionObj = metadataJson.optJSONObject("Supersessions");
-        if( supersessionObj != null ){
-            log.debug("Encountered Metadata -> Supersessions...");
-            JSONArray supersedesArrayJson = supersessionObj.optJSONArray("Supersedes");
-            if( supersedesArrayJson != null ){
-                for( int supersedesIdx = 0; supersedesIdx < supersedesArrayJson.length(); supersedesIdx++ ){
-                    log.debug("Encountered Metadata -> Supersessions -> Supersedes["+supersedesIdx+"]...");
-                    metadata.addToSupersedes(readTFIFDirectly(supersedesArrayJson.optJSONObject(supersedesIdx)));
-                }
-            }
-            JSONArray supersededByArrayJson = supersessionObj.optJSONArray("SupersededBy");
-            if( supersededByArrayJson != null ){
-                for( int supersededByIdx = 0; supersededByIdx < supersededByArrayJson.length(); supersededByIdx++ ){
-                    log.debug("Encountered Metadata -> Supersessions -> SupersededBy["+supersededByIdx+"]...");
-                    metadata.addToSupersededBy(readTFIFDirectly(supersededByArrayJson.optJSONObject(supersededByIdx)));
-                }
-            }
-        }
-        log.debug("There are "+metadata.getSupersededBy().size()+" superseded by references and "+metadata.getSupersedes().size()+" supersedes references");
+        conformanceCriterionTreeMap.values().forEach(trustmarkDefinition::addConformanceCriterion);
+        sourceTreeMap.values().forEach(trustmarkDefinition::addSource);
 
+        return trustmarkDefinition;
+    }
 
-        JSONArray satisfiesArray = metadataJson.optJSONArray("Satisfies");
-        if( satisfiesArray == null && metadataJson.has("Satisfies") ){
-            satisfiesArray = new JSONArray();
-            satisfiesArray.put(metadataJson.getJSONObject("Satisfies"));
-        }
-        if( satisfiesArray != null && satisfiesArray.length() > 0 ){
-            for( int i = 0; i < satisfiesArray.length(); i++ ){
-                JSONObject satisfiesRefJSON = satisfiesArray.getJSONObject(i);
-                metadata.addToSatisfies(readTFIFDirectly(satisfiesRefJSON));
-            }
-        }
-        log.debug("There are "+metadata.getSatisfies().size()+" satisfies references.");
+    private static Try1<JSONObject, AssessmentStepImpl, ParseException> readAssessmentStep(final TreeMap<String, ConformanceCriterionImpl> map) {
+        requireNonNull(map);
 
-        JSONArray knownConflictsArray = metadataJson.optJSONArray("KnownConflicts");
-        if( knownConflictsArray != null && knownConflictsArray.length() > 0 ){
-            for( int i = 0; i < knownConflictsArray.length(); i++ ){
-                JSONObject knownConclitsRefJSON = knownConflictsArray.optJSONObject(i);
-                metadata.addToKnownConflicts(readTFIFDirectly(knownConclitsRefJSON));
-            }
-        }
+        return jsonObject -> {
+            requireNonNull(jsonObject);
 
-        JSONArray keywordsArrayJson = metadataJson.optJSONArray("Keywords");
-        if( keywordsArrayJson != null ){
-            for( int keywordIndex = 0; keywordIndex < keywordsArrayJson.length(); keywordIndex++ ){
-                String keyword = (String) keywordsArrayJson.get(keywordIndex);
-                metadata.addToKeywords(keyword);
-            }
-        }
-        log.debug("There are "+metadata.getKeywords().size()+" keywords");
+            final AssessmentStepImpl assessmentStep = new AssessmentStepImpl();
 
-        JSONArray termsArrayJson = jsonObject.optJSONArray("Terms");
-        if( termsArrayJson != null ){
-            for( int termIndex = 0; termIndex < termsArrayJson.length(); termIndex++ ){
-                JSONObject termJson = (JSONObject) termsArrayJson.get(termIndex);
-                td.addTerm(readTerm(termJson));
-            }
-        }
+            assessmentStep.setDescription(readString(jsonObject, "Description"));
+            assessmentStep.setId(readString(jsonObject, "$id"));
+            assessmentStep.setName(readString(jsonObject, "Name"));
+            assessmentStep.setNumber(readInt(jsonObject, "Number"));
 
-        HashMap<String, SourceImpl> sourceMap = new HashMap<String, SourceImpl>();
-        JSONArray sourcesArrayJson = jsonObject.optJSONArray("Sources");
-        if( sourcesArrayJson != null ){
-            for( int sourcesIndex = 0; sourcesIndex < sourcesArrayJson.length(); sourcesIndex++ ){
-                JSONObject sourceJson = sourcesArrayJson.getJSONObject(sourcesIndex);
-                SourceImpl source = readSource(sourceJson);
-                td.addSource( source );
-                String id = getString(sourceJson, "$id", true);
-                sourceMap.put(id, source);
-            }
-        }
+            readJSONObjectList(jsonObject, "Artifacts").mapException(TrustmarkDefinitionJsonDeserializer::readArtifact).forEach(assessmentStep::addArtifact);
+            readJSONObjectList(jsonObject, "ConformanceCriteria").mapException(readFromMap(map, TrustmarkDefinitionJsonDeserializer::readRef)).forEach(assessmentStep::addConformanceCriterion);
+            readJSONObjectList(jsonObject, "ParameterDefinitions").mapException(TrustmarkDefinitionJsonDeserializer::readTrustmarkDefinitionParameter).forEach(assessmentStep::addParameter);
 
-        td.setConformanceCriteriaPreface(getString(jsonObject, "ConformanceCriteriaPreface", false));
-        HashMap<String, ConformanceCriterionImpl> criteriaMap = new HashMap<String, ConformanceCriterionImpl>();
-        JSONArray critArrayJson = jsonObject.optJSONArray("ConformanceCriteria");
-        if( critArrayJson != null ){
-            for( int i = 0; i < critArrayJson.length(); i++ ){
-                JSONObject critJson = critArrayJson.getJSONObject(i);
-                ConformanceCriterionImpl crit = readConformanceCriterion(critJson, sourceMap);
-                td.addConformanceCriterion( crit );
-                criteriaMap.put(crit.getId(), crit);
-            }
-        }
+            return assessmentStep;
+        };
+    }
 
-        td.setAssessmentStepPreface(getString(jsonObject, "AssessmentStepsPreface", false));
-        JSONArray stepArrayJson = jsonObject.optJSONArray("AssessmentSteps");
-        if( stepArrayJson != null ){
-            for( int i = 0; i < stepArrayJson.length(); i++ ){
-                JSONObject stepJson = stepArrayJson.getJSONObject(i);
-                AssessmentStep step = readAssessmentStep(stepJson, criteriaMap);
-                td.addAssessmentStep(step);
-            }
-        }
+    private static Try1<JSONObject, ConformanceCriterionImpl, ParseException> readConformanceCriterion(final TreeMap<String, SourceImpl> map) {
+        requireNonNull(map);
 
-        td.setIssuanceCriteria(getString(jsonObject, "IssuanceCriteria", true));
+        return jsonObject -> {
+            requireNonNull(jsonObject);
+            final ConformanceCriterionImpl conformanceCriterion = new ConformanceCriterionImpl();
 
-        log.debug("The JSON TD was successfully deserialized.");
-        return td;
-    }//end deserialize
+            conformanceCriterion.setDescription(readString(jsonObject, "Description"));
+            conformanceCriterion.setId(readString(jsonObject, "$id"));
+            conformanceCriterion.setName(readString(jsonObject, "Name"));
+            conformanceCriterion.setNumber(readInt(jsonObject, "Number"));
 
+            readJSONObjectList(jsonObject, "Citations").mapException(readCitation(map)).forEach(conformanceCriterion::addCitation);
 
-    protected static AssessmentStepImpl readAssessmentStep(JSONObject stepJson, HashMap<String, ConformanceCriterionImpl> criteriaMap) throws ParseException {
-        AssessmentStepImpl assessmentStep = new AssessmentStepImpl();
+            return conformanceCriterion;
+        };
+    }
 
-        assessmentStep.setId(getString(stepJson, "$id", true));
-        assessmentStep.setNumber(getNumber(stepJson, "Number", true).intValue());
-        assessmentStep.setName(getString(stepJson, "Name", true));
-        assessmentStep.setDescription(getString(stepJson, "Description", true));
+    private static Try1<JSONObject, CitationImpl, ParseException> readCitation(final TreeMap<String, SourceImpl> map) {
+        requireNonNull(map);
 
-        if( stepJson.has("ConformanceCriteria") ){
-            JSONArray critReferences = stepJson.getJSONArray("ConformanceCriteria");
-            for( int i = 0; i < critReferences.length(); i++ ){
-                JSONObject critRefObj = critReferences.getJSONObject(i);
-                String critRef = critRefObj.optString("$ref");
-                if( critRef != null && critRef.startsWith("#") )
-                    critRef = critRef.substring(1);
-                ConformanceCriterionImpl crit = criteriaMap.get(critRef);
-                if( crit == null )
-                    throw new ParseException("Coult not find any ConformanceCriterion with ref '"+critRef+"', as referenced by step '"+ assessmentStep.getName()+"'");
-                assessmentStep.addConformanceCriterion(crit);
-            }
-        }
+        return jsonObject -> {
+            requireNonNull(jsonObject);
 
-        if( stepJson.has("Artifacts") ){
-            JSONArray artifactJsonArray = stepJson.getJSONArray("Artifacts");
-            for( int i = 0; i < artifactJsonArray.length(); i++ ){
-                JSONObject artifactJson = artifactJsonArray.getJSONObject(i);
-                ArtifactImpl artifact = new ArtifactImpl();
-                artifact.setName(getString(artifactJson, "Name", true));
-                artifact.setDescription(getString(artifactJson, "Description", true));
-                assessmentStep.addArtifact(artifact);
-            }
-        }
+            final CitationImpl citation = new CitationImpl();
 
-        if( stepJson.has("ParameterDefinitions") ){
-            JSONArray paramDefinitionsArray = stepJson.getJSONArray("ParameterDefinitions");
-            for( int i = 0; i < paramDefinitionsArray.length(); i++ ){
-                JSONObject paramJSON = paramDefinitionsArray.optJSONObject(i);
-                TrustmarkDefinitionParameterImpl param = new TrustmarkDefinitionParameterImpl();
-                param.setIdentifier(getString(paramJSON, "Identifier", true));
-                param.setName(getString(paramJSON, "Name", true));
-                param.setDescription(getString(paramJSON, "Description", true));
-                param.setParameterKind(ParameterKind.fromString(getString(paramJSON, "ParameterKind", true)));
-                if( paramJSON.has("Required") ) {
-                    param.setRequired(paramJSON.optBoolean("Required"));
-                }else{
-                    param.setRequired(false);
-                }
-                if( paramJSON.has("EnumValues") ){
-                    JSONArray enumValuesArray = paramJSON.getJSONArray("EnumValues");
-                    for( int j = 0; j < enumValuesArray.length(); j++ ){
-                        String enumVal = enumValuesArray.getString(j);
-                        param.addEnumValue(enumVal);
-                    }
-                }
-                assessmentStep.addParameter(param);
-            }
-        }
+            citation.setDescription(readString(jsonObject, "Description"));
+            citation.setSource(readFromMap(map, TrustmarkDefinitionJsonDeserializer::readRef).f(jsonObject.getJSONObject("Source")));
 
-        return assessmentStep;
-    }//end readConformanceCriterion()
+            return citation;
+        };
+    }
 
-    protected static ConformanceCriterionImpl readConformanceCriterion(JSONObject critJson, HashMap<String, SourceImpl> sourceMap) throws ParseException {
-        ConformanceCriterionImpl crit = new ConformanceCriterionImpl();
+    private static TrustmarkDefinitionMetadataImpl readMetadata(final JSONObject jsonObject) throws ParseException {
+        requireNonNull(jsonObject);
 
-        crit.setId(getString(critJson, "$id", true));
-        crit.setNumber(getNumber(critJson, "Number", true).intValue());
-        crit.setName(getString(critJson, "Name", true));
-        crit.setDescription(getString(critJson, "Description", true));
+        final TrustmarkDefinitionMetadataImpl trustmarkDefinitionMetadata = new TrustmarkDefinitionMetadataImpl();
 
-        if( critJson.has("Citations") ){
-            JSONArray citationsJSON = critJson.getJSONArray("Citations");
-            for( int i = 0; i < citationsJSON.length(); i++ ){
-                JSONObject citationJson = citationsJSON.getJSONObject(i);
-                CitationImpl citation = new CitationImpl();
-                JSONObject sourceRef = citationJson.getJSONObject("Source");
-                String refVal = sourceRef.getString("$ref");
-                if( refVal.startsWith("#") )
-                    refVal = refVal.substring(1);
-                SourceImpl source = sourceMap.get(refVal);
-                if( source == null )
-                    throw new ParseException("Could not find any Source with ID '"+refVal+"', as referenced by criterion '"+crit.getName()+"'");
-                citation.setSource(source);
-                citation.setDescription(getString(citationJson, "Description", true));
-                crit.addCitation(citation);
-            }
-        }
+        trustmarkDefinitionMetadata.setDeprecated(readBooleanOption(jsonObject, "Deprecated").orSome(false));
+        trustmarkDefinitionMetadata.setDescription(readString(jsonObject, "Description"));
+        trustmarkDefinitionMetadata.setIdentifier(readURI(jsonObject, "Identifier"));
+        trustmarkDefinitionMetadata.setName(readString(jsonObject, "Name"));
+        trustmarkDefinitionMetadata.setPublicationDateTime(readDate(jsonObject, "PublicationDateTime"));
+        trustmarkDefinitionMetadata.setTrustmarkDefiningOrganization(readEntity(readJSONObject(jsonObject, "TrustmarkDefiningOrganization")));
+        trustmarkDefinitionMetadata.setTypeName("TrustmarkDefinition");
+        trustmarkDefinitionMetadata.setVersion(readString(jsonObject, "Version"));
 
-        return crit;
-    }//end readConformanceCriterion()
+        readJSONObjectList(jsonObject, "KnownConflicts").mapException(JsonDeserializerUtility::readTrustmarkDefinitionReference).forEach(trustmarkDefinitionMetadata::addToKnownConflicts);
+        readJSONObjectList(jsonObject, "Satisfies").mapException(JsonDeserializerUtility::readTrustmarkDefinitionReference).forEach(trustmarkDefinitionMetadata::addToSatisfies);
 
+        readJSONObjectOption(jsonObject, "Supersessions").foreachDoEffectException(jsonObjectInner -> {
+            readJSONObjectList(jsonObjectInner, "Supersedes").mapException(JsonDeserializerUtility::readTrustmarkDefinitionReference).forEach(trustmarkDefinitionMetadata::addToSupersedes);
+            readJSONObjectList(jsonObjectInner, "SupersededBy").mapException(JsonDeserializerUtility::readTrustmarkDefinitionReference).forEach(trustmarkDefinitionMetadata::addToSupersededBy);
+        });
 
-}//end TrustmarkJsonDeserializer()
+        readStringList(jsonObject, "Keywords").forEach(trustmarkDefinitionMetadata::addToKeywords);
+
+        readStringOption(jsonObject, "AssessorQualificationsDescription").forEach(trustmarkDefinitionMetadata::setAssessorQualificationsDescription);
+        readStringOption(jsonObject, "ExtensionDescription").forEach(trustmarkDefinitionMetadata::setExtensionDescription);
+        readStringOption(jsonObject, "LegalNotice").forEach(trustmarkDefinitionMetadata::setLegalNotice);
+        readStringOption(jsonObject, "Notes").forEach(trustmarkDefinitionMetadata::setNotes);
+        readStringOption(jsonObject, "ProviderEligibilityCriteria").forEach(trustmarkDefinitionMetadata::setProviderEligibilityCriteria);
+        readStringOption(jsonObject, "TargetProviderDescription").forEach(trustmarkDefinitionMetadata::setTargetProviderDescription);
+        readStringOption(jsonObject, "TargetRecipientDescription").forEach(trustmarkDefinitionMetadata::setTargetRecipientDescription);
+        readStringOption(jsonObject, "TargetRelyingPartyDescription").forEach(trustmarkDefinitionMetadata::setTargetRelyingPartyDescription);
+        readStringOption(jsonObject, "TargetStakeholderDescription").forEach(trustmarkDefinitionMetadata::setTargetStakeholderDescription);
+        readStringOption(jsonObject, "TrustmarkRevocationCriteria").forEach(trustmarkDefinitionMetadata::setTrustmarkRevocationCriteria);
+
+        return trustmarkDefinitionMetadata;
+    }
+
+    private static ArtifactImpl readArtifact(final JSONObject jsonObject) throws ParseException {
+        requireNonNull(jsonObject);
+
+        final ArtifactImpl artifact = new ArtifactImpl();
+
+        artifact.setName(readString(jsonObject, "Name"));
+        artifact.setDescription(readString(jsonObject, "Description"));
+
+        return artifact;
+    }
+
+    private static TrustmarkDefinitionParameterImpl readTrustmarkDefinitionParameter(final JSONObject jsonObject) throws ParseException {
+        requireNonNull(jsonObject);
+
+        final TrustmarkDefinitionParameterImpl trustmarkDefinitionParameter = new TrustmarkDefinitionParameterImpl();
+
+        trustmarkDefinitionParameter.setDescription(readString(jsonObject, "Description"));
+        trustmarkDefinitionParameter.setIdentifier(readString(jsonObject, "Identifier"));
+        trustmarkDefinitionParameter.setName(readString(jsonObject, "Name"));
+        trustmarkDefinitionParameter.setParameterKind(ParameterKind.fromString(readString(jsonObject, "ParameterKind")));
+        trustmarkDefinitionParameter.setRequired(readBooleanOption(jsonObject, "Required").orSome(false));
+
+        readStringList(jsonObject, "EnumValues").forEach(trustmarkDefinitionParameter::addEnumValue);
+
+        return trustmarkDefinitionParameter;
+    }
+
+    private static String readRef(final JSONObject jsonObjectInner) {
+        String ref = jsonObjectInner.optString("$ref");
+        if (ref != null && ref.startsWith("#")) ref = ref.substring(1);
+        return ref;
+    }
+}

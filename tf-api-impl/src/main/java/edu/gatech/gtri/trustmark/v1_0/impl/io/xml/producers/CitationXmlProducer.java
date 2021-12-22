@@ -3,8 +3,8 @@ package edu.gatech.gtri.trustmark.v1_0.impl.io.xml.producers;
 import edu.gatech.gtri.trustmark.v1_0.io.xml.XmlProducer;
 import edu.gatech.gtri.trustmark.v1_0.model.Citation;
 import edu.gatech.gtri.trustmark.v1_0.model.Source;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
@@ -16,7 +16,7 @@ import static edu.gatech.gtri.trustmark.v1_0.impl.TrustmarkFrameworkConstants.NA
  */
 public class CitationXmlProducer implements XmlProducer<Citation> {
 
-    private static final Logger log = LogManager.getLogger(CitationXmlProducer.class);
+    private static final Logger log = LoggerFactory.getLogger(CitationXmlProducer.class);
 
     @Override
     public Class<Citation> getSupportedType() {

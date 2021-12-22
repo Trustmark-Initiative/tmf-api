@@ -12,7 +12,7 @@ public class TrustmarkResolverFromMap extends AbstractResolverFromMap<Trustmark>
 
     public TrustmarkResolverFromMap(final Map<URI, Trustmark> map) {
         super(
-                TrustmarkJsonDeserializer::deserialize,
+                new TrustmarkJsonDeserializer()::deserialize,
                 TrustmarkXmlDeserializer::deserialize,
                 entity -> entity,
                 map);

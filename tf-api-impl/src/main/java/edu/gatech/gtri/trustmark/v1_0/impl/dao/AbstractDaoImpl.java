@@ -1,8 +1,8 @@
 package edu.gatech.gtri.trustmark.v1_0.impl.dao;
 
 import com.j256.ormlite.dao.Dao;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.StringWriter;
 import java.sql.SQLException;
@@ -18,7 +18,7 @@ public abstract class AbstractDaoImpl {
     //====================================================================================================================
     //  STATIC VARIABLES
     //====================================================================================================================
-    private static final Logger log = LogManager.getLogger(AbstractDaoImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(AbstractDaoImpl.class);
     public static List<String> SIMPLE_WORDS = new ArrayList<>();
     /**
      * Copied from: www.link-assistant.com/seo-stop-words.html

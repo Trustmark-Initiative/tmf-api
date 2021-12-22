@@ -2,46 +2,53 @@ package edu.gatech.gtri.trustmark.v1_0.impl.service;
 
 import edu.gatech.gtri.trustmark.v1_0.FactoryLoader;
 import edu.gatech.gtri.trustmark.v1_0.TrustmarkFramework;
-import edu.gatech.gtri.trustmark.v1_0.impl.io.json.AbstractDeserializer;
 import edu.gatech.gtri.trustmark.v1_0.io.ParseException;
 import edu.gatech.gtri.trustmark.v1_0.model.Entity;
 import edu.gatech.gtri.trustmark.v1_0.service.RemoteException;
 import edu.gatech.gtri.trustmark.v1_0.service.RemoteOrganization;
 import edu.gatech.gtri.trustmark.v1_0.service.RemoteStatus;
 import edu.gatech.gtri.trustmark.v1_0.service.RemoteVersionSet;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URL;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.JsonDeserializerUtility.readEntity;
 
 /**
  * Created by brad on 2/4/16.
  */
 public class RemoteStatusImpl extends RemoteObjectImpl implements RemoteStatus {
-    private static final Logger log = LogManager.getLogger(RemoteStatusImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(RemoteStatusImpl.class);
 
-    private String getLocalAPIVersion(){
+    private String getLocalAPIVersion() {
         return FactoryLoader.getInstance(TrustmarkFramework.class).getTrustmarkFrameworkVersion();
     }
 
-    public RemoteStatusImpl(){}
+    public RemoteStatusImpl() {
+    }
+
     public RemoteStatusImpl(JSONObject statusJson) throws RemoteException {
-        if( statusJson.optString("$TMF_VERSION") != null )
+        if (statusJson.optString("$TMF_VERSION") != null)
             this.setTrustmarkFrameworkVersion(statusJson.optString("$TMF_VERSION").trim());
 
         log.debug("Checking remote framework version...");
         Double localApiVersion = Double.parseDouble(getLocalAPIVersion());
         Double remoteApiVersion = Double.parseDouble(this.getTrustmarkFrameworkVersion());
-        if(localApiVersion < remoteApiVersion)  {
+        if (localApiVersion < remoteApiVersion) {
 //        if( !this.getTrustmarkFrameworkVersion().equalsIgnoreCase(getLocalAPIVersion()) ){
-            log.error("The remote server is supporting a different version of the TrustmarkFramework API["+this.getTrustmarkFrameworkVersion()+"].  This tool will only work with version ["+this.getLocalAPIVersion()+"]!");
-            throw new RemoteException("The remote server is supporting a different version of the TrustmarkFramework API["+this.getTrustmarkFrameworkVersion()+"].  This tool will only work with version ["+this.getLocalAPIVersion()+"]!");
+            log.error("The remote server is supporting a different version of the TrustmarkFramework API[" + this.getTrustmarkFrameworkVersion() + "].  This tool will only work with version [" + this.getLocalAPIVersion() + "]!");
+            throw new RemoteException("The remote server is supporting a different version of the TrustmarkFramework API[" + this.getTrustmarkFrameworkVersion() + "].  This tool will only work with version [" + this.getLocalAPIVersion() + "]!");
         }
 
         try {
@@ -50,15 +57,15 @@ public class RemoteStatusImpl extends RemoteObjectImpl implements RemoteStatus {
 
             log.debug("Parsing out RemoteOrg info...");
             RemoteOrganizationImpl ro = new RemoteOrganizationImpl();
-            if( statusJson.optJSONObject("organization") == null ){
+            if (statusJson.optJSONObject("organization") == null) {
                 log.error("Error cannot parse remote status - JSON does not contain any object named '@|yellow organization|@'");
                 throw new RemoteFormatException("Cannot build status when JSON object 'organization' is not present in response.");
-            }else{
+            } else {
                 JSONObject orgJson = statusJson.getJSONObject("organization");
                 Entity e = null;
                 try {
-                    e = AbstractDeserializer.readEntityDirectly(orgJson);
-                }catch(ParseException pe){
+                    e = readEntity(orgJson);
+                } catch (ParseException pe) {
                     log.error("The remote JSON 'organization' in the status response did not successfully parse as an Entity.", pe);
                     throw new RemoteFormatException("Expecting JSON for 'organization' to be an entity, but failed to parse it.", pe);
                 }
@@ -72,110 +79,110 @@ public class RemoteStatusImpl extends RemoteObjectImpl implements RemoteStatus {
             this.setOrganization(ro);
 
             log.debug("Parsing out the base URLs...");
-            if( statusJson.has("baseUrl") ) {
+            if (statusJson.has("baseUrl")) {
                 try {
                     this.addBaseURL(new URL(statusJson.optString("baseUrl")));
-                }catch(MalformedURLException malUrle) {
-                    log.error("Error parsing base URL: "+statusJson.optString("baseUrl"), malUrle);
-                    throw new RemoteFormatException("Error parsing base URL: "+statusJson.optString("baseUrl"), malUrle);
+                } catch (MalformedURLException malUrle) {
+                    log.error("Error parsing base URL: " + statusJson.optString("baseUrl"), malUrle);
+                    throw new RemoteFormatException("Error parsing base URL: " + statusJson.optString("baseUrl"), malUrle);
                 }
-            }else if( statusJson.has("baseUrls") ){
+            } else if (statusJson.has("baseUrls")) {
                 JSONArray baseUrls = statusJson.optJSONArray("baseUrls");
-                for( int i = 0; i < baseUrls.length(); i++ ){
+                for (int i = 0; i < baseUrls.length(); i++) {
                     String nextUrl = baseUrls.optString(i);
                     try {
                         this.addBaseURL(new URL(nextUrl));
-                    }catch(MalformedURLException malUrle) {
-                        log.error("Error parsing base URL: "+nextUrl, malUrle);
-                        throw new RemoteFormatException("Error parsing base URL: "+nextUrl, malUrle);
+                    } catch (MalformedURLException malUrle) {
+                        log.error("Error parsing base URL: " + nextUrl, malUrle);
+                        throw new RemoteFormatException("Error parsing base URL: " + nextUrl, malUrle);
                     }
                 }
-            }else{
+            } else {
                 log.error("The server's response did not include 'baseUrl' or 'baseUrls', so this client couldn't detect which URL base the server represents.");
                 throw new RemoteFormatException("Unable to find the baseUrl or baseUrls supported by the remote server.");
             }
 
             log.debug("Parsing out version set information...");
             String currentVsName = statusJson.optString("versionSet");
-            if( statusJson.optJSONArray("VersionSets") != null ){
+            if (statusJson.optJSONArray("VersionSets") != null) {
                 JSONArray vsArray = statusJson.optJSONArray("VersionSets");
-                for( int i = 0; i < vsArray.length(); i++ ){
+                for (int i = 0; i < vsArray.length(); i++) {
                     JSONObject versionSetJson = vsArray.optJSONObject(i);
                     RemoteVersionSetImpl rvs = new RemoteVersionSetImpl(versionSetJson);
                     this.addVersionSet(rvs);
-                    if( rvs.getName().equalsIgnoreCase(currentVsName) )
+                    if (rvs.getName().equalsIgnoreCase(currentVsName))
                         this.setCurrentVersionSet(rvs);
                 }
             }
 
 
             log.debug("Parsing trustmark definition information...");
-            this.setSupportsTrustmarkDefinitions( statusJson.getJSONObject("TrustmarkDefinitions").getBoolean("supported"));
-            if( this.getSupportsTrustmarkDefinitions() ) {
+            this.setSupportsTrustmarkDefinitions(statusJson.getJSONObject("TrustmarkDefinitions").getBoolean("supported"));
+            if (this.getSupportsTrustmarkDefinitions()) {
                 this.setTrustmarkDefinitionCountAll(statusJson.getJSONObject("TrustmarkDefinitions").optInt("countAll"));
                 this.setTrustmarkDefinitionCountNotDeprecated(statusJson.getJSONObject("TrustmarkDefinitions").optInt("countNotDeprecated"));
                 String mostRecentDate = statusJson.getJSONObject("TrustmarkDefinitions").optString("mostRecentDate");
-                if( mostRecentDate != null && mostRecentDate.trim().length() > 0 ) {
-                    log.debug("Parsing TD most recent date: "+mostRecentDate);
-                    this.setMostRecentTrustmarkDefinitionDate( xmlStringToDate(mostRecentDate) );
-                }else{
+                if (mostRecentDate != null && mostRecentDate.trim().length() > 0) {
+                    log.debug("Parsing TD most recent date: " + mostRecentDate);
+                    this.setMostRecentTrustmarkDefinitionDate(xmlStringToDate(mostRecentDate));
+                } else {
                     Calendar c = Calendar.getInstance();
                     c.setTimeInMillis(0l);
                     this.setMostRecentTrustmarkDefinitionDate(c.getTime());
                 }
                 try {
                     this.setTrustmarkDefinitionLocations(buildFormats(statusJson.optJSONObject("TrustmarkDefinitions").optJSONObject("_links")));
-                }catch(MalformedURLException male){
+                } catch (MalformedURLException male) {
                     log.error("Unable to parse the TrustmarkDefinition URLs", male);
                     throw new RemoteFormatException("Cannot parse the remote TrustmarkDefinition URLs!", male);
                 }
                 try {
-                    if( statusJson.optJSONObject("TrustmarkDefinitions").optJSONObject("ByName") != null ) {
+                    if (statusJson.optJSONObject("TrustmarkDefinitions").optJSONObject("ByName") != null) {
                         this.setTrustmarkDefinitionByNameLocations(buildFormats(statusJson.optJSONObject("TrustmarkDefinitions").optJSONObject("ByName").optJSONObject("_links")));
                     }
-                }catch(MalformedURLException male){
+                } catch (MalformedURLException male) {
                     log.error("Unable to parse the TrustmarkDefinition By Name URLs", male);
                 }
             }
 
             log.debug("Parsing trust interoperability profile information...");
-            this.setSupportsTrustInteroperabilityProfiles( statusJson.getJSONObject("TrustInteroperabilityProfiles").getBoolean("supported"));
-            if( this.getSupportsTrustInteroperabilityProfiles() ){
+            this.setSupportsTrustInteroperabilityProfiles(statusJson.getJSONObject("TrustInteroperabilityProfiles").getBoolean("supported"));
+            if (this.getSupportsTrustInteroperabilityProfiles()) {
                 this.setTrustInteroperabilityProfileCountAll(statusJson.getJSONObject("TrustInteroperabilityProfiles").optInt("countAll"));
                 String mostRecentDate = statusJson.getJSONObject("TrustInteroperabilityProfiles").optString("mostRecentDate");
-                if( mostRecentDate != null  && mostRecentDate.trim().length() > 0) {
-                    log.debug("Parsing TIP most recent date: "+mostRecentDate);
+                if (mostRecentDate != null && mostRecentDate.trim().length() > 0) {
+                    log.debug("Parsing TIP most recent date: " + mostRecentDate);
                     this.setMostRecentTrustInteroperabilityProfileDate(xmlStringToDate(mostRecentDate));
-                }else{
+                } else {
                     Calendar c = Calendar.getInstance();
                     c.setTimeInMillis(0l);
                     this.setMostRecentTrustInteroperabilityProfileDate(c.getTime());
                 }
                 try {
                     this.setTrustInteroperabilityProfileLocations(buildFormats(statusJson.optJSONObject("TrustInteroperabilityProfiles").optJSONObject("_links")));
-                }catch(MalformedURLException male){
+                } catch (MalformedURLException male) {
                     log.error("Unable to parse the TrustInteroperabilityProfile URLs", male);
                     throw new RemoteFormatException("Cannot parse the remote TrustInteroperabilityProfile URLs!", male);
                 }
                 try {
-                    if( statusJson.optJSONObject("TrustInteroperabilityProfiles").optJSONObject("ByName") != null ) {
+                    if (statusJson.optJSONObject("TrustInteroperabilityProfiles").optJSONObject("ByName") != null) {
                         this.setTrustInteroperabilityProfileByNameLocations(buildFormats(statusJson.optJSONObject("TrustInteroperabilityProfiles").optJSONObject("ByName").optJSONObject("_links")));
                     }
-                }catch(MalformedURLException male){
+                } catch (MalformedURLException male) {
                     log.error("Unable to parse the TrustInteroperabilityProfile By Name URLs", male);
                 }
             }
 
             log.debug("Parsing trustmark information...");
-            this.setSupportsTrustmarks( statusJson.getJSONObject("Trustmarks").getBoolean("supported"));
-            if( this.getSupportsTrustmarks() ){
+            this.setSupportsTrustmarks(statusJson.getJSONObject("Trustmarks").getBoolean("supported"));
+            if (this.getSupportsTrustmarks()) {
                 // TODO What to parse here?
             }
 
             log.debug("Parsing keywords...");
-            if( statusJson.optJSONObject("Keywords") != null ) {
+            if (statusJson.optJSONObject("Keywords") != null) {
                 this.setKeywordCount(statusJson.optJSONObject("Keywords").optInt("countAll"));
-                if( statusJson.optJSONObject("Keywords").optJSONObject("_links") != null ){
+                if (statusJson.optJSONObject("Keywords").optJSONObject("_links") != null) {
                     try {
                         this.setKeywordLocations(buildFormats(statusJson.optJSONObject("Keywords").optJSONObject("_links")));
                     } catch (MalformedURLException male) {
@@ -183,15 +190,14 @@ public class RemoteStatusImpl extends RemoteObjectImpl implements RemoteStatus {
                         throw new RemoteFormatException("Cannot parse the remote Keyword URLs!", male);
                     }
                 }
-            }else{
+            } else {
                 this.setKeywordCount(0);
             }
 
-        }catch(JSONException jsone){
+        } catch (JSONException jsone) {
             throw new RemoteException("Invalid JSON response from server!", jsone);
         }
     }
-
 
 
     private Date timestamp;
@@ -227,14 +233,16 @@ public class RemoteStatusImpl extends RemoteObjectImpl implements RemoteStatus {
     //==================================================================================================================
     @Override
     public List<URL> getBaseURLs() {
-        if( baseURLs == null)
+        if (baseURLs == null)
             baseURLs = new ArrayList<>();
         return baseURLs;
     }
+
     public void setBaseURIs(List<URL> baseURLs) {
         this.baseURLs = baseURLs;
     }
-    public void addBaseURL(URL url){
+
+    public void addBaseURL(URL url) {
         this.getBaseURLs().add(url);
     }
 
@@ -344,6 +352,7 @@ public class RemoteStatusImpl extends RemoteObjectImpl implements RemoteStatus {
     public RemoteOrganization getOrganization() {
         return organization;
     }
+
     public void setOrganization(RemoteOrganization organization) {
         this.organization = organization;
     }
@@ -352,30 +361,34 @@ public class RemoteStatusImpl extends RemoteObjectImpl implements RemoteStatus {
     public RemoteVersionSet getCurrentVersionSet() {
         return currentVersionSet;
     }
+
     public void setCurrentVersionSet(RemoteVersionSet currentVersionSet) {
         this.currentVersionSet = currentVersionSet;
     }
 
     public List<RemoteVersionSet> getVersionSetList() {
-        if( versionSetList == null )
+        if (versionSetList == null)
             versionSetList = new ArrayList<>();
         return versionSetList;
     }
+
     @Override
     public List<RemoteVersionSet> listVersionSets() {
         return getVersionSetList();
     }
+
     public void setVersionSetList(List<RemoteVersionSet> versionSetList) {
         this.versionSetList = versionSetList;
     }
-    public void addVersionSet(RemoteVersionSet remoteVersionSet){
+
+    public void addVersionSet(RemoteVersionSet remoteVersionSet) {
         this.getVersionSetList().add(remoteVersionSet);
     }
 
 
     @Override
     public Map<String, URL> getTrustmarkDefinitionLocations() {
-        if( trustmarkDefinitionLocations == null )
+        if (trustmarkDefinitionLocations == null)
             trustmarkDefinitionLocations = new HashMap<>();
         return trustmarkDefinitionLocations;
     }
@@ -386,7 +399,7 @@ public class RemoteStatusImpl extends RemoteObjectImpl implements RemoteStatus {
 
     @Override
     public Map<String, URL> getKeywordLocations() {
-        if( keywordLocations == null )
+        if (keywordLocations == null)
             keywordLocations = new HashMap<>();
         return keywordLocations;
     }
@@ -397,7 +410,7 @@ public class RemoteStatusImpl extends RemoteObjectImpl implements RemoteStatus {
 
     @Override
     public Map<String, URL> getTrustInteroperabilityProfileLocations() {
-        if( trustInteroperabilityProfileLocations == null )
+        if (trustInteroperabilityProfileLocations == null)
             trustInteroperabilityProfileLocations = new HashMap<>();
         return trustInteroperabilityProfileLocations;
     }
@@ -409,7 +422,7 @@ public class RemoteStatusImpl extends RemoteObjectImpl implements RemoteStatus {
 
     @Override
     public Map<String, URL> getTrustmarkDefinitionByNameLocations() {
-        if( trustmarkDefinitionByNameLocations == null )
+        if (trustmarkDefinitionByNameLocations == null)
             trustmarkDefinitionByNameLocations = new HashMap<>();
         return trustmarkDefinitionByNameLocations;
     }
@@ -420,7 +433,7 @@ public class RemoteStatusImpl extends RemoteObjectImpl implements RemoteStatus {
 
     @Override
     public Map<String, URL> getTrustInteroperabilityProfileByNameLocations() {
-        if( trustInteroperabilityProfileByNameLocations == null )
+        if (trustInteroperabilityProfileByNameLocations == null)
             trustInteroperabilityProfileByNameLocations = new HashMap<>();
         return trustInteroperabilityProfileByNameLocations;
     }

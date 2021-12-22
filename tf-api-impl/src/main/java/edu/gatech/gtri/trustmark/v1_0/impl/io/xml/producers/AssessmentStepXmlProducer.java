@@ -6,8 +6,8 @@ import edu.gatech.gtri.trustmark.v1_0.model.AssessmentStep;
 import edu.gatech.gtri.trustmark.v1_0.model.ConformanceCriterion;
 import edu.gatech.gtri.trustmark.v1_0.model.ParameterKind;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkDefinitionParameter;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
@@ -19,7 +19,7 @@ import static edu.gatech.gtri.trustmark.v1_0.impl.TrustmarkFrameworkConstants.NA
  */
 public class AssessmentStepXmlProducer implements XmlProducer<AssessmentStep> {
 
-    private static final Logger log = LogManager.getLogger(AssessmentStepXmlProducer.class);
+    private static final Logger log = LoggerFactory.getLogger(AssessmentStepXmlProducer.class);
 
     @Override
     public Class<AssessmentStep> getSupportedType() {

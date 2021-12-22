@@ -1,7 +1,7 @@
 package edu.gatech.gtri.trustmark.v1_0.impl.io.xml;
 
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.xml.namespace.NamespaceContext;
 import javax.xml.stream.XMLStreamException;
@@ -12,7 +12,7 @@ import javax.xml.stream.XMLStreamWriter;
  */
 public class XmlStreamWriterDelegating implements XMLStreamWriter {
 
-    public static final Logger log = LogManager.getLogger(XmlStreamWriterDelegating.class);
+    public static final Logger log = LoggerFactory.getLogger(XmlStreamWriterDelegating.class);
 
     private XMLStreamWriter writer;
     public XmlStreamWriterDelegating(XMLStreamWriter writer) {

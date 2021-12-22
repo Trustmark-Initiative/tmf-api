@@ -2,7 +2,6 @@ package edu.gatech.gtri.trustmark.v1_0.impl.io.json;
 
 import edu.gatech.gtri.trustmark.v1_0.impl.AbstractTest;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustInteroperabilityProfile;
-import edu.gatech.gtri.trustmark.v1_0.model.Trustmark;
 import org.apache.commons.io.FileUtils;
 import org.junit.Test;
 
@@ -24,7 +23,7 @@ public class TestTrustInteroperabilityProfileJsonDeserializer extends AbstractTe
 
         File xmlFile = new File(TIP_FULL_FILE);
         String json = FileUtils.readFileToString(xmlFile);
-        TrustInteroperabilityProfile tip = TrustInteroperabilityProfileJsonDeserializer.deserialize(json);
+        TrustInteroperabilityProfile tip = new TrustInteroperabilityProfileJsonDeserializer().deserialize(json);
         assertThat(tip, notNullValue());
 
         assertTipFull(tip);

@@ -1,7 +1,7 @@
 package edu.gatech.gtri.trustmark.v1_0.impl.dao;
 
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.h2.jdbcx.JdbcConnectionPool;
 
 import javax.sql.DataSource;
@@ -17,7 +17,7 @@ import java.sql.Statement;
  */
 public class H2DatabaseHelper implements DatabaseHelper {
 
-    private static final Logger logger = LogManager.getLogger(H2DatabaseHelper.class);
+    private static final Logger logger = LoggerFactory.getLogger(H2DatabaseHelper.class);
 
     @Override
     public void resetDatabase() {

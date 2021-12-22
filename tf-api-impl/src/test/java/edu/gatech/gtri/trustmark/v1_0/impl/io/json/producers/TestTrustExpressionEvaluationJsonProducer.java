@@ -7,8 +7,8 @@ import edu.gatech.gtri.trustmark.v1_0.impl.model.EntityImpl;
 import edu.gatech.gtri.trustmark.v1_0.impl.model.TrustInteroperabilityProfileImpl;
 import edu.gatech.gtri.trustmark.v1_0.impl.model.TrustmarkDefinitionImpl;
 import edu.gatech.gtri.trustmark.v1_0.impl.model.TrustmarkDefinitionRequirementImpl;
-import edu.gatech.gtri.trustmark.v1_0.impl.tip.trustexpression.evaluator.TrustExpressionEvaluatorImpl;
-import edu.gatech.gtri.trustmark.v1_0.impl.tip.trustexpression.parser.TrustExpressionParserImpl;
+import edu.gatech.gtri.trustmark.v1_0.impl.tip.evaluator.TrustExpressionEvaluatorImpl;
+import edu.gatech.gtri.trustmark.v1_0.impl.tip.parser.TrustExpressionParserImpl;
 import edu.gatech.gtri.trustmark.v1_0.io.TrustmarkResolver;
 import edu.gatech.gtri.trustmark.v1_0.io.json.JsonManager;
 import edu.gatech.gtri.trustmark.v1_0.io.json.JsonProducer;
@@ -16,11 +16,11 @@ import edu.gatech.gtri.trustmark.v1_0.model.AbstractTIPReference;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustInteroperabilityProfile;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkDefinition;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkDefinitionRequirement;
-import edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.evaluator.TrustExpressionEvaluation;
-import edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.evaluator.TrustExpressionEvaluator;
-import edu.gatech.gtri.trustmark.v1_0.tip.trustexpression.parser.TrustExpressionParser;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import edu.gatech.gtri.trustmark.v1_0.tip.evaluator.TrustExpressionEvaluation;
+import edu.gatech.gtri.trustmark.v1_0.tip.evaluator.TrustExpressionEvaluator;
+import edu.gatech.gtri.trustmark.v1_0.tip.parser.TrustExpressionParser;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import org.gtri.fj.data.List;
 import org.gtri.fj.data.TreeMap;
 import org.gtri.fj.product.P5;
@@ -39,7 +39,7 @@ import static org.gtri.fj.product.P.p;
 
 public class TestTrustExpressionEvaluationJsonProducer {
 
-    private static final Logger log = LogManager.getLogger(TrustInteroperabilityProfileJsonProducer.class);
+    private static final Logger log = LoggerFactory.getLogger(TrustInteroperabilityProfileJsonProducer.class);
     private static final JsonManager jsonManager = FactoryLoader.getInstance(JsonManager.class);
 
     @Test

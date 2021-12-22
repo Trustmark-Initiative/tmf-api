@@ -1,8 +1,8 @@
 package edu.gatech.gtri.xml.utils;
 
 import edu.gatech.gtri.trustmark.v1_0.impl.TrustmarkFrameworkConstants;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
@@ -26,7 +26,7 @@ import static org.hamcrest.Matchers.notNullValue;
  */
 public class TestXmlToJsonHelper {
 
-    private static final Logger log = LogManager.getLogger(TestXmlToJsonHelper.class);
+    private static final Logger log = LoggerFactory.getLogger(TestXmlToJsonHelper.class);
 
 
     @Before

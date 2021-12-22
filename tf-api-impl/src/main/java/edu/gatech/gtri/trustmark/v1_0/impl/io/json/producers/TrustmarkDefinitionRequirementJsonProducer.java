@@ -8,8 +8,8 @@ import edu.gatech.gtri.trustmark.v1_0.model.Entity;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkDefinitionRequirement;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkFrameworkIdentifiedObject;
 import org.apache.commons.lang.StringUtils;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.gtri.fj.data.List;
 import org.gtri.fj.data.NonEmptyList;
 import org.gtri.fj.data.Option;
@@ -31,7 +31,7 @@ public class TrustmarkDefinitionRequirementJsonProducer implements JsonProducer<
     private static final JsonProducer<TrustmarkFrameworkIdentifiedObject, JSONObject> jsonProducerForTrustmarkFrameworkIdentifiedObject = new TrustmarkFrameworkIdentifiedObjectJsonProducer();
     private static final JsonProducer<Entity, JSONObject> jsonProducerForEntity = new EntityJsonProducer();
 
-    private static final Logger log = LogManager.getLogger(TrustmarkDefinitionRequirementJsonProducer.class);
+    private static final Logger log = LoggerFactory.getLogger(TrustmarkDefinitionRequirementJsonProducer.class);
 
     @Override
     public Class<TrustmarkDefinitionRequirement> getSupportedType() {
