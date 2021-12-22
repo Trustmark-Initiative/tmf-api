@@ -3,8 +3,8 @@ package edu.gatech.gtri.trustmark.v1_0.impl.io.bulk;
 import edu.gatech.gtri.trustmark.v1_0.io.bulk.BulkReadListener;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustInteroperabilityProfile;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkDefinition;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -16,7 +16,7 @@ import java.util.List;
  */
 public class BulkReadListenerCollection {
     
-    private static final Logger log = LogManager.getLogger(BulkReadListenerCollection.class);
+    private static final Logger log = LoggerFactory.getLogger(BulkReadListenerCollection.class);
     
     private List<BulkReadListener> listeners;
     

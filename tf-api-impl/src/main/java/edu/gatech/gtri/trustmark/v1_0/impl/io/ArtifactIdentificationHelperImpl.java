@@ -6,8 +6,8 @@ import edu.gatech.gtri.trustmark.v1_0.model.TrustInteroperabilityProfile;
 import edu.gatech.gtri.trustmark.v1_0.model.Trustmark;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkDefinition;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkStatusReport;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 
@@ -16,7 +16,7 @@ import java.io.File;
  */
 public class ArtifactIdentificationHelperImpl implements ArtifactIdentificationHelper {
 
-    private static final Logger log = LogManager.getLogger(ArtifactIdentificationHelperImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(ArtifactIdentificationHelperImpl.class);
 
     /**
      * This particular implementation just tries to run the file through the various resolvers to see if one hits.  There

@@ -10,8 +10,8 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -22,7 +22,7 @@ import static java.lang.String.format;
 
 public class SerializerHtmlUtility {
 
-    private static final Logger log = LogManager.getLogger(SerializerHtmlUtility.class);
+    private static final Logger log = LoggerFactory.getLogger(SerializerHtmlUtility.class);
     private static Configuration freemarker = new Configuration(Configuration.VERSION_2_3_23);
 
     static {

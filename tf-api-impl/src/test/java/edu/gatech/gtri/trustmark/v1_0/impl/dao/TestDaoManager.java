@@ -13,8 +13,8 @@ import edu.gatech.gtri.trustmark.v1_0.impl.dao.objects.TrustInteroperabilityProf
 import edu.gatech.gtri.trustmark.v1_0.impl.dao.objects.TrustmarkDefinitionCache;
 import edu.gatech.gtri.trustmark.v1_0.service.TrustmarkFrameworkService;
 import edu.gatech.gtri.trustmark.v1_0.service.TrustmarkFrameworkServiceFactory;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.h2.jdbcx.JdbcConnectionPool;
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -39,7 +39,7 @@ import static org.hamcrest.Matchers.notNullValue;
  * @date 9/12/16
  */
 public class TestDaoManager extends AbstractDaoTest {
-    public static final Logger logger = LogManager.getLogger(TestDaoManager.class);
+    public static final Logger logger = LoggerFactory.getLogger(TestDaoManager.class);
 
     //==================================================================================================================
     //  TESTS

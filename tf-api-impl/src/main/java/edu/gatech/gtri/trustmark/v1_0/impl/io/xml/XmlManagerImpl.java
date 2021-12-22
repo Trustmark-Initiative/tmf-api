@@ -2,8 +2,8 @@ package edu.gatech.gtri.trustmark.v1_0.impl.io.xml;
 
 import edu.gatech.gtri.trustmark.v1_0.io.xml.XmlManager;
 import edu.gatech.gtri.trustmark.v1_0.io.xml.XmlProducer;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.gtri.fj.data.HashMap;
 import org.gtri.fj.data.Option;
 
@@ -17,7 +17,7 @@ import static org.gtri.fj.data.Option.somes;
 
 public class XmlManagerImpl implements XmlManager {
 
-    private static final Logger log = LogManager.getLogger(XmlManagerImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(XmlManagerImpl.class);
 
     private HashMap<Class, XmlProducer> xmlProducerCache;
 

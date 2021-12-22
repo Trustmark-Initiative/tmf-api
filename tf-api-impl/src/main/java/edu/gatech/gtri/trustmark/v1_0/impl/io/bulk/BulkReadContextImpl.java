@@ -8,8 +8,8 @@ import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkFrameworkIdentifiedObject;
 import edu.gatech.gtri.trustmark.v1_0.impl.model.TrustmarkFrameworkIdentifiedObjectImpl;
 import edu.gatech.gtri.trustmark.v1_0.service.TrustmarkFrameworkService;
 import edu.gatech.gtri.trustmark.v1_0.service.TrustmarkFrameworkServiceFactory;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -22,7 +22,7 @@ import java.util.List;
 public class BulkReadContextImpl implements BulkReadContext {
     
     // Constants
-    private static final Logger logger = LogManager.getLogger(BulkReadContextImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(BulkReadContextImpl.class);
     
     
     // Instance Properties

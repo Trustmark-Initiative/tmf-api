@@ -11,8 +11,8 @@ import edu.gatech.gtri.trustmark.v1_0.impl.model.TrustmarkFrameworkIdentifiedObj
 import edu.gatech.gtri.trustmark.v1_0.io.ParseException;
 import edu.gatech.gtri.trustmark.v1_0.model.ContactKindCode;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkFrameworkIdentifiedObject;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import org.gtri.fj.data.Option;
 import org.gtri.fj.data.TreeMap;
 import org.gtri.fj.data.Validation;
@@ -47,7 +47,7 @@ import static org.gtri.fj.data.Option.some;
  */
 public abstract class JsonDeserializerUtility {
 
-    private static final Logger log = LogManager.getLogger(JsonDeserializerUtility.class);
+    private static final Logger log = LoggerFactory.getLogger(JsonDeserializerUtility.class);
 
     /**
      * This method will inspect the given JSON object and make sure it is compatible with the current library version.

@@ -11,8 +11,8 @@ import edu.gatech.gtri.trustmark.v1_0.impl.model.TrustmarkDefinitionParameterImp
 import edu.gatech.gtri.trustmark.v1_0.io.ParseException;
 import edu.gatech.gtri.trustmark.v1_0.model.ParameterKind;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkDefinition;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import org.gtri.fj.data.TreeMap;
 import org.gtri.fj.function.Try1;
 import org.json.JSONObject;
@@ -40,7 +40,7 @@ import static org.gtri.fj.product.P.p;
  */
 public class TrustmarkDefinitionJsonDeserializer implements JsonDeserializer<TrustmarkDefinition> {
 
-    private static final Logger log = LogManager.getLogger(TrustmarkDefinitionJsonDeserializer.class);
+    private static final Logger log = LoggerFactory.getLogger(TrustmarkDefinitionJsonDeserializer.class);
 
     public TrustmarkDefinition deserialize(String jsonString) throws ParseException {
         requireNonNull(jsonString);

@@ -5,8 +5,8 @@ import edu.gatech.gtri.trustmark.v1_0.impl.model.TrustmarkParameterBindingImpl;
 import edu.gatech.gtri.trustmark.v1_0.io.ParseException;
 import edu.gatech.gtri.trustmark.v1_0.model.ParameterKind;
 import edu.gatech.gtri.trustmark.v1_0.model.Trustmark;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import org.json.JSONObject;
 
 import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.JsonDeserializerUtility.assertSupported;
@@ -28,7 +28,7 @@ import static java.util.Objects.requireNonNull;
  */
 public class TrustmarkJsonDeserializer implements JsonDeserializer<Trustmark> {
 
-    private static final Logger log = LogManager.getLogger(TrustmarkJsonDeserializer.class);
+    private static final Logger log = LoggerFactory.getLogger(TrustmarkJsonDeserializer.class);
 
     public Trustmark deserialize(final String jsonString) throws ParseException {
         requireNonNull(jsonString);

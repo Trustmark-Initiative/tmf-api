@@ -7,8 +7,8 @@ import edu.gatech.gtri.trustmark.v1_0.model.ConformanceCriterion;
 import edu.gatech.gtri.trustmark.v1_0.model.Source;
 import edu.gatech.gtri.trustmark.v1_0.model.Term;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkDefinition;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
@@ -22,7 +22,7 @@ import static edu.gatech.gtri.trustmark.v1_0.impl.TrustmarkFrameworkConstants.NA
  */
 public class TrustmarkDefinitionXmlProducer implements XmlProducer<TrustmarkDefinition> {
 
-    private static final Logger log = LogManager.getLogger(TrustmarkDefinitionXmlProducer.class);
+    private static final Logger log = LoggerFactory.getLogger(TrustmarkDefinitionXmlProducer.class);
 
     @Override
     public Class<TrustmarkDefinition> getSupportedType() {

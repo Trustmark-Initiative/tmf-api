@@ -13,8 +13,8 @@ import edu.gatech.gtri.trustmark.v1_0.impl.dao.objects.TrustmarkDefinitionCache;
 import edu.gatech.gtri.trustmark.v1_0.io.ResolveException;
 import edu.gatech.gtri.trustmark.v1_0.io.TrustmarkDefinitionResolver;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkDefinition;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.SQLException;
 import java.util.*;
@@ -29,7 +29,7 @@ public class TrustmarkDefinitionDaoImpl extends AbstractDaoImpl implements Trust
     //====================================================================================================================
     //  STATIC VARIABLES
     //====================================================================================================================
-    private static final Logger log = LogManager.getLogger(TrustmarkDefinitionDaoImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(TrustmarkDefinitionDaoImpl.class);
     //====================================================================================================================
     //  CONSTRUCTORS
     //====================================================================================================================

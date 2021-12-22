@@ -7,8 +7,8 @@ import edu.gatech.gtri.trustmark.v1_0.io.ParseException;
 import edu.gatech.gtri.trustmark.v1_0.model.AbstractTIPReference;
 import edu.gatech.gtri.trustmark.v1_0.model.Entity;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustInteroperabilityProfile;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import org.gtri.fj.data.List;
 import org.gtri.fj.data.TreeMap;
 import org.gtri.fj.function.Try1;
@@ -39,7 +39,7 @@ import static org.gtri.fj.product.P.p;
  */
 public class TrustInteroperabilityProfileJsonDeserializer implements JsonDeserializer<TrustInteroperabilityProfile> {
 
-    private static final Logger log = LogManager.getLogger(TrustInteroperabilityProfileJsonDeserializer.class);
+    private static final Logger log = LoggerFactory.getLogger(TrustInteroperabilityProfileJsonDeserializer.class);
 
     public TrustInteroperabilityProfile deserialize(String jsonString) throws ParseException {
         requireNonNull(jsonString);

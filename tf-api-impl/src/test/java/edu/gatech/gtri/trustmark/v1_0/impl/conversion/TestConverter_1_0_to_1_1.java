@@ -3,8 +3,8 @@ package edu.gatech.gtri.trustmark.v1_0.impl.conversion;
 import edu.gatech.gtri.trustmark.v1_0.impl.AbstractTest;
 import edu.gatech.gtri.trustmark.v1_0.impl.converter.Converter_1_0_to_1_1;
 import org.apache.commons.io.FileUtils;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.junit.Test;
 
 import java.io.File;
@@ -22,7 +22,7 @@ public class TestConverter_1_0_to_1_1 extends AbstractTest {
     //==================================================================================================================
     //  STATIC VARIABLES
     //==================================================================================================================
-    private static final Logger log = LogManager.getLogger(TestConverter_1_0_to_1_1.class);
+    private static final Logger log = LoggerFactory.getLogger(TestConverter_1_0_to_1_1.class);
     //==================================================================================================================
     //  TEST METHODS
     //==================================================================================================================

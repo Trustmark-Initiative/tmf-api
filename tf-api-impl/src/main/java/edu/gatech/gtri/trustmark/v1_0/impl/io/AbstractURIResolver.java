@@ -5,8 +5,8 @@ import edu.gatech.gtri.trustmark.v1_0.io.HttpResponse;
 import edu.gatech.gtri.trustmark.v1_0.io.NetworkDownloader;
 import edu.gatech.gtri.trustmark.v1_0.io.ResolveException;
 import edu.gatech.gtri.trustmark.v1_0.io.URIResolver;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.*;
@@ -16,7 +16,7 @@ import java.net.*;
  */
 public abstract class AbstractURIResolver implements URIResolver {
 
-    private static final Logger log = LogManager.getLogger(URIResolverSimple.class);
+    private static final Logger log = LoggerFactory.getLogger(URIResolverSimple.class);
 
     @Override
     public String resolve(String uriString) throws ResolveException {

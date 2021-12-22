@@ -20,8 +20,8 @@ import edu.gatech.gtri.trustmark.v1_0.impl.model.TermImpl;
 import edu.gatech.gtri.trustmark.v1_0.io.bulk.ExcelBulkReader;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
@@ -36,7 +36,7 @@ import static edu.gatech.gtri.trustmark.v1_0.impl.io.ExcelMultiTdBuilder.*;
 public class ExcelBulkReaderImpl extends AbstractBulkReader implements ExcelBulkReader {
     
     // Constants
-    private static final Logger logger = LogManager.getLogger(ExcelBulkReaderImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(ExcelBulkReaderImpl.class);
 
     public static final RowMapperGetter<TermImpl> GET_TERMS = new RowMapperGetter<TermImpl>() {
         @Override public String getSheetName() { return TERMS_SHEET_NAME; } //Terms

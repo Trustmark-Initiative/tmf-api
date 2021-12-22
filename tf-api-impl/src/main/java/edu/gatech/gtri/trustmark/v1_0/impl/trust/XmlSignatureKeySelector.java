@@ -1,7 +1,7 @@
 package edu.gatech.gtri.trustmark.v1_0.impl.trust;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import org.gtri.fj.data.List;
 import org.gtri.fj.data.NonEmptyList;
 import org.gtri.fj.data.Option;
@@ -41,7 +41,7 @@ import static org.gtri.fj.product.P.p;
  */
 public final class XmlSignatureKeySelector extends KeySelector {
 
-    private static final Logger log = LogManager.getLogger(XmlSignatureKeySelector.class);
+    private static final Logger log = LoggerFactory.getLogger(XmlSignatureKeySelector.class);
 
     private static final class XmlSignatureKeySelectorResult implements KeySelectorResult {
 

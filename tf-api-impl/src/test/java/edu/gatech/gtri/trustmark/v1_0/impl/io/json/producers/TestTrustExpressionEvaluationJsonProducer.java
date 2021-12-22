@@ -19,8 +19,8 @@ import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkDefinitionRequirement;
 import edu.gatech.gtri.trustmark.v1_0.tip.evaluator.TrustExpressionEvaluation;
 import edu.gatech.gtri.trustmark.v1_0.tip.evaluator.TrustExpressionEvaluator;
 import edu.gatech.gtri.trustmark.v1_0.tip.parser.TrustExpressionParser;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import org.gtri.fj.data.List;
 import org.gtri.fj.data.TreeMap;
 import org.gtri.fj.product.P5;
@@ -39,7 +39,7 @@ import static org.gtri.fj.product.P.p;
 
 public class TestTrustExpressionEvaluationJsonProducer {
 
-    private static final Logger log = LogManager.getLogger(TrustInteroperabilityProfileJsonProducer.class);
+    private static final Logger log = LoggerFactory.getLogger(TrustInteroperabilityProfileJsonProducer.class);
     private static final JsonManager jsonManager = FactoryLoader.getInstance(JsonManager.class);
 
     @Test

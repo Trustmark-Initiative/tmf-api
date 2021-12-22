@@ -2,20 +2,21 @@ package edu.gatech.gtri.trustmark.v1_0.impl.io.json;
 
 import edu.gatech.gtri.trustmark.v1_0.impl.AbstractTest;
 import org.apache.commons.io.FileUtils;
-import static org.junit.Assert.assertTrue;
-
-import org.apache.logging.log4j.core.tools.picocli.CommandLine;
 import org.junit.Test;
 
-
-import java.io.*;
-
-import java.security.*;
-import java.security.cert.*;
-import java.security.cert.Certificate;
 import javax.xml.bind.DatatypeConverter;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.security.GeneralSecurityException;
+import java.security.KeyFactory;
+import java.security.cert.Certificate;
+import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.spec.PKCS8EncodedKeySpec;
+
+import static org.junit.Assert.assertTrue;
 
 
 /**
@@ -46,8 +47,8 @@ public class TestTrustmarkJsonWebSignature extends AbstractTest {
 
         logger.info("Successfully signed trustmark json string...");
 
-        
-        boolean validSignature = jsonWebSign.validateJsonWebSignature(x509Certificate,  signedJson);
+
+        boolean validSignature = jsonWebSign.validateJsonWebSignature(x509Certificate, signedJson);
 
         assertTrue(validSignature);
 
@@ -56,7 +57,7 @@ public class TestTrustmarkJsonWebSignature extends AbstractTest {
     }//end testSignTrustmarkJsonWebSignatureString()
 
 
-    X509Certificate loadX509Certificate(String pemFile) throws Exception{
+    X509Certificate loadX509Certificate(String pemFile) throws Exception {
         File certPemFile = new File(pemFile);
         String certPem = FileUtils.readFileToString(certPemFile);
 
@@ -64,7 +65,7 @@ public class TestTrustmarkJsonWebSignature extends AbstractTest {
 
         ByteArrayInputStream inStream = new ByteArrayInputStream(certPem.getBytes());
         Certificate cert = cf.generateCertificate(inStream);
-        X509Certificate x509Cert = (X509Certificate)cert;
+        X509Certificate x509Cert = (X509Certificate) cert;
 
         return x509Cert;
     }

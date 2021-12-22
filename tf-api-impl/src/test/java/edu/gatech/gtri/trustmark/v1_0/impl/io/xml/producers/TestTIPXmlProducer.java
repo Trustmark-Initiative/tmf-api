@@ -11,8 +11,8 @@ import edu.gatech.gtri.trustmark.v1_0.io.SerializerFactory;
 import edu.gatech.gtri.trustmark.v1_0.io.xml.XmlManager;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustInteroperabilityProfile;
 import org.apache.commons.io.FileUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import org.junit.Test;
 
 import java.io.File;
@@ -26,7 +26,7 @@ import static org.hamcrest.Matchers.notNullValue;
  * Created by brad on 1/7/16.
  */
 public class TestTIPXmlProducer extends AbstractTest {
-    private static final Logger logger = LogManager.getLogger(TestTIPXmlProducer.class);
+    private static final Logger logger = LoggerFactory.getLogger(TestTIPXmlProducer.class);
 
     public static final String TIP_FULL_FILE = "./src/test/resources/TIPs/tip-full.json";
 

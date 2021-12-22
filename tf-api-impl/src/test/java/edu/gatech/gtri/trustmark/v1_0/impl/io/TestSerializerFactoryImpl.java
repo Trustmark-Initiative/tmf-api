@@ -5,8 +5,8 @@ import edu.gatech.gtri.trustmark.v1_0.impl.AbstractTest;
 import edu.gatech.gtri.trustmark.v1_0.impl.io.json.SerializerJson;
 import edu.gatech.gtri.trustmark.v1_0.io.Serializer;
 import edu.gatech.gtri.trustmark.v1_0.io.SerializerFactory;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import org.junit.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -19,7 +19,7 @@ import static org.hamcrest.Matchers.notNullValue;
  */
 public class TestSerializerFactoryImpl extends AbstractTest {
 
-    private static final Logger log = LogManager.getLogger(TestSerializerFactoryImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(TestSerializerFactoryImpl.class);
 
     @Test
     public void testInstantiation() {

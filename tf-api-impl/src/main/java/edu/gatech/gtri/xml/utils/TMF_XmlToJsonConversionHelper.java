@@ -1,7 +1,7 @@
 package edu.gatech.gtri.xml.utils;
 
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.dom4j.Attribute;
 import org.dom4j.Document;
 import org.dom4j.Element;
@@ -27,7 +27,7 @@ public class TMF_XmlToJsonConversionHelper implements XmlToJsonConversionHelper 
     //==================================================================================================================
     //  STATIC VARIABLES
     //==================================================================================================================
-    private static final Logger log = LogManager.getLogger(TMF_XmlToJsonConversionHelper.class);
+    private static final Logger log = LoggerFactory.getLogger(TMF_XmlToJsonConversionHelper.class);
     private static final String JOIN_KEY_SEPARATOR = "___|___";
     public static Set<List<String>> PLURAL_PATHS;
     public static Map<String, String> SINGULAR_TO_PLURAL_MAP = new HashMap<>();

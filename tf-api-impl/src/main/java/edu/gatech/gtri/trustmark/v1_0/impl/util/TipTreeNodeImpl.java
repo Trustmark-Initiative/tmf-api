@@ -4,8 +4,8 @@ import edu.gatech.gtri.trustmark.v1_0.model.TrustInteroperabilityProfile;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkDefinition;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkFrameworkIdentifiedObject;
 import edu.gatech.gtri.trustmark.v1_0.util.TipTreeNode;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ public class TipTreeNodeImpl implements TipTreeNode {
     //==================================================================================================================
     //  STATIC VARIABLES
     //==================================================================================================================
-    private static final Logger log = LogManager.getLogger(TipTreeNodeImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(TipTreeNodeImpl.class);
     //==================================================================================================================
     //  CONSTRUCTORS
     //==================================================================================================================

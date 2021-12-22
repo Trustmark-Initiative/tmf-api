@@ -14,7 +14,7 @@ import edu.gatech.gtri.trustmark.v1_0.util.TrustmarkDefinitionUtils;
 import edu.gatech.gtri.trustmark.v1_0.util.diff.DiffSeverity;
 import edu.gatech.gtri.trustmark.v1_0.util.diff.TrustmarkDefinitionDiffResult;
 import edu.gatech.gtri.trustmark.v1_0.util.diff.json.*;
-import org.apache.logging.log4j.LogManager;
+import org.slf4j.LoggerFactory;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.Ignore;
@@ -39,7 +39,7 @@ public class TestExcelBulkReader extends AbstractTest {
     final String TPAT_PROPERTIES = "./src/test/resources/tpat_config.properties";
 
     static{
-        logger = LogManager.getLogger(TestExcelBulkReader.class);
+        logger = LoggerFactory.getLogger(TestExcelBulkReader.class);
     }
     //==================================================================================================================
     //  Tests
@@ -634,7 +634,7 @@ public class TestExcelBulkReader extends AbstractTest {
         String text = new String(Files.readAllBytes(jsonFile.toPath()));
         JSONObject json = new JSONObject(text);
 
-//        Logger jsonLogger = LogManager.getLogger("edu.gatech.gtri.trustmark.v1_0.impl.io.json");
+//        Logger jsonLogger = LoggerFactory.getLogger("edu.gatech.gtri.trustmark.v1_0.impl.io.json");
 //        Level originalLogLevelForJSON = jsonLogger.getLevel();
 //        jsonLogger.setLevel(Level.WARN);
         JSONArray tds = json.optJSONArray("trustmarkDefinitions");

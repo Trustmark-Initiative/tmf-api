@@ -2,8 +2,8 @@ package edu.gatech.gtri.trustmark.v1_0.impl.io;
 
 import edu.gatech.gtri.trustmark.v1_0.io.ResolveException;
 import edu.gatech.gtri.trustmark.v1_0.io.URIResolver;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import org.gtri.fj.function.Try1;
 
 import java.net.URI;
@@ -12,7 +12,7 @@ import static java.util.Objects.requireNonNull;
 
 public abstract class AbstractResolverFromURIResolver<T0> extends AbstractResolver<T0> {
 
-    private static final Logger log = LogManager.getLogger(AbstractResolverFromURIResolver.class);
+    private static final Logger log = LoggerFactory.getLogger(AbstractResolverFromURIResolver.class);
     private final URIResolver uriResolver;
 
     public AbstractResolverFromURIResolver(

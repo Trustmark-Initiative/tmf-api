@@ -4,8 +4,8 @@ import edu.gatech.gtri.trustmark.v1_0.FactoryLoader;
 import edu.gatech.gtri.trustmark.v1_0.io.HttpResponse;
 import edu.gatech.gtri.trustmark.v1_0.io.NetworkDownloader;
 import edu.gatech.gtri.trustmark.v1_0.service.RemoteException;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -17,7 +17,7 @@ import java.net.URL;
  * Created by brad on 2/5/16.
  */
 public class IOUtils {
-    public static final Logger log = LogManager.getLogger(IOUtils.class);
+    public static final Logger log = LoggerFactory.getLogger(IOUtils.class);
 
     /**
      * Reads the next amount of characters from the input stream.

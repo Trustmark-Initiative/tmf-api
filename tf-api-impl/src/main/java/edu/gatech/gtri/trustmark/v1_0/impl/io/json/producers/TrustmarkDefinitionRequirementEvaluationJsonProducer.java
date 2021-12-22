@@ -9,8 +9,8 @@ import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkDefinitionRequirement;
 import edu.gatech.gtri.trustmark.v1_0.tip.TrustExpressionFailure;
 import edu.gatech.gtri.trustmark.v1_0.tip.evaluator.TrustExpressionEvaluatorFailure;
 import edu.gatech.gtri.trustmark.v1_0.tip.evaluator.TrustmarkDefinitionRequirementEvaluation;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import org.gtri.fj.data.List;
 import org.gtri.fj.data.NonEmptyList;
 import org.gtri.fj.data.Validation;
@@ -36,7 +36,7 @@ public class TrustmarkDefinitionRequirementEvaluationJsonProducer implements Jso
     private static final JsonProducer<TrustmarkDefinitionRequirement,  JSONObject> jsonProducerForTrustmarkDefinitionRequirement  = new TrustmarkDefinitionRequirementJsonProducer();
     // @formatter:on
 
-    private static final Logger log = LogManager.getLogger(TrustmarkDefinitionRequirementEvaluation.class);
+    private static final Logger log = LoggerFactory.getLogger(TrustmarkDefinitionRequirementEvaluation.class);
 
     @Override
     public Class<TrustmarkDefinitionRequirementEvaluation> getSupportedType() {

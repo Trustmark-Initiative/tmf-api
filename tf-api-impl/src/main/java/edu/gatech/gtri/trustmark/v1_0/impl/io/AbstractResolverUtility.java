@@ -2,8 +2,8 @@ package edu.gatech.gtri.trustmark.v1_0.impl.io;
 
 import edu.gatech.gtri.trustmark.v1_0.impl.io.xml.XmlHelper;
 import edu.gatech.gtri.trustmark.v1_0.io.ParseException;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import org.dom4j.Element;
 import org.json.JSONObject;
 
@@ -12,7 +12,7 @@ import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.JsonDeserializerUtilit
 
 public final class AbstractResolverUtility {
 
-    private static final Logger log = LogManager.getLogger(AbstractResolverUtility.class);
+    private static final Logger log = LoggerFactory.getLogger(AbstractResolverUtility.class);
 
     private AbstractResolverUtility() {
     }

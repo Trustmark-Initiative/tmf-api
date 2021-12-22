@@ -4,8 +4,8 @@ import edu.gatech.gtri.trustmark.v1_0.impl.trust.XmlSignatureFailure;
 import edu.gatech.gtri.trustmark.v1_0.impl.trust.XmlSignatureKeySelector;
 import edu.gatech.gtri.trustmark.v1_0.impl.trust.XmlSignatureUtility;
 import edu.gatech.gtri.trustmark.v1_0.trust.XmlSignatureValidatorFailure;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import org.gtri.fj.data.Either;
 import org.gtri.fj.data.NonEmptyList;
 import org.gtri.fj.data.Validation;
@@ -45,7 +45,7 @@ import static org.gtri.fj.function.Function.identity;
  */
 public final class XmlSignatureImpl {
 
-    private static final Logger log = LogManager.getLogger(XmlSignatureImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(XmlSignatureImpl.class);
 
     public XmlSignatureImpl() {
     }

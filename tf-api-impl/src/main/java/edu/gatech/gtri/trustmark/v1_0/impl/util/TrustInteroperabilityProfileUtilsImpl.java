@@ -16,8 +16,8 @@ import edu.gatech.gtri.trustmark.v1_0.util.ValidationResult;
 import edu.gatech.gtri.trustmark.v1_0.util.ValidationSeverity;
 import edu.gatech.gtri.trustmark.v1_0.util.diff.TrustInteroperabilityProfileDiff;
 import edu.gatech.gtri.trustmark.v1_0.util.diff.TrustInteroperabilityProfileDiffResult;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import org.json.JSONObject;
 
 import javax.xml.stream.XMLEventReader;
@@ -56,7 +56,7 @@ import static java.lang.String.format;
  */
 public class TrustInteroperabilityProfileUtilsImpl implements TrustInteroperabilityProfileUtils {
 
-    private static final Logger log = LogManager.getLogger(TrustInteroperabilityProfileUtilsImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(TrustInteroperabilityProfileUtilsImpl.class);
 
     Comparator<AbstractTIPReference> orderByNumber = (AbstractTIPReference r1, AbstractTIPReference r2) -> {
         if (r1.getNumber() != null && r2.getNumber() != null) {

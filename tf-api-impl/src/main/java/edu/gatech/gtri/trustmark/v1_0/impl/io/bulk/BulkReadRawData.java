@@ -33,8 +33,8 @@ import org.apache.commons.collections4.MultiValuedMap;
 import org.apache.commons.collections4.bidimap.DualHashBidiMap;
 import org.apache.commons.collections4.multimap.ArrayListValuedHashMap;
 import org.apache.commons.lang.StringUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
@@ -74,7 +74,7 @@ public final class BulkReadRawData {
     // Static Constants //
     //////////////////////
 
-    private static final Logger logger = LogManager.getLogger(BulkReadRawData.class);
+    private static final Logger logger = LoggerFactory.getLogger(BulkReadRawData.class);
     private static final String XML_NAMESPACE_TF_NAME = TrustmarkFrameworkConstants.NAMESPACE_PREFIX;
     private static final String XML_NAMESPACE_TF_VALUE = TrustmarkFrameworkConstants.NAMESPACE_URI;
     private static final String XML_TAG_NAME_TD = "TrustmarkDefinition";

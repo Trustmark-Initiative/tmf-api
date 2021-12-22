@@ -5,8 +5,8 @@ import edu.gatech.gtri.trustmark.v1_0.impl.io.AbstractBuilderImpl;
 import edu.gatech.gtri.trustmark.v1_0.model.*;
 import edu.gatech.gtri.trustmark.v1_0.util.TrustmarkDefinitionUtils;
 import edu.gatech.gtri.trustmark.v1_0.util.ValidationResult;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -23,7 +23,7 @@ public class TrustmarkDefinitionBuilderImpl extends AbstractBuilderImpl implemen
     //==================================================================================================================
     //  STATIC VARIABLES
     //==================================================================================================================
-    private static final Logger log = LogManager.getLogger(TrustmarkDefinitionBuilderImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(TrustmarkDefinitionBuilderImpl.class);
     //==================================================================================================================
     //  CONSTRUCTORS
     //==================================================================================================================

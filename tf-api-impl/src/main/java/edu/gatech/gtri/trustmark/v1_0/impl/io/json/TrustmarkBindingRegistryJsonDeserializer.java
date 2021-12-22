@@ -4,8 +4,8 @@ import edu.gatech.gtri.trustmark.v1_0.io.ParseException;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkBindingRegistry;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkBindingRegistrySystem;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkBindingRegistrySystemType;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import org.gtri.fj.data.List;
 import org.gtri.fj.data.TreeMap;
 import org.json.JSONArray;
@@ -28,7 +28,7 @@ import static org.gtri.fj.lang.StringUtility.stringOrd;
 
 public class TrustmarkBindingRegistryJsonDeserializer implements JsonDeserializer<TrustmarkBindingRegistry> {
 
-    private static final Logger log = LogManager.getLogger(TrustmarkBindingRegistryJsonDeserializer.class);
+    private static final Logger log = LoggerFactory.getLogger(TrustmarkBindingRegistryJsonDeserializer.class);
 
     public TrustmarkBindingRegistry deserialize(final String jsonString) throws ParseException {
         requireNonNull(jsonString);

@@ -8,8 +8,8 @@ import edu.gatech.gtri.trustmark.v1_0.model.Categorized;
 import edu.gatech.gtri.trustmark.v1_0.model.LegallyPublished;
 import edu.gatech.gtri.trustmark.v1_0.model.Supersedable;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkFrameworkIdentifiedObject;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
@@ -28,7 +28,7 @@ public final class XmlProducerUtility {
     }
 
     public static final String XSI_NS_URI = "http://www.w3.org/2001/XMLSchema-instance";
-    private static final Logger log = LogManager.getLogger(XmlProducerUtility.class);
+    private static final Logger log = LoggerFactory.getLogger(XmlProducerUtility.class);
 
     private static XmlManager getXmlManager() {
         return FactoryLoader.getInstance(XmlManager.class);

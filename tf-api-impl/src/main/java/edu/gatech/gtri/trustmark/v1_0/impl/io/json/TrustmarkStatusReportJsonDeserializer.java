@@ -4,8 +4,8 @@ import edu.gatech.gtri.trustmark.v1_0.impl.model.TrustmarkStatusReportImpl;
 import edu.gatech.gtri.trustmark.v1_0.io.ParseException;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkStatusCode;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkStatusReport;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import org.json.JSONObject;
 
 import java.net.URI;
@@ -26,7 +26,7 @@ import static java.util.Objects.requireNonNull;
  */
 public class TrustmarkStatusReportJsonDeserializer implements JsonDeserializer<TrustmarkStatusReport> {
 
-    private static final Logger log = LogManager.getLogger(TrustmarkJsonDeserializer.class);
+    private static final Logger log = LoggerFactory.getLogger(TrustmarkJsonDeserializer.class);
 
     public TrustmarkStatusReport deserialize(final String jsonString) throws ParseException {
         requireNonNull(jsonString);

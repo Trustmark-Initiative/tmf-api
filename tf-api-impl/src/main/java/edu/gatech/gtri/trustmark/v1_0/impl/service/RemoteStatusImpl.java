@@ -8,8 +8,8 @@ import edu.gatech.gtri.trustmark.v1_0.service.RemoteException;
 import edu.gatech.gtri.trustmark.v1_0.service.RemoteOrganization;
 import edu.gatech.gtri.trustmark.v1_0.service.RemoteStatus;
 import edu.gatech.gtri.trustmark.v1_0.service.RemoteVersionSet;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -29,7 +29,7 @@ import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.JsonDeserializerUtilit
  * Created by brad on 2/4/16.
  */
 public class RemoteStatusImpl extends RemoteObjectImpl implements RemoteStatus {
-    private static final Logger log = LogManager.getLogger(RemoteStatusImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(RemoteStatusImpl.class);
 
     private String getLocalAPIVersion() {
         return FactoryLoader.getInstance(TrustmarkFramework.class).getTrustmarkFrameworkVersion();
