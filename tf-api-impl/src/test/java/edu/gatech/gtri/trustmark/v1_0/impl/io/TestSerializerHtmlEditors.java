@@ -11,6 +11,7 @@ import org.junit.Test;
 import java.io.File;
 import java.io.StringWriter;
 
+import static edu.gatech.gtri.trustmark.v1_0.io.MediaType.TEXT_HTML;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
@@ -32,7 +33,7 @@ public class TestSerializerHtmlEditors extends AbstractTest {
     public void testSerializerHtmlEditorResolution() throws Exception {
         Serializer serializer = FactoryLoader.getInstance(SerializerFactory.class).getHtmlEditorSerializer();
         assertThat(serializer, notNullValue());
-        assertThat(serializer.getOutputMimeFormat(), equalTo("text/html"));
+        assertThat(serializer.getOutputMimeFormat(), equalTo(TEXT_HTML.getMediaType()));
         assertThat(serializer.getName(), equalTo("HTML Editor Serializer"));
         assertThat(serializer.getDescription(), equalTo("Serializes data into HTML, suitable for display and editing in a browser"));
         logger.debug("Asserted SerializerHtmlEditors Resolution!");

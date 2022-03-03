@@ -32,6 +32,7 @@ import java.net.URI;
 
 import static edu.gatech.gtri.trustmark.v1_0.tip.TrustExpression.noop;
 import static edu.gatech.gtri.trustmark.v1_0.tip.TrustExpression.terminal;
+import static edu.gatech.gtri.trustmark.v1_0.tip.TrustExpressionFailure.failureCycle;
 import static edu.gatech.gtri.trustmark.v1_0.tip.TrustExpressionFailure.failureIdentifierUnexpectedTrustInteroperabilityProfile;
 import static edu.gatech.gtri.trustmark.v1_0.tip.TrustExpressionFailure.failureIdentifierUnknown;
 import static edu.gatech.gtri.trustmark.v1_0.tip.TrustExpressionFailure.failureIdentifierUnknownTrustmarkDefinitionParameter;
@@ -65,6 +66,7 @@ import static org.gtri.fj.data.NonEmptyList.nel;
 import static org.gtri.fj.data.NonEmptyList.nonEmptyListSemigroup;
 import static org.gtri.fj.data.TreeMap.iterableTreeMap;
 import static org.gtri.fj.data.Validation.accumulate;
+import static org.gtri.fj.data.Validation.condition;
 import static org.gtri.fj.data.Validation.fail;
 import static org.gtri.fj.data.Validation.success;
 import static org.gtri.fj.lang.StringUtility.stringOrd;
@@ -152,12 +154,23 @@ public class TrustExpressionParserImpl implements TrustExpressionParser {
             final TrustInteroperabilityProfile trustInteroperabilityProfile) {
 
         return reduce(accumulate(
+                validationCycle(trustInteroperabilityProfileList, trustInteroperabilityProfile),
                 validationTrustExpression(trustInteroperabilityProfileList, trustInteroperabilityProfile),
                 validationTrustInteroperabilityProfileReferenceMap(trustInteroperabilityProfileList, trustInteroperabilityProfile),
-                (trustExpression, trustInteroperabilityProfileReferenceMap) -> parseHelper(nel(trustInteroperabilityProfile, trustInteroperabilityProfileList), trustInteroperabilityProfileReferenceMap, trustExpression))
+                (trustInteroperabilityProfileNonEmptyList, trustExpression, trustInteroperabilityProfileReferenceMap) -> parseHelper(trustInteroperabilityProfileNonEmptyList, trustInteroperabilityProfileReferenceMap, trustExpression))
                 .toEither()
                 .left()
                 .map(this::terminalFail));
+    }
+
+    private Validation<NonEmptyList<TrustExpressionFailure>, NonEmptyList<TrustInteroperabilityProfile>> validationCycle(
+            final List<TrustInteroperabilityProfile> trustInteroperabilityProfileList,
+            final TrustInteroperabilityProfile trustInteroperabilityProfile) {
+
+        return condition(
+                !trustInteroperabilityProfileList.exists(trustInteroperabilityProfileInner -> trustInteroperabilityProfileInner.getIdentifier().equals(trustInteroperabilityProfile.getIdentifier())),
+                nel(failureCycle(nel(trustInteroperabilityProfile, trustInteroperabilityProfileList))),
+                nel(trustInteroperabilityProfile, trustInteroperabilityProfileList));
     }
 
     private Validation<NonEmptyList<TrustExpressionFailure>, TrustExpression<TrustExpressionData>> validationTrustExpression(

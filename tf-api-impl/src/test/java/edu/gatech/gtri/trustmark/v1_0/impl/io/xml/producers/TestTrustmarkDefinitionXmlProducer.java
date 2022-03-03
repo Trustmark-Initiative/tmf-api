@@ -11,9 +11,9 @@ import edu.gatech.gtri.trustmark.v1_0.io.SerializerFactory;
 import edu.gatech.gtri.trustmark.v1_0.io.xml.XmlManager;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkDefinition;
 import org.apache.commons.io.FileUtils;
-import org.slf4j.LoggerFactory;
-import org.slf4j.Logger;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.StringWriter;
@@ -58,7 +58,7 @@ public class TestTrustmarkDefinitionXmlProducer extends AbstractTest {
         logger.debug("Successfully produced XML: \n" + xml2);
         XmlHelper.validateXml(xml2);
 
-        TrustmarkDefinition td2 = TrustmarkDefinitionXmlDeserializer.deserialize(xml2);
+        TrustmarkDefinition td2 = new TrustmarkDefinitionXmlDeserializer().deserialize(xml2);
         assertThat(td2, notNullValue());
 
         assertTdFull(td2);

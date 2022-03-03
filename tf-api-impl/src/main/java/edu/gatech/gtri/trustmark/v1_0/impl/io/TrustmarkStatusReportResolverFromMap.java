@@ -10,12 +10,16 @@ import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkStatusReport;
 import java.net.URI;
 import java.util.Map;
 
-public class TrustmarkStatusReportResolverFromMap extends AbstractResolverFromMap<TrustmarkStatusReport> implements TrustmarkStatusReportResolver {
+import static org.gtri.fj.data.List.arrayList;
+import static org.gtri.fj.product.P.p;
+
+public final class TrustmarkStatusReportResolverFromMap extends AbstractResolverFromMap<TrustmarkStatusReport> implements TrustmarkStatusReportResolver {
 
     public TrustmarkStatusReportResolverFromMap(final Map<URI, TrustmarkStatusReport> map) {
         super(
-                new TrustmarkStatusReportJsonDeserializer()::deserialize,
-                TrustmarkStatusReportXmlDeserializer::deserialize,
+                arrayList(
+                        p(AbstractResolverUtility::isJson, new TrustmarkStatusReportJsonDeserializer()::deserialize),
+                        p(AbstractResolverUtility::isXml, new TrustmarkStatusReportXmlDeserializer()::deserialize)),
                 entity -> entity,
                 map);
     }

@@ -2,8 +2,12 @@ package edu.gatech.gtri.trustmark.v1_0.io.hash;
 
 import edu.gatech.gtri.trustmark.v1_0.model.TrustInteroperabilityProfile;
 import edu.gatech.gtri.trustmark.v1_0.model.Trustmark;
-import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkBindingRegistry;
-import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkBindingRegistrySystem;
+import edu.gatech.gtri.trustmark.v1_0.model.trustmarkBindingRegistry.TrustmarkBindingRegistryOrganization;
+import edu.gatech.gtri.trustmark.v1_0.model.trustmarkBindingRegistry.TrustmarkBindingRegistryOrganizationMap;
+import edu.gatech.gtri.trustmark.v1_0.model.trustmarkBindingRegistry.TrustmarkBindingRegistryOrganizationTrustmark;
+import edu.gatech.gtri.trustmark.v1_0.model.trustmarkBindingRegistry.TrustmarkBindingRegistryOrganizationTrustmarkMap;
+import edu.gatech.gtri.trustmark.v1_0.model.trustmarkBindingRegistry.TrustmarkBindingRegistrySystemMap;
+import edu.gatech.gtri.trustmark.v1_0.model.trustmarkBindingRegistry.TrustmarkBindingRegistrySystem;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkDefinition;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkStatusReport;
 
@@ -59,11 +63,11 @@ public interface CanonFactory {
     /**
      * Return the canonical representation for the Trustmark Binding Registry.
      *
-     * @param trustmarkBindingRegistry the Trustmark Binding Registry
+     * @param trustmarkBindingRegistrySystemMap the Trustmark Binding Registry
      * @return the canonical representation the Trustmark Binding Registry
      * @throws IOException if an exception occurs during JSON serialization
      */
-    byte[] canon(final TrustmarkBindingRegistry trustmarkBindingRegistry) throws IOException;
+    byte[] canon(final TrustmarkBindingRegistrySystemMap trustmarkBindingRegistrySystemMap) throws IOException;
 
     /**
      * Return the canonical representation for the Trustmark Binding Registry System.
@@ -73,4 +77,40 @@ public interface CanonFactory {
      * @throws IOException if an exception occurs during JSON serialization
      */
     byte[] canon(final TrustmarkBindingRegistrySystem trustmarkBindingRegistrySystem) throws IOException;
+
+    /**
+     * Return the canonical representation for the Trustmark Binding Registry Organization Map
+     *
+     * @param trustmarkBindingRegistryOrganizationMap the Trustmark Binding Registry Organization Map
+     * @return the canonical representation for the Trustmark Binding Registry Organization Map
+     * @throws IOException if an exception occurs during JSON serialization
+     */
+    byte[] canon(final TrustmarkBindingRegistryOrganizationMap trustmarkBindingRegistryOrganizationMap) throws IOException;
+
+    /**
+     * Return the canonical representation for the Trustmark Binding Registry Organization
+     *
+     * @param trustmarkBindingRegistryOrganization the Trustmark Binding Registry Organization
+     * @return the canonical representation for the Trustmark Binding Registry Organization
+     * @throws IOException if an exception occurs during JSON serialization
+     */
+    byte[] canon(final TrustmarkBindingRegistryOrganization trustmarkBindingRegistryOrganization) throws IOException;
+
+    /**
+     * Return the canonical representation for the Trustmark Binding Registry Organization Trustmark Map
+     *
+     * @param trustmarkBindingRegistryOrganizationTrustmarkMap the Trustmark Binding Registry Organization Trustmark Map
+     * @return the canonical representation for the Trustmark Binding Registry Organization Trustmark Map
+     * @throws IOException if an exception occurs during JSON serialization
+     */
+    byte[] canon(final TrustmarkBindingRegistryOrganizationTrustmarkMap trustmarkBindingRegistryOrganizationTrustmarkMap) throws IOException;
+
+    /**
+     * Return the canonical representation for the Trustmark Binding Registry Organization Trustmark
+     *
+     * @param trustmarkBindingRegistryOrganizationTrustmark the Trustmark Binding Registry Organization Trustmark
+     * @return the canonical representation for the Trustmark Binding Registry Organization Trustmark
+     * @throws IOException if an exception occurs during JSON serialization
+     */
+    byte[] canon(final TrustmarkBindingRegistryOrganizationTrustmark trustmarkBindingRegistryOrganizationTrustmark) throws IOException;
 }

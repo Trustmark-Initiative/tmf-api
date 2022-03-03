@@ -697,7 +697,7 @@ public abstract class TrustmarkVerifierFailure {
                 (trustmark) -> format("%s: The trustmark identifier does not start with the trustmark provider identifier ('%s').", trustmark.getIdentifier().toString(), trustmark.getProvider().getIdentifier()),
                 (trustmark) -> format("%s: The trustmark has expired ('%s').", trustmark.getIdentifier().toString(), trustmark.getExpirationDateTime()),
                 (trustmark, resolveException) -> format("%s: The system could not resolve the trustmark status report ('%s'); message: %s", trustmark.getIdentifier().toString(), trustmark.getStatusURL().toString(), resolveException.getMessage()),
-                (trustmark, trustmarkStatusReport) -> format("%s: The trustmark status report ('%s') shows trustmark is not active ('%s')", trustmark.getIdentifier().toString(), trustmarkStatusReport.getStatus().toString()),
+                (trustmark, trustmarkStatusReport) -> format("%s: The trustmark status report ('%s') shows trustmark is not active ('%s')", trustmark.getIdentifier().toString(), trustmark.getStatusURL().toString(), trustmarkStatusReport.getStatus().toString()),
                 (trustmark) -> format("%s: The trustmark recipient identifier ('%s') is not among the expected trustmark recipient identifiers.", trustmark.getIdentifier().toString(), trustmark.getRecipient().getIdentifier().toString()),
                 (trustmark) -> format("%s: The trustmark's purpose is not consistent with the trustmark's meaning and intended usage.", trustmark.getIdentifier().toString()));
     }

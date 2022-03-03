@@ -14,7 +14,6 @@ import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkDefinition;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkDefinitionParameter;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkDefinitionRequirement;
 import edu.gatech.gtri.trustmark.v1_0.tip.TrustExpressionFailure;
-import edu.gatech.gtri.trustmark.v1_0.tip.TrustExpressionType;
 import edu.gatech.gtri.trustmark.v1_0.tip.parser.TrustExpressionParser;
 import edu.gatech.gtri.trustmark.v1_0.tip.parser.TrustExpressionParserFactory;
 import org.gtri.fj.data.TreeMap;
@@ -43,6 +42,7 @@ import static edu.gatech.gtri.trustmark.v1_0.tip.TrustExpression.not;
 import static edu.gatech.gtri.trustmark.v1_0.tip.TrustExpression.notEqual;
 import static edu.gatech.gtri.trustmark.v1_0.tip.TrustExpression.or;
 import static edu.gatech.gtri.trustmark.v1_0.tip.TrustExpression.terminal;
+import static edu.gatech.gtri.trustmark.v1_0.tip.TrustExpressionFailure.failureCycle;
 import static edu.gatech.gtri.trustmark.v1_0.tip.TrustExpressionFailure.failureParser;
 import static edu.gatech.gtri.trustmark.v1_0.tip.TrustExpressionFailure.failureResolveTrustInteroperabilityProfile;
 import static edu.gatech.gtri.trustmark.v1_0.tip.TrustExpressionFailure.failureURI;
@@ -61,6 +61,7 @@ import static java.util.Collections.emptyMap;
 import static java.util.Collections.singletonList;
 import static org.gtri.fj.data.List.arrayList;
 import static org.gtri.fj.data.List.nil;
+import static org.gtri.fj.data.List.single;
 import static org.gtri.fj.data.NonEmptyList.nel;
 import static org.gtri.fj.data.Validation.fail;
 import static org.gtri.fj.data.Validation.success;
@@ -122,6 +123,17 @@ public class TestTrustExpressionParserImpl {
         assertEquals(
                 terminal(fail(nel(failureResolveTrustInteroperabilityProfile(nil(), URI.create("failure"), resolveException)))),
                 TestTrustExpressionUtility.normalizeExceptionForTrustExpressionParserData(trustExpressionParser.parse(URI.create("failure")), runtimeException, resolveException));
+    }
+
+    @Test
+    public void testCycle() {
+
+        final P5<TrustInteroperabilityProfileResolverFromMap, TrustmarkDefinitionResolverFromMap, URI, TrustInteroperabilityProfile, TreeMap<String, P3<TrustmarkDefinitionRequirement, TrustmarkDefinition, TreeMap<String, TrustmarkDefinitionParameter>>>> resolver = TestTrustExpressionUtility.resolver("A", TreeMap.empty(stringOrd), single(p("A", "trust-interoperability-profile-reference")));
+        final TrustExpressionParser trustExpressionParser = new TrustExpressionParserImpl(resolver._1(), resolver._2());
+
+        assertEquals(
+                noop(terminal(fail(nel(failureCycle(nel(resolver._4(), resolver._4()))))), fail(nel(failureCycle(nel(resolver._4(), resolver._4()))))),
+                trustExpressionParser.parse(resolver._3()));
     }
 
     @Test
@@ -297,7 +309,7 @@ public class TestTrustExpressionParserImpl {
     @Test
     public void testTrustmarkDefinitionRequirementWithTrustExpressionExists() throws ResolveException {
 
-        final P5<TrustInteroperabilityProfileResolverFromMap, TrustmarkDefinitionResolverFromMap, URI, TrustInteroperabilityProfile, TreeMap<String, P3<TrustmarkDefinitionRequirement, TrustmarkDefinition, TreeMap<String, TrustmarkDefinitionParameter>>>> resolver = TestTrustExpressionUtility.resolver("exists(A.a)", TreeMap.iterableTreeMap(stringOrd, arrayList(p("A", arrayList(p("a", ParameterKind.STRING))))));
+        final P5<TrustInteroperabilityProfileResolverFromMap, TrustmarkDefinitionResolverFromMap, URI, TrustInteroperabilityProfile, TreeMap<String, P3<TrustmarkDefinitionRequirement, TrustmarkDefinition, TreeMap<String, TrustmarkDefinitionParameter>>>> resolver = TestTrustExpressionUtility.resolver("exists(A.a)", TreeMap.iterableTreeMap(stringOrd, arrayList(p("A", arrayList(p("a", ParameterKind.STRING))))), nil());
         final TrustExpressionParser trustExpressionParser = new TrustExpressionParserImpl(resolver._1(), resolver._2());
 
         assertEquals(
@@ -312,7 +324,7 @@ public class TestTrustExpressionParserImpl {
     @Test
     public void testTrustmarkDefinitionRequirementWithTrustExpressionContains() throws ResolveException {
 
-        final P5<TrustInteroperabilityProfileResolverFromMap, TrustmarkDefinitionResolverFromMap, URI, TrustInteroperabilityProfile, TreeMap<String, P3<TrustmarkDefinitionRequirement, TrustmarkDefinition, TreeMap<String, TrustmarkDefinitionParameter>>>> resolver = TestTrustExpressionUtility.resolver("contains(A.a, \"string\")", TreeMap.iterableTreeMap(stringOrd, arrayList(p("A", arrayList(p("a", ParameterKind.ENUM_MULTI))))));
+        final P5<TrustInteroperabilityProfileResolverFromMap, TrustmarkDefinitionResolverFromMap, URI, TrustInteroperabilityProfile, TreeMap<String, P3<TrustmarkDefinitionRequirement, TrustmarkDefinition, TreeMap<String, TrustmarkDefinitionParameter>>>> resolver = TestTrustExpressionUtility.resolver("contains(A.a, \"string\")", TreeMap.iterableTreeMap(stringOrd, arrayList(p("A", arrayList(p("a", ParameterKind.ENUM_MULTI))))), nil());
         final TrustExpressionParser trustExpressionParser = new TrustExpressionParserImpl(resolver._1(), resolver._2());
 
         assertEquals(
@@ -340,6 +352,7 @@ public class TestTrustExpressionParserImpl {
         trustInteroperabilityProfileReference.setIdentifier(resolver._3());
 
         final TrustInteroperabilityProfileImpl trustInteroperabilityProfile = new TrustInteroperabilityProfileImpl();
+        trustInteroperabilityProfile.setIdentifier(URI.create("trust-interoperability-profile"));
         trustInteroperabilityProfile.setTrustExpression("A");
         trustInteroperabilityProfile.setReferences(singletonList(trustInteroperabilityProfileReference));
 

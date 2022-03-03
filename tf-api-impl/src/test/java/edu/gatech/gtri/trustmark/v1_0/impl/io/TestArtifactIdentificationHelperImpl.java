@@ -8,8 +8,12 @@ import org.junit.Test;
 
 import java.io.File;
 
-import static org.hamcrest.Matchers.*;
-import static org.hamcrest.MatcherAssert.*;
+import static edu.gatech.gtri.trustmark.v1_0.io.MediaType.TEXT_XML;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
 
 
 /**
@@ -37,7 +41,7 @@ public class TestArtifactIdentificationHelperImpl extends AbstractTest {
         assertThat(id, notNullValue());
         assertThat(id.getFile(), equalTo(file));
         assertThat(id.getArtifactType(), equalTo(ArtifactIdentification.ArtifactType.TRUSTMARK_DEFINITION));
-        assertThat(id.getMimeType(), equalTo("text/xml"));
+        assertThat(id.getMimeType(), equalTo(TEXT_XML.getMediaType()));
 
     }
 
@@ -53,7 +57,7 @@ public class TestArtifactIdentificationHelperImpl extends AbstractTest {
         assertThat(id, notNullValue());
         assertThat(id.getFile(), equalTo(file));
         assertThat(id.getArtifactType(), equalTo(ArtifactIdentification.ArtifactType.TRUSTMARK));
-        assertThat(id.getMimeType(), equalTo("text/xml"));
+        assertThat(id.getMimeType(), equalTo(TEXT_XML.getMediaType()));
 
     }
 
@@ -70,7 +74,7 @@ public class TestArtifactIdentificationHelperImpl extends AbstractTest {
         assertThat(id, notNullValue());
         assertThat(id.getFile(), equalTo(file));
         assertThat(id.getArtifactType(), equalTo(ArtifactIdentification.ArtifactType.TRUSTMARK_STATUS_REPORT));
-        assertThat(id.getMimeType(), equalTo("text/xml"));
+        assertThat(id.getMimeType(), equalTo(TEXT_XML.getMediaType()));
 
     }
 
@@ -87,7 +91,7 @@ public class TestArtifactIdentificationHelperImpl extends AbstractTest {
         assertThat(id, notNullValue());
         assertThat(id.getFile(), equalTo(file));
         assertThat(id.getArtifactType(), equalTo(ArtifactIdentification.ArtifactType.TRUST_INTEROPERABILITY_PROFILE));
-        assertThat(id.getMimeType(), equalTo("text/xml"));
+        assertThat(id.getMimeType(), equalTo(TEXT_XML.getMediaType()));
 
     }
 

@@ -4,13 +4,14 @@
     <parent>
         <groupId>edu.gatech.gtri.trustmark</groupId>
         <artifactId>tf-api-parent</artifactId>
-        <version>1.4.21</version>
+        <version>1.4.25</version>
     </parent>
     <artifactId>tf-api</artifactId>
-    <version>1.4.21</version>
+    <version>1.4.25</version>
     <packaging>jar</packaging>
     <properties>
-        <tf.api.version>1.4.21</tf.api.version>
+        <junit.version>4.13.1</junit.version>
+        <tf.api.version>1.4.25</tf.api.version>
     </properties>
     <dependencies>
         <dependency>
@@ -34,6 +35,12 @@
             <groupId>org.gtri.functionaljava</groupId>
             <artifactId>functionaljava</artifactId>
             <version>4.10.1-GTRI</version>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>RELEASE</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
     <build>

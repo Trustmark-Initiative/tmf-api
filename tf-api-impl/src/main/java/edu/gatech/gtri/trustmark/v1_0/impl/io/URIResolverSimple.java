@@ -1,38 +1,35 @@
 package edu.gatech.gtri.trustmark.v1_0.impl.io;
 
 import edu.gatech.gtri.trustmark.v1_0.io.ResolveException;
-import edu.gatech.gtri.trustmark.v1_0.io.URIResolver;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import java.io.*;
-import java.net.*;
+import java.net.URI;
+
+import static java.util.Objects.requireNonNull;
+import static org.gtri.fj.data.Option.none;
+import static org.gtri.fj.data.Option.some;
 
 /**
- * A naive implementation of the URI resolver which does no caching and immediately retrieves each network resource
- * as requested by the system.  This version will only resolve URLs, local ids and URNs are not supported at all.
- * <br/><br/>
- * Created by brad on 12/8/15.
+ * Resolves the given URI by converting the URI to a URL and downloading the
+ * URL.
+ *
+ * @author GTRI Trustmark Team
  */
-public class URIResolverSimple extends AbstractURIResolver implements URIResolver {
-
-    private static final Logger log = LoggerFactory.getLogger(URIResolverSimple.class);
+public final class URIResolverSimple extends AbstractURIResolver {
 
     @Override
-    public String resolve(URI uri) throws ResolveException {
-        URL url = null;
-        try {
-            url = uri.toURL();
-        }catch(MalformedURLException murle){
-            throw new ResolveException("URI is not a valid URL: "+uri+", the system does not support anything other than Internet-resolvable URLs.", murle);
-        }
-        try {
-            return downloadUrl(url);
-        }catch(IOException ioe){
-            throw new ResolveException("IO Exception downloading the URL["+url+"]: "+ioe.getMessage(), ioe);
-        }
-    }//end resolve()
+    public String resolve(final URI uri) throws ResolveException {
 
+        requireNonNull(uri);
 
+        return downloadUri(uri, none());
+    }
 
-}//nd URIResolverSimple
+    @Override
+    public String resolve(final URI uri, final String mediaTypeString) throws ResolveException {
+
+        requireNonNull(uri);
+        requireNonNull(mediaTypeString);
+
+        return downloadUri(uri, some(mediaTypeString));
+    }
+}

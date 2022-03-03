@@ -9,25 +9,27 @@ import org.junit.Test;
 
 import java.net.URI;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.notNullValue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-/**
- * Created by brad on 12/8/15.
- */
 public class TestTrustInteroperabilityProfileResolverImpl extends AbstractTest {
 
     @Test
     public void testFactoryLoaderRead() throws Exception {
-        logger.info("Tests we can get a TrustInteroperabilityProfileResolver from the FactoryLoader...");
         TrustInteroperabilityProfileResolver resolver = FactoryLoader.getInstance(TrustInteroperabilityProfileResolver.class);
-        assertThat(resolver, notNullValue());
-    }//end testGet()
+        assertNotNull(resolver);
+    }
 
     @Test
     public void testResolve() throws ResolveException {
         final TrustInteroperabilityProfileResolver trustInteroperabilityProfileResolver = FactoryLoader.getInstance(TrustInteroperabilityProfileResolver.class);
-        final TrustInteroperabilityProfile trustInteroperabilityProfile = trustInteroperabilityProfileResolver.resolve(URI.create("https://artifacts.trustmarkinitiative.org/lib/tips/fbca-cp-section-1_-introduction/2.27/"));
-        assertThat(trustInteroperabilityProfile, notNullValue());
+        final TrustInteroperabilityProfile trustInteroperabilityProfile1 = trustInteroperabilityProfileResolver.resolve(URI.create("https://artifacts.trustmarkinitiative.org/lib/tips/fbca-cp-section-1_-introduction/2.27/"));
+        final TrustInteroperabilityProfile trustInteroperabilityProfile2 = trustInteroperabilityProfileResolver.resolve(URI.create("https://artifacts.trustmarkinitiative.org/lib/tips/fbca-cp-section-1_-introduction/2.27/?format=xml"));
+        final TrustInteroperabilityProfile trustInteroperabilityProfile3 = trustInteroperabilityProfileResolver.resolve(URI.create("https://artifacts.trustmarkinitiative.org/lib/tips/fbca-cp-section-1_-introduction/2.27/?format=html"));
+        final TrustInteroperabilityProfile trustInteroperabilityProfile4 = trustInteroperabilityProfileResolver.resolve(URI.create("http://artifacts.trustmarkinitiative.org/lib/tips/fbca-cp-section-1_-introduction/2.27/?format=html"));
+        assertEquals(trustInteroperabilityProfile1.getIdentifier(), URI.create("https://artifacts.trustmarkinitiative.org/lib/tips/fbca-cp-section-1_-introduction/2.27/"));
+        assertEquals(trustInteroperabilityProfile2.getIdentifier(), URI.create("https://artifacts.trustmarkinitiative.org/lib/tips/fbca-cp-section-1_-introduction/2.27/"));
+        assertEquals(trustInteroperabilityProfile3.getIdentifier(), URI.create("https://artifacts.trustmarkinitiative.org/lib/tips/fbca-cp-section-1_-introduction/2.27/"));
+        assertEquals(trustInteroperabilityProfile4.getIdentifier(), URI.create("https://artifacts.trustmarkinitiative.org/lib/tips/fbca-cp-section-1_-introduction/2.27/"));
     }
-}//end testGetSimpleHTMLResource()
+}

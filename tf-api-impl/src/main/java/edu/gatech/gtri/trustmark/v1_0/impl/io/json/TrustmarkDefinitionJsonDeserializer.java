@@ -6,16 +6,18 @@ import edu.gatech.gtri.trustmark.v1_0.impl.model.CitationImpl;
 import edu.gatech.gtri.trustmark.v1_0.impl.model.ConformanceCriterionImpl;
 import edu.gatech.gtri.trustmark.v1_0.impl.model.SourceImpl;
 import edu.gatech.gtri.trustmark.v1_0.impl.model.TrustmarkDefinitionImpl;
-import edu.gatech.gtri.trustmark.v1_0.impl.model.TrustmarkDefinitionMetadataImpl;
 import edu.gatech.gtri.trustmark.v1_0.impl.model.TrustmarkDefinitionParameterImpl;
+import edu.gatech.gtri.trustmark.v1_0.io.MediaType;
 import edu.gatech.gtri.trustmark.v1_0.io.ParseException;
 import edu.gatech.gtri.trustmark.v1_0.model.ParameterKind;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkDefinition;
-import org.slf4j.LoggerFactory;
-import org.slf4j.Logger;
 import org.gtri.fj.data.TreeMap;
 import org.gtri.fj.function.Try1;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.net.URI;
 
 import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.JsonDeserializerUtility.assertSupported;
 import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.JsonDeserializerUtility.readBooleanOption;
@@ -35,14 +37,18 @@ import static java.util.Objects.requireNonNull;
 import static org.gtri.fj.lang.StringUtility.stringOrd;
 import static org.gtri.fj.product.P.p;
 
+
 /**
- * Created by brad on 12/10/15.
+ * Implementations deserialize JSON and, optionally, a URI into a Trust
+ * Interoperability Profile.
+ *
+ * @author GTRI Trustmark Team
  */
-public class TrustmarkDefinitionJsonDeserializer implements JsonDeserializer<TrustmarkDefinition> {
+public final class TrustmarkDefinitionJsonDeserializer implements JsonDeserializer<TrustmarkDefinition> {
 
     private static final Logger log = LoggerFactory.getLogger(TrustmarkDefinitionJsonDeserializer.class);
 
-    public TrustmarkDefinition deserialize(String jsonString) throws ParseException {
+    public TrustmarkDefinition deserialize(final String jsonString, final URI uri) throws ParseException {
         requireNonNull(jsonString);
 
         log.debug("Deserializing Trustmark Definition JSON . . .");
@@ -61,10 +67,10 @@ public class TrustmarkDefinitionJsonDeserializer implements JsonDeserializer<Tru
                 .foldLeft(tree -> conformanceCriterion -> tree.set(conformanceCriterion.getId(), conformanceCriterion), TreeMap.empty(stringOrd));
 
         trustmarkDefinition.setOriginalSource(jsonString);
-        trustmarkDefinition.setOriginalSourceType(SerializerJson.APPLICATION_JSON);
+        trustmarkDefinition.setOriginalSourceType(MediaType.APPLICATION_JSON.getMediaType());
 
         trustmarkDefinition.setIssuanceCriteria(readString(jsonObject, "IssuanceCriteria"));
-        trustmarkDefinition.setMetadata(readMetadata(readJSONObject(jsonObject, "Metadata")));
+        readMetadata(trustmarkDefinition, readJSONObject(jsonObject, "Metadata"));
 
         readJSONObjectList(jsonObject, "AssessmentSteps").mapException(readAssessmentStep(conformanceCriterionTreeMap)).forEach(trustmarkDefinition::addAssessmentStep);
         readJSONObjectList(jsonObject, "Terms").mapException(JsonDeserializerUtility::readTerm).forEach(trustmarkDefinition::addTerm);
@@ -133,42 +139,40 @@ public class TrustmarkDefinitionJsonDeserializer implements JsonDeserializer<Tru
         };
     }
 
-    private static TrustmarkDefinitionMetadataImpl readMetadata(final JSONObject jsonObject) throws ParseException {
+    private static TrustmarkDefinitionImpl readMetadata(final TrustmarkDefinitionImpl trustmarkDefinition, final JSONObject jsonObject) throws ParseException {
         requireNonNull(jsonObject);
 
-        final TrustmarkDefinitionMetadataImpl trustmarkDefinitionMetadata = new TrustmarkDefinitionMetadataImpl();
+        trustmarkDefinition.setDeprecated(readBooleanOption(jsonObject, "Deprecated").orSome(false));
+        trustmarkDefinition.setDescription(readString(jsonObject, "Description"));
+        trustmarkDefinition.setIdentifier(readURI(jsonObject, "Identifier"));
+        trustmarkDefinition.setName(readString(jsonObject, "Name"));
+        trustmarkDefinition.setPublicationDateTime(readDate(jsonObject, "PublicationDateTime"));
+        trustmarkDefinition.setTrustmarkDefiningOrganization(readEntity(readJSONObject(jsonObject, "TrustmarkDefiningOrganization")));
+        trustmarkDefinition.setTypeName("TrustmarkDefinition");
+        trustmarkDefinition.setVersion(readString(jsonObject, "Version"));
 
-        trustmarkDefinitionMetadata.setDeprecated(readBooleanOption(jsonObject, "Deprecated").orSome(false));
-        trustmarkDefinitionMetadata.setDescription(readString(jsonObject, "Description"));
-        trustmarkDefinitionMetadata.setIdentifier(readURI(jsonObject, "Identifier"));
-        trustmarkDefinitionMetadata.setName(readString(jsonObject, "Name"));
-        trustmarkDefinitionMetadata.setPublicationDateTime(readDate(jsonObject, "PublicationDateTime"));
-        trustmarkDefinitionMetadata.setTrustmarkDefiningOrganization(readEntity(readJSONObject(jsonObject, "TrustmarkDefiningOrganization")));
-        trustmarkDefinitionMetadata.setTypeName("TrustmarkDefinition");
-        trustmarkDefinitionMetadata.setVersion(readString(jsonObject, "Version"));
-
-        readJSONObjectList(jsonObject, "KnownConflicts").mapException(JsonDeserializerUtility::readTrustmarkDefinitionReference).forEach(trustmarkDefinitionMetadata::addToKnownConflicts);
-        readJSONObjectList(jsonObject, "Satisfies").mapException(JsonDeserializerUtility::readTrustmarkDefinitionReference).forEach(trustmarkDefinitionMetadata::addToSatisfies);
+        readJSONObjectList(jsonObject, "KnownConflicts").mapException(JsonDeserializerUtility::readTrustmarkDefinitionReference).forEach(trustmarkDefinition::addToKnownConflict);
+        readJSONObjectList(jsonObject, "Satisfies").mapException(JsonDeserializerUtility::readTrustmarkDefinitionReference).forEach(trustmarkDefinition::addToSatisfies);
 
         readJSONObjectOption(jsonObject, "Supersessions").foreachDoEffectException(jsonObjectInner -> {
-            readJSONObjectList(jsonObjectInner, "Supersedes").mapException(JsonDeserializerUtility::readTrustmarkDefinitionReference).forEach(trustmarkDefinitionMetadata::addToSupersedes);
-            readJSONObjectList(jsonObjectInner, "SupersededBy").mapException(JsonDeserializerUtility::readTrustmarkDefinitionReference).forEach(trustmarkDefinitionMetadata::addToSupersededBy);
+            readJSONObjectList(jsonObjectInner, "Supersedes").mapException(JsonDeserializerUtility::readTrustmarkDefinitionReference).forEach(trustmarkDefinition::addToSupersedes);
+            readJSONObjectList(jsonObjectInner, "SupersededBy").mapException(JsonDeserializerUtility::readTrustmarkDefinitionReference).forEach(trustmarkDefinition::addToSupersededBy);
         });
 
-        readStringList(jsonObject, "Keywords").forEach(trustmarkDefinitionMetadata::addToKeywords);
+        readStringList(jsonObject, "Keywords").forEach(trustmarkDefinition::addToKeywords);
 
-        readStringOption(jsonObject, "AssessorQualificationsDescription").forEach(trustmarkDefinitionMetadata::setAssessorQualificationsDescription);
-        readStringOption(jsonObject, "ExtensionDescription").forEach(trustmarkDefinitionMetadata::setExtensionDescription);
-        readStringOption(jsonObject, "LegalNotice").forEach(trustmarkDefinitionMetadata::setLegalNotice);
-        readStringOption(jsonObject, "Notes").forEach(trustmarkDefinitionMetadata::setNotes);
-        readStringOption(jsonObject, "ProviderEligibilityCriteria").forEach(trustmarkDefinitionMetadata::setProviderEligibilityCriteria);
-        readStringOption(jsonObject, "TargetProviderDescription").forEach(trustmarkDefinitionMetadata::setTargetProviderDescription);
-        readStringOption(jsonObject, "TargetRecipientDescription").forEach(trustmarkDefinitionMetadata::setTargetRecipientDescription);
-        readStringOption(jsonObject, "TargetRelyingPartyDescription").forEach(trustmarkDefinitionMetadata::setTargetRelyingPartyDescription);
-        readStringOption(jsonObject, "TargetStakeholderDescription").forEach(trustmarkDefinitionMetadata::setTargetStakeholderDescription);
-        readStringOption(jsonObject, "TrustmarkRevocationCriteria").forEach(trustmarkDefinitionMetadata::setTrustmarkRevocationCriteria);
+        readStringOption(jsonObject, "AssessorQualificationsDescription").forEach(trustmarkDefinition::setAssessorQualificationsDescription);
+        readStringOption(jsonObject, "ExtensionDescription").forEach(trustmarkDefinition::setExtensionDescription);
+        readStringOption(jsonObject, "LegalNotice").forEach(trustmarkDefinition::setLegalNotice);
+        readStringOption(jsonObject, "Notes").forEach(trustmarkDefinition::setNotes);
+        readStringOption(jsonObject, "ProviderEligibilityCriteria").forEach(trustmarkDefinition::setProviderEligibilityCriteria);
+        readStringOption(jsonObject, "TargetProviderDescription").forEach(trustmarkDefinition::setTargetProviderDescription);
+        readStringOption(jsonObject, "TargetRecipientDescription").forEach(trustmarkDefinition::setTargetRecipientDescription);
+        readStringOption(jsonObject, "TargetRelyingPartyDescription").forEach(trustmarkDefinition::setTargetRelyingPartyDescription);
+        readStringOption(jsonObject, "TargetStakeholderDescription").forEach(trustmarkDefinition::setTargetStakeholderDescription);
+        readStringOption(jsonObject, "TrustmarkRevocationCriteria").forEach(trustmarkDefinition::setTrustmarkRevocationCriteria);
 
-        return trustmarkDefinitionMetadata;
+        return trustmarkDefinition;
     }
 
     private static ArtifactImpl readArtifact(final JSONObject jsonObject) throws ParseException {

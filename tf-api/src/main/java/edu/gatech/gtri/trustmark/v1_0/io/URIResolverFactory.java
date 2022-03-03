@@ -1,24 +1,36 @@
 package edu.gatech.gtri.trustmark.v1_0.io;
 
 /**
- * Created by brad on 12/7/15.
+ * Implementations construct URI resolvers.
+ *
+ * TODO: Remove; no implementations.
+ *
+ * @author GTRI Trustmark Team
  */
 public interface URIResolverFactory {
 
     /**
-     * Simple implementation which does nothing fancy.  It tries to immediately resolve the URI each time.
+     * Returns a URI resolver that attempts to resolve a given URI.
+     *
+     * @return the URI resolver
      */
-    public URIResolver createSimpleResolver();
+    URIResolver createSimpleResolver();
 
     /**
-     * This version maintains a cache of URI values, and only refreshes them from the internet if the cache has expired.
-     * The timeout is based on milliseconds.
+     * Returns a URI resolver that attempts to resolve a given URI from its
+     * cache, if the timeout has not expired; otherwise, it attempts to resolve
+     * the given URI as usual.
+     *
+     * @param timeout the timeout in milliseconds
+     * @return the URI resolver
      */
-    public URIResolver createTimeoutBasedCacheResolver(long timeout);
+    URIResolver createTimeoutBasedCacheResolver(final long timeout);
 
     /**
-     * Creates a version of the URIResolver interface which honors the timeout information given by an HTTP service.
+     * Returns a URI resolver that attempts to resolve a given URI, respecting
+     * the Cache-Control header, if relevant.
+     *
+     * @return the URI resolver
      */
-    public URIResolver createHttpHonoringResolver();
-
-}//end URIResolverFactory
+    URIResolver createHttpHonoringResolver();
+}

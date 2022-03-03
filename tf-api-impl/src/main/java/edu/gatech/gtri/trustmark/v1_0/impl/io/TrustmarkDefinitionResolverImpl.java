@@ -7,13 +7,18 @@ import edu.gatech.gtri.trustmark.v1_0.io.TrustmarkDefinitionResolver;
 import edu.gatech.gtri.trustmark.v1_0.io.URIResolver;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkDefinition;
 
-public class TrustmarkDefinitionResolverImpl extends AbstractResolverFromURIResolver<TrustmarkDefinition> implements TrustmarkDefinitionResolver {
+import static org.gtri.fj.data.List.arrayList;
+import static org.gtri.fj.product.P.p;
+
+public final class TrustmarkDefinitionResolverImpl extends AbstractResolverFromURIResolver<TrustmarkDefinition> implements TrustmarkDefinitionResolver {
 
     public TrustmarkDefinitionResolverImpl() {
         super(
-                new TrustmarkDefinitionJsonDeserializer()::deserialize,
-                TrustmarkDefinitionXmlDeserializer::deserialize,
+                arrayList(
+                        p(AbstractResolverUtility::isJson, new TrustmarkDefinitionJsonDeserializer()::deserialize),
+                        p(AbstractResolverUtility::isXml, new TrustmarkDefinitionXmlDeserializer()::deserialize)),
                 TrustmarkDefinitionUtility::validate,
-                FactoryLoader.getInstance(URIResolver.class));
+                FactoryLoader.getInstance(URIResolver.class),
+                new URIIteratorStrategyAcceptXmlAcceptJson());
     }
 }

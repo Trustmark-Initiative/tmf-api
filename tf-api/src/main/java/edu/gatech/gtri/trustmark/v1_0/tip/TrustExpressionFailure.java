@@ -30,6 +30,7 @@ public abstract class TrustExpressionFailure {
     public abstract <T1> T1 match(
             F3<List<TrustInteroperabilityProfile>, String, RuntimeException, T1> fTrustExpressionFailureURI,
             F3<List<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustInteroperabilityProfile,
+            F1<NonEmptyList<TrustInteroperabilityProfile>, T1> fTrustExpressionFailureCycle,
             F3<NonEmptyList<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustmarkDefinition,
             F3<NonEmptyList<TrustInteroperabilityProfile>, String, RuntimeException, T1> fTrustExpressionFailureParser,
             F2<NonEmptyList<TrustInteroperabilityProfile>, String, T1> fTrustExpressionFailureIdentifierUnknown,
@@ -54,6 +55,7 @@ public abstract class TrustExpressionFailure {
         return match(
                 (trustInteroperabilityProfileList, uriString, exception) -> trustInteroperabilityProfileList,
                 (trustInteroperabilityProfileList, uri, exception) -> trustInteroperabilityProfileList,
+                (trustInteroperabilityProfileList) -> trustInteroperabilityProfileList.toList(),
                 (trustInteroperabilityProfileList, uri, exception) -> trustInteroperabilityProfileList.toList(),
                 (trustInteroperabilityProfileList, expression, exception) -> trustInteroperabilityProfileList.toList(),
                 (trustInteroperabilityProfileList, identifier) -> trustInteroperabilityProfileList.toList(),
@@ -96,6 +98,7 @@ public abstract class TrustExpressionFailure {
         public <T1> T1 match(
                 F3<List<TrustInteroperabilityProfile>, String, RuntimeException, T1> fTrustExpressionFailureURI,
                 F3<List<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustInteroperabilityProfile,
+                F1<NonEmptyList<TrustInteroperabilityProfile>, T1> fTrustExpressionFailureCycle,
                 F3<NonEmptyList<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustmarkDefinition,
                 F3<NonEmptyList<TrustInteroperabilityProfile>, String, RuntimeException, T1> fTrustExpressionFailureParser,
                 F2<NonEmptyList<TrustInteroperabilityProfile>, String, T1> fTrustExpressionFailureIdentifierUnknown,
@@ -117,6 +120,7 @@ public abstract class TrustExpressionFailure {
 
             requireNonNull(fTrustExpressionFailureURI);
             requireNonNull(fTrustExpressionFailureResolveTrustInteroperabilityProfile);
+            requireNonNull(fTrustExpressionFailureCycle);
             requireNonNull(fTrustExpressionFailureResolveTrustmarkDefinition);
             requireNonNull(fTrustExpressionFailureParser);
             requireNonNull(fTrustExpressionFailureIdentifierUnknown);
@@ -175,6 +179,7 @@ public abstract class TrustExpressionFailure {
         public <T1> T1 match(
                 F3<List<TrustInteroperabilityProfile>, String, RuntimeException, T1> fTrustExpressionFailureURI,
                 F3<List<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustInteroperabilityProfile,
+                F1<NonEmptyList<TrustInteroperabilityProfile>, T1> fTrustExpressionFailureCycle,
                 F3<NonEmptyList<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustmarkDefinition,
                 F3<NonEmptyList<TrustInteroperabilityProfile>, String, RuntimeException, T1> fTrustExpressionFailureParser,
                 F2<NonEmptyList<TrustInteroperabilityProfile>, String, T1> fTrustExpressionFailureIdentifierUnknown,
@@ -196,6 +201,7 @@ public abstract class TrustExpressionFailure {
 
             requireNonNull(fTrustExpressionFailureURI);
             requireNonNull(fTrustExpressionFailureResolveTrustInteroperabilityProfile);
+            requireNonNull(fTrustExpressionFailureCycle);
             requireNonNull(fTrustExpressionFailureResolveTrustmarkDefinition);
             requireNonNull(fTrustExpressionFailureParser);
             requireNonNull(fTrustExpressionFailureIdentifierUnknown);
@@ -232,6 +238,79 @@ public abstract class TrustExpressionFailure {
         }
     }
 
+    public static final class TrustExpressionFailureCycle extends TrustExpressionFailure {
+        private final NonEmptyList<TrustInteroperabilityProfile> trustInteroperabilityProfileNonEmptyList;
+
+        public TrustExpressionFailureCycle(
+                final NonEmptyList<TrustInteroperabilityProfile> trustInteroperabilityProfileNonEmptyList) {
+
+            requireNonNull(trustInteroperabilityProfileNonEmptyList);
+
+            this.trustInteroperabilityProfileNonEmptyList = trustInteroperabilityProfileNonEmptyList;
+        }
+
+        public <T1> T1 match(
+                F3<List<TrustInteroperabilityProfile>, String, RuntimeException, T1> fTrustExpressionFailureURI,
+                F3<List<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustInteroperabilityProfile,
+                F1<NonEmptyList<TrustInteroperabilityProfile>, T1> fTrustExpressionFailureCycle,
+                F3<NonEmptyList<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustmarkDefinition,
+                F3<NonEmptyList<TrustInteroperabilityProfile>, String, RuntimeException, T1> fTrustExpressionFailureParser,
+                F2<NonEmptyList<TrustInteroperabilityProfile>, String, T1> fTrustExpressionFailureIdentifierUnknown,
+                F3<NonEmptyList<TrustInteroperabilityProfile>, String, String, T1> fTrustExpressionFailureIdentifierUnexpectedTrustInteroperabilityProfile,
+                F3<NonEmptyList<TrustInteroperabilityProfile>, TrustmarkDefinitionRequirement, String, T1> fTrustExpressionFailureIdentifierUnknownTrustmarkDefinitionParameter,
+                F3<NonEmptyList<TrustInteroperabilityProfile>, String, String, T1> fTrustExpressionFailureIdentifierUnknownTrustmarkDefinitionRequirement,
+                F1<NonEmptyList<TrustInteroperabilityProfile>, T1> fTrustExpressionFailureNonTerminalUnexpected,
+                F3<NonEmptyList<TrustInteroperabilityProfile>, TrustmarkDefinitionRequirement, TrustmarkDefinitionParameter, T1> fTrustExpressionFailureTrustmarkAbsent,
+                F3<NonEmptyList<TrustInteroperabilityProfile>, TrustmarkDefinitionRequirement, NonEmptyList<TrustmarkVerifierFailure>, T1> fTrustExpressionFailureTrustmarkVerifierFailure,
+                F3<NonEmptyList<TrustInteroperabilityProfile>, NonEmptyList<Either<ParameterKind, TrustExpressionType>>, Either<ParameterKind, TrustExpressionType>, T1> fTrustExpressionFailureTypeUnexpected,
+                F3<NonEmptyList<TrustInteroperabilityProfile>, NonEmptyList<TrustExpressionType>, TrustExpressionType, T1> fTrustExpressionFailureTypeUnexpectedLeft,
+                F3<NonEmptyList<TrustInteroperabilityProfile>, NonEmptyList<TrustExpressionType>, TrustExpressionType, T1> fTrustExpressionFailureTypeUnexpectedRight,
+                F3<NonEmptyList<TrustInteroperabilityProfile>, TrustExpressionType, TrustExpressionType, T1> fTrustExpressionFailureTypeMismatch,
+                F2<NonEmptyList<TrustInteroperabilityProfile>, TrustExpressionType, T1> fTrustExpressionFailureTypeUnorderableLeft,
+                F2<NonEmptyList<TrustInteroperabilityProfile>, TrustExpressionType, T1> fTrustExpressionFailureTypeUnorderableRight,
+                F2<NonEmptyList<TrustInteroperabilityProfile>, NonEmptyList<TrustExpressionFailure>, T1> fTrustExpressionFailureExpression,
+                F2<NonEmptyList<TrustInteroperabilityProfile>, NonEmptyList<TrustExpressionFailure>, T1> fTrustExpressionFailureExpressionLeft,
+                F2<NonEmptyList<TrustInteroperabilityProfile>, NonEmptyList<TrustExpressionFailure>, T1> fTrustExpressionFailureExpressionRight) {
+
+            requireNonNull(fTrustExpressionFailureURI);
+            requireNonNull(fTrustExpressionFailureResolveTrustInteroperabilityProfile);
+            requireNonNull(fTrustExpressionFailureCycle);
+            requireNonNull(fTrustExpressionFailureResolveTrustmarkDefinition);
+            requireNonNull(fTrustExpressionFailureParser);
+            requireNonNull(fTrustExpressionFailureIdentifierUnknown);
+            requireNonNull(fTrustExpressionFailureIdentifierUnexpectedTrustInteroperabilityProfile);
+            requireNonNull(fTrustExpressionFailureIdentifierUnknownTrustmarkDefinitionParameter);
+            requireNonNull(fTrustExpressionFailureIdentifierUnknownTrustmarkDefinitionRequirement);
+            requireNonNull(fTrustExpressionFailureNonTerminalUnexpected);
+            requireNonNull(fTrustExpressionFailureTrustmarkAbsent);
+            requireNonNull(fTrustExpressionFailureTrustmarkVerifierFailure);
+            requireNonNull(fTrustExpressionFailureTypeUnexpected);
+            requireNonNull(fTrustExpressionFailureTypeUnexpectedLeft);
+            requireNonNull(fTrustExpressionFailureTypeUnexpectedRight);
+            requireNonNull(fTrustExpressionFailureTypeMismatch);
+            requireNonNull(fTrustExpressionFailureTypeUnorderableLeft);
+            requireNonNull(fTrustExpressionFailureTypeUnorderableRight);
+            requireNonNull(fTrustExpressionFailureExpression);
+            requireNonNull(fTrustExpressionFailureExpressionLeft);
+            requireNonNull(fTrustExpressionFailureExpressionRight);
+
+            return fTrustExpressionFailureCycle.f(trustInteroperabilityProfileNonEmptyList);
+        }
+
+        @Override
+        public boolean equals(final Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            final TrustExpressionFailureCycle that = (TrustExpressionFailureCycle) o;
+            return trustInteroperabilityProfileNonEmptyList.equals(that.trustInteroperabilityProfileNonEmptyList);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(trustInteroperabilityProfileNonEmptyList);
+        }
+    }
+
     public static final class TrustExpressionFailureResolveTrustmarkDefinition extends TrustExpressionFailure {
         private final NonEmptyList<TrustInteroperabilityProfile> trustInteroperabilityProfileNonEmptyList;
         private final URI uri;
@@ -254,6 +333,7 @@ public abstract class TrustExpressionFailure {
         public <T1> T1 match(
                 F3<List<TrustInteroperabilityProfile>, String, RuntimeException, T1> fTrustExpressionFailureURI,
                 F3<List<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustInteroperabilityProfile,
+                F1<NonEmptyList<TrustInteroperabilityProfile>, T1> fTrustExpressionFailureCycle,
                 F3<NonEmptyList<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustmarkDefinition,
                 F3<NonEmptyList<TrustInteroperabilityProfile>, String, RuntimeException, T1> fTrustExpressionFailureParser,
                 F2<NonEmptyList<TrustInteroperabilityProfile>, String, T1> fTrustExpressionFailureIdentifierUnknown,
@@ -275,6 +355,7 @@ public abstract class TrustExpressionFailure {
 
             requireNonNull(fTrustExpressionFailureURI);
             requireNonNull(fTrustExpressionFailureResolveTrustInteroperabilityProfile);
+            requireNonNull(fTrustExpressionFailureCycle);
             requireNonNull(fTrustExpressionFailureResolveTrustmarkDefinition);
             requireNonNull(fTrustExpressionFailureParser);
             requireNonNull(fTrustExpressionFailureIdentifierUnknown);
@@ -333,6 +414,7 @@ public abstract class TrustExpressionFailure {
         public <T1> T1 match(
                 F3<List<TrustInteroperabilityProfile>, String, RuntimeException, T1> fTrustExpressionFailureURI,
                 F3<List<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustInteroperabilityProfile,
+                F1<NonEmptyList<TrustInteroperabilityProfile>, T1> fTrustExpressionFailureCycle,
                 F3<NonEmptyList<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustmarkDefinition,
                 F3<NonEmptyList<TrustInteroperabilityProfile>, String, RuntimeException, T1> fTrustExpressionFailureParser,
                 F2<NonEmptyList<TrustInteroperabilityProfile>, String, T1> fTrustExpressionFailureIdentifierUnknown,
@@ -354,6 +436,7 @@ public abstract class TrustExpressionFailure {
 
             requireNonNull(fTrustExpressionFailureURI);
             requireNonNull(fTrustExpressionFailureResolveTrustInteroperabilityProfile);
+            requireNonNull(fTrustExpressionFailureCycle);
             requireNonNull(fTrustExpressionFailureResolveTrustmarkDefinition);
             requireNonNull(fTrustExpressionFailureParser);
             requireNonNull(fTrustExpressionFailureIdentifierUnknown);
@@ -408,6 +491,7 @@ public abstract class TrustExpressionFailure {
         public <T1> T1 match(
                 F3<List<TrustInteroperabilityProfile>, String, RuntimeException, T1> fTrustExpressionFailureURI,
                 F3<List<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustInteroperabilityProfile,
+                F1<NonEmptyList<TrustInteroperabilityProfile>, T1> fTrustExpressionFailureCycle,
                 F3<NonEmptyList<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustmarkDefinition,
                 F3<NonEmptyList<TrustInteroperabilityProfile>, String, RuntimeException, T1> fTrustExpressionFailureParser,
                 F2<NonEmptyList<TrustInteroperabilityProfile>, String, T1> fTrustExpressionFailureIdentifierUnknown,
@@ -429,6 +513,7 @@ public abstract class TrustExpressionFailure {
 
             requireNonNull(fTrustExpressionFailureURI);
             requireNonNull(fTrustExpressionFailureResolveTrustInteroperabilityProfile);
+            requireNonNull(fTrustExpressionFailureCycle);
             requireNonNull(fTrustExpressionFailureResolveTrustmarkDefinition);
             requireNonNull(fTrustExpressionFailureParser);
             requireNonNull(fTrustExpressionFailureIdentifierUnknown);
@@ -487,6 +572,7 @@ public abstract class TrustExpressionFailure {
         public <T1> T1 match(
                 F3<List<TrustInteroperabilityProfile>, String, RuntimeException, T1> fTrustExpressionFailureURI,
                 F3<List<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustInteroperabilityProfile,
+                F1<NonEmptyList<TrustInteroperabilityProfile>, T1> fTrustExpressionFailureCycle,
                 F3<NonEmptyList<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustmarkDefinition,
                 F3<NonEmptyList<TrustInteroperabilityProfile>, String, RuntimeException, T1> fTrustExpressionFailureParser,
                 F2<NonEmptyList<TrustInteroperabilityProfile>, String, T1> fTrustExpressionFailureIdentifierUnknown,
@@ -508,6 +594,7 @@ public abstract class TrustExpressionFailure {
 
             requireNonNull(fTrustExpressionFailureURI);
             requireNonNull(fTrustExpressionFailureResolveTrustInteroperabilityProfile);
+            requireNonNull(fTrustExpressionFailureCycle);
             requireNonNull(fTrustExpressionFailureResolveTrustmarkDefinition);
             requireNonNull(fTrustExpressionFailureParser);
             requireNonNull(fTrustExpressionFailureIdentifierUnknown);
@@ -566,6 +653,7 @@ public abstract class TrustExpressionFailure {
         public <T1> T1 match(
                 F3<List<TrustInteroperabilityProfile>, String, RuntimeException, T1> fTrustExpressionFailureURI,
                 F3<List<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustInteroperabilityProfile,
+                F1<NonEmptyList<TrustInteroperabilityProfile>, T1> fTrustExpressionFailureCycle,
                 F3<NonEmptyList<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustmarkDefinition,
                 F3<NonEmptyList<TrustInteroperabilityProfile>, String, RuntimeException, T1> fTrustExpressionFailureParser,
                 F2<NonEmptyList<TrustInteroperabilityProfile>, String, T1> fTrustExpressionFailureIdentifierUnknown,
@@ -587,6 +675,7 @@ public abstract class TrustExpressionFailure {
 
             requireNonNull(fTrustExpressionFailureURI);
             requireNonNull(fTrustExpressionFailureResolveTrustInteroperabilityProfile);
+            requireNonNull(fTrustExpressionFailureCycle);
             requireNonNull(fTrustExpressionFailureResolveTrustmarkDefinition);
             requireNonNull(fTrustExpressionFailureParser);
             requireNonNull(fTrustExpressionFailureIdentifierUnknown);
@@ -645,6 +734,7 @@ public abstract class TrustExpressionFailure {
         public <T1> T1 match(
                 F3<List<TrustInteroperabilityProfile>, String, RuntimeException, T1> fTrustExpressionFailureURI,
                 F3<List<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustInteroperabilityProfile,
+                F1<NonEmptyList<TrustInteroperabilityProfile>, T1> fTrustExpressionFailureCycle,
                 F3<NonEmptyList<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustmarkDefinition,
                 F3<NonEmptyList<TrustInteroperabilityProfile>, String, RuntimeException, T1> fTrustExpressionFailureParser,
                 F2<NonEmptyList<TrustInteroperabilityProfile>, String, T1> fTrustExpressionFailureIdentifierUnknown,
@@ -666,6 +756,7 @@ public abstract class TrustExpressionFailure {
 
             requireNonNull(fTrustExpressionFailureURI);
             requireNonNull(fTrustExpressionFailureResolveTrustInteroperabilityProfile);
+            requireNonNull(fTrustExpressionFailureCycle);
             requireNonNull(fTrustExpressionFailureResolveTrustmarkDefinition);
             requireNonNull(fTrustExpressionFailureParser);
             requireNonNull(fTrustExpressionFailureIdentifierUnknown);
@@ -716,6 +807,7 @@ public abstract class TrustExpressionFailure {
         public <T1> T1 match(
                 F3<List<TrustInteroperabilityProfile>, String, RuntimeException, T1> fTrustExpressionFailureURI,
                 F3<List<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustInteroperabilityProfile,
+                F1<NonEmptyList<TrustInteroperabilityProfile>, T1> fTrustExpressionFailureCycle,
                 F3<NonEmptyList<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustmarkDefinition,
                 F3<NonEmptyList<TrustInteroperabilityProfile>, String, RuntimeException, T1> fTrustExpressionFailureParser,
                 F2<NonEmptyList<TrustInteroperabilityProfile>, String, T1> fTrustExpressionFailureIdentifierUnknown,
@@ -737,6 +829,7 @@ public abstract class TrustExpressionFailure {
 
             requireNonNull(fTrustExpressionFailureURI);
             requireNonNull(fTrustExpressionFailureResolveTrustInteroperabilityProfile);
+            requireNonNull(fTrustExpressionFailureCycle);
             requireNonNull(fTrustExpressionFailureResolveTrustmarkDefinition);
             requireNonNull(fTrustExpressionFailureParser);
             requireNonNull(fTrustExpressionFailureIdentifierUnknown);
@@ -795,6 +888,7 @@ public abstract class TrustExpressionFailure {
         public <T1> T1 match(
                 F3<List<TrustInteroperabilityProfile>, String, RuntimeException, T1> fTrustExpressionFailureURI,
                 F3<List<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustInteroperabilityProfile,
+                F1<NonEmptyList<TrustInteroperabilityProfile>, T1> fTrustExpressionFailureCycle,
                 F3<NonEmptyList<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustmarkDefinition,
                 F3<NonEmptyList<TrustInteroperabilityProfile>, String, RuntimeException, T1> fTrustExpressionFailureParser,
                 F2<NonEmptyList<TrustInteroperabilityProfile>, String, T1> fTrustExpressionFailureIdentifierUnknown,
@@ -816,6 +910,7 @@ public abstract class TrustExpressionFailure {
 
             requireNonNull(fTrustExpressionFailureURI);
             requireNonNull(fTrustExpressionFailureResolveTrustInteroperabilityProfile);
+            requireNonNull(fTrustExpressionFailureCycle);
             requireNonNull(fTrustExpressionFailureResolveTrustmarkDefinition);
             requireNonNull(fTrustExpressionFailureParser);
             requireNonNull(fTrustExpressionFailureIdentifierUnknown);
@@ -874,6 +969,7 @@ public abstract class TrustExpressionFailure {
         public <T1> T1 match(
                 F3<List<TrustInteroperabilityProfile>, String, RuntimeException, T1> fTrustExpressionFailureURI,
                 F3<List<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustInteroperabilityProfile,
+                F1<NonEmptyList<TrustInteroperabilityProfile>, T1> fTrustExpressionFailureCycle,
                 F3<NonEmptyList<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustmarkDefinition,
                 F3<NonEmptyList<TrustInteroperabilityProfile>, String, RuntimeException, T1> fTrustExpressionFailureParser,
                 F2<NonEmptyList<TrustInteroperabilityProfile>, String, T1> fTrustExpressionFailureIdentifierUnknown,
@@ -895,6 +991,7 @@ public abstract class TrustExpressionFailure {
 
             requireNonNull(fTrustExpressionFailureURI);
             requireNonNull(fTrustExpressionFailureResolveTrustInteroperabilityProfile);
+            requireNonNull(fTrustExpressionFailureCycle);
             requireNonNull(fTrustExpressionFailureResolveTrustmarkDefinition);
             requireNonNull(fTrustExpressionFailureParser);
             requireNonNull(fTrustExpressionFailureIdentifierUnknown);
@@ -953,6 +1050,7 @@ public abstract class TrustExpressionFailure {
         public <T1> T1 match(
                 F3<List<TrustInteroperabilityProfile>, String, RuntimeException, T1> fTrustExpressionFailureURI,
                 F3<List<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustInteroperabilityProfile,
+                F1<NonEmptyList<TrustInteroperabilityProfile>, T1> fTrustExpressionFailureCycle,
                 F3<NonEmptyList<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustmarkDefinition,
                 F3<NonEmptyList<TrustInteroperabilityProfile>, String, RuntimeException, T1> fTrustExpressionFailureParser,
                 F2<NonEmptyList<TrustInteroperabilityProfile>, String, T1> fTrustExpressionFailureIdentifierUnknown,
@@ -974,6 +1072,7 @@ public abstract class TrustExpressionFailure {
 
             requireNonNull(fTrustExpressionFailureURI);
             requireNonNull(fTrustExpressionFailureResolveTrustInteroperabilityProfile);
+            requireNonNull(fTrustExpressionFailureCycle);
             requireNonNull(fTrustExpressionFailureResolveTrustmarkDefinition);
             requireNonNull(fTrustExpressionFailureParser);
             requireNonNull(fTrustExpressionFailureIdentifierUnknown);
@@ -1032,6 +1131,7 @@ public abstract class TrustExpressionFailure {
         public <T1> T1 match(
                 F3<List<TrustInteroperabilityProfile>, String, RuntimeException, T1> fTrustExpressionFailureURI,
                 F3<List<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustInteroperabilityProfile,
+                F1<NonEmptyList<TrustInteroperabilityProfile>, T1> fTrustExpressionFailureCycle,
                 F3<NonEmptyList<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustmarkDefinition,
                 F3<NonEmptyList<TrustInteroperabilityProfile>, String, RuntimeException, T1> fTrustExpressionFailureParser,
                 F2<NonEmptyList<TrustInteroperabilityProfile>, String, T1> fTrustExpressionFailureIdentifierUnknown,
@@ -1053,6 +1153,7 @@ public abstract class TrustExpressionFailure {
 
             requireNonNull(fTrustExpressionFailureURI);
             requireNonNull(fTrustExpressionFailureResolveTrustInteroperabilityProfile);
+            requireNonNull(fTrustExpressionFailureCycle);
             requireNonNull(fTrustExpressionFailureResolveTrustmarkDefinition);
             requireNonNull(fTrustExpressionFailureParser);
             requireNonNull(fTrustExpressionFailureIdentifierUnknown);
@@ -1111,6 +1212,7 @@ public abstract class TrustExpressionFailure {
         public <T1> T1 match(
                 F3<List<TrustInteroperabilityProfile>, String, RuntimeException, T1> fTrustExpressionFailureURI,
                 F3<List<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustInteroperabilityProfile,
+                F1<NonEmptyList<TrustInteroperabilityProfile>, T1> fTrustExpressionFailureCycle,
                 F3<NonEmptyList<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustmarkDefinition,
                 F3<NonEmptyList<TrustInteroperabilityProfile>, String, RuntimeException, T1> fTrustExpressionFailureParser,
                 F2<NonEmptyList<TrustInteroperabilityProfile>, String, T1> fTrustExpressionFailureIdentifierUnknown,
@@ -1132,6 +1234,7 @@ public abstract class TrustExpressionFailure {
 
             requireNonNull(fTrustExpressionFailureURI);
             requireNonNull(fTrustExpressionFailureResolveTrustInteroperabilityProfile);
+            requireNonNull(fTrustExpressionFailureCycle);
             requireNonNull(fTrustExpressionFailureResolveTrustmarkDefinition);
             requireNonNull(fTrustExpressionFailureParser);
             requireNonNull(fTrustExpressionFailureIdentifierUnknown);
@@ -1190,6 +1293,7 @@ public abstract class TrustExpressionFailure {
         public <T1> T1 match(
                 F3<List<TrustInteroperabilityProfile>, String, RuntimeException, T1> fTrustExpressionFailureURI,
                 F3<List<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustInteroperabilityProfile,
+                F1<NonEmptyList<TrustInteroperabilityProfile>, T1> fTrustExpressionFailureCycle,
                 F3<NonEmptyList<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustmarkDefinition,
                 F3<NonEmptyList<TrustInteroperabilityProfile>, String, RuntimeException, T1> fTrustExpressionFailureParser,
                 F2<NonEmptyList<TrustInteroperabilityProfile>, String, T1> fTrustExpressionFailureIdentifierUnknown,
@@ -1211,6 +1315,7 @@ public abstract class TrustExpressionFailure {
 
             requireNonNull(fTrustExpressionFailureURI);
             requireNonNull(fTrustExpressionFailureResolveTrustInteroperabilityProfile);
+            requireNonNull(fTrustExpressionFailureCycle);
             requireNonNull(fTrustExpressionFailureResolveTrustmarkDefinition);
             requireNonNull(fTrustExpressionFailureParser);
             requireNonNull(fTrustExpressionFailureIdentifierUnknown);
@@ -1265,6 +1370,7 @@ public abstract class TrustExpressionFailure {
         public <T1> T1 match(
                 F3<List<TrustInteroperabilityProfile>, String, RuntimeException, T1> fTrustExpressionFailureURI,
                 F3<List<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustInteroperabilityProfile,
+                F1<NonEmptyList<TrustInteroperabilityProfile>, T1> fTrustExpressionFailureCycle,
                 F3<NonEmptyList<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustmarkDefinition,
                 F3<NonEmptyList<TrustInteroperabilityProfile>, String, RuntimeException, T1> fTrustExpressionFailureParser,
                 F2<NonEmptyList<TrustInteroperabilityProfile>, String, T1> fTrustExpressionFailureIdentifierUnknown,
@@ -1286,6 +1392,7 @@ public abstract class TrustExpressionFailure {
 
             requireNonNull(fTrustExpressionFailureURI);
             requireNonNull(fTrustExpressionFailureResolveTrustInteroperabilityProfile);
+            requireNonNull(fTrustExpressionFailureCycle);
             requireNonNull(fTrustExpressionFailureResolveTrustmarkDefinition);
             requireNonNull(fTrustExpressionFailureParser);
             requireNonNull(fTrustExpressionFailureIdentifierUnknown);
@@ -1340,6 +1447,7 @@ public abstract class TrustExpressionFailure {
         public <T1> T1 match(
                 F3<List<TrustInteroperabilityProfile>, String, RuntimeException, T1> fTrustExpressionFailureURI,
                 F3<List<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustInteroperabilityProfile,
+                F1<NonEmptyList<TrustInteroperabilityProfile>, T1> fTrustExpressionFailureCycle,
                 F3<NonEmptyList<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustmarkDefinition,
                 F3<NonEmptyList<TrustInteroperabilityProfile>, String, RuntimeException, T1> fTrustExpressionFailureParser,
                 F2<NonEmptyList<TrustInteroperabilityProfile>, String, T1> fTrustExpressionFailureIdentifierUnknown,
@@ -1361,6 +1469,7 @@ public abstract class TrustExpressionFailure {
 
             requireNonNull(fTrustExpressionFailureURI);
             requireNonNull(fTrustExpressionFailureResolveTrustInteroperabilityProfile);
+            requireNonNull(fTrustExpressionFailureCycle);
             requireNonNull(fTrustExpressionFailureResolveTrustmarkDefinition);
             requireNonNull(fTrustExpressionFailureParser);
             requireNonNull(fTrustExpressionFailureIdentifierUnknown);
@@ -1415,6 +1524,7 @@ public abstract class TrustExpressionFailure {
         public <T1> T1 match(
                 F3<List<TrustInteroperabilityProfile>, String, RuntimeException, T1> fTrustExpressionFailureURI,
                 F3<List<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustInteroperabilityProfile,
+                F1<NonEmptyList<TrustInteroperabilityProfile>, T1> fTrustExpressionFailureCycle,
                 F3<NonEmptyList<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustmarkDefinition,
                 F3<NonEmptyList<TrustInteroperabilityProfile>, String, RuntimeException, T1> fTrustExpressionFailureParser,
                 F2<NonEmptyList<TrustInteroperabilityProfile>, String, T1> fTrustExpressionFailureIdentifierUnknown,
@@ -1436,6 +1546,7 @@ public abstract class TrustExpressionFailure {
 
             requireNonNull(fTrustExpressionFailureURI);
             requireNonNull(fTrustExpressionFailureResolveTrustInteroperabilityProfile);
+            requireNonNull(fTrustExpressionFailureCycle);
             requireNonNull(fTrustExpressionFailureResolveTrustmarkDefinition);
             requireNonNull(fTrustExpressionFailureParser);
             requireNonNull(fTrustExpressionFailureIdentifierUnknown);
@@ -1490,6 +1601,7 @@ public abstract class TrustExpressionFailure {
         public <T1> T1 match(
                 F3<List<TrustInteroperabilityProfile>, String, RuntimeException, T1> fTrustExpressionFailureURI,
                 F3<List<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustInteroperabilityProfile,
+                F1<NonEmptyList<TrustInteroperabilityProfile>, T1> fTrustExpressionFailureCycle,
                 F3<NonEmptyList<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustmarkDefinition,
                 F3<NonEmptyList<TrustInteroperabilityProfile>, String, RuntimeException, T1> fTrustExpressionFailureParser,
                 F2<NonEmptyList<TrustInteroperabilityProfile>, String, T1> fTrustExpressionFailureIdentifierUnknown,
@@ -1511,6 +1623,7 @@ public abstract class TrustExpressionFailure {
 
             requireNonNull(fTrustExpressionFailureURI);
             requireNonNull(fTrustExpressionFailureResolveTrustInteroperabilityProfile);
+            requireNonNull(fTrustExpressionFailureCycle);
             requireNonNull(fTrustExpressionFailureResolveTrustmarkDefinition);
             requireNonNull(fTrustExpressionFailureParser);
             requireNonNull(fTrustExpressionFailureIdentifierUnknown);
@@ -1565,6 +1678,7 @@ public abstract class TrustExpressionFailure {
         public <T1> T1 match(
                 F3<List<TrustInteroperabilityProfile>, String, RuntimeException, T1> fTrustExpressionFailureURI,
                 F3<List<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustInteroperabilityProfile,
+                F1<NonEmptyList<TrustInteroperabilityProfile>, T1> fTrustExpressionFailureCycle,
                 F3<NonEmptyList<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustmarkDefinition,
                 F3<NonEmptyList<TrustInteroperabilityProfile>, String, RuntimeException, T1> fTrustExpressionFailureParser,
                 F2<NonEmptyList<TrustInteroperabilityProfile>, String, T1> fTrustExpressionFailureIdentifierUnknown,
@@ -1586,6 +1700,7 @@ public abstract class TrustExpressionFailure {
 
             requireNonNull(fTrustExpressionFailureURI);
             requireNonNull(fTrustExpressionFailureResolveTrustInteroperabilityProfile);
+            requireNonNull(fTrustExpressionFailureCycle);
             requireNonNull(fTrustExpressionFailureResolveTrustmarkDefinition);
             requireNonNull(fTrustExpressionFailureParser);
             requireNonNull(fTrustExpressionFailureIdentifierUnknown);
@@ -1636,6 +1751,12 @@ public abstract class TrustExpressionFailure {
             final ResolveException exception) {
 
         return new TrustExpressionFailureResolveTrustInteroperabilityProfile(trustInteroperabilityProfileList, uri, exception);
+    }
+
+    public static final TrustExpressionFailure failureCycle(
+            final NonEmptyList<TrustInteroperabilityProfile> trustInteroperabilityProfileNonEmptyList) {
+
+        return new TrustExpressionFailureCycle(trustInteroperabilityProfileNonEmptyList);
     }
 
     public static final TrustExpressionFailure failureResolveTrustmarkDefinition(
@@ -1791,6 +1912,7 @@ public abstract class TrustExpressionFailure {
         return trustExpressionFailure.match(
                 (trustInteroperabilityProfileList, uriString, exception) -> format("'%s': could not resolve '%s'; message: %s.", trustInteroperabilityProfileList.head().getIdentifier().toString(), uriString, exception.getMessage()),
                 (trustInteroperabilityProfileList, uri, exception) -> format("'%s': could not resolve trust interoperability profile at '%s'; message: %s.", trustInteroperabilityProfileList.head().getIdentifier().toString(), uri.toString(), exception.getMessage()),
+                (trustInteroperabilityProfileList) -> format("'%s': contained a cycle (%s).", trustInteroperabilityProfileList.head().getIdentifier().toString(), String.join(",", trustInteroperabilityProfileList.map(TrustInteroperabilityProfile::getIdentifier).map(URI::toString).toCollection())),
                 (trustInteroperabilityProfileList, uri, exception) -> format("'%s': could not resolve trustmark definition at '%s'; message: %s.", trustInteroperabilityProfileList.head().getIdentifier().toString(), uri.toString(), exception.getMessage()),
                 (trustInteroperabilityProfileList, expression, exception) -> format("'%s': could not parse '%s'; message: %s", trustInteroperabilityProfileList.head().getIdentifier().toString(), expression, exception.getMessage()),
                 (trustInteroperabilityProfileList, identifier) -> format("'%s': could not resolve identifier '%s'.", trustInteroperabilityProfileList.head().getIdentifier().toString(), identifier),

@@ -3,78 +3,60 @@ package edu.gatech.gtri.trustmark.v1_0.impl.io;
 import edu.gatech.gtri.trustmark.v1_0.io.HttpResponse;
 import edu.gatech.gtri.trustmark.v1_0.io.NetworkDownloader;
 import edu.gatech.gtri.trustmark.v1_0.io.SessionResolver;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.gtri.fj.data.Option;
 
-import java.io.*;
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.List;
-import java.util.Map;
+
+import static java.util.Objects.requireNonNull;
+import static org.apache.commons.io.IOUtils.toByteArray;
+import static org.gtri.fj.data.Option.none;
+import static org.gtri.fj.data.Option.some;
 
 /**
- * Created by brad on 12/8/15.
+ * Returns the response produced from the request for the given URL.
+ *
+ * @author GTRI Trustmark Team
  */
-public class NetworkDownloaderImpl implements NetworkDownloader {
+public final class NetworkDownloaderImpl implements NetworkDownloader {
 
-    private static final Logger log = LoggerFactory.getLogger(NetworkDownloaderImpl.class);
+    public HttpResponse download(final URL url) throws IOException {
 
+        requireNonNull(url);
 
-    protected byte[] exhaustStream(InputStream inputStream) throws IOException {
-        byte[] buffer = new byte[1024];
-        ByteArrayOutputStream bytesOut = new ByteArrayOutputStream();
-        int read;
-        while( (read=inputStream.read(buffer)) > 0 ){
-            bytesOut.write(buffer, 0, read);
-        }
-        return bytesOut.toByteArray();
+        return download(url, none());
     }
 
-    /**
-     * Takes a reader and exhausts it, returning the resulting string.
-     */
-    protected String exhaustStream(Reader stringReader) throws IOException {
-        StringWriter stringWriter = new StringWriter();
-        char[] charBuffer = new char[1024];
-        int charsRead = 0;
-        int currentCharsRead = 0;
-        while( (currentCharsRead = stringReader.read(charBuffer)) > 0 ){
-            charsRead += currentCharsRead;
-            for( int i = 0; i < currentCharsRead; i++ )
-                stringWriter.append(charBuffer[i]);
-        }
-        return stringWriter.toString();
-    }//end exhaust
+    public HttpResponse download(final URL url, final String accept) throws IOException {
 
-    /**
-     * Given a URL, this method will attempt to download the content at the URL into a String.  May throw
-     * IOExceptions for any errors.
-     */
-    public HttpResponse download(URL url) throws IOException {
-        try {
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            updateHttpURLConnection(urlConnection);
-            HttpResponseImpl metadata = new HttpResponseImpl();
-            metadata.setResponseCode(urlConnection.getResponseCode());
-            metadata.setResponseMessage(urlConnection.getResponseMessage());
-            Map<String, List<String>> headers = urlConnection.getHeaderFields();
-            metadata.setHeaders(headers);
-            metadata.setContentType(urlConnection.getHeaderField("Content-Type"));
-            byte[] data = exhaustStream(urlConnection.getInputStream());
-            metadata.setData(data);
-            return metadata;
-        }catch(Exception fnfe){
-            log.error("Caught a FileNotFoundException, most likely because the server's response code was not less than 400 (ie, 403, 404 or 500 are most common).  Please check the request from the server's logs to find out what's going on.");
-            throw fnfe;
-        }
+        requireNonNull(url);
+        requireNonNull(accept);
+
+        return download(url, some(accept));
     }
 
+    private HttpResponse download(final URL url, final Option<String> acceptOption) throws IOException {
 
-    protected void updateHttpURLConnection(HttpURLConnection urlConn){
-        SessionResolver resolver = SessionResolver.getSessionResolver();
-        if(resolver!=null){
-            urlConn.setRequestProperty("Cookie", "JSESSIONID="+resolver.getSessionId());
+        requireNonNull(url);
+        requireNonNull(acceptOption);
+
+        final HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+        acceptOption.forEach(accept -> httpURLConnection.setRequestProperty("Accept", accept));
+
+        // if the session resolver exists, set the JSESSIONID
+        final SessionResolver sessionResolver = SessionResolver.getSessionResolver();
+        if (sessionResolver != null) {
+            httpURLConnection.setRequestProperty("Cookie", "JSESSIONID=" + sessionResolver.getSessionId());
         }
-    }
 
+        final HttpResponseImpl httpResponse = new HttpResponseImpl(
+                httpURLConnection.getHeaderFields(),
+                httpURLConnection.getHeaderField("Content-Type"),
+                httpURLConnection.getResponseCode(),
+                httpURLConnection.getResponseMessage(),
+                toByteArray(httpURLConnection.getInputStream()));
+
+        return httpResponse;
+    }
 }

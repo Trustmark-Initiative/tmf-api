@@ -3,6 +3,7 @@ package edu.gatech.gtri.trustmark.v1_0.impl.io.json;
 import edu.gatech.gtri.trustmark.v1_0.FactoryLoader;
 import edu.gatech.gtri.trustmark.v1_0.impl.io.AbstractSerializer;
 import edu.gatech.gtri.trustmark.v1_0.impl.io.adio.AbstractDocumentJsonProducer;
+import edu.gatech.gtri.trustmark.v1_0.io.MediaType;
 import edu.gatech.gtri.trustmark.v1_0.io.json.JsonManager;
 import edu.gatech.gtri.trustmark.v1_0.io.json.JsonProducer;
 import edu.gatech.gtri.trustmark.v1_0.io.xml.XmlManager;
@@ -25,13 +26,11 @@ import static java.lang.String.format;
 
 public class SerializerJson extends AbstractSerializer {
 
-    public static final String APPLICATION_JSON = "application/json";
-
     public SerializerJson() {
         super(
                 "JSON Serializer",
                 "Serializes data into JSON, using the unofficial TF v1.0 JSON format.",
-                APPLICATION_JSON);
+                MediaType.APPLICATION_JSON.getMediaType());
     }
 
     @Override

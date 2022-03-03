@@ -12,7 +12,6 @@ import edu.gatech.gtri.trustmark.v1_0.impl.model.TermImpl;
 import edu.gatech.gtri.trustmark.v1_0.impl.model.TrustInteroperabilityProfileImpl;
 import edu.gatech.gtri.trustmark.v1_0.impl.model.TrustInteroperabilityProfileReferenceImpl;
 import edu.gatech.gtri.trustmark.v1_0.impl.model.TrustmarkDefinitionImpl;
-import edu.gatech.gtri.trustmark.v1_0.impl.model.TrustmarkDefinitionMetadataImpl;
 import edu.gatech.gtri.trustmark.v1_0.impl.model.TrustmarkDefinitionParameterImpl;
 import edu.gatech.gtri.trustmark.v1_0.impl.model.TrustmarkDefinitionRequirementImpl;
 import edu.gatech.gtri.trustmark.v1_0.impl.model.TrustmarkFrameworkIdentifiedObjectImpl;
@@ -33,13 +32,13 @@ import org.apache.commons.collections4.MultiValuedMap;
 import org.apache.commons.collections4.bidimap.DualHashBidiMap;
 import org.apache.commons.collections4.multimap.ArrayListValuedHashMap;
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.LoggerFactory;
-import org.slf4j.Logger;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.StringReader;
 import java.lang.reflect.Field;
@@ -229,8 +228,8 @@ public final class BulkReadRawData {
     //////////////////////////////////////////
 
     /**
-     * Given the URI identifier for a TD (currently assumed to be a URL), this method will pull the value from the web
-     * and cache the XML of it.
+     * Given the URI identifier for a TD (currently assumed to be a URL), this
+     * method will pull the value from the web and cache the XML of it.
      */
     private Element getRemoteArtifact(String uri, RawArtifact artifact) throws Exception {
         Element result = this.cachedTdsByUri.get(uri); //FIXME
@@ -270,7 +269,8 @@ public final class BulkReadRawData {
     }
 
     /**
-     * Resolves the source reference from external sources.  Looks at the assessment tool for data.
+     * Resolves the source reference from external sources.  Looks at the
+     * assessment tool for data.
      */
     private Map<String, String> lookupSource(String sourceIdentifier, RawTdMetadata metadata) throws Exception {
         Map<String, String> ref = null;
@@ -302,7 +302,8 @@ public final class BulkReadRawData {
     }
 
     /**
-     * Gets all superseded TD information, and then creates a list of all terms from those superseded TDs.
+     * Gets all superseded TD information, and then creates a list of all terms
+     * from those superseded TDs.
      */
     private Set<TermImpl> lookupTerms(RawArtifact artifact) throws Exception {
         List<Element> supersededArtifacs = this.getSupersededArtifactElements(artifact);
@@ -731,11 +732,8 @@ public final class BulkReadRawData {
             List<RawTdAssessmentStep> assessmentSteps,
             MultiValuedMap<String, String> stepCriteriaMap
     ) throws Exception {
-        TrustmarkDefinitionImpl parsedTd = new TrustmarkDefinitionImpl();
-
         // Metadata
-        TrustmarkDefinitionMetadataImpl parsedMetadata = this.assembleMetadata(metadata);
-        parsedTd.setMetadata(parsedMetadata);
+        TrustmarkDefinitionImpl parsedTd = this.assembleMetadata(metadata);
         this.putAllArtifactTransientDataIfEnabled(metadata, parsedTd);
 
         // Terms
@@ -786,8 +784,8 @@ public final class BulkReadRawData {
         return tmfio;
     }
 
-    private TrustmarkDefinitionMetadataImpl assembleMetadata(RawTdMetadata metadata) throws Exception {
-        TrustmarkDefinitionMetadataImpl parsedMetadata = new TrustmarkDefinitionMetadataImpl();
+    private TrustmarkDefinitionImpl assembleMetadata(RawTdMetadata metadata) throws Exception {
+        TrustmarkDefinitionImpl parsedMetadata = new TrustmarkDefinitionImpl();
 
         metadata.version = BulkImportUtils.defaultTrim(metadata.version, this.context.getDefaultVersion());
 
@@ -1311,7 +1309,8 @@ public final class BulkReadRawData {
     }
 
     /**
-     * checks for references to the parent tip name in the referenced tip, indicating a cyclical refereence
+     * checks for references to the parent tip name in the referenced tip,
+     * indicating a cyclical refereence
      *
      * @param parentTip
      * @param referenceTip
@@ -1334,7 +1333,8 @@ public final class BulkReadRawData {
     }
 
     /**
-     * checks for references to the parent tip URI in the referenced TIP, indicating a cyclical reference
+     * checks for references to the parent tip URI in the referenced TIP,
+     * indicating a cyclical reference
      *
      * @param parentTip
      * @param referenceTip
@@ -1738,7 +1738,7 @@ public final class BulkReadRawData {
 
     public static class RawTrustInteroperabilityProfile extends RawArtifact {
         public String category = DEFAULT_STRING;
-        public URI    id = DEFAULT_URI;
+        public URI id = DEFAULT_URI;
         public String description = DEFAULT_STRING;
         public String trustExpression = DEFAULT_STRING;
         public String primary = DEFAULT_STRING;

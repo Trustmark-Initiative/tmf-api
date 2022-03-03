@@ -12,10 +12,14 @@ import edu.gatech.gtri.trustmark.v1_0.io.TrustmarkStatusReportResolver;
 import edu.gatech.gtri.trustmark.v1_0.io.hash.CanonFactory;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustInteroperabilityProfile;
 import edu.gatech.gtri.trustmark.v1_0.model.Trustmark;
-import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkBindingRegistry;
-import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkBindingRegistrySystem;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkDefinition;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkStatusReport;
+import edu.gatech.gtri.trustmark.v1_0.model.trustmarkBindingRegistry.TrustmarkBindingRegistryOrganization;
+import edu.gatech.gtri.trustmark.v1_0.model.trustmarkBindingRegistry.TrustmarkBindingRegistryOrganizationMap;
+import edu.gatech.gtri.trustmark.v1_0.model.trustmarkBindingRegistry.TrustmarkBindingRegistryOrganizationTrustmark;
+import edu.gatech.gtri.trustmark.v1_0.model.trustmarkBindingRegistry.TrustmarkBindingRegistryOrganizationTrustmarkMap;
+import edu.gatech.gtri.trustmark.v1_0.model.trustmarkBindingRegistry.TrustmarkBindingRegistrySystem;
+import edu.gatech.gtri.trustmark.v1_0.model.trustmarkBindingRegistry.TrustmarkBindingRegistrySystemMap;
 import org.gtri.fj.Ord;
 import org.gtri.fj.data.Either;
 import org.gtri.fj.data.NonEmptyList;
@@ -99,11 +103,11 @@ public final class CanonFactoryImpl implements CanonFactory {
     }
 
     @Override
-    public byte[] canon(final TrustmarkBindingRegistry trustmarkBindingRegistry) throws IOException {
+    public byte[] canon(final TrustmarkBindingRegistrySystemMap trustmarkBindingRegistrySystemMap) throws IOException {
 
-        requireNonNull(trustmarkBindingRegistry);
+        requireNonNull(trustmarkBindingRegistrySystemMap);
 
-        return canonHelper(trustmarkBindingRegistry, this::serialize);
+        return canonHelper(trustmarkBindingRegistrySystemMap, this::serialize);
     }
 
     @Override
@@ -112,6 +116,38 @@ public final class CanonFactoryImpl implements CanonFactory {
         requireNonNull(trustmarkBindingRegistrySystem);
 
         return canonHelper(trustmarkBindingRegistrySystem, this::serialize);
+    }
+
+    @Override
+    public byte[] canon(final TrustmarkBindingRegistryOrganizationMap trustmarkBindingRegistryOrganizationMap) throws IOException {
+
+        requireNonNull(trustmarkBindingRegistryOrganizationMap);
+
+        return canonHelper(trustmarkBindingRegistryOrganizationMap, this::serialize);
+    }
+
+    @Override
+    public byte[] canon(final TrustmarkBindingRegistryOrganization trustmarkBindingRegistryOrganization) throws IOException {
+
+        requireNonNull(trustmarkBindingRegistryOrganization);
+
+        return canonHelper(trustmarkBindingRegistryOrganization, this::serialize);
+    }
+
+    @Override
+    public byte[] canon(final TrustmarkBindingRegistryOrganizationTrustmarkMap trustmarkBindingRegistryOrganizationTrustmarkMap) throws IOException {
+
+        requireNonNull(trustmarkBindingRegistryOrganizationTrustmarkMap);
+
+        return canonHelper(trustmarkBindingRegistryOrganizationTrustmarkMap, this::serialize);
+    }
+
+    @Override
+    public byte[] canon(final TrustmarkBindingRegistryOrganizationTrustmark trustmarkBindingRegistryOrganizationTrustmark) throws IOException {
+
+        requireNonNull(trustmarkBindingRegistryOrganizationTrustmark);
+
+        return canonHelper(trustmarkBindingRegistryOrganizationTrustmark, this::serialize);
     }
 
     private <T1> byte[] canonHelper(final T1 serializeable, final F2<T1, ByteArrayOutputStream, Validation<NonEmptyList<Exception>, ByteArrayOutputStream>> f) throws IOException {
@@ -226,9 +262,9 @@ public final class CanonFactoryImpl implements CanonFactory {
         })._1().f().map(NonEmptyList::nel);
     }
 
-    private <T1 extends OutputStream> Validation<NonEmptyList<Exception>, T1> serialize(final TrustmarkBindingRegistry trustmarkBindingRegistry, final T1 outputStream) {
+    private <T1 extends OutputStream> Validation<NonEmptyList<Exception>, T1> serialize(final TrustmarkBindingRegistrySystemMap trustmarkBindingRegistrySystemMap, final T1 outputStream) {
         return Try.f(() -> {
-            outputStream.write(trustmarkBindingRegistry.getOriginalSource().getBytes(StandardCharsets.UTF_8));
+            outputStream.write(trustmarkBindingRegistrySystemMap.getOriginalSource().getBytes(StandardCharsets.UTF_8));
             outputStream.flush();
             return outputStream;
         })._1().f().map(NonEmptyList::nel);
@@ -237,6 +273,38 @@ public final class CanonFactoryImpl implements CanonFactory {
     private <T1 extends OutputStream> Validation<NonEmptyList<Exception>, T1> serialize(final TrustmarkBindingRegistrySystem trustmarkBindingRegistrySystem, final T1 outputStream) {
         return Try.f(() -> {
             outputStream.write(trustmarkBindingRegistrySystem.getOriginalSource().getBytes(StandardCharsets.UTF_8));
+            outputStream.flush();
+            return outputStream;
+        })._1().f().map(NonEmptyList::nel);
+    }
+
+    private <T1 extends OutputStream> Validation<NonEmptyList<Exception>, T1> serialize(final TrustmarkBindingRegistryOrganizationMap trustmarkBindingRegistryOrganizationMap, final T1 outputStream) {
+        return Try.f(() -> {
+            outputStream.write(trustmarkBindingRegistryOrganizationMap.getOriginalSource().getBytes(StandardCharsets.UTF_8));
+            outputStream.flush();
+            return outputStream;
+        })._1().f().map(NonEmptyList::nel);
+    }
+
+    private <T1 extends OutputStream> Validation<NonEmptyList<Exception>, T1> serialize(final TrustmarkBindingRegistryOrganization trustmarkBindingRegistryOrganization, final T1 outputStream) {
+        return Try.f(() -> {
+            outputStream.write(trustmarkBindingRegistryOrganization.getOriginalSource().getBytes(StandardCharsets.UTF_8));
+            outputStream.flush();
+            return outputStream;
+        })._1().f().map(NonEmptyList::nel);
+    }
+
+    private <T1 extends OutputStream> Validation<NonEmptyList<Exception>, T1> serialize(final TrustmarkBindingRegistryOrganizationTrustmarkMap trustmarkBindingRegistryOrganizationTrustmarkMap, final T1 outputStream) {
+        return Try.f(() -> {
+            outputStream.write(trustmarkBindingRegistryOrganizationTrustmarkMap.getOriginalSource().getBytes(StandardCharsets.UTF_8));
+            outputStream.flush();
+            return outputStream;
+        })._1().f().map(NonEmptyList::nel);
+    }
+
+    private <T1 extends OutputStream> Validation<NonEmptyList<Exception>, T1> serialize(final TrustmarkBindingRegistryOrganizationTrustmark trustmarkBindingRegistryOrganizationTrustmark, final T1 outputStream) {
+        return Try.f(() -> {
+            outputStream.write(trustmarkBindingRegistryOrganizationTrustmark.getOriginalSource().getBytes(StandardCharsets.UTF_8));
             outputStream.flush();
             return outputStream;
         })._1().f().map(NonEmptyList::nel);

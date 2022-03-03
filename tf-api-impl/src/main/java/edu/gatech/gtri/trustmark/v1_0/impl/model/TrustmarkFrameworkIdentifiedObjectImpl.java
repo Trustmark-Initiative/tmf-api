@@ -5,24 +5,46 @@ import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkFrameworkIdentifiedObject;
 import java.net.URI;
 import java.util.Objects;
 
-/**
- * Created by brad on 12/7/15.
- */
 public class TrustmarkFrameworkIdentifiedObjectImpl implements TrustmarkFrameworkIdentifiedObject {
 
     private String typeName;
     private URI identifier;
     private String name;
-    private String description;
-    private String version;
     private Integer number;
+    private String version;
+    private String description;
+
+    public TrustmarkFrameworkIdentifiedObjectImpl() {
+        this(
+                null,
+                null,
+                null,
+                null,
+                null,
+                null);
+    }
+
+    public TrustmarkFrameworkIdentifiedObjectImpl(
+            final String typeName,
+            final URI identifier,
+            final String name,
+            final Integer number,
+            final String version,
+            final String description) {
+        this.typeName = typeName;
+        this.identifier = identifier;
+        this.name = name;
+        this.number = number;
+        this.version = version;
+        this.description = description;
+    }
 
     @Override
     public String getTypeName() {
         return typeName;
     }
 
-    public void setTypeName(String typeName) {
+    public void setTypeName(final String typeName) {
         this.typeName = typeName;
     }
 
@@ -31,7 +53,7 @@ public class TrustmarkFrameworkIdentifiedObjectImpl implements TrustmarkFramewor
         return identifier;
     }
 
-    public void setIdentifier(URI identifier) {
+    public void setIdentifier(final URI identifier) {
         this.identifier = identifier;
     }
 
@@ -40,7 +62,7 @@ public class TrustmarkFrameworkIdentifiedObjectImpl implements TrustmarkFramewor
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -49,15 +71,8 @@ public class TrustmarkFrameworkIdentifiedObjectImpl implements TrustmarkFramewor
         return number;
     }
 
-    public void setNumber(Integer number){ this.number = number; }
-
-    @Override
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
+    public void setNumber(final Integer number) {
+        this.number = number;
     }
 
     @Override
@@ -65,30 +80,29 @@ public class TrustmarkFrameworkIdentifiedObjectImpl implements TrustmarkFramewor
         return version;
     }
 
-    public void setVersion(String version) {
+    public void setVersion(final String version) {
         this.version = version;
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(identifier);
+    public String getDescription() {
+        return description;
     }
 
-    public boolean equals(TrustmarkFrameworkIdentifiedObjectImpl object){
-        return Objects.equals(object.getIdentifier(), this.getIdentifier());
+    public void setDescription(final String description) {
+        this.description = description;
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        final TrustmarkFrameworkIdentifiedObjectImpl that = (TrustmarkFrameworkIdentifiedObjectImpl) o;
+        return Objects.equals(typeName, that.typeName) && Objects.equals(identifier, that.identifier) && Objects.equals(name, that.name) && Objects.equals(number, that.number) && Objects.equals(version, that.version) && Objects.equals(description, that.description);
+    }
 
-        if (o == this) {
-            return true;
-        }
-
-        if (!(o instanceof TrustmarkFrameworkIdentifiedObjectImpl)) {
-            return false;
-        }
-
-        return this.equals((TrustmarkFrameworkIdentifiedObjectImpl) o);
+    @Override
+    public int hashCode() {
+        return Objects.hash(typeName, identifier, name, number, version, description);
     }
 }

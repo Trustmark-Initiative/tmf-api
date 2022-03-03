@@ -2,6 +2,7 @@ package edu.gatech.gtri.trustmark.v1_0.impl.io;
 
 import edu.gatech.gtri.trustmark.v1_0.FactoryLoader;
 import edu.gatech.gtri.trustmark.v1_0.impl.io.xml.XmlHelper;
+import edu.gatech.gtri.trustmark.v1_0.io.MediaType;
 import edu.gatech.gtri.trustmark.v1_0.io.Serializer;
 import edu.gatech.gtri.trustmark.v1_0.io.SerializerFactory;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustInteroperabilityProfile;
@@ -44,8 +45,6 @@ import java.util.Map;
  */
 public class SerializerPdf extends AbstractSerializer {
 
-    public static final String APPLICATION_PDF = "application/pdf";
-
     public static final String TEMPLATE_BASE = "/META-INF/tmf/fop/";
     public static final String FOP_FACTORY_CLASSNAME = "org.apache.fop.apps.FopFactory";
     public static final String TRANSFORMER_FACTORY_CLASSNAME = "net.sf.saxon.TransformerFactoryImpl";
@@ -63,7 +62,7 @@ public class SerializerPdf extends AbstractSerializer {
         super(
                 "PDF Serializer",
                 "Serializes data into PDF.",
-                APPLICATION_PDF);
+                MediaType.APPLICATION_PDF.getMediaType());
 
         try {
             // FOP Factory

@@ -4,10 +4,8 @@ import edu.gatech.gtri.trustmark.v1_0.FactoryLoader;
 import edu.gatech.gtri.trustmark.v1_0.io.xml.XmlManager;
 import edu.gatech.gtri.trustmark.v1_0.io.xml.XmlProducer;
 import edu.gatech.gtri.trustmark.v1_0.io.xml.XmlUtils;
-import edu.gatech.gtri.trustmark.v1_0.model.Categorized;
-import edu.gatech.gtri.trustmark.v1_0.model.LegallyPublished;
-import edu.gatech.gtri.trustmark.v1_0.model.Supersedable;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkFrameworkIdentifiedObject;
+import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkFrameworkReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -166,15 +164,15 @@ public final class XmlProducerUtility {
         xmlWriter.writeCharacters(tfio.getDescription());
         xmlWriter.writeEndElement(); //end "Description"
 
-        if (tfio instanceof LegallyPublished) {
+        if (tfio instanceof TrustmarkFrameworkReference) {
             xmlWriter.writeStartElement(NAMESPACE_URI, "PublicationDateTime");
-            xmlWriter.writeCharacters(XmlUtils.toDateTimeString(((LegallyPublished) tfio).getPublicationDateTime()));
+            xmlWriter.writeCharacters(XmlUtils.toDateTimeString(((TrustmarkFrameworkReference) tfio).getPublicationDateTime()));
             xmlWriter.writeEndElement(); //end "PublicationDateTime"
         }
 
     }
 
-    public static void writeLegalEase(XMLStreamWriter xmlWriter, LegallyPublished lp) throws XMLStreamException {
+    public static void writeLegalEase(XMLStreamWriter xmlWriter, TrustmarkFrameworkReference lp) throws XMLStreamException {
         if (lp.getLegalNotice() != null) {
             xmlWriter.writeStartElement(NAMESPACE_URI, "LegalNotice");
             xmlWriter.writeCharacters(lp.getLegalNotice());
@@ -187,7 +185,7 @@ public final class XmlProducerUtility {
         }
     }
 
-    public static void writeKeywords(XMLStreamWriter xmlWriter, Categorized categorized) throws XMLStreamException {
+    public static void writeKeywords(XMLStreamWriter xmlWriter, TrustmarkFrameworkReference categorized) throws XMLStreamException {
         if (categorized.getKeywords() != null && categorized.getKeywords().size() > 0) {
             xmlWriter.writeStartElement(NAMESPACE_URI, "Keywords");
             for (String keyword : categorized.getKeywords()) {
@@ -199,7 +197,7 @@ public final class XmlProducerUtility {
         }
     }
 
-    public static void writeSatisfies(XMLStreamWriter xmlWriter, Supersedable supersedable) throws XMLStreamException {
+    public static void writeSatisfies(XMLStreamWriter xmlWriter, TrustmarkFrameworkReference supersedable) throws XMLStreamException {
         if (supersedable.getSatisfies() != null && supersedable.getSatisfies().size() > 0) {
             xmlWriter.writeStartElement(NAMESPACE_URI, "Satisfactions");
             for (TrustmarkFrameworkIdentifiedObject satisfiesRef : supersedable.getSatisfies()) {
@@ -217,7 +215,7 @@ public final class XmlProducerUtility {
         }
     }
 
-    public static void writeKnownConflicts(XMLStreamWriter xmlWriter, Supersedable supersedable) throws XMLStreamException {
+    public static void writeKnownConflicts(XMLStreamWriter xmlWriter, TrustmarkFrameworkReference supersedable) throws XMLStreamException {
         if (supersedable.getKnownConflicts() != null && supersedable.getKnownConflicts().size() > 0) {
             xmlWriter.writeStartElement(NAMESPACE_URI, "KnownConflicts");
             for (TrustmarkFrameworkIdentifiedObject knownConflictsRef : supersedable.getKnownConflicts()) {
@@ -235,7 +233,7 @@ public final class XmlProducerUtility {
         }
     }
 
-    public static void writeDeprecated(XMLStreamWriter xmlWriter, Supersedable supersedable) throws XMLStreamException {
+    public static void writeDeprecated(XMLStreamWriter xmlWriter, TrustmarkFrameworkReference supersedable) throws XMLStreamException {
         log.debug("supersedable.isDeprecated(): " + supersedable.isDeprecated());
         if (supersedable.isDeprecated()) {
             xmlWriter.writeStartElement(NAMESPACE_URI, "Deprecated");
@@ -244,7 +242,7 @@ public final class XmlProducerUtility {
         }
     }
 
-    public static void writeSupersessionInfo(XMLStreamWriter xmlWriter, Supersedable supersedable) throws XMLStreamException {
+    public static void writeSupersessionInfo(XMLStreamWriter xmlWriter, TrustmarkFrameworkReference supersedable) throws XMLStreamException {
         if (supersedable.getSupersedes() != null && supersedable.getSupersedes().size() > 0 || supersedable.getSupersededBy() != null && supersedable.getSupersededBy().size() > 0) {
             xmlWriter.writeStartElement(NAMESPACE_URI, "Supersessions");
             if (supersedable.getSupersedes() != null && supersedable.getSupersedes().size() > 0) {

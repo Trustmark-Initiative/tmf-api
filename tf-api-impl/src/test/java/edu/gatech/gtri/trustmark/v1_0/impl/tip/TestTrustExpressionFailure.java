@@ -54,6 +54,7 @@ public class TestTrustExpressionFailure {
         assertThrows(NullPointerException.class, () -> TrustExpressionFailure.failureURI(trustInteroperabilityProfileList, uriString, runtimeException).match(
                 null,
                 (i1, i2, i3) -> null,
+                (i1) -> null,
                 (i1, i2, i3) -> null,
                 (i1, i2, i3) -> null,
                 (i1, i2) -> null,
@@ -76,6 +77,7 @@ public class TestTrustExpressionFailure {
         assertEquals(true, TrustExpressionFailure.failureURI(trustInteroperabilityProfileList, uriString, runtimeException).match(
                 (i1, i2, i3) -> true,
                 (i1, i2, i3) -> false,
+                (i1) -> false,
                 (i1, i2, i3) -> false,
                 (i1, i2, i3) -> false,
                 (i1, i2) -> false,
@@ -115,6 +117,7 @@ public class TestTrustExpressionFailure {
         assertThrows(NullPointerException.class, () -> TrustExpressionFailure.failureResolveTrustInteroperabilityProfile(trustInteroperabilityProfileList, uri, resolveException).match(
                 (i1, i2, i3) -> null,
                 null,
+                (i1) -> null,
                 (i1, i2, i3) -> null,
                 (i1, i2, i3) -> null,
                 (i1, i2) -> null,
@@ -137,6 +140,7 @@ public class TestTrustExpressionFailure {
         assertEquals(true, TrustExpressionFailure.failureResolveTrustInteroperabilityProfile(trustInteroperabilityProfileList, uri, resolveException).match(
                 (i1, i2, i3) -> false,
                 (i1, i2, i3) -> true,
+                (i1) -> null,
                 (i1, i2, i3) -> false,
                 (i1, i2, i3) -> false,
                 (i1, i2) -> false,
@@ -176,6 +180,7 @@ public class TestTrustExpressionFailure {
         assertThrows(NullPointerException.class, () -> TrustExpressionFailure.failureResolveTrustmarkDefinition(trustInteroperabilityProfileNonEmptyList, uri, resolveException).match(
                 (i1, i2, i3) -> null,
                 (i1, i2, i3) -> null,
+                (i1) -> null,
                 null,
                 (i1, i2, i3) -> null,
                 (i1, i2) -> null,
@@ -198,6 +203,7 @@ public class TestTrustExpressionFailure {
         assertEquals(true, TrustExpressionFailure.failureResolveTrustmarkDefinition(trustInteroperabilityProfileNonEmptyList, uri, resolveException).match(
                 (i1, i2, i3) -> false,
                 (i1, i2, i3) -> false,
+                (i1) -> false,
                 (i1, i2, i3) -> true,
                 (i1, i2, i3) -> false,
                 (i1, i2) -> false,
@@ -236,6 +242,7 @@ public class TestTrustExpressionFailure {
         assertThrows(NullPointerException.class, () -> TrustExpressionFailure.failureParser(trustInteroperabilityProfileNonEmptyList, trustExpression, runtimeException).match(
                 (i1, i2, i3) -> null,
                 (i1, i2, i3) -> null,
+                (i1) -> null,
                 (i1, i2, i3) -> null,
                 null,
                 (i1, i2) -> null,
@@ -258,6 +265,7 @@ public class TestTrustExpressionFailure {
         assertEquals(true, TrustExpressionFailure.failureParser(trustInteroperabilityProfileNonEmptyList, trustExpression, runtimeException).match(
                 (i1, i2, i3) -> false,
                 (i1, i2, i3) -> false,
+                (i1) -> false,
                 (i1, i2, i3) -> false,
                 (i1, i2, i3) -> true,
                 (i1, i2) -> false,
@@ -294,6 +302,7 @@ public class TestTrustExpressionFailure {
         assertThrows(NullPointerException.class, () -> TrustExpressionFailure.failureIdentifierUnknown(trustInteroperabilityProfileNonEmptyList, identifier).match(
                 (i1, i2, i3) -> null,
                 (i1, i2, i3) -> null,
+                (i1) -> null,
                 (i1, i2, i3) -> null,
                 (i1, i2, i3) -> null,
                 null,
@@ -316,6 +325,7 @@ public class TestTrustExpressionFailure {
         assertEquals(true, TrustExpressionFailure.failureIdentifierUnknown(trustInteroperabilityProfileNonEmptyList, identifier).match(
                 (i1, i2, i3) -> false,
                 (i1, i2, i3) -> false,
+                (i1) -> false,
                 (i1, i2, i3) -> false,
                 (i1, i2, i3) -> false,
                 (i1, i2) -> true,
@@ -354,6 +364,7 @@ public class TestTrustExpressionFailure {
         assertThrows(NullPointerException.class, () -> TrustExpressionFailure.failureIdentifierUnexpectedTrustInteroperabilityProfile(trustInteroperabilityProfileNonEmptyList, trustmarkDefinitionRequirementIdentifier, trustmarkDefinitionParameterIdentifier).match(
                 (i1, i2, i3) -> null,
                 (i1, i2, i3) -> null,
+                (i1) -> null,
                 (i1, i2, i3) -> null,
                 (i1, i2, i3) -> null,
                 (i1, i2) -> null,
@@ -376,6 +387,7 @@ public class TestTrustExpressionFailure {
         assertEquals(true, TrustExpressionFailure.failureIdentifierUnexpectedTrustInteroperabilityProfile(trustInteroperabilityProfileNonEmptyList, trustmarkDefinitionRequirementIdentifier, trustmarkDefinitionParameterIdentifier).match(
                 (i1, i2, i3) -> false,
                 (i1, i2, i3) -> false,
+                (i1) -> false,
                 (i1, i2, i3) -> false,
                 (i1, i2, i3) -> false,
                 (i1, i2) -> false,
@@ -414,6 +426,7 @@ public class TestTrustExpressionFailure {
         assertThrows(NullPointerException.class, () -> TrustExpressionFailure.failureIdentifierUnknownTrustmarkDefinitionParameter(trustInteroperabilityProfileNonEmptyList, trustmarkDefinitionRequirement, trustmarkDefinitionParameterIdentifier).match(
                 (i1, i2, i3) -> null,
                 (i1, i2, i3) -> null,
+                (i1) -> null,
                 (i1, i2, i3) -> null,
                 (i1, i2, i3) -> null,
                 (i1, i2) -> null,
@@ -436,6 +449,7 @@ public class TestTrustExpressionFailure {
         assertEquals(true, TrustExpressionFailure.failureIdentifierUnknownTrustmarkDefinitionParameter(trustInteroperabilityProfileNonEmptyList, trustmarkDefinitionRequirement, trustmarkDefinitionParameterIdentifier).match(
                 (i1, i2, i3) -> false,
                 (i1, i2, i3) -> false,
+                (i1) -> false,
                 (i1, i2, i3) -> false,
                 (i1, i2, i3) -> false,
                 (i1, i2) -> false,
@@ -475,6 +489,7 @@ public class TestTrustExpressionFailure {
         assertThrows(NullPointerException.class, () -> TrustExpressionFailure.failureIdentifierUnknownTrustmarkDefinitionRequirement(trustInteroperabilityProfileNonEmptyList, trustmarkDefinitionRequirementIdentifier, trustmarkDefinitionParameterIdentifier).match(
                 (i1, i2, i3) -> null,
                 (i1, i2, i3) -> null,
+                (i1) -> null,
                 (i1, i2, i3) -> null,
                 (i1, i2, i3) -> null,
                 (i1, i2) -> null,
@@ -497,6 +512,7 @@ public class TestTrustExpressionFailure {
         assertEquals(true, TrustExpressionFailure.failureIdentifierUnknownTrustmarkDefinitionRequirement(trustInteroperabilityProfileNonEmptyList, trustmarkDefinitionRequirementIdentifier, trustmarkDefinitionParameterIdentifier).match(
                 (i1, i2, i3) -> false,
                 (i1, i2, i3) -> false,
+                (i1) -> false,
                 (i1, i2, i3) -> false,
                 (i1, i2, i3) -> false,
                 (i1, i2) -> false,
@@ -532,6 +548,7 @@ public class TestTrustExpressionFailure {
         assertThrows(NullPointerException.class, () -> TrustExpressionFailure.failureNonTerminalUnexpected(trustInteroperabilityProfileNonEmptyList).match(
                 (i1, i2, i3) -> null,
                 (i1, i2, i3) -> null,
+                (i1) -> null,
                 (i1, i2, i3) -> null,
                 (i1, i2, i3) -> null,
                 (i1, i2) -> null,
@@ -554,6 +571,7 @@ public class TestTrustExpressionFailure {
         assertEquals(true, TrustExpressionFailure.failureNonTerminalUnexpected(trustInteroperabilityProfileNonEmptyList).match(
                 (i1, i2, i3) -> false,
                 (i1, i2, i3) -> false,
+                (i1) -> false,
                 (i1, i2, i3) -> false,
                 (i1, i2, i3) -> false,
                 (i1, i2) -> false,
@@ -592,6 +610,7 @@ public class TestTrustExpressionFailure {
         assertThrows(NullPointerException.class, () -> TrustExpressionFailure.failureTrustmarkAbsent(trustInteroperabilityProfileNonEmptyList, trustmarkDefinitionRequirement, trustmarkDefinitionParameter).match(
                 (i1, i2, i3) -> null,
                 (i1, i2, i3) -> null,
+                (i1) -> null,
                 (i1, i2, i3) -> null,
                 (i1, i2, i3) -> null,
                 (i1, i2) -> null,
@@ -614,6 +633,7 @@ public class TestTrustExpressionFailure {
         assertEquals(true, TrustExpressionFailure.failureTrustmarkAbsent(trustInteroperabilityProfileNonEmptyList, trustmarkDefinitionRequirement, trustmarkDefinitionParameter).match(
                 (i1, i2, i3) -> false,
                 (i1, i2, i3) -> false,
+                (i1) -> false,
                 (i1, i2, i3) -> false,
                 (i1, i2, i3) -> false,
                 (i1, i2) -> false,
@@ -653,6 +673,7 @@ public class TestTrustExpressionFailure {
         assertThrows(NullPointerException.class, () -> TrustExpressionFailure.failureTypeUnexpected(trustInteroperabilityProfileNonEmptyList, nel(typeExpected), typeActual).match(
                 (i1, i2, i3) -> null,
                 (i1, i2, i3) -> null,
+                (i1) -> null,
                 (i1, i2, i3) -> null,
                 (i1, i2, i3) -> null,
                 (i1, i2) -> null,
@@ -675,6 +696,7 @@ public class TestTrustExpressionFailure {
         assertEquals(true, TrustExpressionFailure.failureTypeUnexpected(trustInteroperabilityProfileNonEmptyList, nel(typeExpected), typeActual).match(
                 (i1, i2, i3) -> false,
                 (i1, i2, i3) -> false,
+                (i1) -> false,
                 (i1, i2, i3) -> false,
                 (i1, i2, i3) -> false,
                 (i1, i2) -> false,
@@ -708,6 +730,7 @@ public class TestTrustExpressionFailure {
         assertThrows(NullPointerException.class, () -> TrustExpressionFailure.failureTypeUnexpectedLeft(trustInteroperabilityProfileNonEmptyList, nel(typeExpected), typeActual).match(
                 (i1, i2, i3) -> null,
                 (i1, i2, i3) -> null,
+                (i1) -> null,
                 (i1, i2, i3) -> null,
                 (i1, i2, i3) -> null,
                 (i1, i2) -> null,
@@ -730,6 +753,7 @@ public class TestTrustExpressionFailure {
         assertEquals(true, TrustExpressionFailure.failureTypeUnexpectedLeft(trustInteroperabilityProfileNonEmptyList, nel(typeExpected), typeActual).match(
                 (i1, i2, i3) -> false,
                 (i1, i2, i3) -> false,
+                (i1) -> false,
                 (i1, i2, i3) -> false,
                 (i1, i2, i3) -> false,
                 (i1, i2) -> false,
@@ -763,6 +787,7 @@ public class TestTrustExpressionFailure {
         assertThrows(NullPointerException.class, () -> TrustExpressionFailure.failureTypeUnexpectedRight(trustInteroperabilityProfileNonEmptyList, nel(typeExpected), typeActual).match(
                 (i1, i2, i3) -> null,
                 (i1, i2, i3) -> null,
+                (i1) -> null,
                 (i1, i2, i3) -> null,
                 (i1, i2, i3) -> null,
                 (i1, i2) -> null,
@@ -785,6 +810,7 @@ public class TestTrustExpressionFailure {
         assertEquals(true, TrustExpressionFailure.failureTypeUnexpectedRight(trustInteroperabilityProfileNonEmptyList, nel(typeExpected), typeActual).match(
                 (i1, i2, i3) -> false,
                 (i1, i2, i3) -> false,
+                (i1) -> false,
                 (i1, i2, i3) -> false,
                 (i1, i2, i3) -> false,
                 (i1, i2) -> false,
@@ -818,6 +844,7 @@ public class TestTrustExpressionFailure {
         assertThrows(NullPointerException.class, () -> TrustExpressionFailure.failureTypeMismatch(trustInteroperabilityProfileNonEmptyList, typeLeft, typeRight).match(
                 (i1, i2, i3) -> null,
                 (i1, i2, i3) -> null,
+                (i1) -> null,
                 (i1, i2, i3) -> null,
                 (i1, i2, i3) -> null,
                 (i1, i2) -> null,
@@ -840,6 +867,7 @@ public class TestTrustExpressionFailure {
         assertEquals(true, TrustExpressionFailure.failureTypeMismatch(trustInteroperabilityProfileNonEmptyList, typeLeft, typeRight).match(
                 (i1, i2, i3) -> false,
                 (i1, i2, i3) -> false,
+                (i1) -> false,
                 (i1, i2, i3) -> false,
                 (i1, i2, i3) -> false,
                 (i1, i2) -> false,
@@ -877,6 +905,7 @@ public class TestTrustExpressionFailure {
         assertThrows(NullPointerException.class, () -> TrustExpressionFailure.failureTypeUnorderableLeft(trustInteroperabilityProfileNonEmptyList, type).match(
                 (i1, i2, i3) -> null,
                 (i1, i2, i3) -> null,
+                (i1) -> null,
                 (i1, i2, i3) -> null,
                 (i1, i2, i3) -> null,
                 (i1, i2) -> null,
@@ -899,6 +928,7 @@ public class TestTrustExpressionFailure {
         assertEquals(true, TrustExpressionFailure.failureTypeUnorderableLeft(trustInteroperabilityProfileNonEmptyList, type).match(
                 (i1, i2, i3) -> false,
                 (i1, i2, i3) -> false,
+                (i1) -> false,
                 (i1, i2, i3) -> false,
                 (i1, i2, i3) -> false,
                 (i1, i2) -> false,
@@ -936,6 +966,7 @@ public class TestTrustExpressionFailure {
         assertThrows(NullPointerException.class, () -> TrustExpressionFailure.failureTypeUnorderableRight(trustInteroperabilityProfileNonEmptyList, type).match(
                 (i1, i2, i3) -> null,
                 (i1, i2, i3) -> null,
+                (i1) -> null,
                 (i1, i2, i3) -> null,
                 (i1, i2, i3) -> null,
                 (i1, i2) -> null,
@@ -958,6 +989,7 @@ public class TestTrustExpressionFailure {
         assertEquals(true, TrustExpressionFailure.failureTypeUnorderableRight(trustInteroperabilityProfileNonEmptyList, type).match(
                 (i1, i2, i3) -> false,
                 (i1, i2, i3) -> false,
+                (i1) -> false,
                 (i1, i2, i3) -> false,
                 (i1, i2, i3) -> false,
                 (i1, i2) -> false,
@@ -995,6 +1027,7 @@ public class TestTrustExpressionFailure {
         assertThrows(NullPointerException.class, () -> TrustExpressionFailure.failureExpression(trustInteroperabilityProfileNonEmptyList, trustExpressionFailureNonEmptyList).match(
                 (i1, i2, i3) -> null,
                 (i1, i2, i3) -> null,
+                (i1) -> null,
                 (i1, i2, i3) -> null,
                 (i1, i2, i3) -> null,
                 (i1, i2) -> null,
@@ -1017,6 +1050,7 @@ public class TestTrustExpressionFailure {
         assertEquals(true, TrustExpressionFailure.failureExpression(trustInteroperabilityProfileNonEmptyList, trustExpressionFailureNonEmptyList).match(
                 (i1, i2, i3) -> false,
                 (i1, i2, i3) -> false,
+                (i1) -> false,
                 (i1, i2, i3) -> false,
                 (i1, i2, i3) -> false,
                 (i1, i2) -> false,
@@ -1055,6 +1089,7 @@ public class TestTrustExpressionFailure {
         assertThrows(NullPointerException.class, () -> TrustExpressionFailure.failureExpressionLeft(trustInteroperabilityProfileNonEmptyList, trustExpressionFailureNonEmptyList).match(
                 (i1, i2, i3) -> null,
                 (i1, i2, i3) -> null,
+                (i1) -> null,
                 (i1, i2, i3) -> null,
                 (i1, i2, i3) -> null,
                 (i1, i2) -> null,
@@ -1077,6 +1112,7 @@ public class TestTrustExpressionFailure {
         assertEquals(true, TrustExpressionFailure.failureExpressionLeft(trustInteroperabilityProfileNonEmptyList, trustExpressionFailureNonEmptyList).match(
                 (i1, i2, i3) -> false,
                 (i1, i2, i3) -> false,
+                (i1) -> false,
                 (i1, i2, i3) -> false,
                 (i1, i2, i3) -> false,
                 (i1, i2) -> false,
@@ -1115,6 +1151,7 @@ public class TestTrustExpressionFailure {
         assertThrows(NullPointerException.class, () -> TrustExpressionFailure.failureExpressionRight(trustInteroperabilityProfileNonEmptyList, trustExpressionFailureNonEmptyList).match(
                 (i1, i2, i3) -> null,
                 (i1, i2, i3) -> null,
+                (i1) -> null,
                 (i1, i2, i3) -> null,
                 (i1, i2, i3) -> null,
                 (i1, i2) -> null,
@@ -1137,6 +1174,7 @@ public class TestTrustExpressionFailure {
         assertEquals(true, TrustExpressionFailure.failureExpressionRight(trustInteroperabilityProfileNonEmptyList, trustExpressionFailureNonEmptyList).match(
                 (i1, i2, i3) -> false,
                 (i1, i2, i3) -> false,
+                (i1) -> false,
                 (i1, i2, i3) -> false,
                 (i1, i2, i3) -> false,
                 (i1, i2) -> false,

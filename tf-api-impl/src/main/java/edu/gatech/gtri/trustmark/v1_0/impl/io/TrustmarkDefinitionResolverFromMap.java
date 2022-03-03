@@ -8,12 +8,16 @@ import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkDefinition;
 import java.net.URI;
 import java.util.Map;
 
-public class TrustmarkDefinitionResolverFromMap extends AbstractResolverFromMap<TrustmarkDefinition> implements TrustmarkDefinitionResolver {
+import static org.gtri.fj.data.List.arrayList;
+import static org.gtri.fj.product.P.p;
+
+public final class TrustmarkDefinitionResolverFromMap extends AbstractResolverFromMap<TrustmarkDefinition> implements TrustmarkDefinitionResolver {
 
     public TrustmarkDefinitionResolverFromMap(final Map<URI, TrustmarkDefinition> map) {
         super(
-                new TrustmarkDefinitionJsonDeserializer()::deserialize,
-                TrustmarkDefinitionXmlDeserializer::deserialize,
+                arrayList(
+                        p(AbstractResolverUtility::isJson, new TrustmarkDefinitionJsonDeserializer()::deserialize),
+                        p(AbstractResolverUtility::isXml, new TrustmarkDefinitionXmlDeserializer()::deserialize)),
                 TrustmarkDefinitionUtility::validate,
                 map);
     }

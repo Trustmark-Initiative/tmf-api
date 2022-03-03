@@ -3,16 +3,61 @@ package edu.gatech.gtri.trustmark.v1_0.io;
 import java.net.URI;
 
 /**
- * This interfaced is used by most parsers to resolve URIs.  This allows systems which work with URIs to implement
- * custom ways of resolving them.  For example, you could resolve URLs (subsets of URIs) by getting them off the
- * internet, or you could cache them in a database and return that based on some timeout mechanism.
- * <br/><br/>
- * Created by brad on 12/7/15.
+ * Implementations resolve URIs.
+ *
+ * @author GTRI Trustmark Team
  */
 public interface URIResolver {
 
-    public String resolve(URI uri) throws ResolveException;
+    /**
+     * Returns the document associated with the given URI.
+     *
+     * @param uri the URI
+     * @return the document
+     * @throws NullPointerException if uri is null
+     * @throws ResolveException     if an exception occurs during resolution
+     */
+    String resolve(final URI uri) throws ResolveException;
 
-    public String resolve(String uriString) throws ResolveException;
+    /**
+     * Returns the document associated with the given URI and the given media
+     * type.
+     *
+     * @param uri             the URI
+     * @param mediaTypeString the media type
+     * @return the document
+     * @throws NullPointerException if uri is null
+     * @throws NullPointerException if mediaTypeString is null
+     * @throws ResolveException     if an exception occurs during resolution
+     */
+    default String resolve(final URI uri, final String mediaTypeString) throws ResolveException {
 
-}// end URIResolver
+        return resolve(uri);
+    }
+
+    /**
+     * Returns the document associated with the given URI.
+     *
+     * @param uriString the URI
+     * @return the document
+     * @throws NullPointerException if uriString is null
+     * @throws ResolveException     if an exception occurs during resolution
+     */
+    String resolve(final String uriString) throws ResolveException;
+
+    /**
+     * Returns the document associated with the given URI and the given media
+     * type.
+     *
+     * @param uriString       the URI
+     * @param mediaTypeString the media type
+     * @return the document
+     * @throws NullPointerException if uriString is null
+     * @throws NullPointerException if mediaTypeString is null
+     * @throws ResolveException     if an exception occurs during resolution
+     */
+    default String resolve(final String uriString, final String mediaTypeString) throws ResolveException {
+
+        return resolve(uriString);
+    }
+}

@@ -33,7 +33,7 @@ public class TestTrustmarkDefinitionJsonProducer extends AbstractTest {
         logger.debug("Loading trustmark from file...");
         File file = new File(TD_FULL_FILE);
         String text = FileUtils.readFileToString(file);
-        TrustmarkDefinition td = TrustmarkDefinitionXmlDeserializer.deserialize(text);
+        TrustmarkDefinition td = new TrustmarkDefinitionXmlDeserializer().deserialize(text);
         assertThat(td, notNullValue());
         assertTdFull(td);
         logger.debug("Successfully parsed XML");

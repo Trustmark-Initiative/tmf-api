@@ -2,13 +2,15 @@ package edu.gatech.gtri.trustmark.v1_0.impl.io;
 
 import edu.gatech.gtri.trustmark.v1_0.FactoryLoader;
 import edu.gatech.gtri.trustmark.v1_0.impl.AbstractTest;
-import edu.gatech.gtri.trustmark.v1_0.impl.io.json.SerializerJson;
+import edu.gatech.gtri.trustmark.v1_0.io.MediaType;
 import edu.gatech.gtri.trustmark.v1_0.io.Serializer;
 import edu.gatech.gtri.trustmark.v1_0.io.SerializerFactory;
-import org.slf4j.LoggerFactory;
-import org.slf4j.Logger;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import static edu.gatech.gtri.trustmark.v1_0.io.MediaType.TEXT_HTML;
+import static edu.gatech.gtri.trustmark.v1_0.io.MediaType.TEXT_XML;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.instanceOf;
@@ -34,7 +36,7 @@ public class TestSerializerFactoryImpl extends AbstractTest {
         log.info("Instantiating Json Serializer...");
         Serializer serializer = FactoryLoader.getInstance(SerializerFactory.class).getJsonSerializer();
         assertThat(serializer, notNullValue());
-        assertThat(serializer.getOutputMimeFormat(), equalTo(SerializerJson.APPLICATION_JSON));
+        assertThat(serializer.getOutputMimeFormat(), equalTo(MediaType.APPLICATION_JSON.getMediaType()));
     }
 
     @Test
@@ -42,7 +44,7 @@ public class TestSerializerFactoryImpl extends AbstractTest {
         log.info("Instantiating Xml Serializer...");
         Serializer serializer = FactoryLoader.getInstance(SerializerFactory.class).getXmlSerializer();
         assertThat(serializer, notNullValue());
-        assertThat(serializer.getOutputMimeFormat(), equalTo("text/xml"));
+        assertThat(serializer.getOutputMimeFormat(), equalTo(TEXT_XML.getMediaType()));
     }
 
     @Test
@@ -50,7 +52,7 @@ public class TestSerializerFactoryImpl extends AbstractTest {
         log.info("Instantiating Html Serializer...");
         Serializer serializer = FactoryLoader.getInstance(SerializerFactory.class).getHtmlSerializer();
         assertThat(serializer, notNullValue());
-        assertThat(serializer.getOutputMimeFormat(), equalTo("text/html"));
+        assertThat(serializer.getOutputMimeFormat(), equalTo(TEXT_HTML.getMediaType()));
     }
 
 

@@ -1,10 +1,9 @@
 package edu.gatech.gtri.trustmark.v1_0.impl.io.adio;
 
 import edu.gatech.gtri.trustmark.v1_0.impl.io.adio.codecs.Codec;
-import edu.gatech.gtri.trustmark.v1_0.impl.io.xml.AbstractDeserializer;
-import edu.gatech.gtri.trustmark.v1_0.impl.io.xml.SerializerXml;
 import edu.gatech.gtri.trustmark.v1_0.impl.io.xml.TrustInteroperabilityProfileXmlDeserializer;
-import edu.gatech.gtri.trustmark.v1_0.impl.io.xml.TrustmarkDefinitionXmlDeserializer;
+import edu.gatech.gtri.trustmark.v1_0.impl.io.xml.XmlDeserializerUtility;
+import edu.gatech.gtri.trustmark.v1_0.io.MediaType;
 import edu.gatech.gtri.trustmark.v1_0.io.ParseException;
 import edu.gatech.gtri.trustmark.v1_0.model.Entity;
 import edu.gatech.gtri.trustmark.v1_0.model.Term;
@@ -43,7 +42,7 @@ public class AbstractDocumentXmlDeserializer<T> extends AbstractDocumentInputDes
 
     @Override
     protected String getSourceType() {
-        return SerializerXml.TEXT_XML;
+        return MediaType.TEXT_XML.getMediaType();
     }
 
     @Override
@@ -140,18 +139,18 @@ public class AbstractDocumentXmlDeserializer<T> extends AbstractDocumentInputDes
 
     @Override
     protected Entity getEntityFromObjectNode(Element entityNode) throws ParseException {
-        return AbstractDeserializer.readEntity(entityNode);
+        return XmlDeserializerUtility.readEntity(entityNode);
     }
 
     @Override
     protected Term getTermFromObjectNode(Element termNode) throws ParseException {
-        return TrustmarkDefinitionXmlDeserializer.readTerm(termNode);
+        return XmlDeserializerUtility.readTerm(termNode);
     }
 
     @Override
     protected TrustInteroperabilityProfile getTipFromObjectNode(Element tipNode) throws ParseException {
         String tipXml = tipNode.asXML();
-        return TrustInteroperabilityProfileXmlDeserializer.deserialize(tipXml);
+        return new TrustInteroperabilityProfileXmlDeserializer().deserialize(tipXml);
     }
 
 }

@@ -2,12 +2,15 @@ package edu.gatech.gtri.trustmark.v1_0.impl.io.json;
 
 import edu.gatech.gtri.trustmark.v1_0.impl.model.TrustmarkImpl;
 import edu.gatech.gtri.trustmark.v1_0.impl.model.TrustmarkParameterBindingImpl;
+import edu.gatech.gtri.trustmark.v1_0.io.MediaType;
 import edu.gatech.gtri.trustmark.v1_0.io.ParseException;
 import edu.gatech.gtri.trustmark.v1_0.model.ParameterKind;
 import edu.gatech.gtri.trustmark.v1_0.model.Trustmark;
-import org.slf4j.LoggerFactory;
-import org.slf4j.Logger;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.net.URI;
 
 import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.JsonDeserializerUtility.assertSupported;
 import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.JsonDeserializerUtility.readDate;
@@ -23,14 +26,18 @@ import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.JsonDeserializerUtilit
 import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.JsonDeserializerUtility.readURL;
 import static java.util.Objects.requireNonNull;
 
+
 /**
- * Created by brad on 12/10/15.
+ * Implementations deserialize JSON and, optionally, a URI into a Trust
+ * Interoperability Profile.
+ *
+ * @author GTRI Trustmark Team
  */
-public class TrustmarkJsonDeserializer implements JsonDeserializer<Trustmark> {
+public final class TrustmarkJsonDeserializer implements JsonDeserializer<Trustmark> {
 
     private static final Logger log = LoggerFactory.getLogger(TrustmarkJsonDeserializer.class);
 
-    public Trustmark deserialize(final String jsonString) throws ParseException {
+    public Trustmark deserialize(final String jsonString, final URI uri) throws ParseException {
         requireNonNull(jsonString);
 
         log.debug("Deserializing Trustmark JSON . . .");
@@ -42,7 +49,7 @@ public class TrustmarkJsonDeserializer implements JsonDeserializer<Trustmark> {
         final TrustmarkImpl trustmark = new TrustmarkImpl();
 
         trustmark.setOriginalSource(jsonString);
-        trustmark.setOriginalSourceType(SerializerJson.APPLICATION_JSON);
+        trustmark.setOriginalSourceType(MediaType.APPLICATION_JSON.getMediaType());
 
         trustmark.setExpirationDateTime(readDate(jsonObject, "ExpirationDateTime"));
         trustmark.setIdentifier(readURI(jsonObject, "Identifier"));
