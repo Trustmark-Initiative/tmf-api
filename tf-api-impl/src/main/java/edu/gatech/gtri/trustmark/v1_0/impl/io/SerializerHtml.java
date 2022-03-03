@@ -1,5 +1,6 @@
 package edu.gatech.gtri.trustmark.v1_0.impl.io;
 
+import edu.gatech.gtri.trustmark.v1_0.io.MediaType;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustInteroperabilityProfile;
 import edu.gatech.gtri.trustmark.v1_0.model.Trustmark;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkDefinition;
@@ -13,13 +14,11 @@ import java.util.Map;
 
 public class SerializerHtml extends AbstractSerializer {
 
-    public static final String TEXT_HTML = "text/html";
-
     public SerializerHtml() {
         super(
                 "HTML Serializer",
                 "Serializes data into HTML, suitable for display in a browser",
-                TEXT_HTML);
+                MediaType.TEXT_HTML.getMediaType());
     }
 
     @Override

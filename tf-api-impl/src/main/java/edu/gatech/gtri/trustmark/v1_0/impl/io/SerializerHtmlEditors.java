@@ -11,13 +11,15 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.Map;
 
+import static edu.gatech.gtri.trustmark.v1_0.io.MediaType.TEXT_HTML;
+
 public class SerializerHtmlEditors extends AbstractSerializer {
 
     public SerializerHtmlEditors() {
         super(
                 "HTML Editor Serializer",
                 "Serializes data into HTML, suitable for display and editing in a browser",
-                "text/html");
+                TEXT_HTML.getMediaType());
     }
 
     @Override

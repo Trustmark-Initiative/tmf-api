@@ -1,18 +1,14 @@
 package edu.gatech.gtri.trustmark.v1_0.impl.io.xml;
 
 import edu.gatech.gtri.trustmark.v1_0.impl.AbstractTest;
-import edu.gatech.gtri.trustmark.v1_0.model.Trustmark;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkDefinition;
-import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkFrameworkIdentifiedObject;
 import org.apache.commons.io.FileUtils;
-import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.File;
-import java.util.Collection;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.notNullValue;
 
 /**
  * Created by brad on 12/9/15.
@@ -27,7 +23,7 @@ public class TestTrustmarkDefinitionXmlDeserializer extends AbstractTest {
 
         File xmlFile = new File(TD_FULL_FILE);
         String xml = FileUtils.readFileToString(xmlFile);
-        TrustmarkDefinition td = TrustmarkDefinitionXmlDeserializer.deserialize(xml);
+        TrustmarkDefinition td = new TrustmarkDefinitionXmlDeserializer().deserialize(xml);
         assertThat(td, notNullValue());
 
         assertTdFull(td);

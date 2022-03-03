@@ -25,7 +25,7 @@ public class TestTrustmarkXmlDeserializer extends AbstractTest {
 
         File xmlFile = new File(TRUSTMARK_FULL_FILE);
         String xml = FileUtils.readFileToString(xmlFile);
-        Trustmark trustmark = TrustmarkXmlDeserializer.deserialize(xml);
+        Trustmark trustmark = new TrustmarkXmlDeserializer().deserialize(xml);
         assertThat(trustmark, notNullValue());
         assertThat(trustmark.getIdentifier(), notNullValue());
         assertThat(trustmark.getIdentifier().toString(), is("http://provider.example/trustmark/1"));

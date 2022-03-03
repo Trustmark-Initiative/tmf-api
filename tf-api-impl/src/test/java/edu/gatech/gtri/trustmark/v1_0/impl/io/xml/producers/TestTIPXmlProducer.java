@@ -11,9 +11,9 @@ import edu.gatech.gtri.trustmark.v1_0.io.SerializerFactory;
 import edu.gatech.gtri.trustmark.v1_0.io.xml.XmlManager;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustInteroperabilityProfile;
 import org.apache.commons.io.FileUtils;
-import org.slf4j.LoggerFactory;
-import org.slf4j.Logger;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.StringWriter;
@@ -58,7 +58,7 @@ public class TestTIPXmlProducer extends AbstractTest {
         XmlHelper.validateXml(xml2);
         logger.debug("Successfully produced XML: \n" + xml2);
 
-        TrustInteroperabilityProfile tip2 = TrustInteroperabilityProfileXmlDeserializer.deserialize(xml2);
+        TrustInteroperabilityProfile tip2 = new TrustInteroperabilityProfileXmlDeserializer().deserialize(xml2);
         assertThat(tip2, notNullValue());
         assertTipFull(tip2);
 

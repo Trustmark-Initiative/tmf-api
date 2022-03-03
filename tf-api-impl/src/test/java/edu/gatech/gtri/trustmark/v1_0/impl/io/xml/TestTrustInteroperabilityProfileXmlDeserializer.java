@@ -2,15 +2,12 @@ package edu.gatech.gtri.trustmark.v1_0.impl.io.xml;
 
 import edu.gatech.gtri.trustmark.v1_0.impl.AbstractTest;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustInteroperabilityProfile;
-import edu.gatech.gtri.trustmark.v1_0.model.Trustmark;
 import org.apache.commons.io.FileUtils;
 import org.junit.Test;
 
 import java.io.File;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 
 /**
@@ -26,7 +23,7 @@ public class TestTrustInteroperabilityProfileXmlDeserializer extends AbstractTes
 
         File xmlFile = new File(TIP_FULL_FILE);
         String xml = FileUtils.readFileToString(xmlFile);
-        TrustInteroperabilityProfile tip = TrustInteroperabilityProfileXmlDeserializer.deserialize(xml);
+        TrustInteroperabilityProfile tip = new TrustInteroperabilityProfileXmlDeserializer().deserialize(xml);
         assertThat(tip, notNullValue());
 
         assertTipFull(tip);

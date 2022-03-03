@@ -2,7 +2,17 @@ package edu.gatech.gtri.trustmark.v1_0.impl.model;
 
 import edu.gatech.gtri.trustmark.v1_0.FactoryLoader;
 import edu.gatech.gtri.trustmark.v1_0.impl.io.AbstractBuilderImpl;
-import edu.gatech.gtri.trustmark.v1_0.model.*;
+import edu.gatech.gtri.trustmark.v1_0.model.AssessmentStep;
+import edu.gatech.gtri.trustmark.v1_0.model.BuilderException;
+import edu.gatech.gtri.trustmark.v1_0.model.ConformanceCriterion;
+import edu.gatech.gtri.trustmark.v1_0.model.ContactKindCode;
+import edu.gatech.gtri.trustmark.v1_0.model.Entity;
+import edu.gatech.gtri.trustmark.v1_0.model.ParameterKind;
+import edu.gatech.gtri.trustmark.v1_0.model.Source;
+import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkDefinition;
+import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkDefinitionBuilder;
+import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkFrameworkIdentifiedObject;
+import edu.gatech.gtri.trustmark.v1_0.model.ValidationBuilderException;
 import edu.gatech.gtri.trustmark.v1_0.util.TrustmarkDefinitionUtils;
 import edu.gatech.gtri.trustmark.v1_0.util.ValidationResult;
 import org.slf4j.Logger;
@@ -10,7 +20,11 @@ import org.slf4j.LoggerFactory;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
 
 /**
  * TODO: Insert Comment Here
@@ -24,33 +38,35 @@ public class TrustmarkDefinitionBuilderImpl extends AbstractBuilderImpl implemen
     //  STATIC VARIABLES
     //==================================================================================================================
     private static final Logger log = LoggerFactory.getLogger(TrustmarkDefinitionBuilderImpl.class);
+
     //==================================================================================================================
     //  CONSTRUCTORS
     //==================================================================================================================
-    public TrustmarkDefinitionBuilderImpl(){
+    public TrustmarkDefinitionBuilderImpl() {
         this.trustmarkDefinition = new TrustmarkDefinitionImpl();
         this.trustmarkDefinition.setIssuanceCriteria("yes(all)");
-        this.trustmarkDefinition.setMetadata(new TrustmarkDefinitionMetadataImpl());
-        this.getMetadata().setVersion("1.0");
-        this.getMetadata().setPublicationDateTime(Calendar.getInstance().getTime());
+        this.trustmarkDefinition.setVersion("1.0");
+        this.trustmarkDefinition.setPublicationDateTime(Calendar.getInstance().getTime());
     }
+
     //==================================================================================================================
     //  INSTANCE VARIABLES
     //==================================================================================================================
     private TrustmarkDefinitionImpl trustmarkDefinition;
     private List<TrustmarkFrameworkIdentifiedObjectImpl> trustmarkFrameworkIdentifiedObjects = new ArrayList<>();
+
     //==================================================================================================================
     //  PRIVATE METHODS
     //==================================================================================================================
-    private TrustmarkDefinitionMetadataImpl getMetadata() {
-        Object obj = this.trustmarkDefinition.getMetadata();
-        return (TrustmarkDefinitionMetadataImpl) obj;
+    private TrustmarkDefinitionImpl getMetadata() {
+        Object obj = this.trustmarkDefinition;
+        return (TrustmarkDefinitionImpl) obj;
     }
 
-    private TrustmarkFrameworkIdentifiedObjectImpl findTMIByIdentifier(URI id){
+    private TrustmarkFrameworkIdentifiedObjectImpl findTMIByIdentifier(URI id) {
         TrustmarkFrameworkIdentifiedObjectImpl obj = null;
-        for( TrustmarkFrameworkIdentifiedObjectImpl cur : this.trustmarkFrameworkIdentifiedObjects ){
-            if( cur.getIdentifier().equals(id) ){
+        for (TrustmarkFrameworkIdentifiedObjectImpl cur : this.trustmarkFrameworkIdentifiedObjects) {
+            if (cur.getIdentifier().equals(id)) {
                 obj = cur;
                 break;
             }
@@ -58,12 +74,12 @@ public class TrustmarkDefinitionBuilderImpl extends AbstractBuilderImpl implemen
         return obj;
     }
 
-    public void addTrustmarkFrameworkIdentifiedObject(TrustmarkFrameworkIdentifiedObjectImpl obj){
-        if( this.trustmarkFrameworkIdentifiedObjects == null )
+    public void addTrustmarkFrameworkIdentifiedObject(TrustmarkFrameworkIdentifiedObjectImpl obj) {
+        if (this.trustmarkFrameworkIdentifiedObjects == null)
             this.trustmarkFrameworkIdentifiedObjects = new ArrayList<>();
-        if( !this.trustmarkFrameworkIdentifiedObjects.contains(obj) )
+        if (!this.trustmarkFrameworkIdentifiedObjects.contains(obj))
             this.trustmarkFrameworkIdentifiedObjects.add(obj);
-        
+
     }
     //==================================================================================================================
     //  PUBLIC METHODS
@@ -74,14 +90,14 @@ public class TrustmarkDefinitionBuilderImpl extends AbstractBuilderImpl implemen
         log.debug("Validating Trustmark Definition...");
         TrustmarkDefinitionUtils utils = FactoryLoader.getInstance(TrustmarkDefinitionUtils.class);
         Collection<ValidationResult> validationResults = utils.validate(this.trustmarkDefinition);
-        if( validationResults != null && validationResults.size() > 0 ){
+        if (validationResults != null && validationResults.size() > 0) {
             ValidationBuilderException vbe = new ValidationBuilderException(validationResults);
-            if( vbe.getFatalResults().size() > 0 ){
+            if (vbe.getFatalResults().size() > 0) {
                 throw vbe;
-            }else if( vbe.getWarningResults().size() > 0 ){
-                log.warn("Encountered "+vbe.getWarningResults().size()+" warnings: ");
-                for( ValidationResult result : vbe.getWarningResults() ){
-                    log.warn("   Result["+result.getSeverity()+"]: "+result.getMessage());
+            } else if (vbe.getWarningResults().size() > 0) {
+                log.warn("Encountered " + vbe.getWarningResults().size() + " warnings: ");
+                for (ValidationResult result : vbe.getWarningResults()) {
+                    log.warn("   Result[" + result.getSeverity() + "]: " + result.getMessage());
                 }
             }
         }
@@ -163,7 +179,7 @@ public class TrustmarkDefinitionBuilderImpl extends AbstractBuilderImpl implemen
 
     @Override
     public TrustmarkDefinitionBuilder addSupersedes(String idString, String name, String version, String description)
-    throws URISyntaxException {
+            throws URISyntaxException {
         TrustmarkFrameworkIdentifiedObjectImpl impl = new TrustmarkFrameworkIdentifiedObjectImpl();
         impl.setIdentifier(new URI(idString));
         impl.setName(name);
@@ -202,7 +218,7 @@ public class TrustmarkDefinitionBuilderImpl extends AbstractBuilderImpl implemen
 
     @Override
     public TrustmarkDefinitionBuilder addSupersededBy(String idString, String name, String version, String description)
-    throws URISyntaxException {
+            throws URISyntaxException {
         TrustmarkFrameworkIdentifiedObjectImpl impl = new TrustmarkFrameworkIdentifiedObjectImpl();
         impl.setIdentifier(new URI(idString));
         impl.setName(name);
@@ -241,7 +257,7 @@ public class TrustmarkDefinitionBuilderImpl extends AbstractBuilderImpl implemen
 
     @Override
     public TrustmarkDefinitionBuilder addSatisfies(String idString, String name, String version, String description)
-    throws URISyntaxException {
+            throws URISyntaxException {
         TrustmarkFrameworkIdentifiedObjectImpl impl = new TrustmarkFrameworkIdentifiedObjectImpl();
         impl.setIdentifier(new URI(idString));
         impl.setName(name);
@@ -251,10 +267,9 @@ public class TrustmarkDefinitionBuilderImpl extends AbstractBuilderImpl implemen
     }
 
 
-
     @Override
     public TrustmarkDefinitionBuilder addKnownConflict(TrustmarkFrameworkIdentifiedObject trustmarkFrameworkIdentifiedObject) {
-        this.getMetadata().addToKnownConflicts(trustmarkFrameworkIdentifiedObject);
+        this.getMetadata().addToKnownConflict(trustmarkFrameworkIdentifiedObject);
         return this;
     }
 
@@ -335,12 +350,12 @@ public class TrustmarkDefinitionBuilderImpl extends AbstractBuilderImpl implemen
     @Override
     public TrustmarkDefinitionBuilder setTrustmarkDefiningOrganization(Entity entity) {
         Entity already = this.getEntityByUri(entity.getIdentifier().toString());
-        if( already != null ){
+        if (already != null) {
             ((EntityImpl) already).setName(entity.getName());
             // TODO Should we bother saving these contacts?
             ((EntityImpl) already).setContacts(entity.getContacts());
             this.getMetadata().setTrustmarkDefiningOrganization(already);
-        }else{
+        } else {
             EntityImpl impl = new EntityImpl();
             impl.setIdentifier(entity.getIdentifier());
             impl.setName(entity.getName());
@@ -369,7 +384,7 @@ public class TrustmarkDefinitionBuilderImpl extends AbstractBuilderImpl implemen
 
     @Override
     public TrustmarkDefinitionBuilder setTrustmarkDefiningOrganization(String uri, String name, String contactName, String contactEmail)
-    throws URISyntaxException {
+            throws URISyntaxException {
         return this.setTrustmarkDefiningOrganization(new URI(uri), name, contactName, contactEmail);
     }
 
@@ -453,7 +468,7 @@ public class TrustmarkDefinitionBuilderImpl extends AbstractBuilderImpl implemen
         TermImpl termImpl = new TermImpl();
         termImpl.setName(name);
         termImpl.setDefinition(desc);
-        for( String s : abbreviations ){
+        for (String s : abbreviations) {
             termImpl.addAbbreviation(s.trim());
         }
         this.trustmarkDefinition.addTerm(termImpl);
@@ -465,7 +480,7 @@ public class TrustmarkDefinitionBuilderImpl extends AbstractBuilderImpl implemen
         TermImpl termImpl = new TermImpl();
         termImpl.setName(name);
         termImpl.setDefinition(desc);
-        for( String s : abbreviations ){
+        for (String s : abbreviations) {
             termImpl.addAbbreviation(s.trim());
         }
         this.trustmarkDefinition.addTerm(termImpl);
@@ -475,9 +490,9 @@ public class TrustmarkDefinitionBuilderImpl extends AbstractBuilderImpl implemen
     @Override
     public TrustmarkDefinitionBuilder addSource(String identifier, String reference) {
         SourceImpl already = (SourceImpl) this.getSourceByIdentifier(identifier);
-        if( already != null ){
+        if (already != null) {
             already.setReference(reference);
-        }else{
+        } else {
             SourceImpl source = new SourceImpl();
             source.setIdentifier(identifier);
             source.setReference(reference);
@@ -488,9 +503,9 @@ public class TrustmarkDefinitionBuilderImpl extends AbstractBuilderImpl implemen
 
     @Override
     public Source getSourceByIdentifier(String id) {
-        if( this.trustmarkDefinition.getSources() != null ){
-            for( Source s : this.trustmarkDefinition.getSources() ){
-                if( s.getIdentifier().equalsIgnoreCase(id) ){
+        if (this.trustmarkDefinition.getSources() != null) {
+            for (Source s : this.trustmarkDefinition.getSources()) {
+                if (s.getIdentifier().equalsIgnoreCase(id)) {
                     return s;
                 }
             }
@@ -501,10 +516,10 @@ public class TrustmarkDefinitionBuilderImpl extends AbstractBuilderImpl implemen
     @Override
     public TrustmarkDefinitionBuilder addCriterion(String name, String description) {
         ConformanceCriterion already = this.getCriterionByName(name);
-        if( already == null ) {
+        if (already == null) {
             already = new ConformanceCriterionImpl();
             ((ConformanceCriterionImpl) already).setId(generateId());
-            ((ConformanceCriterionImpl) already).setNumber(this.trustmarkDefinition.getConformanceCriteria().size()+1);
+            ((ConformanceCriterionImpl) already).setNumber(this.trustmarkDefinition.getConformanceCriteria().size() + 1);
             this.trustmarkDefinition.getConformanceCriteria().add(already);
         }
 
@@ -516,9 +531,9 @@ public class TrustmarkDefinitionBuilderImpl extends AbstractBuilderImpl implemen
 
     @Override
     public ConformanceCriterion getCriterionByName(String name) {
-        if( this.trustmarkDefinition.getConformanceCriteria() != null ){
-            for( ConformanceCriterion crit : this.trustmarkDefinition.getConformanceCriteria() ){
-                if( crit.getName().equalsIgnoreCase(name.trim()) ){
+        if (this.trustmarkDefinition.getConformanceCriteria() != null) {
+            for (ConformanceCriterion crit : this.trustmarkDefinition.getConformanceCriteria()) {
+                if (crit.getName().equalsIgnoreCase(name.trim())) {
                     return crit;
                 }
             }
@@ -540,14 +555,14 @@ public class TrustmarkDefinitionBuilderImpl extends AbstractBuilderImpl implemen
     @Override
     public TrustmarkDefinitionBuilder addAssessmentStep(String name, String description) {
         AssessmentStepImpl impl = (AssessmentStepImpl) this.getAssessmentStepByName(name);
-        if( impl == null ){
+        if (impl == null) {
             impl = new AssessmentStepImpl();
             impl.setId(generateId());
             impl.setName(name);
             impl.setDescription(description);
             impl.setNumber(this.trustmarkDefinition.getAssessmentSteps().size() + 1);
             this.trustmarkDefinition.addAssessmentStep(impl);
-        }else {
+        } else {
             // In this case, we just override the description (they've already got a step with this name)
             impl.setDescription(description);
         }
@@ -556,9 +571,9 @@ public class TrustmarkDefinitionBuilderImpl extends AbstractBuilderImpl implemen
 
     @Override
     public AssessmentStep getAssessmentStepByName(String name) {
-        if( this.trustmarkDefinition.getAssessmentSteps() != null ){
-            for( AssessmentStep step : this.trustmarkDefinition.getAssessmentSteps() ){
-                if( step.getName().equalsIgnoreCase(name.trim()) ){
+        if (this.trustmarkDefinition.getAssessmentSteps() != null) {
+            for (AssessmentStep step : this.trustmarkDefinition.getAssessmentSteps()) {
+                if (step.getName().equalsIgnoreCase(name.trim())) {
                     return step;
                 }
             }
@@ -613,7 +628,6 @@ public class TrustmarkDefinitionBuilderImpl extends AbstractBuilderImpl implemen
         ((AssessmentStepImpl) step).addParameter(param);
         return this;
     }
-
 
 
 }/* end TrustmarkDefinitionBuilderImpl */

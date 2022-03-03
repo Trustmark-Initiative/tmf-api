@@ -5,6 +5,7 @@ import edu.gatech.gtri.trustmark.v1_0.impl.io.TrustmarkDefinitionResolverFromMap
 import edu.gatech.gtri.trustmark.v1_0.impl.model.AssessmentStepImpl;
 import edu.gatech.gtri.trustmark.v1_0.impl.model.EntityImpl;
 import edu.gatech.gtri.trustmark.v1_0.impl.model.TrustInteroperabilityProfileImpl;
+import edu.gatech.gtri.trustmark.v1_0.impl.model.TrustInteroperabilityProfileReferenceImpl;
 import edu.gatech.gtri.trustmark.v1_0.impl.model.TrustmarkDefinitionImpl;
 import edu.gatech.gtri.trustmark.v1_0.impl.model.TrustmarkDefinitionParameterImpl;
 import edu.gatech.gtri.trustmark.v1_0.impl.model.TrustmarkDefinitionRequirementImpl;
@@ -45,6 +46,7 @@ import static edu.gatech.gtri.trustmark.v1_0.tip.TrustExpression.not;
 import static edu.gatech.gtri.trustmark.v1_0.tip.TrustExpression.notEqual;
 import static edu.gatech.gtri.trustmark.v1_0.tip.TrustExpression.or;
 import static edu.gatech.gtri.trustmark.v1_0.tip.TrustExpression.terminal;
+import static edu.gatech.gtri.trustmark.v1_0.tip.TrustExpressionFailure.failureCycle;
 import static edu.gatech.gtri.trustmark.v1_0.tip.TrustExpressionFailure.failureParser;
 import static edu.gatech.gtri.trustmark.v1_0.tip.TrustExpressionFailure.failureResolveTrustInteroperabilityProfile;
 import static edu.gatech.gtri.trustmark.v1_0.tip.TrustExpressionFailure.failureResolveTrustmarkDefinition;
@@ -100,7 +102,8 @@ public class TestTrustExpressionUtility {
 
     public static final P5<TrustInteroperabilityProfileResolverFromMap, TrustmarkDefinitionResolverFromMap, URI, TrustInteroperabilityProfile, TreeMap<String, P3<TrustmarkDefinitionRequirement, TrustmarkDefinition, TreeMap<String, TrustmarkDefinitionParameter>>>> resolver(
             final String trustExpression,
-            final TreeMap<String, List<P2<String, ParameterKind>>> trustmarkDefinitionRequirementIdentifierMap) {
+            final TreeMap<String, List<P2<String, ParameterKind>>> trustmarkDefinitionRequirementIdentifierMap,
+            final List<P2<String, String>> trustInteroperabilityProfileIdentifierList) {
 
         final URI trustInteroperabilityProfileReferenceURI = URI.create("trust-interoperability-profile-reference");
 
@@ -135,10 +138,18 @@ public class TestTrustExpressionUtility {
             return p(p._1(), p(trustmarkDefinitionRequirement, trustmarkDefinition, trustmarkDefinitionParameterList));
         }));
 
+        final List<TrustInteroperabilityProfileReferenceImpl> trustInteroperabilityProfileReferenceList = trustInteroperabilityProfileIdentifierList.map(p -> {
+            final TrustInteroperabilityProfileReferenceImpl trustInteroperabilityProfileReference = new TrustInteroperabilityProfileReferenceImpl();
+            trustInteroperabilityProfileReference.setId(p._1());
+            trustInteroperabilityProfileReference.setIdentifier(URI.create(p._2()));
+            return trustInteroperabilityProfileReference;
+        });
+
         final TrustInteroperabilityProfileImpl trustInteroperabilityProfileReferenced = new TrustInteroperabilityProfileImpl();
         trustInteroperabilityProfileReferenced.setIdentifier(trustInteroperabilityProfileReferenceURI);
         trustInteroperabilityProfileReferenced.setTrustExpression(trustExpression);
-        trustInteroperabilityProfileReferenced.setReferences(trustmarkDefinitionRequirementMap.toList().map(p -> (AbstractTIPReference) p._2()._1()).toCollection());
+        trustInteroperabilityProfileReferenced.setReferences(trustmarkDefinitionRequirementMap.toList().map(p -> (AbstractTIPReference) p._2()._1()).append(
+                trustInteroperabilityProfileReferenceList.map(trustInteroperabilityProfileReference -> (AbstractTIPReference) trustInteroperabilityProfileReference)).toCollection());
 
         final TrustInteroperabilityProfileResolverFromMap trustInteroperabilityProfileResolver = new TrustInteroperabilityProfileResolverFromMap(new HashMap<URI, TrustInteroperabilityProfile>() {{
             put(trustInteroperabilityProfileReferenced.getIdentifier(), trustInteroperabilityProfileReferenced);
@@ -160,6 +171,7 @@ public class TestTrustExpressionUtility {
                 terminal -> terminal(terminal.f().map(trustExpressionFailureNonEmptyList -> trustExpressionFailureNonEmptyList.map(trustExpressionFailure -> trustExpressionFailure.match(
                         (trustInteroperabilityProfileList, uriString, exception) -> failureURI(trustInteroperabilityProfileList, uriString, runtimeException),
                         (trustInteroperabilityProfileList, uri, exception) -> failureResolveTrustInteroperabilityProfile(trustInteroperabilityProfileList, uri, resolveException),
+                        (trustInteroperabilityProfileList) -> failureCycle(trustInteroperabilityProfileList),
                         (trustInteroperabilityProfileList, uri, exception) -> failureResolveTrustmarkDefinition(trustInteroperabilityProfileList, uri, resolveException),
                         (trustInteroperabilityProfileList, expression, exception) -> failureParser(trustInteroperabilityProfileList, expression, runtimeException),
                         (trustInteroperabilityProfileList, identifier) -> trustExpressionFailure,
@@ -203,6 +215,7 @@ public class TestTrustExpressionUtility {
                 terminal -> terminal(terminal.f().map(trustExpressionFailureNonEmptyList -> trustExpressionFailureNonEmptyList.map(trustExpressionFailure -> trustExpressionFailure.match(
                         (trustInteroperabilityProfileList, uriString, exception) -> failureURI(trustInteroperabilityProfileList, uriString, runtimeException),
                         (trustInteroperabilityProfileList, uri, exception) -> failureResolveTrustInteroperabilityProfile(trustInteroperabilityProfileList, uri, resolveException),
+                        (trustInteroperabilityProfileList) -> failureCycle(trustInteroperabilityProfileList),
                         (trustInteroperabilityProfileList, uri, exception) -> failureResolveTrustmarkDefinition(trustInteroperabilityProfileList, uri, resolveException),
                         (trustInteroperabilityProfileList, expression, exception) -> failureParser(trustInteroperabilityProfileList, expression, runtimeException),
                         (trustInteroperabilityProfileList, identifier) -> trustExpressionFailure,

@@ -2,7 +2,7 @@ package edu.gatech.gtri.trustmark.v1_0.impl.io.bulk;
 
 import edu.gatech.gtri.trustmark.v1_0.FactoryLoader;
 import edu.gatech.gtri.trustmark.v1_0.impl.model.TrustInteroperabilityProfileImpl;
-import edu.gatech.gtri.trustmark.v1_0.impl.model.TrustmarkDefinitionMetadataImpl;
+import edu.gatech.gtri.trustmark.v1_0.impl.model.TrustmarkDefinitionImpl;
 import edu.gatech.gtri.trustmark.v1_0.impl.model.TrustmarkFrameworkIdentifiedObjectImpl;
 import edu.gatech.gtri.trustmark.v1_0.io.ResolveException;
 import edu.gatech.gtri.trustmark.v1_0.io.TrustInteroperabilityProfileResolver;
@@ -22,13 +22,17 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.net.URI;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 /**
- * Reads trustmark artifacts from a collection of XML or JSON files (note - does not read from mixed input to avoid
- * collisions).
- * <br/><br/>
+ * Reads trustmark artifacts from a collection of XML or JSON files (note - does
+ * not read from mixed input to avoid collisions). <br/><br/>
+ *
  * @author brad
  * @date 5/3/17
  */
@@ -37,15 +41,16 @@ public class XmlJsonBulKReader implements BulkReader {
     //  STATIC VARIABLES
     //==================================================================================================================
     private static final Logger log = LoggerFactory.getLogger(XmlJsonBulKReader.class);
+
     //==================================================================================================================
     //  STATIC METHODS
     //==================================================================================================================
-    protected static List<String> collectUniqueExtensions(List<File> files){
+    protected static List<String> collectUniqueExtensions(List<File> files) {
         List<String> extensions = new ArrayList<>();
-        for( File f : files ){
+        for (File f : files) {
             String extension = getExtension(f);
-            if( extension != null ){
-                if( !extensions.contains(extension) ){
+            if (extension != null) {
+                if (!extensions.contains(extension)) {
                     extensions.add(extension);
                 }
             }
@@ -53,27 +58,30 @@ public class XmlJsonBulKReader implements BulkReader {
         return extensions;
     }
 
-    protected static String getExtension(File f){
+    protected static String getExtension(File f) {
         return getExtension(f.getName());
     }
-    protected static String getExtension(String filename){
+
+    protected static String getExtension(String filename) {
         int lastDotIndex = filename.lastIndexOf('.');
-        if( lastDotIndex >= 0 ){
-            String extension = filename.substring(lastDotIndex+1);
-            if( extension != null && extension.length() > 0 ) {
+        if (lastDotIndex >= 0) {
+            String extension = filename.substring(lastDotIndex + 1);
+            if (extension != null && extension.length() > 0) {
                 return extension.toLowerCase();
             }
         }
         return null;
     }
 
-    protected static int getPercent(int a, int b){
-        return (int) Math.floor( (double) ( ((double) a / (double) b) * 100.0d) );
+    protected static int getPercent(int a, int b) {
+        return (int) Math.floor((double) (((double) a / (double) b) * 100.0d));
     }
+
     //==================================================================================================================
     //  Instance Variables
     //==================================================================================================================
     private BulkReadListenerDelegatorImpl bulkReadListenerDelegator = new BulkReadListenerDelegatorImpl();
+
     //==================================================================================================================
     //  PUBLIC METHODS
     //==================================================================================================================
@@ -99,7 +107,7 @@ public class XmlJsonBulKReader implements BulkReader {
         bulkReadListenerDelegator.setMessage("Reading files...");
         bulkReadListenerDelegator.setPercentage(0);
 
-        for( int i = 0; i < inputFiles.size(); i++ ){
+        for (int i = 0; i < inputFiles.size(); i++) {
             File file = inputFiles.get(i);
             bulkReadListenerDelegator.setPercentage(getPercent(i, inputFiles.size()));
             bulkReadListenerDelegator.startReadingFile(file);
@@ -107,112 +115,112 @@ public class XmlJsonBulKReader implements BulkReader {
             bulkReadListenerDelegator.finishedReadingFile(file);
         }
 
-        if( tds.size() == 0 && tips.size() == 0 ){
+        if (tds.size() == 0 && tips.size() == 0) {
             bulkReadListenerDelegator.errorDuringBulkRead(new Exception("Unable to resolve any valid TDs or TIPs from the list of input files."));
             bulkReadListenerDelegator.finished();
             return null;
         }
 
         bulkReadListenerDelegator.startProcessingRawTDs();
-        if( context != null ) {
+        if (context != null) {
             bulkReadListenerDelegator.setMessage("Processing TDs...");
             bulkReadListenerDelegator.setPercentage(0);
             log.debug("Context is not null, so we are updating all TDs...");
-            for (int tdIndex = 0; tdIndex < tds.size(); tdIndex++ ) {
+            for (int tdIndex = 0; tdIndex < tds.size(); tdIndex++) {
                 TrustmarkDefinition td = tds.get(tdIndex);
-                log.debug("TD["+td.getMetadata().getName()+", v"+td.getMetadata().getVersion()+"] is having values overridden using context...");
+                log.debug("TD[" + td.getMetadata().getName() + ", v" + td.getMetadata().getVersion() + "] is having values overridden using context...");
                 bulkReadListenerDelegator.setPercentage(getPercent(tdIndex, tds.size()));
 
                 Map<String, String> monikerAndVersion = getMonikerAndVersion(td.getMetadata().getIdentifier());
                 String moniker = monikerAndVersion.get("moniker");
-                if( moniker == null )
+                if (moniker == null)
                     moniker = BulkImportUtils.cleanseMoniker(BulkImportUtils.generateMoniker(td.getMetadata().getName()));
 
-                if( monikerAndVersion.get("version") != null ){
-                    if( !monikerAndVersion.get("version").equalsIgnoreCase(td.getMetadata().getVersion()) ){
-                        log.error("Found a TD["+td.getMetadata().getIdentifier()+"] where there is a version mismatch in the URI!  ["+monikerAndVersion.get("version")+"] != ["+td.getMetadata().getVersion()+"]");
+                if (monikerAndVersion.get("version") != null) {
+                    if (!monikerAndVersion.get("version").equalsIgnoreCase(td.getMetadata().getVersion())) {
+                        log.error("Found a TD[" + td.getMetadata().getIdentifier() + "] where there is a version mismatch in the URI!  [" + monikerAndVersion.get("version") + "] != [" + td.getMetadata().getVersion() + "]");
                     }
                 }
 
                 URI identifier = context.generateIdentifierForTrustmarkDefinition(moniker, td.getMetadata().getVersion());
-                if( identifier != null ) {
-                    log.debug("  -> Setting identifier to "+identifier);
-                    ((TrustmarkDefinitionMetadataImpl) td.getMetadata()).setIdentifier(identifier);
-                    //((TrustmarkDefinitionMetadataImpl) td.getMetadata()).setTrustmarkReferenceAttributeName(new URI(identifier.toString()+"/trustmark-reference/"));
+                if (identifier != null) {
+                    log.debug("  -> Setting identifier to " + identifier);
+                    ((TrustmarkDefinitionImpl) td.getMetadata()).setIdentifier(identifier);
+                    //((TrustmarkDefinitionImpl) td.getMetadata()).setTrustmarkReferenceAttributeName(new URI(identifier.toString()+"/trustmark-reference/"));
                 }
 
                 if (context.getTrustmarkDefiningOrganization() != null) {
-                    log.debug("  -> Setting defining org to: "+context.getTrustmarkDefiningOrganization().getName());
-                    ((TrustmarkDefinitionMetadataImpl) td.getMetadata()).setTrustmarkDefiningOrganization(context.getTrustmarkDefiningOrganization());
+                    log.debug("  -> Setting defining org to: " + context.getTrustmarkDefiningOrganization().getName());
+                    ((TrustmarkDefinitionImpl) td.getMetadata()).setTrustmarkDefiningOrganization(context.getTrustmarkDefiningOrganization());
                 }
 
                 // Keep what's in the spreadsheet, if not included populate with defaults
-                ((TrustmarkDefinitionMetadataImpl) td.getMetadata()).setTrustmarkRevocationCriteria(context.getDefaultRevocationCriteria());
+                ((TrustmarkDefinitionImpl) td.getMetadata()).setTrustmarkRevocationCriteria(context.getDefaultRevocationCriteria());
 
                 if (StringUtils.isEmpty(td.getMetadata().getLegalNotice())) {
-                    ((TrustmarkDefinitionMetadataImpl) td.getMetadata()).setLegalNotice(context.getDefaultTdLegalNotice());
+                    ((TrustmarkDefinitionImpl) td.getMetadata()).setLegalNotice(context.getDefaultTdLegalNotice());
                 }
 
                 if (StringUtils.isEmpty(td.getMetadata().getNotes())) {
-                    ((TrustmarkDefinitionMetadataImpl) td.getMetadata()).setNotes(context.getDefaultTdNotes());
+                    ((TrustmarkDefinitionImpl) td.getMetadata()).setNotes(context.getDefaultTdNotes());
                 }
 
                 if (StringUtils.isEmpty(td.getMetadata().getTargetStakeholderDescription())) {
-                    ((TrustmarkDefinitionMetadataImpl) td.getMetadata()).setTargetStakeholderDescription(context.getDefaultTargetStakeholderDescription());
+                    ((TrustmarkDefinitionImpl) td.getMetadata()).setTargetStakeholderDescription(context.getDefaultTargetStakeholderDescription());
                 }
                 if (StringUtils.isEmpty(td.getMetadata().getTargetRecipientDescription())) {
-                    ((TrustmarkDefinitionMetadataImpl) td.getMetadata()).setTargetRecipientDescription(context.getDefaultTargetRecipientDescription());
+                    ((TrustmarkDefinitionImpl) td.getMetadata()).setTargetRecipientDescription(context.getDefaultTargetRecipientDescription());
                 }
                 if (StringUtils.isEmpty(td.getMetadata().getTargetRelyingPartyDescription())) {
-                    ((TrustmarkDefinitionMetadataImpl) td.getMetadata()).setTargetRelyingPartyDescription(context.getDefaultTargetRelyingPartyDescription());
+                    ((TrustmarkDefinitionImpl) td.getMetadata()).setTargetRelyingPartyDescription(context.getDefaultTargetRelyingPartyDescription());
                 }
                 if (StringUtils.isEmpty(td.getMetadata().getTargetProviderDescription())) {
-                    ((TrustmarkDefinitionMetadataImpl) td.getMetadata()).setTargetProviderDescription(context.getDefaultTargetProviderDescription());
+                    ((TrustmarkDefinitionImpl) td.getMetadata()).setTargetProviderDescription(context.getDefaultTargetProviderDescription());
                 }
                 if (StringUtils.isEmpty(td.getMetadata().getProviderEligibilityCriteria())) {
-                    ((TrustmarkDefinitionMetadataImpl) td.getMetadata()).setProviderEligibilityCriteria(context.getDefaultProviderEligibilityCriteria());
+                    ((TrustmarkDefinitionImpl) td.getMetadata()).setProviderEligibilityCriteria(context.getDefaultProviderEligibilityCriteria());
                 }
                 if (StringUtils.isEmpty(td.getMetadata().getAssessorQualificationsDescription())) {
-                    ((TrustmarkDefinitionMetadataImpl) td.getMetadata()).setAssessorQualificationsDescription(context.getDefaultAssessorQualificationsDescription());
+                    ((TrustmarkDefinitionImpl) td.getMetadata()).setAssessorQualificationsDescription(context.getDefaultAssessorQualificationsDescription());
                 }
                 if (StringUtils.isEmpty(td.getMetadata().getExtensionDescription())) {
-                    ((TrustmarkDefinitionMetadataImpl) td.getMetadata()).setExtensionDescription(context.getDefaultExtensionDescription());
+                    ((TrustmarkDefinitionImpl) td.getMetadata()).setExtensionDescription(context.getDefaultExtensionDescription());
                 }
             }
         }
         bulkReadListenerDelegator.finishedProcessingRawTDs(tds);
 
         bulkReadListenerDelegator.startProcessingRawTIPs();
-        if( context != null ) {
+        if (context != null) {
             Map<URI, List<URI>> notLocalUrisByTip = new HashMap<>();
             List<URI> notLocalUris = new ArrayList<>();
             bulkReadListenerDelegator.setMessage("Processing TIPs...");
             bulkReadListenerDelegator.setPercentage(0);
             log.debug("Context is not null, so we are updating all TIPs...");
-            for (int tipIndex = 0; tipIndex < tips.size(); tipIndex++ ) {
+            for (int tipIndex = 0; tipIndex < tips.size(); tipIndex++) {
                 TrustInteroperabilityProfile tip = tips.get(tipIndex);
-                log.debug("TIP["+tip.getName()+", v"+tip.getVersion()+"] is having values overridden using context...");
+                log.debug("TIP[" + tip.getName() + ", v" + tip.getVersion() + "] is having values overridden using context...");
                 bulkReadListenerDelegator.setPercentage(getPercent(tipIndex, tds.size()));
 
                 Map<String, String> monikerAndVersion = getMonikerAndVersion(tip.getIdentifier());
                 String moniker = monikerAndVersion.get("moniker");
-                if( moniker == null )
+                if (moniker == null)
                     moniker = BulkImportUtils.cleanseMoniker(BulkImportUtils.generateMoniker(tip.getName()));
 
-                if( monikerAndVersion.get("version") != null ){
-                    if( !monikerAndVersion.get("version").equalsIgnoreCase(tip.getVersion()) ){
-                        log.error("Found a TIP["+tip.getIdentifier()+"] where there is a version mismatch in the URI!  ["+monikerAndVersion.get("version")+"] != ["+tip.getVersion()+"]");
+                if (monikerAndVersion.get("version") != null) {
+                    if (!monikerAndVersion.get("version").equalsIgnoreCase(tip.getVersion())) {
+                        log.error("Found a TIP[" + tip.getIdentifier() + "] where there is a version mismatch in the URI!  [" + monikerAndVersion.get("version") + "] != [" + tip.getVersion() + "]");
                     }
                 }
 
                 URI identifier = context.generateIdentifierForTrustInteroperabilityProfile(moniker, tip.getVersion());
-                if( identifier != null ) {
-                    log.debug("  -> Setting identifier to "+identifier);
+                if (identifier != null) {
+                    log.debug("  -> Setting identifier to " + identifier);
                     ((TrustInteroperabilityProfileImpl) tip).setIdentifier(identifier);
                 }
 
                 if (context.getTrustInteroperabilityProfileIssuer() != null) {
-                    log.debug("  -> Setting issuer to "+context.getTrustInteroperabilityProfileIssuer().getName());
+                    log.debug("  -> Setting issuer to " + context.getTrustInteroperabilityProfileIssuer().getName());
                     ((TrustInteroperabilityProfileImpl) tip).setIssuer(context.getTrustInteroperabilityProfileIssuer());
                 }
 
@@ -224,46 +232,46 @@ public class XmlJsonBulKReader implements BulkReader {
 
             }
 
-            for( int tipIndex = 0; tipIndex < tips.size(); tipIndex++ ){
+            for (int tipIndex = 0; tipIndex < tips.size(); tipIndex++) {
                 TrustInteroperabilityProfile tip = tips.get(tipIndex);
-                log.debug("TIP["+tip.getName()+", v"+tip.getVersion()+"] is having references overridden using context...");
-                for(AbstractTIPReference reference : tip.getReferences() ){
+                log.debug("TIP[" + tip.getName() + ", v" + tip.getVersion() + "] is having references overridden using context...");
+                for (AbstractTIPReference reference : tip.getReferences()) {
                     URI refId = reference.getIdentifier();
                     Map<String, String> refMonikerAndVersion = getMonikerAndVersion(refId);
                     URI newRefId = null;
-                    if( reference.isTrustmarkDefinitionRequirement() ){
-                        log.debug("  -> Reference["+refMonikerAndVersion.get("moniker")+"] is a @|green TD|@");
+                    if (reference.isTrustmarkDefinitionRequirement()) {
+                        log.debug("  -> Reference[" + refMonikerAndVersion.get("moniker") + "] is a @|green TD|@");
                         newRefId = context.generateIdentifierForTrustmarkDefinition(refMonikerAndVersion.get("moniker"), refMonikerAndVersion.get("version"));
-                    }else{
-                        log.debug("  -> Reference["+refMonikerAndVersion.get("moniker")+"] is a @|cyan TIP|@");
+                    } else {
+                        log.debug("  -> Reference[" + refMonikerAndVersion.get("moniker") + "] is a @|cyan TIP|@");
                         newRefId = context.generateIdentifierForTrustInteroperabilityProfile(refMonikerAndVersion.get("moniker"), refMonikerAndVersion.get("version"));
                     }
 
-                    if( isLocal(newRefId, tds, tips) ) {
+                    if (isLocal(newRefId, tds, tips)) {
                         log.debug("  -> Rewriting URI[" + refId + "] in Reference to [" + newRefId + "]");
                         ((TrustmarkFrameworkIdentifiedObjectImpl) reference).setIdentifier(newRefId);
-                    }else{
-                        log.warn("   -> Cannot find URI["+refId+"] in local set [localref="+newRefId+"]!");
+                    } else {
+                        log.warn("   -> Cannot find URI[" + refId + "] in local set [localref=" + newRefId + "]!");
                         List<URI> notLocalUrisForThisTIP = notLocalUrisByTip.get(tip.getIdentifier());
-                        if( notLocalUrisForThisTIP == null )
+                        if (notLocalUrisForThisTIP == null)
                             notLocalUrisForThisTIP = new ArrayList<>();
                         notLocalUrisForThisTIP.add(refId);
                         notLocalUrisByTip.put(tip.getIdentifier(), notLocalUrisForThisTIP);
-                        if( !notLocalUris.contains(refId) )
+                        if (!notLocalUris.contains(refId))
                             notLocalUris.add(refId);
 
-                        log.error("TIP["+tip.getIdentifier().toString()+"] contains remote reference: @|yellow "+refId+"|@");
+                        log.error("TIP[" + tip.getIdentifier().toString() + "] contains remote reference: @|yellow " + refId + "|@");
                     }
 
                 }
             }
 
-            if( notLocalUrisByTip.size() > 0 ) {
-                log.debug("Found @|green "+notLocalUris.size()+"|@ Remote URIs:");
-                for( URI containingTipUri : notLocalUrisByTip.keySet() ){
+            if (notLocalUrisByTip.size() > 0) {
+                log.debug("Found @|green " + notLocalUris.size() + "|@ Remote URIs:");
+                for (URI containingTipUri : notLocalUrisByTip.keySet()) {
                     List<URI> notLocalUrisForThisTIP = notLocalUrisByTip.get(containingTipUri);
-                    log.debug("  -> Containing TIP[@|cyan "+containingTipUri+"|@] has @|green "+notLocalUrisForThisTIP.size()+"|@ remote references: ");
-                    for( URI uri : notLocalUrisForThisTIP ) {
+                    log.debug("  -> Containing TIP[@|cyan " + containingTipUri + "|@] has @|green " + notLocalUrisForThisTIP.size() + "|@ remote references: ");
+                    for (URI uri : notLocalUrisForThisTIP) {
                         log.debug("    -> URI: @|yellow " + uri + "|@");
                     }
                 }
@@ -272,20 +280,20 @@ public class XmlJsonBulKReader implements BulkReader {
         bulkReadListenerDelegator.setPercentage(-1);
         bulkReadListenerDelegator.finishedProcessingRawTIPs(tips);
 
-        bulkReadListenerDelegator.setMessage("Finished processing "+tds.size()+" trustmark definitions and "+tips.size()+" trust interop profiles.");
+        bulkReadListenerDelegator.setMessage("Finished processing " + tds.size() + " trustmark definitions and " + tips.size() + " trust interop profiles.");
         bulkReadListenerDelegator.finished();
         return new BulkReadResultImpl(tds, tips, invalidParameters);
     }
 
-    private boolean isLocal(URI uri, List<TrustmarkDefinition> tds, List<TrustInteroperabilityProfile> tips){
-        for( int i = 0; i < tds.size(); i++ ){
+    private boolean isLocal(URI uri, List<TrustmarkDefinition> tds, List<TrustInteroperabilityProfile> tips) {
+        for (int i = 0; i < tds.size(); i++) {
             TrustmarkDefinition td = tds.get(i);
-            if( td.getMetadata().getIdentifier().equals(uri) )
+            if (td.getMetadata().getIdentifier().equals(uri))
                 return true;
         }
-        for( int i = 0; i < tips.size(); i++ ){
+        for (int i = 0; i < tips.size(); i++) {
             TrustInteroperabilityProfile tip = tips.get(i);
-            if( tip.getIdentifier().equals(uri) )
+            if (tip.getIdentifier().equals(uri))
                 return true;
         }
         return false;
@@ -299,17 +307,17 @@ public class XmlJsonBulKReader implements BulkReader {
     @Override
     public Boolean supports(List<File> inputFiles) {
         List<String> extensions = collectUniqueExtensions(inputFiles);
-        if( extensions.size() > 1 ){
-            log.debug("There is more than 1 extension used by these files, so they are @|yellow not supported|@ for import by "+this.getClass().getSimpleName()+".  You must have all files be either JSON or XML.");
+        if (extensions.size() > 1) {
+            log.debug("There is more than 1 extension used by these files, so they are @|yellow not supported|@ for import by " + this.getClass().getSimpleName() + ".  You must have all files be either JSON or XML.");
             return false;
         }
 
-        if( extensions.get(0).equalsIgnoreCase("xml") || extensions.get(0).equalsIgnoreCase("json") ){
-            log.debug("@|green Supported|@!  This collection of files is exclusively @|cyan "+extensions.get(0)+"|@, so "+this.getClass().getSimpleName()+" can import them.");
+        if (extensions.get(0).equalsIgnoreCase("xml") || extensions.get(0).equalsIgnoreCase("json")) {
+            log.debug("@|green Supported|@!  This collection of files is exclusively @|cyan " + extensions.get(0) + "|@, so " + this.getClass().getSimpleName() + " can import them.");
             return true;
         }
 
-        log.debug("These files are @|yellow not supported|@ because extension @|red "+extensions.get(0)+"|@ is not something "+this.getClass().getSimpleName()+" knows how to import.");
+        log.debug("These files are @|yellow not supported|@ because extension @|red " + extensions.get(0) + "|@ is not something " + this.getClass().getSimpleName() + " knows how to import.");
         return false;
     }
 
@@ -321,70 +329,71 @@ public class XmlJsonBulKReader implements BulkReader {
     public static final String URI_MARKER_FOR_TIPS = "/trust-interoperability-profiles/";
 
     /**
-     * Takes a TMI Formatted URI, and pulls out the moniker and the version, returning them in a Map.
+     * Takes a TMI Formatted URI, and pulls out the moniker and the version,
+     * returning them in a Map.
      */
-    private Map<String, String> getMonikerAndVersion(URI uri){
+    private Map<String, String> getMonikerAndVersion(URI uri) {
         Map<String, String> data = new HashMap<>();
 
         String uriStr = uri.toString();
-        if( uriStr.contains(URI_MARKER_FOR_TDS) ){
+        if (uriStr.contains(URI_MARKER_FOR_TDS)) {
             populateMoniker(uriStr, URI_MARKER_FOR_TDS, data);
-        }else if( uriStr.contains(URI_MARKER_FOR_TIPS) ){
+        } else if (uriStr.contains(URI_MARKER_FOR_TIPS)) {
             populateMoniker(uriStr, URI_MARKER_FOR_TIPS, data);
-        }else{
-            log.warn("Cannot find any specialized identifier string (such as trustmark-definitions) in the given URI["+uriStr+"], so moniker and version cannot be parsed.");
+        } else {
+            log.warn("Cannot find any specialized identifier string (such as trustmark-definitions) in the given URI[" + uriStr + "], so moniker and version cannot be parsed.");
         }
 
         return data;
     }
 
-    private void populateMoniker(String uriStr, String token, Map<String, String> data){
+    private void populateMoniker(String uriStr, String token, Map<String, String> data) {
         Integer tdIndex = uriStr.indexOf(token);
-        String endString = uriStr.substring(tdIndex+token.length());
-        if( endString.endsWith("/") )
+        String endString = uriStr.substring(tdIndex + token.length());
+        if (endString.endsWith("/"))
             endString = endString.substring(0, endString.length() - 1);
 
         String[] parts = endString.split(Pattern.quote("/"));
-        if( parts.length != 2 ){
-            log.error("Invalid URI["+uriStr+"], cannot parse moniker and version from it!");
-        }else {
+        if (parts.length != 2) {
+            log.error("Invalid URI[" + uriStr + "], cannot parse moniker and version from it!");
+        } else {
             data.put("moniker", parts[0]);
             data.put("version", parts[1]);
-            log.debug("From URI["+uriStr+"], Found Moniker = ["+parts[0]+"] and Version = ["+parts[1]+"]");
+            log.debug("From URI[" + uriStr + "], Found Moniker = [" + parts[0] + "] and Version = [" + parts[1] + "]");
         }
     }
 
 
-    private void readFile(File file, List<TrustmarkDefinition> tds, List<TrustInteroperabilityProfile> tips){
-        if( isTrustmarkDefinition(file) ){
-            try{
+    private void readFile(File file, List<TrustmarkDefinition> tds, List<TrustInteroperabilityProfile> tips) {
+        if (isTrustmarkDefinition(file)) {
+            try {
                 TrustmarkDefinition td = FactoryLoader.getInstance(TrustmarkDefinitionResolver.class).resolve(file);
                 tds.add(td);
-                log.debug("Successfully Resolved File[@|cyan "+file.getName()+"|@] to a @|green TD|@!");
-            }catch(ResolveException re){
-                log.error("Error reading File["+file.getName()+"] as a TD!", re);
-                bulkReadListenerDelegator.fileNotSupported(file, new Exception("File["+file.getName()+"] was recognized as a Trustmark Definition, but cannot be parsed!", re));
+                log.debug("Successfully Resolved File[@|cyan " + file.getName() + "|@] to a @|green TD|@!");
+            } catch (ResolveException re) {
+                log.error("Error reading File[" + file.getName() + "] as a TD!", re);
+                bulkReadListenerDelegator.fileNotSupported(file, new Exception("File[" + file.getName() + "] was recognized as a Trustmark Definition, but cannot be parsed!", re));
             }
-        }else if( isTrustProfile(file) ){
-            try{
+        } else if (isTrustProfile(file)) {
+            try {
                 TrustInteroperabilityProfile trustProfile = FactoryLoader.getInstance(TrustInteroperabilityProfileResolver.class).resolve(file);
                 tips.add(trustProfile);
-                log.debug("Successfully Resolved File[@|cyan "+file.getName()+"|@] to a @|yellow TIP|@!");
-            }catch(ResolveException re){
-                log.error("Error reading File["+file.getName()+"] as a TIP!", re);
-                bulkReadListenerDelegator.fileNotSupported(file, new Exception("File["+file.getName()+"] was recognized as a TrustInteroperabilityProfile, but cannot be parsed!", re));
+                log.debug("Successfully Resolved File[@|cyan " + file.getName() + "|@] to a @|yellow TIP|@!");
+            } catch (ResolveException re) {
+                log.error("Error reading File[" + file.getName() + "] as a TIP!", re);
+                bulkReadListenerDelegator.fileNotSupported(file, new Exception("File[" + file.getName() + "] was recognized as a TrustInteroperabilityProfile, but cannot be parsed!", re));
             }
-        }else{
-            log.error("Error!  File @|red "+file.getName()+"|@ is not a TD nor is it a TIP!");
-            bulkReadListenerDelegator.fileNotSupported(file, new Exception("File["+file.getName()+"] is neither a Trustmark Definition nor a Trust Interop Profile."));
+        } else {
+            log.error("Error!  File @|red " + file.getName() + "|@ is not a TD nor is it a TIP!");
+            bulkReadListenerDelegator.fileNotSupported(file, new Exception("File[" + file.getName() + "] is neither a Trustmark Definition nor a Trust Interop Profile."));
         }
     }
 
-    public static boolean isTrustmarkDefinition(File file){
+    public static boolean isTrustmarkDefinition(File file) {
         return FactoryLoader.getInstance(TrustmarkDefinitionUtils.class).isTrustmarkDefinition(file);
     }
 
-    public static boolean isTrustProfile(File file){
+    public static boolean isTrustProfile(File file) {
         return FactoryLoader.getInstance(TrustInteroperabilityProfileUtils.class).isTrustInteroperabilityProfile(file);
     }
 

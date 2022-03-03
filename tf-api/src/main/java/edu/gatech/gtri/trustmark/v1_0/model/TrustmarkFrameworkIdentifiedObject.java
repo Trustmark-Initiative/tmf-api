@@ -1,44 +1,45 @@
 package edu.gatech.gtri.trustmark.v1_0.model;
 
-import java.net.URI;
-
 /**
- * Represents something in the framework that contains an identifier, name, version, and description.  A useful
- * abstraction for displaying objects uniquely in a system.
- * <br/><br/>
- * Created by brad on 12/7/15.
+ * Implementations represent an entity that has a type name, name, number,
+ * version, identifier, and description.
+ *
+ * @author GTRI Trustmark Team
  */
-public interface TrustmarkFrameworkIdentifiedObject {
+public interface TrustmarkFrameworkIdentifiedObject extends HasIdentifier {
 
     /**
-     * Returns the type of this object (ie, Trustmark, TrustmarkDefinition, TrustInteroperabilityProfile, etc).  In
-     * general, assume this is just a short cut for "this.getClass().getSimpleName()".
+     * Returns the type name; non-null.
+     *
+     * @return the type name; non-null
      */
-    public String getTypeName();
+    String getTypeName();
 
     /**
-     * The globally-unique Identifier of this object.  Guaranteed to be non-null.
+     * Returns the name; nullable.
+     *
+     * @return the name; nullable
      */
-    public URI getIdentifier();
+    String getName();
 
     /**
-     * The Name of this object. May be null depending on context.
+     * Returns the number; nullable.
+     *
+     * @return the number; nullable
      */
-    public String getName();
+    Integer getNumber();
 
     /**
-     * The Number or order of this object. May be null depending on context.
+     * Returns the version; nullable.
+     *
+     * @return the version; nullable
      */
-    public Integer getNumber();
+    String getVersion();
 
     /**
-     * The Version of this object. May be null depending on context.
+     * Returns the description; nullable.
+     *
+     * @return the description; nullable
      */
-    public String getVersion();
-
-    /**
-     * The Description of this object. May be null.
-     */
-    public String getDescription();
-
-}//end TrustmarkFrameworkIdentifiedObject
+    String getDescription();
+}

@@ -1,7 +1,9 @@
 package edu.gatech.gtri.trustmark.v1_0.impl.util.diff;
 
 import edu.gatech.gtri.trustmark.v1_0.model.TrustInteroperabilityProfile;
-import edu.gatech.gtri.trustmark.v1_0.util.diff.*;
+import edu.gatech.gtri.trustmark.v1_0.util.diff.DiffSeverity;
+import edu.gatech.gtri.trustmark.v1_0.util.diff.TrustInteroperabilityProfileDiffResult;
+import edu.gatech.gtri.trustmark.v1_0.util.diff.TrustInteroperabilityProfileDiffType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,25 +24,24 @@ public class CheckMajorMetadataIdFieldsTIPDiff extends AbstractTIPDiff {
         checkMajorMetadataIdField(results, tip1.getName(), tip2.getName(), "name");
         checkMajorMetadataIdField(results, tip1.getVersion(), tip2.getVersion(), "version");
         checkMajorMetadataIdField(results, tip1.getPublicationDateTime().toString(), tip2.getPublicationDateTime().toString(), "publicationDateTime");
-        checkMajorMetadataIdField(results, tip1.isDeprecated().toString(), tip2.isDeprecated().toString(), "deprecated");
+        checkMajorMetadataIdField(results, Boolean.toString(tip1.isDeprecated()), Boolean.toString(tip2.isDeprecated()), "deprecated");
         checkMajorMetadataIdField(results, tip1.getTrustExpression(), tip2.getTrustExpression(), "trustExpression");
         return results;
     }
 
 
-    private void checkMajorMetadataIdField( ArrayList<TrustInteroperabilityProfileDiffResult> results, String f1, String f2, String idFieldName){
-        if( !f1.equals(f2) ){ // TODO Equals ignore case maybe?
+    private void checkMajorMetadataIdField(ArrayList<TrustInteroperabilityProfileDiffResult> results, String f1, String f2, String idFieldName) {
+        if (!f1.equals(f2)) { // TODO Equals ignore case maybe?
             TrustInteroperabilityProfileDiffResultImpl result = new TrustInteroperabilityProfileDiffResultImpl(
                     TrustInteroperabilityProfileDiffType.FIELD_DOES_NOT_MATCH, DiffSeverity.MAJOR,
-                    idFieldName, "The "+idFieldName+"["+f1+"] does not match the corresponding one["+f2+"]");
-            result.setData("tip1."+idFieldName, f1);
-            result.setData("tip2."+idFieldName, f2);
+                    idFieldName, "The " + idFieldName + "[" + f1 + "] does not match the corresponding one[" + f2 + "]");
+            result.setData("tip1." + idFieldName, f1);
+            result.setData("tip2." + idFieldName, f2);
             results.add(result);
-        }else {
-            log.debug(idFieldName+"s are equal");
+        } else {
+            log.debug(idFieldName + "s are equal");
         }
     }
-
 
 
 }

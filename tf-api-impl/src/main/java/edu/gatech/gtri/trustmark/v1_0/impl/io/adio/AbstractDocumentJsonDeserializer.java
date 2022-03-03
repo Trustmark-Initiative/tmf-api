@@ -1,8 +1,8 @@
 package edu.gatech.gtri.trustmark.v1_0.impl.io.adio;
 
 import edu.gatech.gtri.trustmark.v1_0.impl.io.adio.codecs.Codec;
-import edu.gatech.gtri.trustmark.v1_0.impl.io.json.SerializerJson;
 import edu.gatech.gtri.trustmark.v1_0.impl.io.json.TrustInteroperabilityProfileJsonDeserializer;
+import edu.gatech.gtri.trustmark.v1_0.io.MediaType;
 import edu.gatech.gtri.trustmark.v1_0.io.ParseException;
 import edu.gatech.gtri.trustmark.v1_0.model.Entity;
 import edu.gatech.gtri.trustmark.v1_0.model.Term;
@@ -43,7 +43,7 @@ public class AbstractDocumentJsonDeserializer<T> extends AbstractDocumentInputDe
 
     @Override
     protected String getSourceType() {
-        return SerializerJson.APPLICATION_JSON;
+        return MediaType.APPLICATION_JSON.getMediaType();
     }
 
     @Override

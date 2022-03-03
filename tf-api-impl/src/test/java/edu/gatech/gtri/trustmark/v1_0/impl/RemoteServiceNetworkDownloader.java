@@ -12,6 +12,9 @@ import java.net.URL;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static edu.gatech.gtri.trustmark.v1_0.io.MediaType.APPLICATION_JSON;
+import static edu.gatech.gtri.trustmark.v1_0.io.MediaType.APPLICATION_ZIP;
+
 /**
  * An implementation of the {@link NetworkDownloader] which serves from a local directory.  Very useful for testing
  * services that need a RemoteService.  You simply register this with FactoryLoader before you begin testing with
@@ -32,33 +35,37 @@ public class RemoteServiceNetworkDownloader implements NetworkDownloader {
     public HttpResponse download(URL url) throws IOException {
         logger.debug("Downloading URL: "+url+" [host="+url.getHost()+"] [path="+url.getPath()+"] [query="+url.getQuery()+"]");
         if( url.getHost() != null && url.getHost().contains("example.org") ){
-            if( (url.getQuery() != null && url.getQuery().contains("format=json")) ||  url.getPath().contains(".json") ) {
+            if( url.getPath().contains("/binary/view/831") ){
+
+                return new HttpResponseFromFile(getFile("/downloadAll/test.zip"), APPLICATION_ZIP.getMediaType(), true);
+
+            } else {
 
                 String path = getPath(url);
                 logger.info("Finding data for: " + url);
 
                 if (path.startsWith("/status")) {
                     logger.debug("Returning status1.json...");
-                    return new HttpResponseFromFile(getFile("/status1.json"), "application/json", false);
+                    return new HttpResponseFromFile(getFile("/status1.json"), APPLICATION_JSON.getMediaType(), false);
                 }
 
                 if (path.equals("/trustmark-definitions")) {
                     logger.debug("Returning tds1.json...");
-                    return new HttpResponseFromFile(getFile("/tds1.json"), "application/json", false);
+                    return new HttpResponseFromFile(getFile("/tds1.json"), APPLICATION_JSON.getMediaType(), false);
                 }
 
                 if (path.equals("/taxonomy-terms")) {
                     logger.debug("Returning taxonomy-terms.json...");
-                    return new HttpResponseFromFile(getFile("/taxonomy-terms.json"), "application/json", false);
+                    return new HttpResponseFromFile(getFile("/taxonomy-terms.json"), APPLICATION_JSON.getMediaType(), false);
                 }
 
 
                 if (path.equals("/trust-interoperability-profiles")) {
-                    return new HttpResponseFromFile(getFile("/tips1.json"), "application/json", false);
+                    return new HttpResponseFromFile(getFile("/tips1.json"), APPLICATION_JSON.getMediaType(), false);
                 }
 
                 if (path.startsWith("/keywords")) {
-                    return new HttpResponseFromFile(getFile("/keywords.json"), "application/json", false);
+                    return new HttpResponseFromFile(getFile("/keywords.json"), APPLICATION_JSON.getMediaType(), false);
                 }
 
                 if (path.startsWith("/downloadAll")) {
@@ -66,18 +73,18 @@ public class RemoteServiceNetworkDownloader implements NetworkDownloader {
                     if (path.contains("/downloadAll/build/VS_20170411_1.json")) {
                         logger.debug("Starting download all...");
                         downloadAllStart = System.currentTimeMillis();
-                        return new HttpResponseFromFile(getFile("/downloadAll/1.json"), "application/json", false);
+                        return new HttpResponseFromFile(getFile("/downloadAll/1.json"), APPLICATION_JSON.getMediaType(), false);
                     }
 
                     if (path.contains("/downloadAll/monitor/VS_20170411_1")) {
                         long now = System.currentTimeMillis();
                         logger.debug("Checking status...");
-                        return new HttpResponseFromFile(resolveDownloadAllFile(now, downloadAllStart), "application/json", false);
+                        return new HttpResponseFromFile(resolveDownloadAllFile(now, downloadAllStart), APPLICATION_JSON.getMediaType(), false);
                     }
 
                     if (path.contains("/downloadAll/getLatestDownload/VS_20170411_1.json")) {
                         logger.debug("Getting latest download...");
-                        return new HttpResponseFromFile(getFile("/downloadAll/5.json"), "application/json", false);
+                        return new HttpResponseFromFile(getFile("/downloadAll/5.json"), APPLICATION_JSON.getMediaType(), false);
                     }
                 }
 
@@ -88,7 +95,7 @@ public class RemoteServiceNetworkDownloader implements NetworkDownloader {
                         String name = m.group(1);
                         String version = m.group(2);
                         logger.info("Resolved TD file: " + name + "_" + version + ".json");
-                        return new HttpResponseFromFile(getFile("/tds_1/" + name + "_" + version + ".json"), "application/json", false);
+                        return new HttpResponseFromFile(getFile("/tds_1/" + name + "_" + version + ".json"), APPLICATION_JSON.getMediaType(), false);
 
                     } else {
                         logger.error("UNABLE TO MATCH!");
@@ -103,7 +110,7 @@ public class RemoteServiceNetworkDownloader implements NetworkDownloader {
                         String name = m.group(1);
                         String version = m.group(2);
                         logger.info("Resolved TIP file: " + name + "_" + version + ".json");
-                        return new HttpResponseFromFile(getFile("/tips_1/" + name + "_" + version + ".json"), "application/json", false);
+                        return new HttpResponseFromFile(getFile("/tips_1/" + name + "_" + version + ".json"), APPLICATION_JSON.getMediaType(), false);
 
                     } else {
                         logger.error("UNABLE TO MATCH!");
@@ -112,20 +119,12 @@ public class RemoteServiceNetworkDownloader implements NetworkDownloader {
                 }
 
                 if( path.contains("/search") ){
-                    return new HttpResponseFromFile(getFile("/search.json"), "application/json", false);
+                    return new HttpResponseFromFile(getFile("/search.json"), APPLICATION_JSON.getMediaType(), false);
                 }
 
                 logger.error("Cannot find: " + path);
                 // FIXME Return data here.
                 throw new UnsupportedOperationException("Not yet implemented");
-
-
-            }else if( url.getPath().contains("/binary/view/831") ){
-
-                return new HttpResponseFromFile(getFile("/downloadAll/test.zip"), "application/zip", true);
-
-            }else{
-                throw new UnsupportedOperationException("Only JSON formats are supported.  This query is either empty (ie, no format=json) or specifies something else (like XML).");
             }
         }else{
             throw new UnsupportedOperationException("URL Host '"+url.getHost()+"' is NOT a valid URL for the test RemoteServiceNetworkDownloader.");

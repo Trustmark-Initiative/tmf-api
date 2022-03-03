@@ -4,8 +4,12 @@ import edu.gatech.gtri.trustmark.v1_0.io.hash.CanonFactory;
 import edu.gatech.gtri.trustmark.v1_0.io.hash.HashFactory;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustInteroperabilityProfile;
 import edu.gatech.gtri.trustmark.v1_0.model.Trustmark;
-import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkBindingRegistry;
-import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkBindingRegistrySystem;
+import edu.gatech.gtri.trustmark.v1_0.model.trustmarkBindingRegistry.TrustmarkBindingRegistryOrganization;
+import edu.gatech.gtri.trustmark.v1_0.model.trustmarkBindingRegistry.TrustmarkBindingRegistryOrganizationMap;
+import edu.gatech.gtri.trustmark.v1_0.model.trustmarkBindingRegistry.TrustmarkBindingRegistryOrganizationTrustmark;
+import edu.gatech.gtri.trustmark.v1_0.model.trustmarkBindingRegistry.TrustmarkBindingRegistryOrganizationTrustmarkMap;
+import edu.gatech.gtri.trustmark.v1_0.model.trustmarkBindingRegistry.TrustmarkBindingRegistrySystemMap;
+import edu.gatech.gtri.trustmark.v1_0.model.trustmarkBindingRegistry.TrustmarkBindingRegistrySystem;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkDefinition;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkStatusReport;
 import org.gtri.fj.function.Try1;
@@ -66,11 +70,11 @@ public final class HashFactoryImpl implements HashFactory {
     }
 
     @Override
-    public byte[] hash(final TrustmarkBindingRegistry trustmarkBindingRegistry) throws IOException {
+    public byte[] hash(final TrustmarkBindingRegistrySystemMap trustmarkBindingRegistrySystemMap) throws IOException {
 
-        requireNonNull(trustmarkBindingRegistry);
+        requireNonNull(trustmarkBindingRegistrySystemMap);
 
-        return hashHelper(trustmarkBindingRegistry, canonFactory::canon);
+        return hashHelper(trustmarkBindingRegistrySystemMap, canonFactory::canon);
     }
 
     @Override
@@ -79,6 +83,38 @@ public final class HashFactoryImpl implements HashFactory {
         requireNonNull(trustmarkBindingRegistrySystem);
 
         return hashHelper(trustmarkBindingRegistrySystem, canonFactory::canon);
+    }
+
+    @Override
+    public byte[] hash(final TrustmarkBindingRegistryOrganizationMap trustmarkBindingRegistryOrganizationMap) throws IOException {
+
+        requireNonNull(trustmarkBindingRegistryOrganizationMap);
+
+        return hashHelper(trustmarkBindingRegistryOrganizationMap, canonFactory::canon);
+    }
+
+    @Override
+    public byte[] hash(final TrustmarkBindingRegistryOrganization trustmarkBindingRegistryOrganization) throws IOException {
+
+        requireNonNull(trustmarkBindingRegistryOrganization);
+
+        return hashHelper(trustmarkBindingRegistryOrganization, canonFactory::canon);
+    }
+
+    @Override
+    public byte[] hash(final TrustmarkBindingRegistryOrganizationTrustmarkMap trustmarkBindingRegistryOrganizationTrustmarkMap) throws IOException {
+
+        requireNonNull(trustmarkBindingRegistryOrganizationTrustmarkMap);
+
+        return hashHelper(trustmarkBindingRegistryOrganizationTrustmarkMap, canonFactory::canon);
+    }
+
+    @Override
+    public byte[] hash(final TrustmarkBindingRegistryOrganizationTrustmark trustmarkBindingRegistryOrganizationTrustmark) throws IOException {
+
+        requireNonNull(trustmarkBindingRegistryOrganizationTrustmark);
+
+        return hashHelper(trustmarkBindingRegistryOrganizationTrustmark, canonFactory::canon);
     }
 
     private <T1> byte[] hashHelper(final T1 serializeable, final Try1<T1, byte[], IOException> f) throws IOException {

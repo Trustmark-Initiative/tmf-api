@@ -3,9 +3,9 @@ package edu.gatech.gtri.trustmark.v1_0.io;
 import edu.gatech.gtri.trustmark.v1_0.model.agreement.AgreementResponsibilityTemplate;
 
 /**
- * Can parse an Agreement Responsibility Template from various sources.
+ * Implementations resolve an Agreement Responsibility Template from a source.
  *
- * @author Nicholas Saney
+ * @author GTRI Trustmark Team
  */
 public interface AgreementResponsibilityTemplateResolver extends ArtifactResolver<AgreementResponsibilityTemplate> {
 }

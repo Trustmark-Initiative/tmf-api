@@ -1,70 +1,92 @@
 package edu.gatech.gtri.trustmark.v1_0.impl.io;
 
 import edu.gatech.gtri.trustmark.v1_0.io.ResolveException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.gtri.fj.data.Option;
+import org.gtri.fj.function.Try2;
+import org.gtri.fj.product.P2;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URI;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
+import static java.util.Objects.requireNonNull;
+import static org.gtri.fj.data.Option.none;
+import static org.gtri.fj.data.Option.some;
+import static org.gtri.fj.product.P.p;
+
 /**
- * Created by brad on 12/8/15.
+ * Resolves the given URI from its cache, if the timeout has not expired;
+ * otherwise, it attempts to resolve the given URI by converting the URI to a
+ * URL and downloading the URL.
+ *
+ * @author GTRI Trustmark Team
  */
-public class URIResolverTimeoutCache extends AbstractURIResolver {
+public final class URIResolverTimeoutCache extends AbstractURIResolver {
 
-    private static final Logger log = LoggerFactory.getLogger(URIResolverTimeoutCache.class);
+    private static final long DEFAULT_TIMEOUT = 60l * 60l * 24l;
 
-    public static final long DEFAULT_TIMEOUT = 60l * 60l * 24l;  // one day in millis
-
-    private long timeout = DEFAULT_TIMEOUT;
+    private final long timeout;
 
     /**
-     * used to synchronize the cache.
+     * Resolves the given URI from its cache, if the cache is not older than one
+     * day.
      */
-    private static Boolean CACHE_LOCK = true;
-    public static Map<String, String> URI_CACHE = new HashMap<String, String>();
-    public static Map<String, Long> URI_TIME_CACHE = new HashMap<String, Long>();
+    public URIResolverTimeoutCache() {
+        this.timeout = DEFAULT_TIMEOUT;
+    }
 
-
-    public URIResolverTimeoutCache(long timeout){
+    /**
+     * Resolves the given URI from its cache, if the timeout has not expired;
+     * otherwise, it attempts to resolve the given URI by converting the URI to
+     * a URL and downloading the URL.
+     *
+     * @param timeout the timeout
+     */
+    public URIResolverTimeoutCache(final long timeout) {
         this.timeout = timeout;
     }
 
     @Override
-    public String resolve(URI uri) throws ResolveException {
-        String uriString = uri.toString();
-        boolean timedOut = false;
-        String value = null;
-        synchronized (CACHE_LOCK){
-            if (URI_TIME_CACHE.containsKey(uriString)) {
-                long cacheTime = URI_TIME_CACHE.get(uriString);
-                if( (System.currentTimeMillis() - cacheTime) > this.timeout ){
-                    timedOut = true;
-                }else{
-                    value = URI_CACHE.get(uriString);
-                }
-            }else{
-                timedOut = true;
-            }
-            if( timedOut ){
-                URL url = null;
-                try{ url = uri.toURL(); }catch(MalformedURLException murle){throw new ResolveException("Could not convert URI to URL", murle); }
-                try {
-                    log.debug("Downloading URL: "+url.toExternalForm());
-                    value = this.downloadUrl(url);
-                }catch(IOException ioe){
-                    throw new ResolveException("Error while downloading URL: "+url.toExternalForm(), ioe);
-                }
-                URI_TIME_CACHE.put(uriString, System.currentTimeMillis());
-                URI_CACHE.put(uriString, value);
-            }
-        }
-        return value;
-    }//end resolve()
+    public String resolve(final URI uri) throws ResolveException {
 
+        requireNonNull(uri);
 
-}//end URIResolver
+        return resolveHelper(uri, none(), timeout, this::downloadUri);
+    }
+
+    @Override
+    public String resolve(final URI uri, final String mediaTypeString) throws ResolveException {
+
+        requireNonNull(uri);
+        requireNonNull(mediaTypeString);
+
+        return resolveHelper(uri, some(mediaTypeString), timeout, this::downloadUri);
+    }
+
+    private static final Map<P2<String, Option<String>>, P2<Long, String>> URI_CACHE = new HashMap<>();
+
+    private static synchronized String resolveHelper(final URI uri, final Option<String> mediaTypeStringOption, final long timeout, Try2<URI, Option<String>, String, ResolveException> downloadUri) throws ResolveException {
+
+        requireNonNull(uri);
+        requireNonNull(mediaTypeStringOption);
+        requireNonNull(downloadUri);
+
+        final String uriString = uri.toString();
+        final long currentTimeMillis = System.currentTimeMillis();
+
+        return URI_CACHE.containsKey(p(uriString, mediaTypeStringOption)) && currentTimeMillis - URI_CACHE.get(p(uriString, mediaTypeStringOption))._1() <= timeout ?
+                URI_CACHE.get(p(uriString, mediaTypeStringOption))._2() :
+                cache(uriString, mediaTypeStringOption, currentTimeMillis, downloadUri.f(uri, mediaTypeStringOption));
+    }
+
+    private static String cache(final String uriString, final Option<String> mediaTypeStringOption, final long currentTimeMillis, final String content) {
+
+        requireNonNull(uriString);
+        requireNonNull(mediaTypeStringOption);
+        requireNonNull(content);
+
+        URI_CACHE.put(p(uriString, mediaTypeStringOption), p(currentTimeMillis, content));
+
+        return content;
+    }
+}

@@ -11,8 +11,6 @@ import edu.gatech.gtri.trustmark.v1_0.impl.model.TrustmarkFrameworkIdentifiedObj
 import edu.gatech.gtri.trustmark.v1_0.io.ParseException;
 import edu.gatech.gtri.trustmark.v1_0.model.ContactKindCode;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkFrameworkIdentifiedObject;
-import org.slf4j.LoggerFactory;
-import org.slf4j.Logger;
 import org.gtri.fj.data.Option;
 import org.gtri.fj.data.TreeMap;
 import org.gtri.fj.data.Validation;
@@ -22,6 +20,8 @@ import org.gtri.fj.function.Try1;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.xml.bind.DatatypeConverter;
 import java.net.URI;
@@ -41,16 +41,20 @@ import static org.gtri.fj.data.Option.none;
 import static org.gtri.fj.data.Option.some;
 
 /**
- * Provides methods to all types of system deserializers.
- * <br/><br/>
- * Created by brad on 12/10/15.
+ * Utilities for JSON deserializers.
+ *
+ * @author GTRI Trustmark Team
  */
 public abstract class JsonDeserializerUtility {
+
+    private JsonDeserializerUtility() {
+    }
 
     private static final Logger log = LoggerFactory.getLogger(JsonDeserializerUtility.class);
 
     /**
-     * This method will inspect the given JSON object and make sure it is compatible with the current library version.
+     * This method will inspect the given JSON object and make sure it is
+     * compatible with the current library version.
      */
     public static void assertSupported(JSONObject json) throws ParseException {
         assertSupportedVersion(json);
@@ -110,14 +114,16 @@ public abstract class JsonDeserializerUtility {
     }
 
     /**
-     * Return some JSONObject associated with the key in the json object, if present; otherwise, none.
+     * Return some JSONObject associated with the key in the json object, if
+     * present; otherwise, none.
      *
      * @param jsonObject the json object
      * @param key        the key
      * @return some JSONObject, if present; none, if absent
      * @throws NullPointerException if jsonObject is null
      * @throws NullPointerException if key is null
-     * @throws ParseException       if the value is present and is not of type JSONObject
+     * @throws ParseException       if the value is present and is not of type
+     *                              JSONObject
      */
     public static Option<JSONObject> readJSONObjectOption(final JSONObject jsonObject, final String key) throws ParseException {
         return readOption(jsonObject, key, JSONObject.class, jsonObject::getJSONObject);
@@ -139,14 +145,16 @@ public abstract class JsonDeserializerUtility {
     }
 
     /**
-     * Return some string associated with the key in the json object, if present; otherwise, none.
+     * Return some string associated with the key in the json object, if
+     * present; otherwise, none.
      *
      * @param jsonObject the json object
      * @param key        the key
      * @return some string, if present; none, if absent
      * @throws NullPointerException if jsonObject is null
      * @throws NullPointerException if key is null
-     * @throws ParseException       if the value is present and is not of type String
+     * @throws ParseException       if the value is present and is not of type
+     *                              String
      */
     public static Option<String> readStringOption(final JSONObject jsonObject, final String key) throws ParseException {
         return readOption(jsonObject, key, String.class, jsonObject::getString);
@@ -168,14 +176,16 @@ public abstract class JsonDeserializerUtility {
     }
 
     /**
-     * Return some int associated with the key in the json object, if present; otherwise, none.
+     * Return some int associated with the key in the json object, if present;
+     * otherwise, none.
      *
      * @param jsonObject the json object
      * @param key        the key
      * @return some int, if present; none, if absent
      * @throws NullPointerException if jsonObject is null
      * @throws NullPointerException if key is null
-     * @throws ParseException       if the value is present and is not of type int
+     * @throws ParseException       if the value is present and is not of type
+     *                              int
      */
     public static Option<Integer> readIntOption(final JSONObject jsonObject, final String key) throws ParseException {
         return readOption(jsonObject, key, Integer.class, jsonObject::getInt);
@@ -197,14 +207,16 @@ public abstract class JsonDeserializerUtility {
     }
 
     /**
-     * Return some boolean associated with the key in the json object, if present; otherwise, none.
+     * Return some boolean associated with the key in the json object, if
+     * present; otherwise, none.
      *
      * @param jsonObject the json object
      * @param key        the key
      * @return some boolean, if present; none, if absent
      * @throws NullPointerException if jsonObject is null
      * @throws NullPointerException if key is null
-     * @throws ParseException       if the value is present and is not of type boolean
+     * @throws ParseException       if the value is present and is not of type
+     *                              boolean
      */
     public static Option<Boolean> readBooleanOption(final JSONObject jsonObject, final String key) throws ParseException {
         return readOption(jsonObject, key, Boolean.class, jsonObject::getBoolean);
@@ -220,7 +232,8 @@ public abstract class JsonDeserializerUtility {
      * @throws NullPointerException if key is null
      * @throws ParseException       if the key is absent
      * @throws ParseException       if the value is not of type String
-     * @throws ParseException       if the system cannot parse the value as a URI
+     * @throws ParseException       if the system cannot parse the value as a
+     *                              URI
      */
     public static URI readURI(final JSONObject jsonObject, final String key) throws ParseException {
         requireNonNull(jsonObject);
@@ -230,7 +243,8 @@ public abstract class JsonDeserializerUtility {
     }
 
     /**
-     * Return some URL associated with the key in the json object, if present; otherwise, none
+     * Return some URL associated with the key in the json object, if present;
+     * otherwise, none
      *
      * @param jsonObject the json object
      * @param key        the key
@@ -239,7 +253,8 @@ public abstract class JsonDeserializerUtility {
      * @throws NullPointerException if key is null
      * @throws ParseException       if the key is absent
      * @throws ParseException       if the value is not of type String
-     * @throws ParseException       if the system cannot parse the value as a URL
+     * @throws ParseException       if the system cannot parse the value as a
+     *                              URL
      */
     public static Option<URI> readURIOption(final JSONObject jsonObject, final String key) throws ParseException {
         requireNonNull(jsonObject);
@@ -258,7 +273,8 @@ public abstract class JsonDeserializerUtility {
      * @throws NullPointerException if key is null
      * @throws ParseException       if the key is absent
      * @throws ParseException       if the value is not of type String
-     * @throws ParseException       if the system cannot parse the value as a URL
+     * @throws ParseException       if the system cannot parse the value as a
+     *                              URL
      */
     public static URL readURL(final JSONObject jsonObject, final String key) throws ParseException {
         requireNonNull(jsonObject);
@@ -268,7 +284,8 @@ public abstract class JsonDeserializerUtility {
     }
 
     /**
-     * Return some URL associated with the key in the json object, if present; otherwise, none
+     * Return some URL associated with the key in the json object, if present;
+     * otherwise, none
      *
      * @param jsonObject the json object
      * @param key        the key
@@ -277,7 +294,8 @@ public abstract class JsonDeserializerUtility {
      * @throws NullPointerException if key is null
      * @throws ParseException       if the key is absent
      * @throws ParseException       if the value is not of type String
-     * @throws ParseException       if the system cannot parse the value as a URL
+     * @throws ParseException       if the system cannot parse the value as a
+     *                              URL
      */
     public static Option<URL> readURLOption(final JSONObject jsonObject, final String key) throws ParseException {
         requireNonNull(jsonObject);
@@ -296,7 +314,8 @@ public abstract class JsonDeserializerUtility {
      * @throws NullPointerException if key is null
      * @throws ParseException       if the key is absent
      * @throws ParseException       if the value is not of type String or long
-     * @throws ParseException       if the system cannot parse the value as a Date
+     * @throws ParseException       if the system cannot parse the value as a
+     *                              Date
      */
     public static Date readDate(final JSONObject jsonObject, final String key) throws ParseException {
         if (jsonObject.has(key)) {
@@ -334,7 +353,8 @@ public abstract class JsonDeserializerUtility {
     }
 
     /**
-     * Return the list of JSONObjects associated with the key in the json object.
+     * Return the list of JSONObjects associated with the key in the json
+     * object.
      *
      * @param jsonObject the json object
      * @param key        the key
@@ -439,7 +459,8 @@ public abstract class JsonDeserializerUtility {
      * @throws NullPointerException if convert is null
      * @throws NullPointerException if key is null
      * @throws NullPointerException if className is null
-     * @throws ParseException       if the system cannot convert the value to the given type
+     * @throws ParseException       if the system cannot convert the value to
+     *                              the given type
      */
     public static <T1, T2, E extends Exception> T2 read(final T1 value, final Try1<T1, T2, E> convert, final String key, final String className) throws ParseException {
         requireNonNull(value);
@@ -469,7 +490,8 @@ public abstract class JsonDeserializerUtility {
      * @throws NullPointerException if key is null
      * @throws NullPointerException if clazz is null
      * @throws NullPointerException if get is null
-     * @throws ParseException       if the key is present but the value is not of the type
+     * @throws ParseException       if the key is present but the value is not
+     *                              of the type
      */
     private static <T1> Option<T1> readOption(final JSONObject jsonObject, final String key, Class<T1> clazz, F1<String, T1> get) throws ParseException {
         requireNonNull(jsonObject);
@@ -531,7 +553,8 @@ public abstract class JsonDeserializerUtility {
     }
 
     /**
-     * Return a function that returns the value associated with the key in the map.
+     * Return a function that returns the value associated with the key in the
+     * map.
      *
      * @param map  the map
      * @param key  the function that returns the key for the json object
@@ -633,7 +656,8 @@ public abstract class JsonDeserializerUtility {
     }
 
     /**
-     * Return some extension, if the list associated with the key is non-empty; otherwise, return none.
+     * Return some extension, if the list associated with the key is non-empty;
+     * otherwise, return none.
      *
      * @param jsonObject the json object
      * @param key        the key
@@ -663,11 +687,14 @@ public abstract class JsonDeserializerUtility {
      * @throws ParseException       if Identifier is not a string
      * @throws ParseException       if Name is null
      * @throws ParseException       if Name is not a string
-     * @throws ParseException       if PrimaryContact is present and not a contact
+     * @throws ParseException       if PrimaryContact is present and not a
+     *                              contact
      * @throws ParseException       if Contact is present and not a contact
-     * @throws ParseException       if OtherContacts is present and not a contact
+     * @throws ParseException       if OtherContacts is present and not a
+     *                              contact
      * @throws ParseException       if Contacts is present and not a contact
-     * @throws ParseException       if none of PrimaryContact, Contact, OtherContacts, and Contacts is present
+     * @throws ParseException       if none of PrimaryContact, Contact,
+     *                              OtherContacts, and Contacts is present
      */
     public static EntityImpl readEntity(final JSONObject jsonObject) throws ParseException {
         requireNonNull(jsonObject);
@@ -699,11 +726,14 @@ public abstract class JsonDeserializerUtility {
      * @throws ParseException       if Identifier is null
      * @throws ParseException       if Identifier is not a string
      * @throws ParseException       if Name is present and not a string
-     * @throws ParseException       if PrimaryContact is present and not a contact
+     * @throws ParseException       if PrimaryContact is present and not a
+     *                              contact
      * @throws ParseException       if Contact is present and not a contact
-     * @throws ParseException       if OtherContacts is present and not a contact
+     * @throws ParseException       if OtherContacts is present and not a
+     *                              contact
      * @throws ParseException       if Contacts is present and not a contact
-     * @throws ParseException       if none of PrimaryContact, Contact, OtherContacts, and Contacts is present
+     * @throws ParseException       if none of PrimaryContact, Contact,
+     *                              OtherContacts, and Contacts is present
      */
     public static EntityImpl readEntityReference(JSONObject jsonObject) throws ParseException {
         requireNonNull(jsonObject);
@@ -730,7 +760,11 @@ public abstract class JsonDeserializerUtility {
      * @throws NullPointerException if jsonObject is null
      * @throws ParseException       if WebsiteURL is present and not a URL
      * @throws ParseException       if WebsiteURLs is present and not a URL
-     * @throws ParseException       if none of Email, Emails, MailingAddress, MailingAddresses, Notes, PhysicalAddress, PhysicalAddresses, Responder, Telephone, Telephones, WebsiteURL, and WebsiteURLs is present
+     * @throws ParseException       if none of Email, Emails, MailingAddress,
+     *                              MailingAddresses, Notes, PhysicalAddress,
+     *                              PhysicalAddresses, Responder, Telephone,
+     *                              Telephones, WebsiteURL, and WebsiteURLs is
+     *                              present
      */
     public static ContactImpl readContact(final JSONObject jsonObject) throws ParseException {
         requireNonNull(jsonObject);

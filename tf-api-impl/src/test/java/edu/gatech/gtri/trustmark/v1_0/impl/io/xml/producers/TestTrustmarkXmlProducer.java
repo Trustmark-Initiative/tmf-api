@@ -11,9 +11,9 @@ import edu.gatech.gtri.trustmark.v1_0.io.SerializerFactory;
 import edu.gatech.gtri.trustmark.v1_0.io.xml.XmlManager;
 import edu.gatech.gtri.trustmark.v1_0.model.Trustmark;
 import org.apache.commons.io.FileUtils;
-import org.slf4j.LoggerFactory;
-import org.slf4j.Logger;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.StringWriter;
@@ -57,7 +57,7 @@ public class TestTrustmarkXmlProducer extends AbstractTest {
         logger.debug("Successfully produced XML: \n" + xml2);
         XmlHelper.validateXml(xml2);
 
-        Trustmark trustmark2 = TrustmarkXmlDeserializer.deserialize(xml2);
+        Trustmark trustmark2 = new TrustmarkXmlDeserializer().deserialize(xml2);
         assertThat(trustmark2, notNullValue());
 
         // TODO we could do a Trustmark DIFF routine here.

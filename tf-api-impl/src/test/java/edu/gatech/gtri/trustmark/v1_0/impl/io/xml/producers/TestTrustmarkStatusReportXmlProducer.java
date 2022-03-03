@@ -11,9 +11,9 @@ import edu.gatech.gtri.trustmark.v1_0.io.SerializerFactory;
 import edu.gatech.gtri.trustmark.v1_0.io.xml.XmlManager;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkStatusReport;
 import org.apache.commons.io.FileUtils;
-import org.slf4j.LoggerFactory;
-import org.slf4j.Logger;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.StringWriter;
@@ -57,7 +57,7 @@ public class TestTrustmarkStatusReportXmlProducer extends AbstractTest {
         logger.debug("Successfully produced XML: \n" + xml2);
         XmlHelper.validateXml(xml2);
 
-        TrustmarkStatusReport tsr2 = TrustmarkStatusReportXmlDeserializer.deserialize(xml2);
+        TrustmarkStatusReport tsr2 = new TrustmarkStatusReportXmlDeserializer().deserialize(xml2);
         assertThat(tsr2, notNullValue());
 
         // TODO we could do a TIP DIFF routine here.

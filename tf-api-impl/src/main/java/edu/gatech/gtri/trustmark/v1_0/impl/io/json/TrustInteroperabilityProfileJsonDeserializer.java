@@ -3,16 +3,19 @@ package edu.gatech.gtri.trustmark.v1_0.impl.io.json;
 import edu.gatech.gtri.trustmark.v1_0.impl.model.TrustInteroperabilityProfileImpl;
 import edu.gatech.gtri.trustmark.v1_0.impl.model.TrustInteroperabilityProfileReferenceImpl;
 import edu.gatech.gtri.trustmark.v1_0.impl.model.TrustmarkDefinitionRequirementImpl;
+import edu.gatech.gtri.trustmark.v1_0.io.MediaType;
 import edu.gatech.gtri.trustmark.v1_0.io.ParseException;
 import edu.gatech.gtri.trustmark.v1_0.model.AbstractTIPReference;
 import edu.gatech.gtri.trustmark.v1_0.model.Entity;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustInteroperabilityProfile;
-import org.slf4j.LoggerFactory;
-import org.slf4j.Logger;
 import org.gtri.fj.data.List;
 import org.gtri.fj.data.TreeMap;
 import org.gtri.fj.function.Try1;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.net.URI;
 
 import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.JsonDeserializerUtility.assertSupported;
 import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.JsonDeserializerUtility.readBooleanOption;
@@ -35,13 +38,16 @@ import static org.gtri.fj.lang.StringUtility.stringOrd;
 import static org.gtri.fj.product.P.p;
 
 /**
- * Created by brad on 12/10/15.
+ * Implementations deserialize JSON and, optionally, a URI into a Trust
+ * Interoperability Profile.
+ *
+ * @author GTRI Trustmark Team
  */
-public class TrustInteroperabilityProfileJsonDeserializer implements JsonDeserializer<TrustInteroperabilityProfile> {
+public final class TrustInteroperabilityProfileJsonDeserializer implements JsonDeserializer<TrustInteroperabilityProfile> {
 
     private static final Logger log = LoggerFactory.getLogger(TrustInteroperabilityProfileJsonDeserializer.class);
 
-    public TrustInteroperabilityProfile deserialize(String jsonString) throws ParseException {
+    public TrustInteroperabilityProfile deserialize(final String jsonString, final URI uri) throws ParseException {
         requireNonNull(jsonString);
 
         log.debug("Deserializing Trust Interoperability Profile JSON . . .");
@@ -52,7 +58,7 @@ public class TrustInteroperabilityProfileJsonDeserializer implements JsonDeseria
         final TrustInteroperabilityProfileImpl trustInteroperabilityProfile = new TrustInteroperabilityProfileImpl();
 
         trustInteroperabilityProfile.setOriginalSource(jsonString);
-        trustInteroperabilityProfile.setOriginalSourceType(SerializerJson.APPLICATION_JSON);
+        trustInteroperabilityProfile.setOriginalSourceType(MediaType.APPLICATION_JSON.getMediaType());
 
         trustInteroperabilityProfile.setDeprecated(readBooleanOption(jsonObject, "Deprecated").orSome(false));
         trustInteroperabilityProfile.setDescription(readString(jsonObject, "Description"));

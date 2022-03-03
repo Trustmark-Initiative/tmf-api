@@ -74,6 +74,10 @@ public class TrustExpressionFailureJsonProducer implements JsonProducer<TrustExp
                     put("Exception", exception.getClass().getSimpleName());
                     put("Message", exception.getMessage());
                 }}),
+                (trustInteroperabilityProfileList) -> new JSONObject(new java.util.HashMap<String, Object>() {{
+                    put("$Type", TrustExpressionFailureResolveTrustmarkDefinition.class.getSimpleName());
+                    put("TrustInteroperabilityProfileList", new JSONArray(trustInteroperabilityProfileList.map(TrustExpressionFailureJsonProducer::serializeTrustInteroperabilityProfile).toCollection()));
+                }}),
                 (trustInteroperabilityProfileList, uri, exception) -> new JSONObject(new java.util.HashMap<String, Object>() {{
                     put("$Type", TrustExpressionFailureResolveTrustmarkDefinition.class.getSimpleName());
                     put("TrustInteroperabilityProfileList", new JSONArray(trustInteroperabilityProfileList.map(TrustExpressionFailureJsonProducer::serializeTrustInteroperabilityProfile).toCollection()));

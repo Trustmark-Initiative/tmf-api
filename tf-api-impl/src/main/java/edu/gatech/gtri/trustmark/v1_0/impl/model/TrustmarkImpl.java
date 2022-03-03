@@ -10,15 +10,13 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * Created by brad on 12/7/15.
- */
-public class TrustmarkImpl implements Trustmark, Comparable<Trustmark>  {
+import static java.util.Objects.requireNonNull;
+
+public class TrustmarkImpl extends TrustmarkFrameworkIdentifiedObjectImpl implements Trustmark, Comparable<Trustmark> {
 
     private String id;
     private String originalSource;
     private String originalSourceType;
-    private URI identifier;
     private TrustmarkFrameworkIdentifiedObject trustmarkDefinitionReference;
     private Date issueDateTime;
     private Date expirationDateTime;
@@ -27,22 +25,85 @@ public class TrustmarkImpl implements Trustmark, Comparable<Trustmark>  {
     private URL statusURL;
     private EntityImpl provider;
     private EntityImpl recipient;
-    private Set<String> exceptionInfo;
     private ExtensionImpl definitionExtension;
     private ExtensionImpl providerExtension;
+    private Set<String> exceptionInfo;
     private Set<TrustmarkParameterBinding> parameterBindings;
 
-    @Override
-    public String getId() { return id; }
+    public TrustmarkImpl() {
+        super();
+        this.id = null;
+        this.originalSource = null;
+        this.originalSourceType = null;
+        this.trustmarkDefinitionReference = null;
+        this.issueDateTime = null;
+        this.expirationDateTime = null;
+        this.policyURL = null;
+        this.relyingPartyAgreementURL = null;
+        this.statusURL = null;
+        this.provider = null;
+        this.recipient = null;
+        this.definitionExtension = null;
+        this.providerExtension = null;
+        this.exceptionInfo = new HashSet<>();
+        this.parameterBindings = new HashSet<>();
+    }
 
-    public void setId(final String id) { this.id = id; }
+    public TrustmarkImpl(
+            final String typeName,
+            final URI identifier,
+            final String name,
+            final Integer number,
+            final String version,
+            final String description,
+            final String id,
+            final String originalSource,
+            final String originalSourceType,
+            final TrustmarkFrameworkIdentifiedObject trustmarkDefinitionReference,
+            final Date issueDateTime,
+            final Date expirationDateTime,
+            final URL policyURL,
+            final URL relyingPartyAgreementURL,
+            final URL statusURL,
+            final EntityImpl provider,
+            final EntityImpl recipient,
+            final ExtensionImpl definitionExtension,
+            final ExtensionImpl providerExtension,
+            final Set<String> exceptionInfo,
+            final Set<TrustmarkParameterBinding> parameterBindings) {
+        super(typeName, identifier, name, number, version, description);
+        this.id = id;
+        this.originalSource = originalSource;
+        this.originalSourceType = originalSourceType;
+        this.trustmarkDefinitionReference = trustmarkDefinitionReference;
+        this.issueDateTime = issueDateTime;
+        this.expirationDateTime = expirationDateTime;
+        this.policyURL = policyURL;
+        this.relyingPartyAgreementURL = relyingPartyAgreementURL;
+        this.statusURL = statusURL;
+        this.provider = provider;
+        this.recipient = recipient;
+        this.definitionExtension = definitionExtension;
+        this.providerExtension = providerExtension;
+        this.exceptionInfo = exceptionInfo;
+        this.parameterBindings = parameterBindings;
+    }
+
+    @Override
+    public String getId() {
+        return id;
+    }
+
+    public void setId(final String id) {
+        this.id = id;
+    }
 
     @Override
     public String getOriginalSource() {
         return originalSource;
     }
 
-    public void setOriginalSource(String originalSource) {
+    public void setOriginalSource(final String originalSource) {
         this.originalSource = originalSource;
     }
 
@@ -51,17 +112,8 @@ public class TrustmarkImpl implements Trustmark, Comparable<Trustmark>  {
         return originalSourceType;
     }
 
-    public void setOriginalSourceType(String originalSourceType) {
+    public void setOriginalSourceType(final String originalSourceType) {
         this.originalSourceType = originalSourceType;
-    }
-
-    @Override
-    public URI getIdentifier() {
-        return identifier;
-    }
-
-    public void setIdentifier(URI identifier) {
-        this.identifier = identifier;
     }
 
     @Override
@@ -69,7 +121,7 @@ public class TrustmarkImpl implements Trustmark, Comparable<Trustmark>  {
         return trustmarkDefinitionReference;
     }
 
-    public void setTrustmarkDefinitionReference(TrustmarkFrameworkIdentifiedObject trustmarkDefinitionReference) {
+    public void setTrustmarkDefinitionReference(final TrustmarkFrameworkIdentifiedObject trustmarkDefinitionReference) {
         this.trustmarkDefinitionReference = trustmarkDefinitionReference;
     }
 
@@ -78,7 +130,7 @@ public class TrustmarkImpl implements Trustmark, Comparable<Trustmark>  {
         return issueDateTime;
     }
 
-    public void setIssueDateTime(Date issueDateTime) {
+    public void setIssueDateTime(final Date issueDateTime) {
         this.issueDateTime = issueDateTime;
     }
 
@@ -87,7 +139,7 @@ public class TrustmarkImpl implements Trustmark, Comparable<Trustmark>  {
         return expirationDateTime;
     }
 
-    public void setExpirationDateTime(Date expirationDateTime) {
+    public void setExpirationDateTime(final Date expirationDateTime) {
         this.expirationDateTime = expirationDateTime;
     }
 
@@ -96,7 +148,7 @@ public class TrustmarkImpl implements Trustmark, Comparable<Trustmark>  {
         return policyURL;
     }
 
-    public void setPolicyURL(URL policyURL) {
+    public void setPolicyURL(final URL policyURL) {
         this.policyURL = policyURL;
     }
 
@@ -105,7 +157,7 @@ public class TrustmarkImpl implements Trustmark, Comparable<Trustmark>  {
         return relyingPartyAgreementURL;
     }
 
-    public void setRelyingPartyAgreementURL(URL relyingPartyAgreementURL) {
+    public void setRelyingPartyAgreementURL(final URL relyingPartyAgreementURL) {
         this.relyingPartyAgreementURL = relyingPartyAgreementURL;
     }
 
@@ -114,7 +166,7 @@ public class TrustmarkImpl implements Trustmark, Comparable<Trustmark>  {
         return statusURL;
     }
 
-    public void setStatusURL(URL statusURL) {
+    public void setStatusURL(final URL statusURL) {
         this.statusURL = statusURL;
     }
 
@@ -123,7 +175,7 @@ public class TrustmarkImpl implements Trustmark, Comparable<Trustmark>  {
         return provider;
     }
 
-    public void setProvider(EntityImpl provider) {
+    public void setProvider(final EntityImpl provider) {
         this.provider = provider;
     }
 
@@ -132,7 +184,7 @@ public class TrustmarkImpl implements Trustmark, Comparable<Trustmark>  {
         return recipient;
     }
 
-    public void setRecipient(EntityImpl recipient) {
+    public void setRecipient(final EntityImpl recipient) {
         this.recipient = recipient;
     }
 
@@ -141,7 +193,7 @@ public class TrustmarkImpl implements Trustmark, Comparable<Trustmark>  {
         return definitionExtension;
     }
 
-    public void setDefinitionExtension(ExtensionImpl definitionExtension) {
+    public void setDefinitionExtension(final ExtensionImpl definitionExtension) {
         this.definitionExtension = definitionExtension;
     }
 
@@ -150,70 +202,42 @@ public class TrustmarkImpl implements Trustmark, Comparable<Trustmark>  {
         return providerExtension;
     }
 
-    public void setProviderExtension(ExtensionImpl providerExtension) {
+    public void setProviderExtension(final ExtensionImpl providerExtension) {
         this.providerExtension = providerExtension;
     }
 
     @Override
     public Set<String> getExceptionInfo() {
-        if( this.exceptionInfo == null )
-            this.exceptionInfo = new HashSet<>();
         return exceptionInfo;
     }
 
-    public void setExceptionInfo(Set<String> exceptionInfo) {
+    public void setExceptionInfo(final Set<String> exceptionInfo) {
         this.exceptionInfo = exceptionInfo;
     }
 
-    public void addExceptionInfo(String exceptionInfo){
-        this.getExceptionInfo().add(exceptionInfo);
-    }
-
-    @Override
-    public Boolean hasExceptions(){
-        return !this.getExceptionInfo().isEmpty();
+    public void addExceptionInfo(final String exceptionInfoItem) {
+        exceptionInfo.add(exceptionInfoItem);
     }
 
     @Override
     public Set<TrustmarkParameterBinding> getParameterBindings() {
-        if( this.parameterBindings == null )
-            this.parameterBindings = new HashSet<>();
         return this.parameterBindings;
     }
 
-    public void setParameterBindings(Set<TrustmarkParameterBinding> parameterBindings) {
+    public void setParameterBindings(final Set<TrustmarkParameterBinding> parameterBindings) {
         this.parameterBindings = parameterBindings;
     }
 
-    public void addParameterBinding(TrustmarkParameterBinding binding){
-        if( !this.getParameterBindings().contains(binding) ){
-            this.getParameterBindings().add(binding);
+    public void addParameterBinding(final TrustmarkParameterBinding binding) {
+        if (!parameterBindings.contains(binding)) {
+            parameterBindings.add(binding);
         }
     }
 
-    @Override
-    public TrustmarkParameterBinding getParameterBinding(String identifier) {
-        TrustmarkParameterBinding binding = null;
-        if( !this.getParameterBindings().isEmpty() ){
-            for( TrustmarkParameterBinding cur : this.getParameterBindings() ){
-                if( cur.getIdentifier().equalsIgnoreCase(identifier) ){
-                    binding = cur;
-                    break;
-                }
-            }
-        }
-        return binding;
-    }
+    public int compareTo(final Trustmark trustmark) {
 
-    public String toString(){
-        return String.format("Trustmark[%s]", this.getIdentifier() == null ? null : this.getIdentifier().toString());
-    }
+        requireNonNull(trustmark);
 
-    public int compareTo(Trustmark that){
-        if( that != null ){
-            return this.getIdentifier().compareTo(that.getIdentifier());
-        }
-        return 0;
+        return this.getIdentifier().compareTo(trustmark.getIdentifier());
     }
-
 }

@@ -1,88 +1,212 @@
 package edu.gatech.gtri.trustmark.v1_0.impl.model;
 
 import edu.gatech.gtri.trustmark.v1_0.impl.io.bulk.BulkReadArtifact;
-import edu.gatech.gtri.trustmark.v1_0.model.*;
+import edu.gatech.gtri.trustmark.v1_0.model.AssessmentStep;
+import edu.gatech.gtri.trustmark.v1_0.model.ConformanceCriterion;
+import edu.gatech.gtri.trustmark.v1_0.model.Entity;
+import edu.gatech.gtri.trustmark.v1_0.model.Source;
+import edu.gatech.gtri.trustmark.v1_0.model.Term;
+import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkDefinition;
+import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkFrameworkIdentifiedObject;
 
-import java.util.*;
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-/**
- * Created by brad on 12/7/15.
- */
-public class TrustmarkDefinitionImpl implements TrustmarkDefinition, Comparable<TrustmarkDefinition>, BulkReadArtifact {
+import static java.util.Objects.requireNonNull;
+
+public class TrustmarkDefinitionImpl extends TrustmarkFrameworkReferenceImpl implements TrustmarkDefinition, Comparable<TrustmarkDefinition>, TrustmarkDefinition.Metadata, BulkReadArtifact {
 
     private String id;
-    private String originalSource;
-    private String originalSourceType;
-    private TrustmarkDefinition.Metadata metadata;
-    private Collection<Term> terms;
-    private Collection<Source> sources;
+    private Entity trustmarkDefiningOrganization;
+    private String targetStakeholderDescription;
+    private String targetRecipientDescription;
+    private String targetRelyingPartyDescription;
+    private String targetProviderDescription;
+    private String providerEligibilityCriteria;
+    private String assessorQualificationsDescription;
+    private String trustmarkRevocationCriteria;
+    private String extensionDescription;
     private String conformanceCriteriaPreface;
-    private List<ConformanceCriterion> conformanceCriteria;
     private String assessmentStepPreface;
-    private List<AssessmentStep> assessmentSteps;
     private String issuanceCriteria;
+    private List<ConformanceCriterion> conformanceCriteria;
+    private List<AssessmentStep> assessmentSteps;
     private transient Map<String, Object> transientDataMap;
 
-    @Override
-    public String getId() { return id; }
-
-    public void setId(final String id) { this.id = id; }
-
-    @Override
-    public String getOriginalSource() {
-        return originalSource;
+    public TrustmarkDefinitionImpl() {
+        super();
+        this.id = null;
+        this.trustmarkDefiningOrganization = null;
+        this.targetStakeholderDescription = null;
+        this.targetRecipientDescription = null;
+        this.targetRelyingPartyDescription = null;
+        this.targetProviderDescription = null;
+        this.providerEligibilityCriteria = null;
+        this.assessorQualificationsDescription = null;
+        this.trustmarkRevocationCriteria = null;
+        this.extensionDescription = null;
+        this.conformanceCriteriaPreface = null;
+        this.assessmentStepPreface = null;
+        this.issuanceCriteria = null;
+        this.conformanceCriteria = new ArrayList<>();
+        this.assessmentSteps = new ArrayList<>();
+        this.transientDataMap = new HashMap<>();
     }
 
-    public void setOriginalSource(String originalSource) {
-        this.originalSource = originalSource;
-    }
+    public TrustmarkDefinitionImpl(
+            final String typeName,
+            final URI identifier,
+            final String name,
+            final Integer number,
+            final String version,
+            final String description,
+            final String originalSource,
+            final String originalSourceType,
+            final Date publicationDateTime,
+            final String legalNotice,
+            final String notes,
+            final boolean deprecated,
+            final List<String> keywords,
+            final Collection<Source> sources,
+            final List<TrustmarkFrameworkIdentifiedObject> supersedes,
+            final List<TrustmarkFrameworkIdentifiedObject> supersededBy,
+            final List<TrustmarkFrameworkIdentifiedObject> satisfies,
+            final List<TrustmarkFrameworkIdentifiedObject> knownConflicts,
+            final Collection<Term> terms,
+            final String id,
+            final Entity trustmarkDefiningOrganization,
+            final String targetStakeholderDescription,
+            final String targetRecipientDescription,
+            final String targetRelyingPartyDescription,
+            final String targetProviderDescription,
+            final String providerEligibilityCriteria,
+            final String assessorQualificationsDescription,
+            final String trustmarkRevocationCriteria,
+            final String extensionDescription,
+            final String conformanceCriteriaPreface,
+            final String assessmentStepPreface,
+            final String issuanceCriteria,
+            final List<ConformanceCriterion> conformanceCriteria,
+            final List<AssessmentStep> assessmentSteps,
+            final Map<String, Object> transientDataMap) {
 
-    @Override
-    public String getOriginalSourceType() {
-        return originalSourceType;
-    }
-
-    public void setOriginalSourceType(String originalSourceType) {
-        this.originalSourceType = originalSourceType;
+        super(typeName, identifier, name, number, version, description, originalSource, originalSourceType, publicationDateTime, legalNotice, notes, deprecated, keywords, sources, supersedes, supersededBy, satisfies, knownConflicts, terms);
+        this.id = id;
+        this.trustmarkDefiningOrganization = trustmarkDefiningOrganization;
+        this.targetStakeholderDescription = targetStakeholderDescription;
+        this.targetRecipientDescription = targetRecipientDescription;
+        this.targetRelyingPartyDescription = targetRelyingPartyDescription;
+        this.targetProviderDescription = targetProviderDescription;
+        this.providerEligibilityCriteria = providerEligibilityCriteria;
+        this.assessorQualificationsDescription = assessorQualificationsDescription;
+        this.trustmarkRevocationCriteria = trustmarkRevocationCriteria;
+        this.extensionDescription = extensionDescription;
+        this.conformanceCriteriaPreface = conformanceCriteriaPreface;
+        this.assessmentStepPreface = assessmentStepPreface;
+        this.issuanceCriteria = issuanceCriteria;
+        this.conformanceCriteria = conformanceCriteria;
+        this.assessmentSteps = assessmentSteps;
+        this.transientDataMap = transientDataMap;
     }
 
     @Override
     public Metadata getMetadata() {
-        return metadata;
-    }
-
-    public void setMetadata(Metadata metadata) {
-        this.metadata = metadata;
+        return this;
     }
 
     @Override
-    public Collection<Term> getTerms() {
-        if( terms == null )
-            terms = new HashSet<Term>();
-        return terms;
+    public String getId() {
+        return id;
     }
 
-    public void setTerms(Collection<Term> terms) {
-        this.terms = terms;
-    }
-
-    public void addTerm(Term term){
-        this.getTerms().add(term);
+    public void setId(final String id) {
+        this.id = id;
     }
 
     @Override
-    public Collection<Source> getSources() {
-        if( sources == null )
-            sources = new HashSet<Source>();
-        return sources;
+    public Entity getTrustmarkDefiningOrganization() {
+        return trustmarkDefiningOrganization;
     }
 
-    public void setSources(Collection<Source> sources) {
-        this.sources = sources;
+    public void setTrustmarkDefiningOrganization(final Entity trustmarkDefiningOrganization) {
+        this.trustmarkDefiningOrganization = trustmarkDefiningOrganization;
     }
 
-    public void addSource(Source source){
-        this.getSources().add(source);
+    @Override
+    public String getTargetStakeholderDescription() {
+        return targetStakeholderDescription;
+    }
+
+    public void setTargetStakeholderDescription(final String targetStakeholderDescription) {
+        this.targetStakeholderDescription = targetStakeholderDescription;
+    }
+
+    @Override
+    public String getTargetRecipientDescription() {
+        return targetRecipientDescription;
+    }
+
+    public void setTargetRecipientDescription(final String targetRecipientDescription) {
+        this.targetRecipientDescription = targetRecipientDescription;
+    }
+
+    @Override
+    public String getTargetRelyingPartyDescription() {
+        return targetRelyingPartyDescription;
+    }
+
+    public void setTargetRelyingPartyDescription(final String targetRelyingPartyDescription) {
+        this.targetRelyingPartyDescription = targetRelyingPartyDescription;
+    }
+
+    @Override
+    public String getTargetProviderDescription() {
+        return targetProviderDescription;
+    }
+
+    public void setTargetProviderDescription(final String targetProviderDescription) {
+        this.targetProviderDescription = targetProviderDescription;
+    }
+
+    @Override
+    public String getProviderEligibilityCriteria() {
+        return providerEligibilityCriteria;
+    }
+
+    public void setProviderEligibilityCriteria(final String providerEligibilityCriteria) {
+        this.providerEligibilityCriteria = providerEligibilityCriteria;
+    }
+
+    @Override
+    public String getAssessorQualificationsDescription() {
+        return assessorQualificationsDescription;
+    }
+
+    public void setAssessorQualificationsDescription(final String assessorQualificationsDescription) {
+        this.assessorQualificationsDescription = assessorQualificationsDescription;
+    }
+
+    @Override
+    public String getTrustmarkRevocationCriteria() {
+        return trustmarkRevocationCriteria;
+    }
+
+    public void setTrustmarkRevocationCriteria(final String trustmarkRevocationCriteria) {
+        this.trustmarkRevocationCriteria = trustmarkRevocationCriteria;
+    }
+
+    @Override
+    public String getExtensionDescription() {
+        return extensionDescription;
+    }
+
+    public void setExtensionDescription(final String extensionDescription) {
+        this.extensionDescription = extensionDescription;
     }
 
     @Override
@@ -90,23 +214,8 @@ public class TrustmarkDefinitionImpl implements TrustmarkDefinition, Comparable<
         return conformanceCriteriaPreface;
     }
 
-    public void setConformanceCriteriaPreface(String conformanceCriteriaPreface) {
+    public void setConformanceCriteriaPreface(final String conformanceCriteriaPreface) {
         this.conformanceCriteriaPreface = conformanceCriteriaPreface;
-    }
-
-    @Override
-    public List<ConformanceCriterion> getConformanceCriteria() {
-        if( conformanceCriteria == null )
-            conformanceCriteria = new ArrayList<ConformanceCriterion>();
-        return conformanceCriteria;
-    }
-
-    public void setConformanceCriteria(List<ConformanceCriterion> conformanceCriteria) {
-        this.conformanceCriteria = conformanceCriteria;
-    }
-
-    public void addConformanceCriterion(ConformanceCriterion crit){
-        this.getConformanceCriteria().add(crit);
     }
 
     @Override
@@ -114,23 +223,8 @@ public class TrustmarkDefinitionImpl implements TrustmarkDefinition, Comparable<
         return assessmentStepPreface;
     }
 
-    public void setAssessmentStepPreface(String assessmentStepPreface) {
+    public void setAssessmentStepPreface(final String assessmentStepPreface) {
         this.assessmentStepPreface = assessmentStepPreface;
-    }
-
-    @Override
-    public List<AssessmentStep> getAssessmentSteps() {
-        if( assessmentSteps == null )
-            assessmentSteps = new ArrayList<AssessmentStep>();
-        return assessmentSteps;
-    }
-
-    public void setAssessmentSteps(List<AssessmentStep> assessmentSteps) {
-        this.assessmentSteps = assessmentSteps;
-    }
-
-    public void addAssessmentStep(AssessmentStep step){
-        this.getAssessmentSteps().add(step);
     }
 
     @Override
@@ -138,56 +232,47 @@ public class TrustmarkDefinitionImpl implements TrustmarkDefinition, Comparable<
         return issuanceCriteria;
     }
 
-    public void setIssuanceCriteria(String issuanceCriteria) {
+    public void setIssuanceCriteria(final String issuanceCriteria) {
         this.issuanceCriteria = issuanceCriteria;
     }
 
+    @Override
+    public List<ConformanceCriterion> getConformanceCriteria() {
+        return conformanceCriteria;
+    }
 
-    public String toString() {
-        return String.format("TrustmarkDefinition[%s, v.%s]", this.getMetadata().getName(), this.getMetadata().getVersion());
+    public void setConformanceCriteria(final List<ConformanceCriterion> conformanceCriteria) {
+        this.conformanceCriteria = conformanceCriteria;
+    }
+
+    public void addConformanceCriterion(final ConformanceCriterion conformanceCriterion) {
+        conformanceCriteria.add(conformanceCriterion);
     }
 
     @Override
-    public int compareTo(TrustmarkDefinition o) {
-        if( o != null )
-            return o.getMetadata().getName().compareToIgnoreCase(this.getMetadata().getName());
-        return 0;
+    public List<AssessmentStep> getAssessmentSteps() {
+        return assessmentSteps;
     }
 
-    @Override
-    public List<Term> getTermsSorted() {
-        List<Term> terms = new ArrayList<Term>();
-        terms.addAll(this.getTerms());
-        Collections.sort(terms, new Comparator<Term>(){
-            @Override
-            public int compare(Term o1, Term o2) {
-                if( o1 != null && o2 != null ){
-                    return o1.getName().compareToIgnoreCase(o2.getName());
-                }
-                return 0;
-            }
-        });
-        return terms;
+    public void setAssessmentSteps(final List<AssessmentStep> assessmentSteps) {
+        this.assessmentSteps = assessmentSteps;
     }
 
-
-    @Override
-    public Set<TrustmarkDefinitionParameter> getAllParameters(){
-        HashSet<TrustmarkDefinitionParameter> params = new HashSet<>();
-        for( AssessmentStep step : this.getAssessmentSteps() ){
-            if( step.getParameters() != null ){
-                params.addAll(step.getParameters());
-            }
-        }
-        return params;
+    public void addAssessmentStep(final AssessmentStep assessmentStep) {
+        assessmentSteps.add(assessmentStep);
     }
-    
-    @Override
+
     public Map<String, Object> getTransientDataMap() {
-        if (this.transientDataMap == null) {
-            this.transientDataMap = new HashMap<>();
-        }
         return this.transientDataMap;
     }
 
-}//end TrustmarkDefinitionImpl
+    @Override
+    public int compareTo(final TrustmarkDefinition trustmarkDefinition) {
+
+        requireNonNull(trustmarkDefinition);
+
+        return this.getName().compareTo(trustmarkDefinition.getName()) != 0 ?
+                this.getName().compareTo(trustmarkDefinition.getName()) :
+                this.getIdentifier().compareTo(trustmarkDefinition.getIdentifier());
+    }
+}

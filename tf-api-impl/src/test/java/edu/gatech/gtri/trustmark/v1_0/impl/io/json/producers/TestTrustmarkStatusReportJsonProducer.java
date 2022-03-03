@@ -32,7 +32,7 @@ public class TestTrustmarkStatusReportJsonProducer extends AbstractTest {
         logger.debug("Loading Trustmark Status Report from file...");
         File file = new File(TSR_FULL_FILE);
         String text = FileUtils.readFileToString(file);
-        TrustmarkStatusReport tsr = TrustmarkStatusReportXmlDeserializer.deserialize(text);
+        TrustmarkStatusReport tsr = new TrustmarkStatusReportXmlDeserializer().deserialize(text);
         assertThat(tsr, notNullValue());
 
         Serializer jsonSerializer = FactoryLoader.getInstance(SerializerFactory.class).getJsonSerializer();

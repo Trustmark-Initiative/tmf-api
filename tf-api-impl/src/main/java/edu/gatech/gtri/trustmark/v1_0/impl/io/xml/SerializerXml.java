@@ -5,6 +5,7 @@ import edu.gatech.gtri.trustmark.v1_0.TrustmarkFramework;
 import edu.gatech.gtri.trustmark.v1_0.impl.TrustmarkFrameworkConstants;
 import edu.gatech.gtri.trustmark.v1_0.impl.io.AbstractSerializer;
 import edu.gatech.gtri.trustmark.v1_0.impl.io.adio.codecs.Codec;
+import edu.gatech.gtri.trustmark.v1_0.io.MediaType;
 import edu.gatech.gtri.trustmark.v1_0.io.xml.XmlManager;
 import edu.gatech.gtri.trustmark.v1_0.io.xml.XmlProducer;
 import edu.gatech.gtri.trustmark.v1_0.model.HasSource;
@@ -26,14 +27,11 @@ import static java.lang.String.format;
 
 public class SerializerXml extends AbstractSerializer {
 
-    public static final String TEXT_XML = "text/xml";
-    public static final String APPLICATION_XML = "application/xml";
-
     public SerializerXml() {
         super(
                 "XML Serializer",
                 "Serializes data into XML, using the official TF v1.1 XML format.",
-                TEXT_XML);
+                MediaType.TEXT_XML.getMediaType());
     }
 
     @Override

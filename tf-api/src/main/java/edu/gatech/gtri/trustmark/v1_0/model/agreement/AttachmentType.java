@@ -7,6 +7,8 @@ import java.util.stream.Stream;
 /**
  * The type of an AgreementAttachment.
  *
+ * TODO: Merge with MediaType.
+ *
  * @author Nicholas Saney
  */
 public enum AttachmentType {

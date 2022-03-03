@@ -1,4 +1,4 @@
-package edu.gatech.gtri.trustmark.v1_0.model;
+package edu.gatech.gtri.trustmark.v1_0.model.trustmarkBindingRegistry;
 
 import static java.lang.String.format;
 import static java.util.Objects.requireNonNull;

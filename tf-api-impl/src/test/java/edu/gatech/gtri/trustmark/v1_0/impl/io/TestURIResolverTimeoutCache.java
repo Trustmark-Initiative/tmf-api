@@ -14,8 +14,11 @@ import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Map;
 
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.*;
+import static edu.gatech.gtri.trustmark.v1_0.io.MediaType.TEXT_PLAIN;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.notNullValue;
 
 /**
  * Created by brad on 12/8/15.
@@ -76,7 +79,7 @@ public class TestURIResolverTimeoutCache extends AbstractTest {
                     @Override
                     public String getResponseMessage() {return null;}
                     @Override
-                    public String getContentType() {return "text/plain";}
+                    public String getContentType() {return TEXT_PLAIN.getMediaType();}
                     @Override
                     public boolean isBinary() {return false;}
                     @Override

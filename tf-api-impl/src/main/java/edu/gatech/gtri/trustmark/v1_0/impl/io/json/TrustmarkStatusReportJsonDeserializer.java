@@ -1,12 +1,13 @@
 package edu.gatech.gtri.trustmark.v1_0.impl.io.json;
 
 import edu.gatech.gtri.trustmark.v1_0.impl.model.TrustmarkStatusReportImpl;
+import edu.gatech.gtri.trustmark.v1_0.io.MediaType;
 import edu.gatech.gtri.trustmark.v1_0.io.ParseException;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkStatusCode;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkStatusReport;
-import org.slf4j.LoggerFactory;
-import org.slf4j.Logger;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.net.URI;
 
@@ -21,14 +22,18 @@ import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.JsonDeserializerUtilit
 import static java.lang.String.format;
 import static java.util.Objects.requireNonNull;
 
+
 /**
- * Created by brad on 12/10/15.
+ * Implementations deserialize JSON and, optionally, a URI into a Trust
+ * Interoperability Profile.
+ *
+ * @author GTRI Trustmark Team
  */
-public class TrustmarkStatusReportJsonDeserializer implements JsonDeserializer<TrustmarkStatusReport> {
+public final class TrustmarkStatusReportJsonDeserializer implements JsonDeserializer<TrustmarkStatusReport> {
 
     private static final Logger log = LoggerFactory.getLogger(TrustmarkJsonDeserializer.class);
 
-    public TrustmarkStatusReport deserialize(final String jsonString) throws ParseException {
+    public TrustmarkStatusReport deserialize(final String jsonString, final URI uri) throws ParseException {
         requireNonNull(jsonString);
 
         log.debug("Deserializing Trustmark Status Report JSON . . .");
@@ -39,8 +44,10 @@ public class TrustmarkStatusReportJsonDeserializer implements JsonDeserializer<T
 
         final TrustmarkStatusReportImpl trustmarkStatusReport = new TrustmarkStatusReportImpl();
 
+        trustmarkStatusReport.setIdentifier(uri);
+
         trustmarkStatusReport.setOriginalSource(jsonString);
-        trustmarkStatusReport.setOriginalSourceType(SerializerJson.APPLICATION_JSON);
+        trustmarkStatusReport.setOriginalSourceType(MediaType.APPLICATION_JSON.getMediaType());
 
         trustmarkStatusReport.setId(readString(jsonObject, "$id"));
         trustmarkStatusReport.setStatus(readTrustmarkStatusCode(readString(jsonObject, "StatusCode")));

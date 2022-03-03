@@ -14,6 +14,7 @@ import java.util.Set;
  */
 public class TrustmarkStatusReportImpl implements TrustmarkStatusReport {
 
+    private URI identifier;
     private String originalSource;
     private String originalSourceType;
     private String id;
@@ -23,6 +24,15 @@ public class TrustmarkStatusReportImpl implements TrustmarkStatusReport {
     private Set<URI> supersederTrustmarkReferences;
     private String notes;
     private Extension extension;
+
+    @Override
+    public URI getIdentifier() {
+        return identifier;
+    }
+
+    public void setIdentifier(final URI identifier) {
+        this.identifier = identifier;
+    }
 
     @Override
     public String getOriginalSource() {
@@ -80,7 +90,7 @@ public class TrustmarkStatusReportImpl implements TrustmarkStatusReport {
 
     @Override
     public Set<URI> getSupersederTrustmarkReferences() {
-        if( supersederTrustmarkReferences == null )
+        if (supersederTrustmarkReferences == null)
             supersederTrustmarkReferences = new HashSet<URI>();
         return supersederTrustmarkReferences;
     }
@@ -89,7 +99,7 @@ public class TrustmarkStatusReportImpl implements TrustmarkStatusReport {
         this.supersederTrustmarkReferences = supersederTrustmarkReferences;
     }
 
-    public void addSupersederTrustmarkReference(URI uri){
+    public void addSupersederTrustmarkReference(URI uri) {
         this.getSupersederTrustmarkReferences().add(uri);
     }
 

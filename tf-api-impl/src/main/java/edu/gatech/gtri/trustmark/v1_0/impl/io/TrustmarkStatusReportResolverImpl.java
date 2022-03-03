@@ -9,14 +9,19 @@ import edu.gatech.gtri.trustmark.v1_0.io.URIResolver;
 import edu.gatech.gtri.trustmark.v1_0.model.Trustmark;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkStatusReport;
 
-public class TrustmarkStatusReportResolverImpl extends AbstractResolverFromURIResolver<TrustmarkStatusReport> implements TrustmarkStatusReportResolver {
+import static org.gtri.fj.data.List.arrayList;
+import static org.gtri.fj.product.P.p;
+
+public final class TrustmarkStatusReportResolverImpl extends AbstractResolverFromURIResolver<TrustmarkStatusReport> implements TrustmarkStatusReportResolver {
 
     public TrustmarkStatusReportResolverImpl() {
         super(
-                new TrustmarkStatusReportJsonDeserializer()::deserialize,
-                TrustmarkStatusReportXmlDeserializer::deserialize,
+                arrayList(
+                        p(AbstractResolverUtility::isJson, new TrustmarkStatusReportJsonDeserializer()::deserialize),
+                        p(AbstractResolverUtility::isXml, new TrustmarkStatusReportXmlDeserializer()::deserialize)),
                 entity -> entity,
-                FactoryLoader.getInstance(URIResolver.class));
+                FactoryLoader.getInstance(URIResolver.class),
+                new URIIteratorStrategyAcceptXmlAcceptJson());
     }
 
     @Override

@@ -1,7 +1,6 @@
 package edu.gatech.gtri.trustmark.v1_0.impl.io.xml;
 
 import edu.gatech.gtri.trustmark.v1_0.impl.AbstractTest;
-import edu.gatech.gtri.trustmark.v1_0.model.Trustmark;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkStatusCode;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkStatusReport;
 import org.apache.commons.io.FileUtils;
@@ -15,7 +14,9 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.notNullValue;
 
 /**
  * Created by brad on 12/9/15.
@@ -30,7 +31,7 @@ public class TestTrustmarkStatusReportXmlDeserializer extends AbstractTest {
 
         File xmlFile = new File(TSR_FULL_FILE);
         String xml = FileUtils.readFileToString(xmlFile);
-        TrustmarkStatusReport tsr = TrustmarkStatusReportXmlDeserializer.deserialize(xml);
+        TrustmarkStatusReport tsr = new TrustmarkStatusReportXmlDeserializer().deserialize(xml);
         assertThat(tsr, notNullValue());
 
         assertThat(tsr.getTrustmarkReference().toString(), equalTo("https://trustmark.gtri.gatech.edu/operational-pilot/example/trustmark/1"));
@@ -43,9 +44,9 @@ public class TestTrustmarkStatusReportXmlDeserializer extends AbstractTest {
     }//end testXmlValidationAgainstValidFile()
 
 
-    private List<String> toStringList(Collection<URI> uris){
+    private List<String> toStringList(Collection<URI> uris) {
         List<String> strings = new ArrayList<>();
-        for( URI uri : uris ){
+        for (URI uri : uris) {
             strings.add(uri.toString());
         }
         Collections.sort(strings);

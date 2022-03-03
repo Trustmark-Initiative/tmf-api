@@ -2,6 +2,7 @@ package edu.gatech.gtri.trustmark.v1_0.impl.io;
 
 import edu.gatech.gtri.trustmark.v1_0.impl.io.json.SerializerJson;
 import edu.gatech.gtri.trustmark.v1_0.impl.io.xml.SerializerXml;
+import edu.gatech.gtri.trustmark.v1_0.io.MediaType;
 import edu.gatech.gtri.trustmark.v1_0.io.Serializer;
 import edu.gatech.gtri.trustmark.v1_0.io.SerializerFactory;
 
@@ -13,19 +14,19 @@ public class SerializerFactoryImpl implements SerializerFactory {
 
     @Override
     public Serializer getSerializer(String contentType) {
-        if (contentType.trim().equalsIgnoreCase(SerializerJson.APPLICATION_JSON)) {
+        if (contentType.trim().equalsIgnoreCase(MediaType.APPLICATION_JSON.getMediaType())) {
 
             return getJsonSerializer();
 
-        } else if (contentType.trim().equalsIgnoreCase(SerializerXml.APPLICATION_XML) || contentType.trim().equalsIgnoreCase(SerializerXml.TEXT_XML)) {
+        } else if (contentType.trim().equalsIgnoreCase(MediaType.APPLICATION_XML.getMediaType()) || contentType.trim().equalsIgnoreCase(MediaType.TEXT_XML.getMediaType())) {
 
             return getXmlSerializer();
 
-        } else if (contentType.trim().equalsIgnoreCase(SerializerHtml.TEXT_HTML)) {
+        } else if (contentType.trim().equalsIgnoreCase(MediaType.TEXT_HTML.getMediaType())) {
 
             return getHtmlSerializer();
 
-        } else if (contentType.trim().equalsIgnoreCase(SerializerPdf.APPLICATION_PDF)) {
+        } else if (contentType.trim().equalsIgnoreCase(MediaType.APPLICATION_PDF.getMediaType())) {
 
             return getPdfSerializer();
 

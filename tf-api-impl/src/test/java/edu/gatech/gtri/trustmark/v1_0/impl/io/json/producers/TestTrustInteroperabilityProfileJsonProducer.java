@@ -32,7 +32,7 @@ public class TestTrustInteroperabilityProfileJsonProducer extends AbstractTest {
         logger.debug("Loading TIP from file...");
         File file = new File(TIP_FULL_FILE);
         String text = FileUtils.readFileToString(file);
-        TrustInteroperabilityProfile tip = TrustInteroperabilityProfileXmlDeserializer.deserialize(text);
+        TrustInteroperabilityProfile tip = new TrustInteroperabilityProfileXmlDeserializer().deserialize(text);
         assertTipFull(tip);
         assertThat(tip, notNullValue());
 
