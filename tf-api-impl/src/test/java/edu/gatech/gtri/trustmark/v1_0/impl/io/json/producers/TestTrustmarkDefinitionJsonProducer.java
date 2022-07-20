@@ -9,7 +9,7 @@ import edu.gatech.gtri.trustmark.v1_0.io.Serializer;
 import edu.gatech.gtri.trustmark.v1_0.io.SerializerFactory;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkDefinition;
 import org.apache.commons.io.FileUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.StringWriter;
@@ -33,7 +33,7 @@ public class TestTrustmarkDefinitionJsonProducer extends AbstractTest {
         logger.debug("Loading trustmark from file...");
         File file = new File(TD_FULL_FILE);
         String text = FileUtils.readFileToString(file);
-        TrustmarkDefinition td = new TrustmarkDefinitionXmlDeserializer().deserialize(text);
+        TrustmarkDefinition td = new TrustmarkDefinitionXmlDeserializer(true).deserialize(text);
         assertThat(td, notNullValue());
         assertTdFull(td);
         logger.debug("Successfully parsed XML");
@@ -50,7 +50,7 @@ public class TestTrustmarkDefinitionJsonProducer extends AbstractTest {
         assertThat(json, notNullValue());
         logger.debug("Successfully produced json: \n" + json);
 
-        TrustmarkDefinition td2 = new TrustmarkDefinitionJsonDeserializer().deserialize(json);
+        TrustmarkDefinition td2 = new TrustmarkDefinitionJsonDeserializer(true).deserialize(json);
         assertThat(td2, notNullValue());
 
         assertTdFull(td2);

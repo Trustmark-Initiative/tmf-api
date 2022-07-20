@@ -11,7 +11,7 @@ import edu.gatech.gtri.trustmark.v1_0.io.SerializerFactory;
 import edu.gatech.gtri.trustmark.v1_0.io.xml.XmlManager;
 import edu.gatech.gtri.trustmark.v1_0.model.Trustmark;
 import org.apache.commons.io.FileUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

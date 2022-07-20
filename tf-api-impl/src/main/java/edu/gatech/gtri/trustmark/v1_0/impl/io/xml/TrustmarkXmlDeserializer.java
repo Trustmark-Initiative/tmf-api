@@ -21,6 +21,7 @@ import static edu.gatech.gtri.trustmark.v1_0.impl.io.xml.XmlDeserializerUtility.
 import static edu.gatech.gtri.trustmark.v1_0.impl.io.xml.XmlDeserializerUtility.readEntity;
 import static edu.gatech.gtri.trustmark.v1_0.impl.io.xml.XmlDeserializerUtility.readExtension;
 import static edu.gatech.gtri.trustmark.v1_0.io.MediaType.TEXT_XML;
+import static edu.gatech.gtri.trustmark.v1_0.model.TrustmarkFrameworkIdentifiedObject.TYPE_NAME_TRUSTMARK_DEFINITION_REFERENCE;
 import static java.lang.String.format;
 import static java.util.Objects.requireNonNull;
 
@@ -57,12 +58,13 @@ public class TrustmarkXmlDeserializer implements XmlDeserializer<Trustmark> {
 
         trustmark.setOriginalSource(originalSource);
         trustmark.setOriginalSourceType(TEXT_XML.getMediaType());
+
         trustmark.setId(getString(element, "./@tf:id", false));
 
         trustmark.setIdentifier(getUri(element, "string(./tf:Identifier)", true));
         trustmark.setTrustmarkDefinitionReference(
                 parseTrustmarkFrameworkIdentifiedObjectImpl(
-                        "TrustmarkDefinitionReference",
+                        TYPE_NAME_TRUSTMARK_DEFINITION_REFERENCE,
                         (Element) element.selectSingleNode("./tf:TrustmarkDefinitionReference")));
 
         trustmark.setIssueDateTime(getDate(element, "./tf:IssueDateTime", true));

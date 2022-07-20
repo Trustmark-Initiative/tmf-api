@@ -6,12 +6,12 @@ import edu.gatech.gtri.trustmark.v1_0.model.BuilderException;
 import edu.gatech.gtri.trustmark.v1_0.model.BuilderFactory;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustInteroperabilityProfile;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustInteroperabilityProfileBuilder;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * Created by brad on 3/20/17.
@@ -74,7 +74,7 @@ public class TestTrustInteroperabilityProfileBuilder extends AbstractTest {
 
         try {
             TrustInteroperabilityProfile tip = builder.build();
-            Assert.fail("Expected to catch an error with the TIP's TIP expression, but no such error was given!");
+            fail("Expected to catch an error with the TIP's TIP expression, but no such error was given!");
         } catch (BuilderException be) {
             logger.info("Caught error: " + be);
         }

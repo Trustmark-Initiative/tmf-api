@@ -98,6 +98,22 @@ public abstract class JsonDeserializerUtility {
         return typesSupported;
     }
 
+    public static JSONObject readJSONObject(final String string) throws ParseException {
+        try {
+            return new JSONObject(string);
+        } catch (final JSONException jsonException) {
+            throw new ParseException(jsonException);
+        }
+    }
+
+    public static JSONArray readJSONArray(final String string) throws ParseException {
+        try {
+            return new JSONArray(string);
+        } catch (final JSONException jsonException) {
+            throw new ParseException(jsonException);
+        }
+    }
+
     /**
      * Return the JSONObject associated with the key in the json object.
      *
@@ -599,7 +615,7 @@ public abstract class JsonDeserializerUtility {
         final TrustmarkFrameworkIdentifiedObjectImpl trustmarkFrameworkIdentifiedObject = new TrustmarkFrameworkIdentifiedObjectImpl();
 
         trustmarkFrameworkIdentifiedObject.setIdentifier(readURI(jsonObject, "Identifier"));
-        trustmarkFrameworkIdentifiedObject.setTypeName("TrustmarkDefinitionReference");
+        trustmarkFrameworkIdentifiedObject.setTypeName(TrustmarkFrameworkIdentifiedObject.TYPE_NAME_TRUSTMARK_DEFINITION_REFERENCE);
 
         readIntOption(jsonObject, "Number").forEach(trustmarkFrameworkIdentifiedObject::setNumber);
         readStringOption(jsonObject, "Description").forEach(trustmarkFrameworkIdentifiedObject::setDescription);

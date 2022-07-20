@@ -10,9 +10,10 @@ import edu.gatech.gtri.trustmark.v1_0.tip.evaluator.TrustExpressionEvaluatorFail
 import edu.gatech.gtri.trustmark.v1_0.trust.TrustmarkVerifierFailure;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import org.gtri.fj.data.NonEmptyList;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 
 import static edu.gatech.gtri.trustmark.v1_0.trust.TrustmarkVerifierFailure.failureIdentifier;
 import static org.gtri.fj.data.NonEmptyList.nel;
@@ -25,39 +26,39 @@ public class TestTrustExpressionEvaluatorFailure {
     @Test
     public void testEvaluatorFailureURI() {
         final String uriString = "";
-        final RuntimeException runtimeException = new RuntimeException();
+        final URISyntaxException uriSyntaxException = new URISyntaxException("", "");
 
-        assertThrows(NullPointerException.class, () -> TrustExpressionEvaluatorFailure.evaluatorFailureURI(null, runtimeException));
+        assertThrows(NullPointerException.class, () -> TrustExpressionEvaluatorFailure.evaluatorFailureURI(null, uriSyntaxException));
         assertThrows(NullPointerException.class, () -> TrustExpressionEvaluatorFailure.evaluatorFailureURI(uriString, null));
 
-        assertThrows(NullPointerException.class, () -> TrustExpressionEvaluatorFailure.evaluatorFailureURI(uriString, runtimeException).match(
+        assertThrows(NullPointerException.class, () -> TrustExpressionEvaluatorFailure.evaluatorFailureURI(uriString, uriSyntaxException).match(
                 null,
                 (a, b) -> null,
                 (a, b) -> null));
 
-        assertThrows(NullPointerException.class, () -> TrustExpressionEvaluatorFailure.evaluatorFailureURI(uriString, runtimeException).match(
+        assertThrows(NullPointerException.class, () -> TrustExpressionEvaluatorFailure.evaluatorFailureURI(uriString, uriSyntaxException).match(
                 (a, b) -> null,
                 null,
                 (a, b) -> null));
 
-        assertThrows(NullPointerException.class, () -> TrustExpressionEvaluatorFailure.evaluatorFailureURI(uriString, runtimeException).match(
+        assertThrows(NullPointerException.class, () -> TrustExpressionEvaluatorFailure.evaluatorFailureURI(uriString, uriSyntaxException).match(
                 (a, b) -> null,
                 (a, b) -> null,
                 null));
 
-        assertEquals(uriString, TrustExpressionEvaluatorFailure.evaluatorFailureURI(uriString, runtimeException).getUriString());
-        assertEquals(uriString, TrustExpressionEvaluatorFailure.evaluatorFailureURI(uriString, runtimeException).match(
+        assertEquals(uriString, TrustExpressionEvaluatorFailure.evaluatorFailureURI(uriString, uriSyntaxException).getUriString());
+        assertEquals(uriString, TrustExpressionEvaluatorFailure.evaluatorFailureURI(uriString, uriSyntaxException).match(
                 (a, b) -> a,
                 (a, b) -> null,
                 (a, b) -> null));
 
-        assertEquals(runtimeException, TrustExpressionEvaluatorFailure.evaluatorFailureURI(uriString, runtimeException).getException());
-        assertEquals(runtimeException, TrustExpressionEvaluatorFailure.evaluatorFailureURI(uriString, runtimeException).match(
+        assertEquals(uriSyntaxException, TrustExpressionEvaluatorFailure.evaluatorFailureURI(uriString, uriSyntaxException).getException());
+        assertEquals(uriSyntaxException, TrustExpressionEvaluatorFailure.evaluatorFailureURI(uriString, uriSyntaxException).match(
                 (a, b) -> b,
                 (a, b) -> null,
                 (a, b) -> null));
 
-        assertTrue(TrustExpressionEvaluatorFailure.evaluatorFailureURI(uriString, runtimeException).toString().contains(TrustExpressionEvaluatorFailureURI.class.getSimpleName()));
+        assertTrue(TrustExpressionEvaluatorFailure.evaluatorFailureURI(uriString, uriSyntaxException).toString().contains(TrustExpressionEvaluatorFailureURI.class.getSimpleName()));
 
         EqualsVerifier
                 .forClass(TrustExpressionEvaluatorFailureURI.class)

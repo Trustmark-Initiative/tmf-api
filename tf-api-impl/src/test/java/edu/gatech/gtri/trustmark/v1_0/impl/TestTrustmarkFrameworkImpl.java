@@ -2,7 +2,7 @@ package edu.gatech.gtri.trustmark.v1_0.impl;
 
 import edu.gatech.gtri.trustmark.v1_0.FactoryLoader;
 import edu.gatech.gtri.trustmark.v1_0.TrustmarkFramework;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.MatcherAssert.*;

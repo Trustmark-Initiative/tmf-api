@@ -16,9 +16,10 @@ import edu.gatech.gtri.trustmark.v1_0.tip.evaluator.TrustExpressionEvaluatorData
 import edu.gatech.gtri.trustmark.v1_0.tip.evaluator.TrustExpressionEvaluatorData.TrustExpressionEvaluatorDataValueString;
 import edu.gatech.gtri.trustmark.v1_0.tip.evaluator.TrustExpressionEvaluatorData.TrustExpressionEvaluatorDataValueStringList;
 import nl.jqno.equalsverifier.EqualsVerifier;
+import nl.jqno.equalsverifier.Warning;
 import org.gtri.fj.data.List;
 import org.gtri.fj.data.NonEmptyList;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -38,9 +39,9 @@ import static edu.gatech.gtri.trustmark.v1_0.tip.evaluator.TrustExpressionEvalua
 import static org.gtri.fj.data.List.arrayList;
 import static org.gtri.fj.data.List.nil;
 import static org.gtri.fj.data.NonEmptyList.nel;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TestTrustExpressionEvaluatorData {
 
@@ -732,6 +733,7 @@ public class TestTrustExpressionEvaluatorData {
 
         EqualsVerifier
                 .forClass(TrustExpressionEvaluatorDataValueDecimal.class)
+                .suppress(Warning.BIGDECIMAL_EQUALITY)
                 .withNonnullFields("source", "value")
                 .verify();
 

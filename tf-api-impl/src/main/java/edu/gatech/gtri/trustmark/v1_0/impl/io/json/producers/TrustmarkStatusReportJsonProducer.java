@@ -2,7 +2,6 @@ package edu.gatech.gtri.trustmark.v1_0.impl.io.json.producers;
 
 import edu.gatech.gtri.trustmark.v1_0.FactoryLoader;
 import edu.gatech.gtri.trustmark.v1_0.TrustmarkFramework;
-import edu.gatech.gtri.trustmark.v1_0.impl.io.IdUtility;
 import edu.gatech.gtri.trustmark.v1_0.io.json.JsonProducer;
 import edu.gatech.gtri.trustmark.v1_0.io.json.JsonUtils;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkStatusReport;
@@ -34,7 +33,10 @@ public final class TrustmarkStatusReportJsonProducer implements JsonProducer<Tru
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("$TMF_VERSION", FactoryLoader.getInstance(TrustmarkFramework.class).getTrustmarkFrameworkVersion());
         jsonObject.put("$Type", TrustmarkStatusReport.class.getSimpleName());
-        jsonObject.put("$id", tsr.getId());
+
+        if (tsr.getId() != null) {
+            jsonObject.put("$id", tsr.getId());
+        }
 
         JSONObject refObj = new JSONObject();
         refObj.put("Identifier", tsr.getTrustmarkReference().toString());

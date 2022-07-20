@@ -1,0 +1,243 @@
+[
+  {
+    "id": 12,
+    "name": "NIEF OP",
+    "organization": {
+      "id": 7,
+      "name": "National Identity Exchange Federation",
+      "displayName": "NIEF",
+      "description": "NIEF",
+      "siteUrl": "https://nief.org/",
+      "trustmarkRecipientIdentifiers": [
+        "https://nief.org/",
+        "https://nief.org"
+      ]
+    },
+    "providerType": "OIDC Provider",
+    "trustmarks": [
+      {
+        "id": 1013713,
+        "trustmarkDefinitionURL": "https://trustmark.nief.org/tpat/tds/icam-oidc-op-basic/1.0/",
+        "assessorComments": "null",
+        "url": "https://tat.trustmarkinitiative.org/test-tat/public/trustmarks/46481213-BFAF-4632-8235-BE70F930BA00",
+        "name": "OpenID Connect OP Requirements - Basic",
+        "status": "ACTIVE",
+        "provisional": false,
+        "conformanceTargetTipId": 27
+      },
+      {
+        "id": 1013714,
+        "trustmarkDefinitionURL": "https://trustmark.nief.org/tpat/tds/federated-icam-endpoint-crypto/1.0/",
+        "assessorComments": "null",
+        "url": "https://tat.trustmarkinitiative.org/test-tat/public/trustmarks/462D5F28-0EAD-4B8F-AEB5-83E3C7BF0BBA",
+        "name": "Federated ICAM Endpoint Cryptographic Requirements",
+        "status": "ACTIVE",
+        "provisional": false,
+        "conformanceTargetTipId": 27
+      },
+      {
+        "id": 1013715,
+        "trustmarkDefinitionURL": "https://trustmark.nief.org/tpat/tds/icam-oidc-op-attributes/1.0/",
+        "assessorComments": "null",
+        "url": "https://tat.trustmarkinitiative.org/test-tat/public/trustmarks/328C101B-B66D-4EC8-BD7D-39BDE94A1612",
+        "name": "OpenID Connect OP Requirements - Attributes",
+        "status": "ACTIVE",
+        "provisional": false,
+        "conformanceTargetTipId": 27
+      }
+    ],
+    "conformanceTargetTips": [
+      {
+        "id": 28,
+        "name": "NIEF OIDC OpenId Provider Profile",
+        "conformanceTargetTipIdentifier": "https://trustmark.nief.org/tpat/tips/nief-oidc-op-profile/1.0/",
+        "provider": {
+          "id": 12
+        }
+      }
+    ],
+    "uniqueId": "https://openid.nief.org/oidc/",
+    "openIdConnectMetadata": {
+      "request_parameter_supported": true,
+      "claims_parameter_supported": false,
+      "introspection_endpoint": "https://openid.nief.org/oidc/introspect",
+      "scopes_supported": [
+        "nief"
+      ],
+      "issuer": "https://openid.nief.org/oidc/",
+      "userinfo_encryption_enc_values_supported": [
+        "A256CBC+HS512",
+        "A256GCM",
+        "A192GCM",
+        "A128GCM",
+        "A128CBC-HS256",
+        "A192CBC-HS384",
+        "A256CBC-HS512",
+        "A128CBC+HS256"
+      ],
+      "id_token_encryption_enc_values_supported": [
+        "A256CBC+HS512",
+        "A256GCM",
+        "A192GCM",
+        "A128GCM",
+        "A128CBC-HS256",
+        "A192CBC-HS384",
+        "A256CBC-HS512",
+        "A128CBC+HS256"
+      ],
+      "authorization_endpoint": "https://openid.nief.org/oidc/authorize",
+      "service_documentation": "https://openid.nief.org/oidc/about",
+      "request_object_encryption_enc_values_supported": [
+        "A256CBC+HS512",
+        "A256GCM",
+        "A192GCM",
+        "A128GCM",
+        "A128CBC-HS256",
+        "A192CBC-HS384",
+        "A256CBC-HS512",
+        "A128CBC+HS256"
+      ],
+      "device_authorization_endpoint": "https://openid.nief.org/oidc/devicecode",
+      "userinfo_signing_alg_values_supported": [
+        "HS256",
+        "HS384",
+        "HS512",
+        "RS256",
+        "RS384",
+        "RS512",
+        "ES256",
+        "ES384",
+        "ES512",
+        "PS256",
+        "PS384",
+        "PS512"
+      ],
+      "claims_supported": [
+        "sub",
+        "name",
+        "preferred_username",
+        "given_name",
+        "family_name",
+        "middle_name",
+        "nickname",
+        "profile",
+        "picture",
+        "locale",
+        "updated_at",
+        "birthdate",
+        "email",
+        "email_verified",
+        "phone_number",
+        "phone_number_verified",
+        "ori",
+        "aal",
+        "ial",
+        "cfr",
+        "leo",
+        "pso",
+        "fedid",
+        "idpid",
+        "address"
+      ],
+      "claim_types_supported": [
+        "normal"
+      ],
+      "op_policy_uri": "https://openid.nief.org/oidc/about",
+      "token_endpoint_auth_methods_supported": [
+        "client_secret_post",
+        "client_secret_basic",
+        "client_secret_jwt",
+        "private_key_jwt",
+        "none"
+      ],
+      "token_endpoint": "https://openid.nief.org/oidc/token",
+      "response_types_supported": [
+        "code",
+        "token"
+      ],
+      "request_uri_parameter_supported": false,
+      "userinfo_encryption_alg_values_supported": [
+        "RSA-OAEP",
+        "RSA-OAEP-256",
+        "RSA1_5"
+      ],
+      "grant_types_supported": [
+        "authorization_code",
+        "implicit",
+        "urn:ietf:params:oauth:grant-type:jwt-bearer",
+        "client_credentials",
+        "urn:ietf:params:oauth:grant_type:redelegate",
+        "urn:ietf:params:oauth:grant-type:device_code"
+      ],
+      "end_session_endpoint": "https://openid.nief.org/oidc/endsession",
+      "revocation_endpoint": "https://openid.nief.org/oidc/revoke",
+      "userinfo_endpoint": "https://openid.nief.org/oidc/userinfo",
+      "token_endpoint_auth_signing_alg_values_supported": [
+        "HS256",
+        "HS384",
+        "HS512",
+        "RS256",
+        "RS384",
+        "RS512",
+        "ES256",
+        "ES384",
+        "ES512",
+        "PS256",
+        "PS384",
+        "PS512"
+      ],
+      "op_tos_uri": "https://openid.nief.org/oidc/about",
+      "require_request_uri_registration": false,
+      "code_challenge_methods_supported": [
+        "plain",
+        "S256"
+      ],
+      "id_token_encryption_alg_values_supported": [
+        "RSA-OAEP",
+        "RSA-OAEP-256",
+        "RSA1_5"
+      ],
+      "jwks_uri": "https://openid.nief.org/oidc/jwk",
+      "subject_types_supported": [
+        "public",
+        "pairwise"
+      ],
+      "id_token_signing_alg_values_supported": [
+        "HS256",
+        "HS384",
+        "HS512",
+        "RS256",
+        "RS384",
+        "RS512",
+        "ES256",
+        "ES384",
+        "ES512",
+        "PS256",
+        "PS384",
+        "PS512",
+        "none"
+      ],
+      "registration_endpoint": "https://openid.nief.org/oidc/register",
+      "request_object_signing_alg_values_supported": [
+        "HS256",
+        "HS384",
+        "HS512",
+        "RS256",
+        "RS384",
+        "RS512",
+        "ES256",
+        "ES384",
+        "ES512",
+        "PS256",
+        "PS384",
+        "PS512"
+      ],
+      "request_object_encryption_alg_values_supported": [
+        "RSA-OAEP",
+        "RSA-OAEP-256",
+        "RSA1_5"
+      ]
+    },
+    "oidcMetadataUrl": "https://tbr.trustmarkinitiative.org/test-tbr/system/oidcMetadata/12"
+  }
+]

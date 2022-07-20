@@ -1,144 +1,303 @@
 package edu.gatech.gtri.trustmark.v1_0.impl.io.json;
 
 import edu.gatech.gtri.trustmark.v1_0.FactoryLoader;
-import edu.gatech.gtri.trustmark.v1_0.impl.io.AbstractSerializer;
+import edu.gatech.gtri.trustmark.v1_0.impl.io.SerializerAbstract;
 import edu.gatech.gtri.trustmark.v1_0.impl.io.adio.AbstractDocumentJsonProducer;
 import edu.gatech.gtri.trustmark.v1_0.io.MediaType;
 import edu.gatech.gtri.trustmark.v1_0.io.json.JsonManager;
-import edu.gatech.gtri.trustmark.v1_0.io.json.JsonProducer;
-import edu.gatech.gtri.trustmark.v1_0.io.xml.XmlManager;
-import edu.gatech.gtri.trustmark.v1_0.io.xml.XmlProducer;
-import edu.gatech.gtri.trustmark.v1_0.model.HasSource;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustInteroperabilityProfile;
 import edu.gatech.gtri.trustmark.v1_0.model.Trustmark;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkDefinition;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkStatusReport;
 import edu.gatech.gtri.trustmark.v1_0.model.agreement.Agreement;
 import edu.gatech.gtri.trustmark.v1_0.model.agreement.AgreementResponsibilityTemplate;
-import org.gtri.fj.function.TryEffect2;
+import edu.gatech.gtri.trustmark.v1_0.model.trustmarkBindingRegistry.TrustmarkBindingRegistryOrganizationMap;
+import edu.gatech.gtri.trustmark.v1_0.model.trustmarkBindingRegistry.TrustmarkBindingRegistryOrganizationTrustmarkMap;
+import edu.gatech.gtri.trustmark.v1_0.model.trustmarkBindingRegistry.TrustmarkBindingRegistrySystemMap;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
-import static java.lang.String.format;
+import static edu.gatech.gtri.trustmark.v1_0.io.MediaType.APPLICATION_JSON;
+import static java.util.Objects.requireNonNull;
 
-public class SerializerJson extends AbstractSerializer {
+
+public final class SerializerJson extends SerializerAbstract {
+
+    private static final JsonManager jsonManager = FactoryLoader.getInstance(JsonManager.class);
 
     public SerializerJson() {
         super(
-                "JSON Serializer",
-                "Serializes data into JSON, using the unofficial TF v1.0 JSON format.",
+                SerializerJson.class.getCanonicalName(),
+                SerializerJson.class.getCanonicalName(),
                 MediaType.APPLICATION_JSON.getMediaType());
     }
 
     @Override
     public void serialize(
-            final Trustmark trustmark,
-            final Writer writer,
-            final Map model)
-            throws IOException {
+            final Agreement artifact,
+            final OutputStream outputStream,
+            final Map<Object, Object> model) throws IOException {
 
-        serializeHelper(trustmark, writer);
+        requireNonNull(artifact);
+        requireNonNull(outputStream);
+        requireNonNull(model);
+
+        serialize(artifact, new OutputStreamWriter(outputStream, StandardCharsets.UTF_8), model);
     }
 
     @Override
     public void serialize(
-            final TrustmarkStatusReport trustmarkStatusReport,
+            final Agreement artifact,
             final Writer writer,
-            final Map model)
-            throws IOException {
+            final Map<Object, Object> model) throws IOException {
 
-        serializeHelper(trustmarkStatusReport, writer);
+        requireNonNull(artifact);
+        requireNonNull(writer);
+        requireNonNull(model);
+
+        AbstractDocumentJsonProducer.serialize(Agreement.class, artifact, writer);
     }
 
     @Override
     public void serialize(
-            final TrustmarkDefinition trustmarkDefinition,
-            final Writer writer,
-            final Map model)
-            throws IOException {
+            final AgreementResponsibilityTemplate artifact,
+            final OutputStream outputStream,
+            final Map<Object, Object> model) throws IOException {
 
-        serializeHelper(trustmarkDefinition, writer);
+        requireNonNull(artifact);
+        requireNonNull(outputStream);
+        requireNonNull(model);
+
+        serialize(artifact, new OutputStreamWriter(outputStream, StandardCharsets.UTF_8), model);
     }
 
     @Override
     public void serialize(
-            final TrustInteroperabilityProfile trustInteroperabilityProfile,
+            final AgreementResponsibilityTemplate artifact,
             final Writer writer,
-            final Map model)
-            throws IOException {
+            final Map<Object, Object> model) throws IOException {
 
-        serializeHelper(trustInteroperabilityProfile, writer);
+        requireNonNull(artifact);
+        requireNonNull(writer);
+        requireNonNull(model);
+
+        AbstractDocumentJsonProducer.serialize(AgreementResponsibilityTemplate.class, artifact, writer);
     }
 
     @Override
     public void serialize(
-            final Agreement agreement,
-            final Writer writer,
-            final Map model)
-            throws IOException {
+            final TrustInteroperabilityProfile artifact,
+            final OutputStream outputStream,
+            final Map<Object, Object> model) throws IOException {
 
-        serializeHelper(agreement, writer, (agreementInner, writerInner) -> AbstractDocumentJsonProducer.serialize(Agreement.class, agreementInner, writerInner));
+        requireNonNull(artifact);
+        requireNonNull(outputStream);
+        requireNonNull(model);
+
+        serialize(artifact, new OutputStreamWriter(outputStream, StandardCharsets.UTF_8), model);
     }
 
     @Override
     public void serialize(
-            final AgreementResponsibilityTemplate agreementResponsibilityTemplate,
+            final TrustInteroperabilityProfile artifact,
             final Writer writer,
-            final Map model)
-            throws IOException {
+            final Map<Object, Object> model) throws IOException {
 
-        serializeHelper(agreementResponsibilityTemplate, writer, (agreementResponsibilityTemplateInner, writerInner) -> AbstractDocumentJsonProducer.serialize(AgreementResponsibilityTemplate.class, agreementResponsibilityTemplateInner, writerInner));
+        requireNonNull(artifact);
+        requireNonNull(writer);
+        requireNonNull(model);
+
+        serializeHelperForJsonObject(artifact, writer);
     }
 
-    private void serializeHelper(
-            final HasSource hasSource,
+    @Override
+    public void serialize(
+            final Trustmark artifact,
+            final OutputStream outputStream,
+            final Map<Object, Object> model) throws IOException {
+
+        requireNonNull(artifact);
+        requireNonNull(outputStream);
+        requireNonNull(model);
+
+        serialize(artifact, new OutputStreamWriter(outputStream, StandardCharsets.UTF_8), model);
+    }
+
+    @Override
+    public void serialize(
+            final Trustmark artifact,
+            final Writer writer,
+            final Map<Object, Object> model) throws IOException {
+
+        requireNonNull(artifact);
+        requireNonNull(writer);
+        requireNonNull(model);
+
+        if (artifact.getOriginalSourceType().equals(APPLICATION_JSON.getMediaType())) {
+            // TODO: Serialize trustmark based on content of trustmark; it's not possible at present, as not all of the information necessary for serialization is present.
+
+            writer.write(artifact.getOriginalSource());
+            writer.flush();
+        } else {
+
+            serializeHelperForJsonObject(artifact, writer);
+        }
+    }
+
+    @Override
+    public void serialize(
+            final TrustmarkBindingRegistryOrganizationMap artifact,
+            final OutputStream outputStream,
+            final Map<Object, Object> model) throws IOException {
+
+        requireNonNull(artifact);
+        requireNonNull(outputStream);
+        requireNonNull(model);
+
+        serialize(artifact, new OutputStreamWriter(outputStream, StandardCharsets.UTF_8), model);
+    }
+
+    @Override
+    public void serialize(
+            final TrustmarkBindingRegistryOrganizationMap artifact,
+            final Writer writer,
+            final Map<Object, Object> model) throws IOException {
+
+        requireNonNull(artifact);
+        requireNonNull(writer);
+        requireNonNull(model);
+
+        serializeHelperForJsonObject(artifact, writer);
+    }
+
+    @Override
+    public void serialize(
+            final TrustmarkBindingRegistryOrganizationTrustmarkMap artifact,
+            final OutputStream outputStream,
+            final Map<Object, Object> model) throws IOException {
+
+        requireNonNull(artifact);
+        requireNonNull(outputStream);
+        requireNonNull(model);
+
+        serialize(artifact, new OutputStreamWriter(outputStream, StandardCharsets.UTF_8), model);
+    }
+
+    @Override
+    public void serialize(
+            final TrustmarkBindingRegistryOrganizationTrustmarkMap artifact,
+            final Writer writer,
+            final Map<Object, Object> model) throws IOException {
+
+        requireNonNull(artifact);
+        requireNonNull(writer);
+        requireNonNull(model);
+
+        serializeHelperForJsonObject(artifact, writer);
+    }
+
+    @Override
+    public void serialize(
+            final TrustmarkBindingRegistrySystemMap artifact,
+            final OutputStream outputStream,
+            final Map<Object, Object> model) throws IOException {
+
+        requireNonNull(artifact);
+        requireNonNull(outputStream);
+        requireNonNull(model);
+
+        serialize(artifact, new OutputStreamWriter(outputStream, StandardCharsets.UTF_8), model);
+    }
+
+    @Override
+    public void serialize(
+            final TrustmarkBindingRegistrySystemMap artifact,
+            final Writer writer,
+            final Map<Object, Object> model) throws IOException {
+
+        requireNonNull(artifact);
+        requireNonNull(writer);
+        requireNonNull(model);
+
+        serializeHelperForJsonArray(artifact, writer);
+    }
+
+    @Override
+    public void serialize(
+            final TrustmarkDefinition artifact,
+            final OutputStream outputStream,
+            final Map<Object, Object> model) throws IOException {
+
+        requireNonNull(artifact);
+        requireNonNull(outputStream);
+        requireNonNull(model);
+
+        serialize(artifact, new OutputStreamWriter(outputStream, StandardCharsets.UTF_8), model);
+    }
+
+    @Override
+    public void serialize(
+            final TrustmarkDefinition artifact,
+            final Writer writer,
+            final Map<Object, Object> model) throws IOException {
+
+        requireNonNull(artifact);
+        requireNonNull(writer);
+        requireNonNull(model);
+
+        serializeHelperForJsonObject(artifact, writer);
+    }
+
+    @Override
+    public void serialize(
+            final TrustmarkStatusReport artifact,
+            final OutputStream outputStream,
+            final Map<Object, Object> model) throws IOException {
+
+        requireNonNull(artifact);
+        requireNonNull(outputStream);
+        requireNonNull(model);
+
+        serialize(artifact, new OutputStreamWriter(outputStream, StandardCharsets.UTF_8), model);
+    }
+
+    @Override
+    public void serialize(
+            final TrustmarkStatusReport artifact,
+            final Writer writer,
+            final Map<Object, Object> model) throws IOException {
+
+        requireNonNull(artifact);
+        requireNonNull(writer);
+        requireNonNull(model);
+
+        serializeHelperForJsonObject(artifact, writer);
+    }
+
+    private void serializeHelperForJsonObject(
+            final Object artifact,
             final Writer writer)
             throws IOException {
 
-        serializeHelper(hasSource, writer, (hasSourceInner, writerInner) -> {
-            JSONObject asJson = (JSONObject) this.serialize(hasSourceInner);
-            writerInner.write(asJson.toString(2));
-        });
+        final JSONObject jsonObject = (JSONObject) jsonManager.findProducer(artifact.getClass()).serialize(artifact);
+        writer.write(jsonObject.toString(2));
+        writer.flush();
     }
 
-    private void serializeHelper(
-            final HasSource hasSource,
-            final Writer writer,
-            final TryEffect2<HasSource, Writer, IOException> serializer)
+    private void serializeHelperForJsonArray(
+            final Object artifact,
+            final Writer writer)
             throws IOException {
 
-        if (hasSource.getOriginalSourceType() != null && hasSource.getOriginalSourceType().equalsIgnoreCase(getOutputMimeFormat())) {
-            writer.write(hasSource.getOriginalSource());
-            writer.flush();
-        } else {
-            serializer.f(hasSource, writer);
-        }
-    }
-
-    public Object serialize(
-            final Object object) {
-
-        final JsonManager jsonManager = FactoryLoader.getInstance(JsonManager.class);
-
-        if (jsonManager == null) {
-
-            throw new UnsupportedOperationException(format("The system could not find an instance of '%s'; the system could not serialize '%s'.", XmlManager.class.getCanonicalName(), object.getClass().getCanonicalName()));
-
-        } else {
-
-            final JsonProducer jsonProducer = jsonManager.findProducer(object.getClass());
-
-            if (jsonProducer == null) {
-
-                throw new UnsupportedOperationException(format("The system could not find an instance of '%s' for '%s'.", XmlProducer.class.getCanonicalName(), object.getClass().getCanonicalName()));
-
-            } else {
-
-                return jsonProducer.serialize(object);
-            }
-        }
+        final JSONArray jsonArray = (JSONArray) jsonManager.findProducer(artifact.getClass()).serialize(artifact);
+        writer.write(jsonArray.toString(2));
+        writer.flush();
     }
 }

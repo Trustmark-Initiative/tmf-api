@@ -10,24 +10,21 @@ import java.util.List;
 
 import static java.util.Objects.requireNonNull;
 
-/**
- * Created by brad on 12/7/15.
- */
 public class TrustmarkDefinitionRequirementImpl extends TrustmarkFrameworkIdentifiedObjectImpl implements TrustmarkDefinitionRequirement {
-
-    public TrustmarkDefinitionRequirementImpl() {
-        this.setTypeName("TrustmarkDefinitionRequirement");
-    }
 
     private String id;
     private List<Entity> providerReferences;
+
+    public TrustmarkDefinitionRequirementImpl() {
+        this.setTypeName(TYPE_NAME_TRUSTMARK_DEFINITION_REQUIREMENT);
+    }
 
     @Override
     public String getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(final String id) {
         this.id = id;
     }
 
@@ -36,21 +33,21 @@ public class TrustmarkDefinitionRequirementImpl extends TrustmarkFrameworkIdenti
         return this.providerReferences;
     }
 
-    public void setProviderReferences(List<Entity> providerReferences) {
+    public void setProviderReferences(final List<Entity> providerReferences) {
         this.providerReferences = providerReferences;
     }
 
-    public void addProviderReference(Entity provider) {
+    public void addProviderReference(final Entity provider) {
         if (this.providerReferences == null)
             this.providerReferences = new ArrayList<>();
         this.providerReferences.add(provider);
     }
 
-    public Boolean isTrustmarkDefinitionRequirement() {
+    public boolean isTrustmarkDefinitionRequirement() {
         return true;
     }
 
-    public Boolean isTrustInteroperabilityProfileReference() {
+    public boolean isTrustInteroperabilityProfileReference() {
         return false;
     }
 

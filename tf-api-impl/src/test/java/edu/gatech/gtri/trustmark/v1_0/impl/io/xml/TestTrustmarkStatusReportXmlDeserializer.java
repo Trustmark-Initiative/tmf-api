@@ -4,7 +4,7 @@ import edu.gatech.gtri.trustmark.v1_0.impl.AbstractTest;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkStatusCode;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkStatusReport;
 import org.apache.commons.io.FileUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.net.URI;

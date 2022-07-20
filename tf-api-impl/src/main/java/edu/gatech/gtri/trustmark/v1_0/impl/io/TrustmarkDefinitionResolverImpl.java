@@ -15,8 +15,8 @@ public final class TrustmarkDefinitionResolverImpl extends AbstractResolverFromU
     public TrustmarkDefinitionResolverImpl() {
         super(
                 arrayList(
-                        p(AbstractResolverUtility::isJson, new TrustmarkDefinitionJsonDeserializer()::deserialize),
-                        p(AbstractResolverUtility::isXml, new TrustmarkDefinitionXmlDeserializer()::deserialize)),
+                        p(AbstractResolverUtility::isJson, new TrustmarkDefinitionJsonDeserializer(true)::deserialize),
+                        p(AbstractResolverUtility::isXml, new TrustmarkDefinitionXmlDeserializer(true)::deserialize)),
                 TrustmarkDefinitionUtility::validate,
                 FactoryLoader.getInstance(URIResolver.class),
                 new URIIteratorStrategyAcceptXmlAcceptJson());

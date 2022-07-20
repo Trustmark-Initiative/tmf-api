@@ -1,0 +1,122 @@
+[
+  {
+    "id": 13,
+    "name": "NIEF OIDC Client",
+    "organization": {
+      "id": 7,
+      "name": "National Identity Exchange Federation",
+      "displayName": "NIEF",
+      "description": "NIEF",
+      "siteUrl": "https://nief.org/",
+      "trustmarkRecipientIdentifiers": [
+        "https://nief.org/",
+        "https://nief.org"
+      ]
+    },
+    "providerType": "OIDC Relying Party",
+    "trustmarks": [
+      {
+        "id": 1013716,
+        "trustmarkDefinitionURL": "https://trustmark.nief.org/tpat/tds/icam-oidc-op-attributes/1.0/",
+        "assessorComments": "null",
+        "url": "https://tat.trustmarkinitiative.org/test-tat/public/trustmarks/328C101B-B66D-4EC8-BD7D-39BDE94A1612",
+        "name": "OpenID Connect OP Requirements - Attributes",
+        "status": "ACTIVE",
+        "provisional": false,
+        "conformanceTargetTipId": 27
+      },
+      {
+        "id": 1013720,
+        "trustmarkDefinitionURL": "https://trustmark.nief.org/tpat/tds/icam-oidc-rp-ui/1.0/",
+        "assessorComments": "null",
+        "url": "https://tat.trustmarkinitiative.org/test-tat/public/trustmarks/4849C415-6EC5-4020-8CBD-1D52B613E669",
+        "name": "OpenID Connect RP Requirements - User Interface",
+        "status": "ACTIVE",
+        "provisional": false,
+        "conformanceTargetTipId": 29
+      },
+      {
+        "id": 1013717,
+        "trustmarkDefinitionURL": "https://trustmark.nief.org/tpat/tds/federated-icam-endpoint-crypto/1.0/",
+        "assessorComments": "null",
+        "url": "https://tat.trustmarkinitiative.org/test-tat/public/trustmarks/462D5F28-0EAD-4B8F-AEB5-83E3C7BF0BBA",
+        "name": "Federated ICAM Endpoint Cryptographic Requirements",
+        "status": "ACTIVE",
+        "provisional": false,
+        "conformanceTargetTipId": 29
+      },
+      {
+        "id": 1013721,
+        "trustmarkDefinitionURL": "https://trustmark.nief.org/tpat/tds/icam-oidc-op-basic/1.0/",
+        "assessorComments": "null",
+        "url": "https://tat.trustmarkinitiative.org/test-tat/public/trustmarks/46481213-BFAF-4632-8235-BE70F930BA00",
+        "name": "OpenID Connect OP Requirements - Basic",
+        "status": "ACTIVE",
+        "provisional": false,
+        "conformanceTargetTipId": 27
+      },
+      {
+        "id": 1013719,
+        "trustmarkDefinitionURL": "https://trustmark.nief.org/tpat/tds/icam-oidc-rp-basic/1.0/",
+        "assessorComments": "null",
+        "url": "https://tat.trustmarkinitiative.org/test-tat/public/trustmarks/2D2CE3C2-0BB2-419D-B452-098FC90A21E0",
+        "name": "OpenID Connect RP Requirements - Basic",
+        "status": "ACTIVE",
+        "provisional": false,
+        "conformanceTargetTipId": 29
+      },
+      {
+        "id": 1013718,
+        "trustmarkDefinitionURL": "https://trustmark.nief.org/tpat/tds/federated-icam-rp-abac/1.0/",
+        "assessorComments": "null",
+        "url": "https://tat.trustmarkinitiative.org/test-tat/public/trustmarks/699DCE6F-EDEE-49D4-AC31-91895B3DB5A5",
+        "name": "Federated ICAM RP ABAC Reqirements",
+        "status": "ACTIVE",
+        "provisional": false,
+        "conformanceTargetTipId": 29
+      }
+    ],
+    "conformanceTargetTips": [
+      {
+        "id": 27,
+        "name": "NIEF OIDC OpenId Provider Profile",
+        "conformanceTargetTipIdentifier": "https://trustmark.nief.org/tpat/tips/nief-oidc-op-profile/1.0/",
+        "provider": {
+          "id": 13
+        }
+      },
+      {
+        "id": 29,
+        "name": "NIEF OIDC Relying Party Profile",
+        "conformanceTargetTipIdentifier": "https://trustmark.nief.org/tpat/tips/nief-oidc-rp-profile/1.0/",
+        "provider": {
+          "id": 13
+        }
+      }
+    ],
+    "uniqueId": "https://client.example.org/callback",
+    "openIdConnectMetadata": {
+      "subject_type": "pairwise",
+      "application_type": "web",
+      "logo_uri": "https://client.example.org/logo.png",
+      "jwks_uri": "https://client.example.org/my_public_keys.jwks",
+      "userinfo_encrypted_response_enc": "A128CBC-HS256",
+      "request_uris": [
+        "https://client.example.org/rf.txt#qpXaRLh_n93TTR9F252ValdatUQvQiJi5BDub2BeznA"
+      ],
+      "redirect_uris": [
+        "https://client.example.org/callback",
+        "https://client.example.org/callback2"
+      ],
+      "userinfo_encrypted_response_alg": "RSA1_5",
+      "sector_identifier_uri": "https://other.example.net/file_of_redirect_uris.json",
+      "client_name": "My Example",
+      "token_endpoint_auth_method": "client_secret_basic",
+      "contacts": [
+        "ve7jtb@example.org",
+        "mary@example.org"
+      ]
+    },
+    "oidcMetadataUrl": "https://tbr.trustmarkinitiative.org/test-tbr/system/oidcMetadata/13"
+  }
+]

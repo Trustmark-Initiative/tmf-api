@@ -1,21 +1,20 @@
 package edu.gatech.gtri.trustmark.v1_0.impl.io.json.producers;
 
 import edu.gatech.gtri.trustmark.v1_0.FactoryLoader;
-import edu.gatech.gtri.trustmark.v1_0.impl.io.IdUtility;
 import edu.gatech.gtri.trustmark.v1_0.io.json.JsonManager;
 import edu.gatech.gtri.trustmark.v1_0.io.json.JsonProducer;
 import edu.gatech.gtri.trustmark.v1_0.model.Entity;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkDefinitionRequirement;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkFrameworkIdentifiedObject;
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.gtri.fj.data.List;
 import org.gtri.fj.data.NonEmptyList;
 import org.gtri.fj.data.Option;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.kohsuke.MetaInfServices;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 
@@ -46,10 +45,11 @@ public class TrustmarkDefinitionRequirementJsonProducer implements JsonProducer<
     @Override
     public JSONObject serialize(final TrustmarkDefinitionRequirement trustmarkDefinitionRequirement) {
         requireNonNull(trustmarkDefinitionRequirement);
+        requireNonNull(trustmarkDefinitionRequirement.getId());
 
         return new JSONObject(new HashMap<String, Object>() {{
             putAll(jsonProducerForTrustmarkFrameworkIdentifiedObject.serialize(trustmarkDefinitionRequirement).toMap());
-            put("$id", trustmarkDefinitionRequirement.getId() == null ? IdUtility.trustmarkDefinitionId() : trustmarkDefinitionRequirement.getId());
+            put("$id", trustmarkDefinitionRequirement.getId());
             put("$Type", "TrustmarkDefinitionRequirement");
             put("TrustmarkDefinitionReference", serializeTrustmarkDefinitionReference(trustmarkDefinitionRequirement));
             if(trustmarkDefinitionRequirement.getProviderReferences() != null && !trustmarkDefinitionRequirement.getProviderReferences().isEmpty()) {

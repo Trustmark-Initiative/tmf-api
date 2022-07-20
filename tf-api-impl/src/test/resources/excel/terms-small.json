@@ -1,0 +1,167 @@
+{
+  "trustmarkDefinitions" : [
+    {
+      "ConformanceCriteria": [{
+        "Description": "The system MUST conform to the following rules regarding negotiation and handling of the Secure Sockets Layer (SSL) and Transport Layer Security (TLS) protocols.\n<ol type=\"a\">\n<li>The system MUST support TLS version 1.2 or higher, and MUST attempt to use TLS version 1.2 or higher before negotiating down to an older version of TLS.<\/li>\n<li>The system SHOULD support TLS version 1.1 and MUST attempt to use TLS version 1.1 before negotiating down to an older version of TLS or SSL in the event that TLS 1.2 or higher cannot be used.<\/li>\n<li>The system SHOULD NOT allow the use of TLS version 1.0 or SSL version 3.<\/li>\n<li>The system MUST NOT allow the use of SSL version 2.<\/li>\n<\/ol>",
+        "Number": 1,
+        "Citations": [{
+          "Description": "Discussion/Review",
+          "Source": {"$ref": "#source2768"}
+        }],
+        "$id": "criterion1",
+        "Name": "Proper Use of TLS"
+      }],
+      "AssessmentSteps": [{
+        "ConformanceCriteria": [{"$ref": "#criterion1"}],
+        "Artifacts": [{
+          "Description": "Provide a TLS Scanner Report from Qualys Scanner or equivalent. See  <a href=\"https://www.ssllabs.com/ssltest/index.html\">https://www.ssllabs.com/ssltest/index.html<\/a>.",
+          "Name": "TLS Scanner Report"
+        }],
+        "Description": "Is the system configured to use TLS and SSL correctly, as specified in the conformance criterion, to protect all of its protocol endpoints? Specifically, does the system first attempt to use TLS 1.2 or higher, and then attempt to use TLS 1.1 if necessary? Note that use of TLS 1.0 or SSL 3 is acceptable but not recommended, and use of SSL 2 is prohibited.",
+        "Number": 1,
+        "$id": "ProperUseofTLS",
+        "Name": "Proper Use of TLS"
+      }],
+      "$TMF_VERSION": "1.4",
+      "AssessmentStepsPreface": "Assessment preface for local TD 1.",
+      "IssuanceCriteria": "yes(all)",
+      "Metadata": {
+        "PublicationDateTime": "2020-04-03T00:00:00.000Z",
+        "TargetRecipientDescription": "RecipientDescription from NIST Special Publication 800-53.",
+        "Description": "Local TD 1",
+        "Keywords": [
+          "TEST",
+          "TESTTD"
+        ],
+        "Name": "Local TD 1",
+        "Identifier": "https://trustmark.gtri.gatech.edu/operational-pilot/trustmark-definitions/local-td-1/1.0/",
+        "Version": "1.0",
+        "TrustmarkRevocationCriteria": "Criteria for a Trustmark Revocation",
+        "LegalNotice": "Default TD Legal Notice",
+
+        "TargetStakeholderDescription": "StakeholderDescription from NIST Special Publication 800-53.",
+
+        "TrustmarkDefiningOrganization": {
+          "Identifier": "https://trustmarkinitiative.org/",
+          "PrimaryContact": {
+            "Email": "help@trustmarkinitiative.org",
+            "Kind": "PRIMARY",
+            "WebsiteURL": "https://trustmarkinitiative.org/",
+            "Responder": ""
+          },
+          "Name": "TDO"
+        },
+        "Notes": "Default TD Notes"
+      },
+      "Terms": [
+        {
+          "Definition": "Used to mark TDs and TIPs that are meant for testing only.",
+          "Abbreviations": ["TEST"],
+          "Name": "Test Term"
+        },
+        {
+          "Definition": "Used to mark TDs that are meant for testing only.",
+          "Abbreviations": ["TESTTD"],
+          "Name": "Test TD Term"
+        },
+        {"Definition":"Extra test term","Name":"Extra Test"}
+      ],
+      "ConformanceCriteriaPreface": "Criteria preface for local TD 1.",
+      "$Type": "TrustmarkDefinition",
+      "Sources": [{
+        "Identifier": "WG",
+        "Reference": "SAFECOM/NCSWIC ICAM Sub-Working Group",
+        "$id": "source2768"
+      }],
+      "$id": "TD_20220411071300_59707640B11E4642BB4650E417509D55"
+    }
+  ],
+  "trustInteroperabilityProfiles" : [
+    {
+      "$TMF_VERSION": "1.4",
+      "$Type": "TrustInteroperabilityProfile",
+      "Identifier": "https://trustmark.gtri.gatech.edu/operational-pilot/trust-interoperability-profiles/test-tip-1/1.0/",
+      "PublicationDateTime": "2020-04-03T00:00:00.000Z",
+      "Description": "Test TIP 1 should be available in your TPAT before running other tests",
+      "Name": "Test TIP 1",
+      "TrustExpression": "TD_LocalTD1",
+      "Version": "1.0",
+      "Primary": "true",
+      "LegalNotice": "This document and the information contained herein is provided on an \"AS IS\" basis, and the Georgia Tech Research Institute disclaims all warranties, express or implied, including but not limited to any warranty that the use of the information herein will not infringe any rights or any implied warranties or merchantability or fitness for a particular purpose. In addition, the Georgia Tech Research Institute disclaims legal liability for any loss incurred as a result of the use or reliance on the document or the information contained herein.",
+      "Notes": "The Georgia Tech Research Institute (GTRI) has published this document with the support of the National Strategy for Trusted Identities in Cyberspace (NSTIC) via the National Institute of Standards and Technology (NIST). The views expressed herein do not necessarily reflect the official policies of GTRI, NIST or NSTIC; nor does mention of trade names, commercial practices, or organizations imply endorsement by the U.S. Government.",
+
+      "Keywords": [
+        "SAFECOM",
+        "NCSWIC",
+        "SAML",
+        "Identity Provider",
+        "IDP"
+      ],
+      "Issuer": {
+        "Identifier": "http:///tdo.example/",
+        "PrimaryContact": {
+          "Email":"TrustmarkFeedback@gtri.gatech.edu",
+          "Kind":"PRIMARY",
+          "MailingAddress":"75 5th Street NW, Suite 900, Atlanta, GA 30308",
+          "Telephone":"404-407-8956"},
+        "Name": "GTRI NSTIC Trustmark Pilot"
+      },
+      "Terms": [
+        {
+          "Definition": "Used to mark TIPs that are meant for testing only.",
+          "Abbreviations": [
+            "TESTTIP"
+          ],
+          "Name": "Test TIP Term"
+        },
+        {
+          "Definition":"Used to test extra term",
+          "Abbreviations":["TESTEXTRA"],
+          "Name":"Test Extra Term"
+        }
+      ],
+      "Sources": [
+        {
+          "Identifier": "WG",
+          "Reference": "SAFECOM/NCSWIC ICAM Sub-Working Group 1",
+          "$id": "source2768"
+        },
+        {
+          "Identifier": "WT",
+          "Reference": "SAFECOM/NCSWIC ICAM Sub-Working Group 2 http://www.cnn.com",
+          "$id": "source2781"
+        }
+      ],
+      "References": {
+        "TrustmarkDefinitionRequirements": [
+          {
+            "Identifier": "https://trustmark.gtri.gatech.edu/operational-pilot/trustmark-definitions/local-td-1/1.0/",
+            "Description": "Local TD 1",
+            "Number": 1,
+            "Version": "1.0",
+            "ProviderReferences": [
+              {
+                "Identifier": "https://trustmarkinitiative.org/",
+                "$id": "provider1047422583"
+              },
+              {
+                "Identifier": "https://trustmarkinitiative.org/tp",
+                "$id": "provider1550758707"
+              }
+            ],
+            "TrustmarkDefinitionReference": {
+              "Identifier": "https://trustmark.gtri.gatech.edu/operational-pilot/trustmark-definitions/local-td-1/1.0/",
+              "Description": "Local TD 1",
+              "Number": 1,
+              "Version": "1.0",
+              "Name": "Local TD 1"
+            },
+            "$Type": "TrustmarkDefinitionRequirement",
+            "Name": "Local TD 1",
+            "$id": "TD_LocalTD1"
+          }
+        ]
+      }
+    }
+  ]
+}

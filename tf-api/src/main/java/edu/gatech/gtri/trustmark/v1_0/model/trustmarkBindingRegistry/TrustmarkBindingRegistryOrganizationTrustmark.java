@@ -1,6 +1,5 @@
 package edu.gatech.gtri.trustmark.v1_0.model.trustmarkBindingRegistry;
 
-import edu.gatech.gtri.trustmark.v1_0.model.HasSource;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkStatusCode;
 
 import java.net.URI;
@@ -11,7 +10,7 @@ import java.net.URI;
  *
  * @author GTRI Trustmark Team
  */
-public interface TrustmarkBindingRegistryOrganizationTrustmark extends HasSource {
+public interface TrustmarkBindingRegistryOrganizationTrustmark {
 
     /**
      * Returns the comment.

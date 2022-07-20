@@ -10,7 +10,7 @@ import java.util.Set;
  *
  * @author GTRI Trustmark Team
  */
-public interface TrustmarkStatusReport extends HasSource, HasIdentifier {
+public interface TrustmarkStatusReport extends HasIdentifier {
 
     /**
      * The element identifier of the encoded Trustmark Status Report. May be

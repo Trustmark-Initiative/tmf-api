@@ -9,7 +9,7 @@ import edu.gatech.gtri.trustmark.v1_0.io.Serializer;
 import edu.gatech.gtri.trustmark.v1_0.io.SerializerFactory;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustInteroperabilityProfile;
 import org.apache.commons.io.FileUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.StringWriter;
@@ -32,7 +32,7 @@ public class TestTrustInteroperabilityProfileJsonProducer extends AbstractTest {
         logger.debug("Loading TIP from file...");
         File file = new File(TIP_FULL_FILE);
         String text = FileUtils.readFileToString(file);
-        TrustInteroperabilityProfile tip = new TrustInteroperabilityProfileXmlDeserializer().deserialize(text);
+        TrustInteroperabilityProfile tip = new TrustInteroperabilityProfileXmlDeserializer(true).deserialize(text);
         assertTipFull(tip);
         assertThat(tip, notNullValue());
 
@@ -47,7 +47,7 @@ public class TestTrustInteroperabilityProfileJsonProducer extends AbstractTest {
 
         logger.debug("Successfully produced json: \n" + json);
 
-        TrustInteroperabilityProfile tip2 = new TrustInteroperabilityProfileJsonDeserializer().deserialize(json);
+        TrustInteroperabilityProfile tip2 = new TrustInteroperabilityProfileJsonDeserializer(true).deserialize(json);
         assertThat(tip2, notNullValue());
         assertTipFull(tip2);
 

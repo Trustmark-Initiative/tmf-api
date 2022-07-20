@@ -1,16 +1,21 @@
 package edu.gatech.gtri.trustmark.v1_0.impl.util;
 
 import edu.gatech.gtri.trustmark.v1_0.FactoryLoader;
+import edu.gatech.gtri.trustmark.v1_0.assessment.*;
 import edu.gatech.gtri.trustmark.v1_0.impl.antlr.IssuanceCriteriaErrorListener;
 import edu.gatech.gtri.trustmark.v1_0.impl.antlr.IssuanceCriteriaExpressionEvaluator;
 import edu.gatech.gtri.trustmark.v1_0.impl.antlr.IssuanceCriteriaLexer;
 import edu.gatech.gtri.trustmark.v1_0.impl.antlr.IssuanceCriteriaParser;
+import edu.gatech.gtri.trustmark.v1_0.impl.assessment.AssessmentResultsImpl;
+import edu.gatech.gtri.trustmark.v1_0.impl.assessment.juel.IssuanceCriteriaEvaluatorJUEL;
 import edu.gatech.gtri.trustmark.v1_0.impl.io.IOUtils;
 import edu.gatech.gtri.trustmark.v1_0.io.ResolveException;
 import edu.gatech.gtri.trustmark.v1_0.io.TrustmarkDefinitionResolver;
 import edu.gatech.gtri.trustmark.v1_0.model.AssessmentStepResult;
+import edu.gatech.gtri.trustmark.v1_0.model.AssessmentStepResultType;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkDefinition;
 import edu.gatech.gtri.trustmark.v1_0.util.*;
+import edu.gatech.gtri.trustmark.v1_0.util.IssuanceCriteriaEvaluationException;
 import edu.gatech.gtri.trustmark.v1_0.util.diff.TrustmarkDefinitionDiff;
 import edu.gatech.gtri.trustmark.v1_0.util.diff.TrustmarkDefinitionDiffResult;
 import org.antlr.v4.runtime.ANTLRInputStream;
@@ -32,7 +37,7 @@ import java.util.*;
  * <br/><br/>
  * Created by brad on 4/12/16.
  */
-public class TrustmarkDefinitionUtilsImpl implements TrustmarkDefinitionUtils {
+public class TrustmarkDefinitionUtilsImpl implements TrustmarkDefinitionUtils, TrustmarkDefinitionIssuanceCriteria {
 
     private static final Logger log = LoggerFactory.getLogger(TrustmarkDefinitionUtilsImpl.class);
 
@@ -167,9 +172,9 @@ public class TrustmarkDefinitionUtilsImpl implements TrustmarkDefinitionUtils {
         return builder.toString();
     }
 
-
     @Override
-    public Boolean checkIssuanceCriteria(TrustmarkDefinition td, Collection<AssessmentStepResult> results) throws IssuanceCriteriaEvaluationException {
+    public Boolean checkIssuanceCriteria(TrustmarkDefinition td, Collection<AssessmentStepResult> results)
+            throws IssuanceCriteriaEvaluationException {
         log.debug("Processing issuance criteria for TD["+td.getMetadata().getIdentifier().toString()+"]...");
 
         ArrayList<AssessmentStepResult> resultsList = new ArrayList<>();
@@ -203,5 +208,53 @@ public class TrustmarkDefinitionUtilsImpl implements TrustmarkDefinitionUtils {
         return evaluator.getSatisfied();
     }
 
+    @Override
+    public Boolean checkTrustmarkDefinitionIssuanceCriteria(TrustmarkDefinition td, Collection<AssessmentStepResult> results)
+            throws edu.gatech.gtri.trustmark.v1_0.assessment.IssuanceCriteriaEvaluationException {
+        log.debug("Processing issuance criteria for TD["+td.getMetadata().getIdentifier().toString()+"]...");
+
+        ArrayList<AssessmentStepResult> resultsList = new ArrayList<>();
+        resultsList.addAll(results);
+        Collections.sort(resultsList, new Comparator<AssessmentStepResult>() {
+            @Override
+            public int compare(AssessmentStepResult o1, AssessmentStepResult o2) {
+                return o1.getAssessmentStepNumber().compareTo(o2.getAssessmentStepNumber());
+            }
+        });
+
+        // convert ArrayList<AssessmentStepResult> to AssessmentResults
+        AssessmentResults assessmentResults = new AssessmentResultsImpl();
+
+        resultsList.forEach(assessmentStepResult -> {
+
+            StepResult sr = toStepResult(assessmentStepResult);
+            assessmentResults.put(assessmentStepResult.getAssessmentStepId(), sr);
+        });
+
+        IssuanceCriteriaEvaluatorJUEL evaluator = getEvaluator();
+        IssuanceCriteriaEvaluation evaluation = evaluator.evaluate(td.getIssuanceCriteria(), assessmentResults);
+
+        return evaluation.isSatisfied();
+    }
+
+    private  StepResult toStepResult(AssessmentStepResult assessmentStepResult) {
+        StepResult sr = StepResult.YES;
+
+        if (assessmentStepResult.getResult() == AssessmentStepResultType.NO) {
+            sr = StepResult.NO;
+        } else if (assessmentStepResult.getResult() == AssessmentStepResultType.NA) {
+            sr = StepResult.NA;
+        }
+
+        return sr;
+    }
+
+    private IssuanceCriteriaEvaluatorJUEL getEvaluator() {
+        IssuanceCriteriaEvaluatorFactory factory = FactoryLoader.getInstance(IssuanceCriteriaEvaluatorFactory.class);
+
+        IssuanceCriteriaEvaluator evaluator = factory.createEvaluator();
+
+        return (IssuanceCriteriaEvaluatorJUEL) evaluator;
+    }
 
 }//end TrustmarkDefinitionUtilsImpl

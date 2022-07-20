@@ -14,7 +14,7 @@ import java.util.Set;
  *
  * @author GTRI Trustmark Team
  */
-public interface Trustmark extends TrustmarkFrameworkIdentifiedObject, HasSource {
+public interface Trustmark extends TrustmarkFrameworkIdentifiedObject {
 
     /**
      * Returns the value of the tf:id attribute of the document element.
@@ -143,6 +143,20 @@ public interface Trustmark extends TrustmarkFrameworkIdentifiedObject, HasSource
      * non-null
      */
     Set<TrustmarkParameterBinding> getParameterBindings();
+
+    /**
+     * Returns the source representation; nullable.
+     *
+     * @return the source representation; nullable
+     */
+    String getOriginalSource();
+
+    /**
+     * Returns the source type; nullable.
+     *
+     * @return the source type; nullable
+     */
+    String getOriginalSourceType();
 
     /**
      * Returns the individual Trustmark Parameter Binding which apples to the

@@ -1,6 +1,6 @@
 package edu.gatech.gtri.trustmark.v1_0.impl.tip;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static edu.gatech.gtri.trustmark.v1_0.tip.TrustExpressionOperator.TrustExpressionOperatorAnd.OPERATOR_AND;
 import static edu.gatech.gtri.trustmark.v1_0.tip.TrustExpressionOperator.TrustExpressionOperatorContains.OPERATOR_CONTAINS;
@@ -14,7 +14,7 @@ import static edu.gatech.gtri.trustmark.v1_0.tip.TrustExpressionOperator.TrustEx
 import static edu.gatech.gtri.trustmark.v1_0.tip.TrustExpressionOperator.TrustExpressionOperatorNot.OPERATOR_NOT;
 import static edu.gatech.gtri.trustmark.v1_0.tip.TrustExpressionOperator.TrustExpressionOperatorNotEqual.OPERATOR_NOT_EQUAL;
 import static edu.gatech.gtri.trustmark.v1_0.tip.TrustExpressionOperator.TrustExpressionOperatorOr.OPERATOR_OR;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 

@@ -5,7 +5,7 @@ import edu.gatech.gtri.trustmark.v1_0.tip.TrustExpression.TrustExpressionBinary;
 import edu.gatech.gtri.trustmark.v1_0.tip.TrustExpression.TrustExpressionTerminal;
 import edu.gatech.gtri.trustmark.v1_0.tip.TrustExpression.TrustExpressionUnary;
 import nl.jqno.equalsverifier.EqualsVerifier;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static edu.gatech.gtri.trustmark.v1_0.tip.TrustExpression.and;
 import static edu.gatech.gtri.trustmark.v1_0.tip.TrustExpression.not;

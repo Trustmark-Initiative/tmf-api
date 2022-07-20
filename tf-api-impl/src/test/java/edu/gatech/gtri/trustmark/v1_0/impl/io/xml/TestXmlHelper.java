@@ -5,12 +5,14 @@ import edu.gatech.gtri.trustmark.v1_0.impl.TrustmarkFrameworkConstants;
 import edu.gatech.gtri.trustmark.v1_0.io.ParseException;
 import org.apache.commons.io.FileUtils;
 import org.dom4j.Element;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 
-import static org.hamcrest.Matchers.*;
-import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Created by brad on 12/9/15.
@@ -30,27 +32,26 @@ public class TestXmlHelper extends AbstractTest {
     }//end testXmlValidationAgainstValidFile()
 
 
-    @Test(expected = ParseException.class)
+    @Test
     public void testXmlValidationAgainstInvalidFile() throws Exception {
         logger.info("Testing validation against an invalid file...");
 
         File xmlFile = new File("./src/test/resources/TDs/invalid.xml");
         String xml = FileUtils.readFileToString(xmlFile);
-        XmlHelper.validateXml(xml);
+        assertThrows(ParseException.class, () -> XmlHelper.validateXml(xml));
 
     }//end testXmlValidationAgainstValidFile()
 
 
-    @Test(expected = ParseException.class)
+    @Test
     public void testXmlValidationAgainstLegacyFile() throws Exception {
         logger.info("Testing validation against an invalid file (which is legacy)...");
 
         File xmlFile = new File("./src/test/resources/TDs/invalid-legacy.xml");
         String xml = FileUtils.readFileToString(xmlFile);
-        XmlHelper.validateXml(xml);
+        assertThrows(ParseException.class, () -> XmlHelper.validateXml(xml));
 
     }//end testXmlValidationAgainstValidFile()
-
 
 
     @Test

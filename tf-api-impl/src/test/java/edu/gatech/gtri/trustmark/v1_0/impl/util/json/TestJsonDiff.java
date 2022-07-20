@@ -9,7 +9,7 @@ import edu.gatech.gtri.trustmark.v1_0.util.diff.json.JsonDiffResultCollection;
 import edu.gatech.gtri.trustmark.v1_0.util.diff.json.JsonDiffType;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.AbstractMap;
 import java.util.Collection;

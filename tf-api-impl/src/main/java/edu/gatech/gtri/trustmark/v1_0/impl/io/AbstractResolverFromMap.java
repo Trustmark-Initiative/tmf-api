@@ -1,8 +1,14 @@
 package edu.gatech.gtri.trustmark.v1_0.impl.io;
 
 import edu.gatech.gtri.trustmark.v1_0.io.ResolveException;
+import org.gtri.fj.data.Either;
 import org.gtri.fj.data.List;
 import org.gtri.fj.function.F1;
+import org.gtri.fj.function.F2;
+import org.gtri.fj.function.F3;
+import org.gtri.fj.function.F5;
+import org.gtri.fj.function.F6;
+import org.gtri.fj.function.Try;
 import org.gtri.fj.function.Try1;
 import org.gtri.fj.function.Try2;
 import org.gtri.fj.product.P2;
@@ -39,5 +45,20 @@ public abstract class AbstractResolverFromMap<T0> extends AbstractResolver<T0> {
         } else {
             throw new ResolveException(format("The system could not resolve the URI ('%s').", uri));
         }
+    }
+
+    @Override
+    public <T1> T1 resolve(
+            final URI uri,
+            final Boolean validateNullable,
+            final F2<URI, T0, T1> onArtifactSuccess,
+            final F3<URI, ResolveException, URI, T1> onContextSuccess,
+            final F5<URI, ResolveException, URI, ResolveException, URI, T1> onServerSuccess,
+            final F6<URI, ResolveException, URI, ResolveException, URI, ResolveException, T1> onServerFailure) {
+
+        return Either.reduce(Try.f(() -> resolve(uri, validateNullable))._1()
+                .map(artifact -> onArtifactSuccess.f(uri, artifact))
+                .f().map(artifactException -> onServerFailure.f(uri, artifactException, uri, artifactException, uri, artifactException))
+                .toEither());
     }
 }

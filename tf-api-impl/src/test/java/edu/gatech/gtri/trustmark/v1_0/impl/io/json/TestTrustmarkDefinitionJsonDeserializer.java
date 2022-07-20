@@ -3,7 +3,7 @@ package edu.gatech.gtri.trustmark.v1_0.impl.io.json;
 import edu.gatech.gtri.trustmark.v1_0.impl.AbstractTest;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkDefinition;
 import org.apache.commons.io.FileUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 
@@ -23,7 +23,7 @@ public class TestTrustmarkDefinitionJsonDeserializer extends AbstractTest {
 
         File xmlFile = new File(TD_FULL_FILE);
         String json = FileUtils.readFileToString(xmlFile);
-        TrustmarkDefinition td = new TrustmarkDefinitionJsonDeserializer().deserialize(json);
+        TrustmarkDefinition td = new TrustmarkDefinitionJsonDeserializer(true).deserialize(json);
         assertThat(td, notNullValue());
 
         assertTdFull(td);

@@ -107,16 +107,16 @@ public class UrlUtils {
         queryParams.put(paramName, array);
 
         URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort(), url.getPath(), toQueryString(queryParams), null);
-        return uri.toURL();
+        return new URL(uri.toString());
     }//end ensureFormatParameter
 
 
-    public static URI ensureParameter(URI url, String paramName, String paramValue) throws URISyntaxException, MalformedURLException {
-        return ensureParameter(url.toURL(), paramName, paramValue).toURI();
+    public static URI ensureParameter(URI uri, String paramName, String paramValue) throws URISyntaxException, MalformedURLException {
+        return ensureParameter(new URL(uri.toString()), paramName, paramValue).toURI();
     }
 
     public static URI ensureFormatParameter(URI uri, String val) throws URISyntaxException, MalformedURLException {
-        return ensureFormatParameter(uri.toURL(), val).toURI();
+        return ensureFormatParameter(new URL(uri.toString()), val).toURI();
     }
 
 

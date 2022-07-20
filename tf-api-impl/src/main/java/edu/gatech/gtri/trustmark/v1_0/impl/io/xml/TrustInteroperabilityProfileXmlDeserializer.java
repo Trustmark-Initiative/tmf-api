@@ -8,6 +8,7 @@ import edu.gatech.gtri.trustmark.v1_0.model.Entity;
 import edu.gatech.gtri.trustmark.v1_0.model.Source;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustInteroperabilityProfile;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkDefinitionRequirement;
+import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkFrameworkIdentifiedObject;
 import org.apache.commons.lang.StringUtils;
 import org.dom4j.Element;
 import org.dom4j.Node;
@@ -28,7 +29,6 @@ import static edu.gatech.gtri.trustmark.v1_0.impl.io.xml.XmlDeserializerUtility.
 import static edu.gatech.gtri.trustmark.v1_0.impl.io.xml.XmlDeserializerUtility.readSource;
 import static edu.gatech.gtri.trustmark.v1_0.impl.io.xml.XmlDeserializerUtility.readTerm;
 import static edu.gatech.gtri.trustmark.v1_0.impl.io.xml.XmlDeserializerUtility.readTrustmarkFrameworkIdentifiedObject;
-import static edu.gatech.gtri.trustmark.v1_0.io.MediaType.TEXT_XML;
 import static java.lang.String.format;
 import static java.util.Objects.requireNonNull;
 
@@ -41,6 +41,12 @@ import static java.util.Objects.requireNonNull;
 public class TrustInteroperabilityProfileXmlDeserializer implements XmlDeserializer<TrustInteroperabilityProfile> {
 
     private static final Logger log = LoggerFactory.getLogger(TrustInteroperabilityProfileXmlDeserializer.class);
+
+    private final boolean withTerms;
+
+    public TrustInteroperabilityProfileXmlDeserializer(final boolean withTerms) {
+        this.withTerms = withTerms;
+    }
 
     public TrustInteroperabilityProfile deserialize(final String xml, final URI uri) throws ParseException {
 
@@ -58,18 +64,16 @@ public class TrustInteroperabilityProfileXmlDeserializer implements XmlDeseriali
 
         }
 
-        return fromDom4j(element, xml, uri);
+        return fromDom4j(element, uri, withTerms);
     }
 
-    public static TrustInteroperabilityProfile fromDom4j(final Element element, final String originalSource, final URI uri) throws ParseException {
+    public static TrustInteroperabilityProfile fromDom4j(final Element element, final URI uri, final boolean withTerms) throws ParseException {
 
         final TrustInteroperabilityProfileImpl trustInteroperabilityProfile = new TrustInteroperabilityProfileImpl();
 
-        trustInteroperabilityProfile.setOriginalSource(originalSource);
-        trustInteroperabilityProfile.setOriginalSourceType(TEXT_XML.getMediaType());
-        trustInteroperabilityProfile.setId(getString(element, "/@tf:id", false));
+        trustInteroperabilityProfile.setId(getString(element, "./@tf:id", false));
 
-        trustInteroperabilityProfile.setTypeName("TrustInteroperabilityProfile");
+        trustInteroperabilityProfile.setTypeName(TrustmarkFrameworkIdentifiedObject.TYPE_NAME_TRUST_INTEROPERABILITY_PROFILE);
         trustInteroperabilityProfile.setIdentifier(getUri(element, "tf:Identifier", true));
         trustInteroperabilityProfile.setName(getString(element, "tf:Name", true));
         trustInteroperabilityProfile.setVersion(getString(element, "tf:Version", true));
@@ -135,11 +139,12 @@ public class TrustInteroperabilityProfileXmlDeserializer implements XmlDeseriali
             }
         }
 
-
-        List<Node> termsXmlList = element.selectNodes("./tf:Terms/tf:Term");
-        if (termsXmlList != null && !termsXmlList.isEmpty()) {
-            for (Node term : termsXmlList) {
-                trustInteroperabilityProfile.addTerm(readTerm(term));
+        if (withTerms) {
+            List<Node> termsXmlList = element.selectNodes("./tf:Terms/tf:Term");
+            if (termsXmlList != null && !termsXmlList.isEmpty()) {
+                for (Node term : termsXmlList) {
+                    trustInteroperabilityProfile.addTerm(readTerm(term));
+                }
             }
         }
 
@@ -172,7 +177,7 @@ public class TrustInteroperabilityProfileXmlDeserializer implements XmlDeseriali
             for (Node ref : refsList) {
                 if (ref.getName().contains("TrustInteroperabilityProfileReference")) {
                     TrustInteroperabilityProfileReferenceImpl tipRefImpl = new TrustInteroperabilityProfileReferenceImpl();
-                    tipRefImpl.setTypeName("TrustInteroperabilityProfileReference");
+                    tipRefImpl.setTypeName(TrustmarkFrameworkIdentifiedObject.TYPE_NAME_TRUST_INTEROPERABILITY_PROFILE_REFERENCE);
                     tipRefImpl.setId(getString(ref, "./@tf:id", true));
                     tipRefImpl.setIdentifier(getUri(ref, "./tf:Identifier", true));
                     if (exists(ref, "./tf:Number")) {
@@ -194,7 +199,7 @@ public class TrustInteroperabilityProfileXmlDeserializer implements XmlDeseriali
 
     private static TrustmarkDefinitionRequirement readTDRequirement(Node ref, HashMap<String, Entity> providerReferenceMap) throws ParseException {
         TrustmarkDefinitionRequirementImpl tdReq = new TrustmarkDefinitionRequirementImpl();
-        tdReq.setTypeName("TrustmarkDefinitionRequirement");
+        tdReq.setTypeName(TrustmarkFrameworkIdentifiedObject.TYPE_NAME_TRUSTMARK_DEFINITION_REQUIREMENT);
         tdReq.setId(getString(ref, "./@tf:id", true));
         tdReq.setIdentifier(getUri(ref, "./tf:TrustmarkDefinitionReference/tf:Identifier", true));
         tdReq.setName(getString(ref, "./tf:TrustmarkDefinitionReference/tf:Name", false));

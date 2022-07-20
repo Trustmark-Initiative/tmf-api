@@ -14,16 +14,16 @@ import edu.gatech.gtri.trustmark.v1_0.tip.evaluator.TrustExpressionEvaluatorSour
 import nl.jqno.equalsverifier.EqualsVerifier;
 import org.gtri.fj.data.List;
 import org.gtri.fj.data.NonEmptyList;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static edu.gatech.gtri.trustmark.v1_0.tip.evaluator.TrustExpressionEvaluatorSource.source;
 import static edu.gatech.gtri.trustmark.v1_0.trust.TrustmarkVerifierFailure.failureProviderIdentifier;
 import static org.gtri.fj.data.List.arrayList;
 import static org.gtri.fj.data.List.nil;
 import static org.gtri.fj.data.NonEmptyList.nel;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TestTrustExpressionEvaluatorSource {
 

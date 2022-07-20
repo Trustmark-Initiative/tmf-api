@@ -3,6 +3,7 @@ package edu.gatech.gtri.trustmark.v1_0.impl.io.bulk;
 import edu.gatech.gtri.trustmark.v1_0.FactoryLoader;
 import edu.gatech.gtri.trustmark.v1_0.impl.TrustmarkFrameworkConstants;
 import edu.gatech.gtri.trustmark.v1_0.impl.io.TrustInteroperabilityProfileSyntaxException;
+import edu.gatech.gtri.trustmark.v1_0.impl.issuanceCriteria.IssuanceCriteriaStringParserFactoryImpl;
 import edu.gatech.gtri.trustmark.v1_0.impl.model.ArtifactImpl;
 import edu.gatech.gtri.trustmark.v1_0.impl.model.AssessmentStepImpl;
 import edu.gatech.gtri.trustmark.v1_0.impl.model.CitationImpl;
@@ -16,6 +17,9 @@ import edu.gatech.gtri.trustmark.v1_0.impl.model.TrustmarkDefinitionParameterImp
 import edu.gatech.gtri.trustmark.v1_0.impl.model.TrustmarkDefinitionRequirementImpl;
 import edu.gatech.gtri.trustmark.v1_0.impl.model.TrustmarkFrameworkIdentifiedObjectImpl;
 import edu.gatech.gtri.trustmark.v1_0.io.bulk.BulkReadContext;
+import edu.gatech.gtri.trustmark.v1_0.issuanceCriteria.IssuanceCriteria;
+import edu.gatech.gtri.trustmark.v1_0.issuanceCriteria.IssuanceCriteriaData;
+import edu.gatech.gtri.trustmark.v1_0.issuanceCriteria.IssuanceCriteriaStringParser;
 import edu.gatech.gtri.trustmark.v1_0.model.AbstractTIPReference;
 import edu.gatech.gtri.trustmark.v1_0.model.AssessmentStep;
 import edu.gatech.gtri.trustmark.v1_0.model.ParameterKind;
@@ -46,23 +50,14 @@ import java.lang.reflect.Modifier;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.*;
 import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+
+import static edu.gatech.gtri.trustmark.v1_0.issuanceCriteria.IssuanceCriteria.*;
+import static edu.gatech.gtri.trustmark.v1_0.issuanceCriteria.IssuanceCriteriaData.*;
 
 /**
  * Created by Nicholas on 9/6/2016.
@@ -659,10 +654,24 @@ public final class BulkReadRawData {
 
     private boolean shouldIncludeTerm(Term term, RawArtifact artifact) {
         if (artifact.termsInclude.size() > 0) {
-            return artifact.termsInclude.contains(term.getName().toLowerCase());
+            return artifact.termsInclude.contains(term.getName().toLowerCase()) ||
+                    (term.getAbbreviations()
+                            .stream()
+                            .map(String::toLowerCase)
+                            .distinct()
+                            .filter(artifact.termsInclude::contains)
+                            .filter(StringUtils::isNotEmpty)
+                            .collect(Collectors.toList()).size() > 0);
         }
         if (artifact.termsExclude.size() > 0) {
-            return !artifact.termsExclude.contains(term.getName().toLowerCase());
+            return !artifact.termsExclude.contains(term.getName().toLowerCase()) &&
+                    (term.getAbbreviations()
+                            .stream()
+                            .map(String::toLowerCase)
+                            .distinct()
+                            .filter(artifact.termsExclude::contains)
+                            .filter(StringUtils::isNotEmpty)
+                            .collect(Collectors.toList()).size() == 0);
         }
 
         // If they give us nothing, it's like giving us termsInclude = []
@@ -770,8 +779,9 @@ public final class BulkReadRawData {
         }
 
         // Issuance Criteria
-        String issuanceCriteria = resolveIssuanceCriteria(metadata, parsedTd.getAssessmentSteps());
-        parsedTd.setIssuanceCriteria(issuanceCriteria);
+        String issuanceCriteriaString = resolveIssuanceCriteria(metadata, parsedTd.getAssessmentSteps());
+
+        parsedTd.setIssuanceCriteria(issuanceCriteriaString);
 
         return parsedTd;
     }
@@ -780,7 +790,7 @@ public final class BulkReadRawData {
         // Taken from TrustmarkDefinitionXmlDeserializer's method of deserializing Supersedes comments
         TrustmarkFrameworkIdentifiedObjectImpl tmfio = new TrustmarkFrameworkIdentifiedObjectImpl();
         tmfio.setIdentifier(new URI(trustmarkFrameworkIdentifiedObjectUri));
-        tmfio.setTypeName("TrustmarkDefinitionReference");
+        tmfio.setTypeName(TrustmarkFrameworkIdentifiedObject.TYPE_NAME_TRUSTMARK_DEFINITION_REFERENCE);
         return tmfio;
     }
 
@@ -936,6 +946,8 @@ public final class BulkReadRawData {
         String issuanceCriteria = metadata.issuanceCriteria.trim();
         logger.debug("    Resolving step names to IDs in issuance criteria: [" + issuanceCriteria + "]");
 
+        List<String> usedAssesmentStepsNames = new ArrayList<>();
+
         StringBuffer resolvedIssanceCriteria = new StringBuffer();
         Matcher m = STEP_REFERENCE_PATTERN.matcher(issuanceCriteria);
         while (m.find()) {
@@ -948,6 +960,9 @@ public final class BulkReadRawData {
                 if (step.getName().equalsIgnoreCase(stepReference)) {
                     //stepId = "Step" + step.getNumber();
                     stepId = step.getId();
+
+                    usedAssesmentStepsNames.add(step.getName().toUpperCase());
+
                     break;
                 }
             }
@@ -971,8 +986,11 @@ public final class BulkReadRawData {
                     closestDistance = distance;
                 }
             }
+
             String errorMessage = String.format(
-                    "Could not find Step[%s] as referenced from TD[%s] in File[%s], Line #%s. Closest match was: [%s]",
+                    "Could not find Step [%s] as referenced from TD: [%s] in <br/> " +
+                            "File Name: [%s], Line #%s. <br/> " +
+                            "Closest TD match was: [%s].",
                     stepReference,
                     metadata.name,
                     metadata.excelFile,
@@ -983,7 +1001,69 @@ public final class BulkReadRawData {
             throw new UnsupportedOperationException(errorMessage);
         }
         m.appendTail(resolvedIssanceCriteria);
-        return resolvedIssanceCriteria.toString();
+
+        String resolvedIssanceCriteriaString = resolvedIssanceCriteria.toString();
+
+        IssuanceCriteriaStringParser issuanceCriteriaStringParser =
+                (new IssuanceCriteriaStringParserFactoryImpl()).createDefaultParser();
+
+        IssuanceCriteria<IssuanceCriteriaData> issuanceCriteriaParsed = null;
+
+        try {
+            issuanceCriteriaParsed = issuanceCriteriaStringParser.parse(resolvedIssanceCriteriaString);
+        } catch (org.jparsec.error.ParserException pe) {
+            String errorMessage = String.format(
+                    "Could not parse Issuance Criteria Expression in TD: [%s] in <br/>" +
+                            "File Name: [%s], Line #%s.<br/>" +
+                            "Invalid Issuance Criteria Expression: [<b>%s</b>]<br/>",
+                    metadata.name,
+                    metadata.excelFile,
+                    metadata.rowIndex,
+                    resolvedIssanceCriteriaString);
+            logger.error("**** ERROR - " + errorMessage);
+            throw new UnsupportedOperationException(errorMessage);
+        }
+
+        //TODO see TestIssuanceCriteriaParserFactoryJParsec
+        if(issuanceCriteriaParsed != null &&
+                !issuanceCriteriaParsed.equals(yes(terminal(dataLiteralAll()), dataNonTerminal())) &&
+                !issuanceCriteriaParsed.equals(no(terminal(dataLiteralAll()), dataNonTerminal())) &&
+                !issuanceCriteriaParsed.equals(na(terminal(dataLiteralAll()), dataNonTerminal())) &&
+                !issuanceCriteriaParsed.equals(yes(terminal(dataLiteralNone()), dataNonTerminal())) &&
+                !issuanceCriteriaParsed.equals(no(terminal(dataLiteralNone()), dataNonTerminal())) &&
+                !issuanceCriteriaParsed.equals(na(terminal(dataLiteralNone()), dataNonTerminal()))){
+            List<String> assesmentStepsNames = new ArrayList<>();
+            assessmentSteps.forEach(assessmentStep -> {
+                assesmentStepsNames.add(assessmentStep.getName().toUpperCase());
+            });
+
+            assesmentStepsNames.removeAll(usedAssesmentStepsNames);
+
+            if(assesmentStepsNames.size() > 0
+                && !issuanceCriteriaParsed.equals(yes(terminal(dataReferenceIdentifierRange(assessmentSteps.get(0).getId(),
+                    assessmentSteps.get(assessmentSteps.size()-1).getId())), dataNonTerminal()))
+                && !issuanceCriteriaParsed.equals(no(terminal(dataReferenceIdentifierRange(assessmentSteps.get(0).getId(),
+                    assessmentSteps.get(assessmentSteps.size()-1).getId())), dataNonTerminal()))
+                && !issuanceCriteriaParsed.equals(na(terminal(dataReferenceIdentifierRange(assessmentSteps.get(0).getId(),
+                    assessmentSteps.get(assessmentSteps.size()-1).getId())), dataNonTerminal()))
+            ){
+                String errorMessage = String.format(
+                        "Not all assertion steps are used in Issuance Criteria in TD: [%s] in <br/>" +
+                                "File Name: [%s], Line #[%s]. <br/> " +
+                                "Listed Issuance Criteria(s): [ %s ]. <br/> " +
+                                "Missing step(s): [ %s ].",
+                        metadata.name,
+                        metadata.excelFile,
+                        metadata.rowIndex,
+                        String.join(", ", usedAssesmentStepsNames),
+                        String.join(", ", assesmentStepsNames));
+                logger.error("**** ERROR - " + errorMessage);
+                throw new UnsupportedOperationException(errorMessage);
+            }
+
+        }
+
+        return resolvedIssanceCriteriaString;
     }
 
 
@@ -1206,7 +1286,8 @@ public final class BulkReadRawData {
                     TrustmarkDefinitionRequirementImpl referencedTd = this.findReferencedTd(referencedTdName, rawTip);
                     if (referencedTd.getIdentifier() == null && referencedTd.getName() == null) {
                         String errorMsssage = String.format(
-                                "Could not find a reference for TD: [%s] as referenced from TIP: [%s] in File: [%s], Line #%s.",
+                                "Could not find a reference for TD: [%s] as referenced from TIP: [%s] in <br/>" +
+                                        "File Name: [%s], Line #%s.",
                                 referencedTdName,
                                 rawTip.name,
                                 rawTip.excelFile,
@@ -1279,14 +1360,13 @@ public final class BulkReadRawData {
                     trustExpressionStringParser.parse(te);
         } catch (org.jparsec.error.ParserException pe) {
             String errorMsssage = String.format(
-                    "Could not parse Trust Expression in TIP: [%s] in File: [%s], Line #%s.<br/>" +
-                            "Trust Expression: <b>%s</b><br/>" +
-                            "Parse Exception: <i>%s</i>",
+                    "Could not parse Trust Expression in TIP: [%s] in <br/>" +
+                            "File Name: [%s], Line #%s.<br/>" +
+                            "Invalid Trust Expression: <b>%s</b><br/>",
                     rawTip.name,
                     rawTip.excelFile,
                     rawTip.rowIndex,
-                    te,
-                    pe.getLocalizedMessage().split(", edu.gatech")[0]);
+                    te); //pe.getLocalizedMessage().split(", edu.gatech")[0]
             logger.error("**** ERROR - " + errorMsssage);
             exceptionList.add(new TrustInteroperabilityProfileSyntaxException(
                     errorMsssage, rawTip.excelFile));
@@ -1428,7 +1508,9 @@ public final class BulkReadRawData {
         }
         RawArtifact closestMatchArtifact = closestMatch == null ? null : rawArtifactGetterFromRawObject.apply(closestMatch);
         String errorMessage = String.format(
-                "Could not find a reference for %s: [%s] as referenced from TIP: [%s] in File: [%s], Line #%s. Closest match was: [%s]",
+                "Could not find a reference for [%s]: [%s] as referenced from TIP: [%s] in <br/> " +
+                        "File Name: [%s], Line #[%s]. <br/> " +
+                        "Closest match was: [%s]",
                 closestMatch == null ? "" : closestMatchArtifact.getArtifactAbbr(),
                 referencedArtifactName,
                 referencingTip.name,

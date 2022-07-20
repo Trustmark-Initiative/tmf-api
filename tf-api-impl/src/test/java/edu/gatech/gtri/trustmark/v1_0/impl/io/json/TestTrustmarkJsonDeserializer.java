@@ -3,7 +3,7 @@ package edu.gatech.gtri.trustmark.v1_0.impl.io.json;
 import edu.gatech.gtri.trustmark.v1_0.impl.AbstractTest;
 import edu.gatech.gtri.trustmark.v1_0.model.Trustmark;
 import org.apache.commons.io.FileUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 

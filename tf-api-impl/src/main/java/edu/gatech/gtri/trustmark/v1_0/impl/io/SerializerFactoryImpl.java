@@ -1,19 +1,23 @@
 package edu.gatech.gtri.trustmark.v1_0.impl.io;
 
+import edu.gatech.gtri.trustmark.v1_0.impl.io.html.SerializerHtml;
+import edu.gatech.gtri.trustmark.v1_0.impl.io.html.SerializerHtmlEditor;
 import edu.gatech.gtri.trustmark.v1_0.impl.io.json.SerializerJson;
+import edu.gatech.gtri.trustmark.v1_0.impl.io.pdf.SerializerPdf;
 import edu.gatech.gtri.trustmark.v1_0.impl.io.xml.SerializerXml;
 import edu.gatech.gtri.trustmark.v1_0.io.MediaType;
 import edu.gatech.gtri.trustmark.v1_0.io.Serializer;
 import edu.gatech.gtri.trustmark.v1_0.io.SerializerFactory;
 
-/**
- * Created by brad on 12/15/15.
- */
+import static java.util.Objects.requireNonNull;
+
 public class SerializerFactoryImpl implements SerializerFactory {
 
-
     @Override
-    public Serializer getSerializer(String contentType) {
+    public Serializer getSerializer(final String contentType) {
+
+        requireNonNull(contentType);
+
         if (contentType.trim().equalsIgnoreCase(MediaType.APPLICATION_JSON.getMediaType())) {
 
             return getJsonSerializer();
@@ -53,7 +57,7 @@ public class SerializerFactoryImpl implements SerializerFactory {
 
     @Override
     public Serializer getHtmlEditorSerializer() {
-        return new SerializerHtmlEditors();
+        return new SerializerHtmlEditor();
     }
 
     @Override

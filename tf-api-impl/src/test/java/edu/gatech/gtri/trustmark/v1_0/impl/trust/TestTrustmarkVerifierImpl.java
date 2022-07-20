@@ -7,8 +7,8 @@ import edu.gatech.gtri.trustmark.v1_0.io.TrustmarkStatusReportResolver;
 import edu.gatech.gtri.trustmark.v1_0.model.Trustmark;
 import edu.gatech.gtri.trustmark.v1_0.trust.TrustmarkVerifier;
 import edu.gatech.gtri.trustmark.v1_0.trust.TrustmarkVerifierFactory;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -18,7 +18,7 @@ import static org.gtri.fj.data.List.arrayList;
 
 public class TestTrustmarkVerifierImpl {
 
-    @Ignore
+    @Disabled
     @Test
     public void test() throws ResolveException, URISyntaxException {
 

@@ -16,7 +16,6 @@ import static edu.gatech.gtri.trustmark.v1_0.impl.io.xml.XmlDeserializerUtility.
 import static edu.gatech.gtri.trustmark.v1_0.impl.io.xml.XmlDeserializerUtility.getString;
 import static edu.gatech.gtri.trustmark.v1_0.impl.io.xml.XmlDeserializerUtility.getUri;
 import static edu.gatech.gtri.trustmark.v1_0.impl.io.xml.XmlDeserializerUtility.readExtension;
-import static edu.gatech.gtri.trustmark.v1_0.io.MediaType.TEXT_XML;
 import static java.lang.String.format;
 import static java.util.Objects.requireNonNull;
 
@@ -46,15 +45,13 @@ public class TrustmarkStatusReportXmlDeserializer implements XmlDeserializer<Tru
 
         }
 
-        return fromDom4j(element, xml, uri);
+        return fromDom4j(element, uri);
     }
 
-    public static TrustmarkStatusReport fromDom4j(final Element element, final String originalSource, final URI uri) throws ParseException {
+    public static TrustmarkStatusReport fromDom4j(final Element element, final URI uri) throws ParseException {
 
         final TrustmarkStatusReportImpl trustmarkStatusReport = new TrustmarkStatusReportImpl();
 
-        trustmarkStatusReport.setOriginalSource(originalSource);
-        trustmarkStatusReport.setOriginalSourceType(TEXT_XML.getMediaType());
         trustmarkStatusReport.setId(getString(element, "./@tf:id", true));
 
         trustmarkStatusReport.setTrustmarkReference(getUri(element, "./tf:TrustmarkReference/tf:Identifier", true));

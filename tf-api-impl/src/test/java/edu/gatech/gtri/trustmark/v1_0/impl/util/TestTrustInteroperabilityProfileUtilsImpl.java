@@ -9,9 +9,8 @@ import edu.gatech.gtri.trustmark.v1_0.util.TipTreeNode;
 import edu.gatech.gtri.trustmark.v1_0.util.TrustInteroperabilityProfileUtils;
 import edu.gatech.gtri.trustmark.v1_0.util.diff.TrustInteroperabilityProfileDiffResult;
 import edu.gatech.gtri.trustmark.v1_0.util.diff.TrustInteroperabilityProfileDiffType;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.net.URI;
@@ -22,6 +21,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.notNullValue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * Created by brad on 4/12/16.
@@ -42,7 +42,7 @@ public class TestTrustInteroperabilityProfileUtilsImpl extends AbstractTest {
     }
 
     @Test
-    @Ignore
+    @Disabled
     public void testTreeDownload() throws Exception {
         TipTreeNode treeNode = getUtils().buildTipTree(new URI("https://cjis.trustmarkinitiative.org/lib/trust-interoperability-profiles/nist-800-63-loa-3-profile/1.0/"));
     }
@@ -118,7 +118,7 @@ public class TestTrustInteroperabilityProfileUtilsImpl extends AbstractTest {
     private void assertContains(Collection<TrustInteroperabilityProfileDiffResult> results, TrustInteroperabilityProfileDiffType type, String locationRegex, String descriptionRegex) {
         try {
             if (results == null || results.size() == 0)
-                Assert.fail("Expecting TIP Diff results to contain Type[" + type + "], Location[" + locationRegex + "], Description[" + descriptionRegex + "] - but the results are empty!");
+                fail("Expecting TIP Diff results to contain Type[" + type + "], Location[" + locationRegex + "], Description[" + descriptionRegex + "] - but the results are empty!");
 
             boolean found = false;
             for (TrustInteroperabilityProfileDiffResult result : results) {
@@ -128,11 +128,11 @@ public class TestTrustInteroperabilityProfileUtilsImpl extends AbstractTest {
                 }
             }
             if (!found)
-                Assert.fail("Expecting TIP Diff results to contain Type[" + type + "], Location[" + locationRegex + "], Description[" + descriptionRegex + "] - but the result was not found!");
+                fail("Expecting TIP Diff results to contain Type[" + type + "], Location[" + locationRegex + "], Description[" + descriptionRegex + "] - but the result was not found!");
 
         } catch (Exception t) {
             logger.error("Error evaluating assertContains()!", t);
-            Assert.fail("Error evaluating assertContains(): " + t.toString());
+            fail("Error evaluating assertContains(): " + t.toString());
         }
     }
 

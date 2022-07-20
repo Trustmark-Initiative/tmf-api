@@ -1,157 +1,108 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-
     <modelVersion>4.0.0</modelVersion>
-
     <parent>
         <groupId>edu.gatech.gtri.trustmark</groupId>
-        <artifactId>tf-api-parent</artifactId>
-        <version>1.4.25</version>
+        <artifactId>tf-api-maven</artifactId>
+        <version>1.4.35</version>
+        <relativePath>../tf-api-maven</relativePath>
     </parent>
     <artifactId>tf-api-impl</artifactId>
-    <version>1.4.37</version>
+    <version>1.4.54</version>
     <packaging>jar</packaging>
-
-    <properties>
-        <junit.version>4.13.1</junit.version>
-        <tf.api.version>1.4.25</tf.api.version>
-    </properties>
-
     <dependencies>
-
-        <!-- Alternative to hibernate for dao.* packages -->
         <dependency>
-            <!-- http://ormlite.com/ -->
             <groupId>com.j256.ormlite</groupId>
             <artifactId>ormlite-core</artifactId>
-            <version>6.1</version>
         </dependency>
         <dependency>
             <groupId>com.j256.ormlite</groupId>
             <artifactId>ormlite-jdbc</artifactId>
-            <version>6.1</version>
         </dependency>
-        <!-- / For testing database caching in *.dao.* packages. -->
-
         <dependency>
             <groupId>com.sun.mail</groupId>
             <artifactId>jakarta.mail</artifactId>
-            <version>1.6.4</version>
         </dependency>
-
         <dependency>
             <groupId>commons-codec</groupId>
             <artifactId>commons-codec</artifactId>
-            <version>1.11</version>
         </dependency>
-
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
-            <version>2.7</version>
         </dependency>
-
         <dependency>
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
-            <version>2.6</version>
         </dependency>
-
-        <!-- For the expression language -->
         <dependency>
             <groupId>de.odysseus.juel</groupId>
             <artifactId>juel-api</artifactId>
-            <version>2.2.7</version>
         </dependency>
-
         <dependency>
             <groupId>de.odysseus.juel</groupId>
             <artifactId>juel-impl</artifactId>
-            <version>2.2.7</version>
         </dependency>
-
         <dependency>
             <groupId>edu.gatech.gtri.trustmark</groupId>
             <artifactId>tf-api</artifactId>
-            <version>1.4.25</version>
         </dependency>
         <dependency>
             <groupId>javax.xml.bind</groupId>
             <artifactId>jaxb-api</artifactId>
-            <version>2.3.1</version>
         </dependency>
-
         <dependency>
             <groupId>org.antlr</groupId>
             <artifactId>antlr4</artifactId>
-            <version>4.5</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-collections4</artifactId>
-            <version>4.1</version>
         </dependency>
-
-        <!--	FOr JSON Web Signature	-->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-pool2</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.bitbucket.b_c</groupId>
             <artifactId>jose4j</artifactId>
-            <version>0.7.2</version>
         </dependency>
         <dependency>
             <groupId>org.bouncycastle</groupId>
             <artifactId>bcpkix-jdk15on</artifactId>
-            <version>1.69</version>
         </dependency>
-
         <dependency>
             <groupId>org.bouncycastle</groupId>
             <artifactId>bcprov-jdk15on</artifactId>
-            <version>1.69</version>
         </dependency>
-        <!-- /For the expression language -->
-
         <dependency>
             <groupId>org.dom4j</groupId>
             <artifactId>dom4j</artifactId>
-            <version>2.1.3</version>
         </dependency>
-
-        <!-- For rendering HTML from TMF Artifacts -->
         <dependency>
             <groupId>org.freemarker</groupId>
             <artifactId>freemarker</artifactId>
-            <version>2.3.23</version>
         </dependency>
         <dependency>
             <groupId>org.gtri.functionaljava</groupId>
             <artifactId>functionaljava</artifactId>
-            <version>4.10.1-GTRI</version>
         </dependency>
-
-        <!-- for trust expression parser -->
         <dependency>
             <groupId>org.jparsec</groupId>
             <artifactId>jparsec</artifactId>
-            <version>3.1</version>
         </dependency>
-
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
-            <version>20190722</version>
         </dependency>
         <dependency>
             <groupId>org.kohsuke.metainf-services</groupId>
             <artifactId>metainf-services</artifactId>
-            <version>1.8</version>
         </dependency>
         <dependency>
             <groupId>org.skyscreamer</groupId>
             <artifactId>jsonassert</artifactId>
-            <version>1.5.0</version>
             <exclusions>
-                <!-- Added by SBL 2018-03-22: This is some kind of bastardized org.json library that doesn't work properly.  Since we have the real one, we use it instead.  I was bitten bad by this one. -->
                 <exclusion>
                     <groupId>com.vaadin.external.google</groupId>
                     <artifactId>android-json</artifactId>
@@ -159,113 +110,83 @@
             </exclusions>
         </dependency>
         <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+        <dependency>
             <groupId>net.sf.jtidy</groupId>
             <artifactId>jtidy</artifactId>
-            <version>r938</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>net.sf.saxon</groupId>
             <artifactId>Saxon-HE</artifactId>
-            <version>9.7.0-15</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi</artifactId>
-            <version>4.1.2</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi-ooxml</artifactId>
-            <version>4.1.2</version>
             <scope>provided</scope>
         </dependency>
-
-        <!-- For rendering PDF from TMF Artifacts -->
         <dependency>
+            <!-- For rendering PDF from TMF Artifacts -->
             <groupId>org.apache.xmlgraphics</groupId>
             <artifactId>fop</artifactId>
-            <version>2.2</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <!-- For rendering PDF from TMF Artifacts -->
             <groupId>org.apache.xmlgraphics</groupId>
             <artifactId>fop-pdf-images</artifactId>
-            <version>2.2</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.codehaus.groovy</groupId>
-            <artifactId>groovy-all</artifactId>
-            <version>2.4.14</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>jaxen</groupId>
             <artifactId>jaxen</artifactId>
-            <version>1.1.6</version>
             <scope>runtime</scope>
         </dependency>
-
-        <!-- For testing database caching in *.dao.* packages. -->
-        <!-- https://mvnrepository.com/artifact/com.h2database/h2 -->
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <version>2.0.204</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.20</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>nl.jqno.equalsverifier</groupId>
             <artifactId>equalsverifier</artifactId>
-            <version>3.6</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j-impl</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-all</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
-            <version>RELEASE</version>
             <scope>test</scope>
         </dependency>
-
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-params</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
-
     <build>
-
         <resources>
             <resource>
                 <filtering>true</filtering>
                 <directory>${basedir}/src/main/resources</directory>
             </resource>
         </resources>
-
-        <plugins>
-
-            <plugin>
-                <groupId>org.antlr</groupId>
-                <artifactId>antlr4-maven-plugin</artifactId>
-                <version>4.5</version>
-                <executions>
-                    <execution>
-                        <id>antlr</id>
-                        <goals>
-                            <goal>antlr4</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-        </plugins>
-
     </build>
-
 </project>

@@ -1,6 +1,5 @@
 package edu.gatech.gtri.trustmark.v1_0.impl.antlr;
 
-import edu.gatech.gtri.trustmark.v1_0.impl.AbstractTest;
 import edu.gatech.gtri.trustmark.v1_0.impl.model.AssessmentStepResultImpl;
 import edu.gatech.gtri.trustmark.v1_0.model.AssessmentStepResult;
 import edu.gatech.gtri.trustmark.v1_0.model.AssessmentStepResultType;
@@ -8,61 +7,55 @@ import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Stream;
 
-import static org.hamcrest.Matchers.*;
-import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 
 /**
- * A {@link Parameterized} test which will run all test cases for the Issuance Criteria grammar found in the JSON files defined
- * by the private static testFiles member.
- * <br/><br/>
- * Created by brad on 4/28/16.
+ * A {@link Parameterized} test which will run all test cases for the Issuance
+ * Criteria grammar found in the JSON files defined by the private static
+ * testFiles member. <br/><br/> Created by brad on 4/28/16.
  */
-@RunWith(Parameterized.class)
 public class TestIssuanceCriteriaAntlrGrammar extends AbstractAntlrGrammarTest {
-
-    private Map data;
-    public TestIssuanceCriteriaAntlrGrammar(Map data, String name) {
-        this.data = data;
-    }
 
     public static final String base = buildPath(".", "src", "test", "resources", "TDs", "issuanceCriteria");
     public static final String[] testFiles = new String[]{
-        base+File.separator+"simple_predicate_only_tests.json",
-        base+File.separator+"andOr_tests.json",
-        base+File.separator+"not_tests.json",
-        base+File.separator+"real_world.json"
+            base + File.separator + "simple_predicate_only_tests.json",
+            base + File.separator + "andOr_tests.json",
+            base + File.separator + "not_tests.json",
+            base + File.separator + "real_world.json"
     };
 
-    @Parameterized.Parameters(name = "{index} {1}")
-    public static Collection<Object[]> data() throws Exception {
+    public static Stream<Arguments> data() throws Exception {
         List<Object[]> data = new ArrayList<>();
-        for( String testFilePath : testFiles ){
+        for (String testFilePath : testFiles) {
             File testFile = new File(testFilePath);
             JSONObject jsonObject = readJsonFile(testFile);
             JSONArray resultSet = jsonObject.optJSONArray("resultSet");
-            if( resultSet == null )
+            if (resultSet == null)
                 throw new UnsupportedOperationException("Invalid test set!  No JSONArray named 'resultSet' in file.");
             List<AssessmentStepResult> results = new ArrayList<>();
-            for( int i = 0; i < resultSet.length(); i++ ){
+            for (int i = 0; i < resultSet.length(); i++) {
                 JSONObject result = resultSet.optJSONObject(i);
                 results.add(toResultImpl(result, i));
             }
 
 
             JSONArray testSet = jsonObject.optJSONArray("testSet");
-            if( testSet == null )
+            if (testSet == null)
                 throw new UnsupportedOperationException("Expecting testSet, but no JSONArray named 'testSet' found in file");
 
-            for( int i = 0; i < testSet.length(); i++ ) {
+            for (int i = 0; i < testSet.length(); i++) {
                 JSONObject testObj = testSet.getJSONObject(i);
                 String expression = testObj.getString("expression");
                 Boolean hasError = testObj.optBoolean("hasError", false);
@@ -72,26 +65,26 @@ public class TestIssuanceCriteriaAntlrGrammar extends AbstractAntlrGrammarTest {
                 curData.put("expression", expression);
                 curData.put("hasError", hasError);
                 curData.put("satisfies", satisfies);
-                data.add(new Object[]{curData, testFile.getName()+" #"+(i+1)});
+                data.add(new Object[]{curData, testFile.getName() + " #" + (i + 1)});
             }
         }
 
-        return data;
+        return data.stream().map(objectArray -> () -> objectArray);
     }
 
-    private static AssessmentStepResultImpl toResultImpl(JSONObject json, Integer index){
+    private static AssessmentStepResultImpl toResultImpl(JSONObject json, Integer index) {
         AssessmentStepResultImpl resultImpl = new AssessmentStepResultImpl();
-        if( json.optString("id", null) != null )
+        if (json.optString("id", null) != null)
             resultImpl.setAssessmentStepId(json.optString("id"));
         else
-            resultImpl.setAssessmentStepId("step"+(index+1));
+            resultImpl.setAssessmentStepId("step" + (index + 1));
 
-        if( json.optInt("number", -1) != -1 )
+        if (json.optInt("number", -1) != -1)
             resultImpl.setAssessmentStepNumber(json.optInt("number"));
         else
             resultImpl.setAssessmentStepNumber(index + 1);
 
-        if( json.optString("result", null) != null )
+        if (json.optString("result", null) != null)
             resultImpl.setResult(AssessmentStepResultType.fromString(json.optString("result")));
         else
             resultImpl.setResult(AssessmentStepResultType.UNKNOWN);
@@ -99,15 +92,15 @@ public class TestIssuanceCriteriaAntlrGrammar extends AbstractAntlrGrammarTest {
         return resultImpl;
     }
 
+    @ParameterizedTest(name = "{index} {1}")
+    @MethodSource("data")
+    public void testIssuanceCriteria(Map<Object, Object> data) throws Exception {
+        String expression = (String) data.get("expression");
+        Boolean hasError = (Boolean) data.get("hasError");
+        Boolean satisfies = (Boolean) data.get("satisfies");
+        List<AssessmentStepResult> results = (List) data.get("results");
 
-    @Test
-    public void testIssuanceCriteria() throws Exception{
-        String expression = (String) this.data.get("expression");
-        Boolean hasError = (Boolean) this.data.get("hasError");
-        Boolean satisfies = (Boolean) this.data.get("satisfies");
-        List<AssessmentStepResult> results = (List) this.data.get("results");
-
-        logger.debug("Testing expression: "+expression);
+        logger.debug("Testing expression: " + expression);
         IssuanceCriteriaExpressionEvaluator evaluator = new IssuanceCriteriaExpressionEvaluator(expression, results);
         ANTLRInputStream input = new ANTLRInputStream(expression);
         IssuanceCriteriaLexer lexer = new IssuanceCriteriaLexer(input);
@@ -117,16 +110,13 @@ public class TestIssuanceCriteriaAntlrGrammar extends AbstractAntlrGrammarTest {
         parser.addParseListener(evaluator);
         parser.issuanceCriteriaExpression();
 
-        if( hasError ){
+        if (hasError) {
             assertThat("Asserting error state", evaluator.isHasError(), equalTo(true));
-        }else{
+        } else {
             assertThat("Asserting that satisfies matches", evaluator.getSatisfied(), equalTo(satisfies));
 
         }
 
-        logger.info("Evaluator returned: "+evaluator.getSatisfied());
+        logger.info("Evaluator returned: " + evaluator.getSatisfied());
     }//end testIssuanceCriteriaAntlrGrammar()
-
-
-
 }

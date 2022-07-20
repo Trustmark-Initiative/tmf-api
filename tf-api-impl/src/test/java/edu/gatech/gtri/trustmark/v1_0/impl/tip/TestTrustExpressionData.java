@@ -8,7 +8,8 @@ import edu.gatech.gtri.trustmark.v1_0.tip.TrustExpressionData.TrustExpressionDat
 import edu.gatech.gtri.trustmark.v1_0.tip.TrustExpressionData.TrustExpressionDataReference.TrustExpressionDataReferenceTrustmarkDefinitionParameter;
 import edu.gatech.gtri.trustmark.v1_0.tip.TrustExpressionData.TrustExpressionDataReference.TrustExpressionDataReferenceTrustmarkDefinitionRequirementOrTrustInteroperabilityProfile;
 import nl.jqno.equalsverifier.EqualsVerifier;
-import org.junit.Test;
+import nl.jqno.equalsverifier.Warning;
+import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -20,8 +21,8 @@ import static edu.gatech.gtri.trustmark.v1_0.tip.TrustExpressionData.dataLiteral
 import static edu.gatech.gtri.trustmark.v1_0.tip.TrustExpressionData.dataNonTerminal;
 import static edu.gatech.gtri.trustmark.v1_0.tip.TrustExpressionData.dataReferenceTrustmarkDefinitionParameter;
 import static edu.gatech.gtri.trustmark.v1_0.tip.TrustExpressionData.dataReferenceTrustmarkDefinitionRequirement;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TestTrustExpressionData {
@@ -126,6 +127,7 @@ public class TestTrustExpressionData {
 
         EqualsVerifier
                 .forClass(TrustExpressionDataLiteralDecimal.class)
+                .suppress(Warning.BIGDECIMAL_EQUALITY)
                 .withNonnullFields("value")
                 .verify();
 

@@ -7,7 +7,7 @@ import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkFrameworkIdentifiedObject;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkParameterBinding;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkStatusCode;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkStatusReport;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.net.MalformedURLException;
 import java.net.URI;
@@ -179,16 +179,6 @@ public class TestTrustmarkVerifierFailure {
 
             @Override
             public String getNotes() {
-                return null;
-            }
-
-            @Override
-            public String getOriginalSource() {
-                return null;
-            }
-
-            @Override
-            public String getOriginalSourceType() {
                 return null;
             }
         }));

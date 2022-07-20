@@ -1,7 +1,6 @@
 package edu.gatech.gtri.trustmark.v1_0.impl.io.json;
 
 import edu.gatech.gtri.trustmark.v1_0.FactoryLoader;
-import edu.gatech.gtri.trustmark.v1_0.io.MediaType;
 import edu.gatech.gtri.trustmark.v1_0.io.ParseException;
 import edu.gatech.gtri.trustmark.v1_0.io.ResolveException;
 import edu.gatech.gtri.trustmark.v1_0.io.TrustmarkBindingRegistryOrganizationTrustmarkMapResolver;
@@ -17,18 +16,19 @@ import org.slf4j.LoggerFactory;
 
 import java.net.URI;
 
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.JsonDeserializerUtility.readJSONObject;
 import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.JsonDeserializerUtility.readJSONObjectList;
 import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.JsonDeserializerUtility.readStringOption;
 import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.JsonDeserializerUtility.readURI;
 import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.JsonDeserializerUtility.readURIList;
 import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.JsonDeserializerUtility.readURIOption;
-import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.producers.TrustmarkBindingRegistryOrganizationMapJsonProducer.PROPERTY_NAME_DESCRIPTION;
-import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.producers.TrustmarkBindingRegistryOrganizationMapJsonProducer.PROPERTY_NAME_IDENTIFIER;
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.producers.TrustmarkBindingRegistryOrganizationJsonProducer.PROPERTY_NAME_DESCRIPTION;
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.producers.TrustmarkBindingRegistryOrganizationJsonProducer.PROPERTY_NAME_IDENTIFIER;
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.producers.TrustmarkBindingRegistryOrganizationJsonProducer.PROPERTY_NAME_NAME;
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.producers.TrustmarkBindingRegistryOrganizationJsonProducer.PROPERTY_NAME_NAME_LONG;
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.producers.TrustmarkBindingRegistryOrganizationJsonProducer.PROPERTY_NAME_TRUSTMARK_MAP;
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.producers.TrustmarkBindingRegistryOrganizationJsonProducer.PROPERTY_NAME_TRUSTMARK_RECIPIENT_IDENTIFIER_LIST;
 import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.producers.TrustmarkBindingRegistryOrganizationMapJsonProducer.PROPERTY_NAME_LIST;
-import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.producers.TrustmarkBindingRegistryOrganizationMapJsonProducer.PROPERTY_NAME_NAME;
-import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.producers.TrustmarkBindingRegistryOrganizationMapJsonProducer.PROPERTY_NAME_NAME_LONG;
-import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.producers.TrustmarkBindingRegistryOrganizationMapJsonProducer.PROPERTY_NAME_TRUSTMARK_MAP;
-import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.producers.TrustmarkBindingRegistryOrganizationMapJsonProducer.PROPERTY_NAME_TRUSTMARK_RECIPIENT_IDENTIFIER_LIST;
 import static java.util.Objects.requireNonNull;
 import static org.gtri.fj.data.TreeMap.iterableTreeMap;
 import static org.gtri.fj.lang.StringUtility.stringOrd;
@@ -49,7 +49,7 @@ public final class TrustmarkBindingRegistryOrganizationMapJsonDeserializer imple
 
         log.debug("Deserializing Trustmark Binding Registry Organization Map JSON . . .");
 
-        final List<JSONObject> jsonObjectList = readJSONObjectList(new JSONObject(jsonString), PROPERTY_NAME_LIST);
+        final List<JSONObject> jsonObjectList = readJSONObjectList(readJSONObject(jsonString), PROPERTY_NAME_LIST);
         final TreeMap<String, TrustmarkBindingRegistryOrganization> organizationMap = iterableTreeMap(stringOrd, jsonObjectList.mapException(TrustmarkBindingRegistryOrganizationMapJsonDeserializer::readTrustmarkBindingRegistryOrganization)
                 .groupBy(trustmarkBindingRegistryOrganization -> trustmarkBindingRegistryOrganization.getIdentifier().toString(), stringOrd)
                 .toList()
@@ -66,20 +66,10 @@ public final class TrustmarkBindingRegistryOrganizationMapJsonDeserializer imple
             public TreeMap<String, TrustmarkBindingRegistryOrganization> getOrganizationMap() {
                 return organizationMap;
             }
-
-            @Override
-            public String getOriginalSource() {
-                return jsonString;
-            }
-
-            @Override
-            public String getOriginalSourceType() {
-                return MediaType.APPLICATION_JSON.getMediaType();
-            }
         };
     }
 
-    private static final TrustmarkBindingRegistryOrganization readTrustmarkBindingRegistryOrganization(final JSONObject jsonObject) throws ParseException {
+    private static TrustmarkBindingRegistryOrganization readTrustmarkBindingRegistryOrganization(final JSONObject jsonObject) throws ParseException {
 
         final URI siteUrl = readURIOption(jsonObject, PROPERTY_NAME_IDENTIFIER).toNull();
         final String name = readStringOption(jsonObject, PROPERTY_NAME_NAME).toNull();
@@ -124,16 +114,6 @@ public final class TrustmarkBindingRegistryOrganizationMapJsonDeserializer imple
             @Override
             public TreeMap<URI, TrustmarkBindingRegistryOrganizationTrustmark> getOrganizationTrustmarkMap() {
                 return organizationTrustmarkMap.getTrustmarkMap();
-            }
-
-            @Override
-            public String getOriginalSource() {
-                return jsonObject.toString();
-            }
-
-            @Override
-            public String getOriginalSourceType() {
-                return MediaType.APPLICATION_JSON.getMediaType();
             }
         };
     }

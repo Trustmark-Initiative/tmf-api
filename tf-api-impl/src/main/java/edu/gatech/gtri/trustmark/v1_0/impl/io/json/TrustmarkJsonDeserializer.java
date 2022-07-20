@@ -2,7 +2,6 @@ package edu.gatech.gtri.trustmark.v1_0.impl.io.json;
 
 import edu.gatech.gtri.trustmark.v1_0.impl.model.TrustmarkImpl;
 import edu.gatech.gtri.trustmark.v1_0.impl.model.TrustmarkParameterBindingImpl;
-import edu.gatech.gtri.trustmark.v1_0.io.MediaType;
 import edu.gatech.gtri.trustmark.v1_0.io.ParseException;
 import edu.gatech.gtri.trustmark.v1_0.model.ParameterKind;
 import edu.gatech.gtri.trustmark.v1_0.model.Trustmark;
@@ -24,6 +23,7 @@ import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.JsonDeserializerUtilit
 import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.JsonDeserializerUtility.readTrustmarkDefinitionReference;
 import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.JsonDeserializerUtility.readURI;
 import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.JsonDeserializerUtility.readURL;
+import static edu.gatech.gtri.trustmark.v1_0.io.MediaType.APPLICATION_JSON;
 import static java.util.Objects.requireNonNull;
 
 
@@ -42,14 +42,14 @@ public final class TrustmarkJsonDeserializer implements JsonDeserializer<Trustma
 
         log.debug("Deserializing Trustmark JSON . . .");
 
-        final JSONObject jsonObject = new JSONObject(jsonString);
+        final JSONObject jsonObject = readJSONObject(jsonString);
 
         assertSupported(jsonObject);
 
         final TrustmarkImpl trustmark = new TrustmarkImpl();
 
         trustmark.setOriginalSource(jsonString);
-        trustmark.setOriginalSourceType(MediaType.APPLICATION_JSON.getMediaType());
+        trustmark.setOriginalSourceType(APPLICATION_JSON.getMediaType());
 
         trustmark.setExpirationDateTime(readDate(jsonObject, "ExpirationDateTime"));
         trustmark.setIdentifier(readURI(jsonObject, "Identifier"));

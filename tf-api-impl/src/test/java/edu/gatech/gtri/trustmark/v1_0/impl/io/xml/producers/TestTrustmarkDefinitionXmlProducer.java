@@ -11,7 +11,7 @@ import edu.gatech.gtri.trustmark.v1_0.io.SerializerFactory;
 import edu.gatech.gtri.trustmark.v1_0.io.xml.XmlManager;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkDefinition;
 import org.apache.commons.io.FileUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,7 +37,7 @@ public class TestTrustmarkDefinitionXmlProducer extends AbstractTest {
         logger.debug("Loading TrustmarkDefinition from file...");
         File jsonFile = new File(TD_FULL_FILE);
         String json = FileUtils.readFileToString(jsonFile);
-        TrustmarkDefinition td = new TrustmarkDefinitionJsonDeserializer().deserialize(json);
+        TrustmarkDefinition td = new TrustmarkDefinitionJsonDeserializer(true).deserialize(json);
         assertThat(td, notNullValue());
         assertTdFull(td);
         logger.debug("Successfully loaded td-full.json!");
@@ -58,7 +58,7 @@ public class TestTrustmarkDefinitionXmlProducer extends AbstractTest {
         logger.debug("Successfully produced XML: \n" + xml2);
         XmlHelper.validateXml(xml2);
 
-        TrustmarkDefinition td2 = new TrustmarkDefinitionXmlDeserializer().deserialize(xml2);
+        TrustmarkDefinition td2 = new TrustmarkDefinitionXmlDeserializer(true).deserialize(xml2);
         assertThat(td2, notNullValue());
 
         assertTdFull(td2);

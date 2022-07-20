@@ -1,96 +1,188 @@
 package edu.gatech.gtri.trustmark.v1_0.impl.io;
 
-import edu.gatech.gtri.trustmark.v1_0.FactoryLoader;
-import edu.gatech.gtri.trustmark.v1_0.io.*;
-import edu.gatech.gtri.trustmark.v1_0.model.TrustInteroperabilityProfile;
-import edu.gatech.gtri.trustmark.v1_0.model.Trustmark;
-import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkDefinition;
-import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkStatusReport;
+import edu.gatech.gtri.trustmark.v1_0.impl.io.json.TrustInteroperabilityProfileJsonDeserializer;
+import edu.gatech.gtri.trustmark.v1_0.impl.io.json.TrustmarkDefinitionJsonDeserializer;
+import edu.gatech.gtri.trustmark.v1_0.impl.io.json.TrustmarkJsonDeserializer;
+import edu.gatech.gtri.trustmark.v1_0.impl.io.json.TrustmarkStatusReportJsonDeserializer;
+import edu.gatech.gtri.trustmark.v1_0.impl.io.xml.TrustInteroperabilityProfileXmlDeserializer;
+import edu.gatech.gtri.trustmark.v1_0.impl.io.xml.TrustmarkDefinitionXmlDeserializer;
+import edu.gatech.gtri.trustmark.v1_0.impl.io.xml.TrustmarkStatusReportXmlDeserializer;
+import edu.gatech.gtri.trustmark.v1_0.impl.io.xml.TrustmarkXmlDeserializer;
+import edu.gatech.gtri.trustmark.v1_0.io.ArtifactIdentification;
+import edu.gatech.gtri.trustmark.v1_0.io.ArtifactIdentification.ArtifactType;
+import edu.gatech.gtri.trustmark.v1_0.io.ArtifactIdentificationHelper;
+import edu.gatech.gtri.trustmark.v1_0.io.MediaType;
+import edu.gatech.gtri.trustmark.v1_0.io.ParseException;
+import edu.gatech.gtri.trustmark.v1_0.io.ResolveException;
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.StringWriter;
 
-/**
- * Created by brad on 7/29/16.
- */
+import static java.lang.String.format;
+import static java.util.Objects.requireNonNull;
+
 public class ArtifactIdentificationHelperImpl implements ArtifactIdentificationHelper {
 
     private static final Logger log = LoggerFactory.getLogger(ArtifactIdentificationHelperImpl.class);
 
-    /**
-     * This particular implementation just tries to run the file through the various resolvers to see if one hits.  There
-     * is probably a more efficient way to do this, but it probably takes more code.
-     */
+    private static final TrustInteroperabilityProfileJsonDeserializer trustInteroperabilityProfileJsonDeserializer = new TrustInteroperabilityProfileJsonDeserializer(true);
+    private static final TrustInteroperabilityProfileXmlDeserializer trustInteroperabilityProfileXmlDeserializer = new TrustInteroperabilityProfileXmlDeserializer(true);
+
+    private static final TrustmarkJsonDeserializer trustmarkJsonDeserializer = new TrustmarkJsonDeserializer();
+    private static final TrustmarkXmlDeserializer trustmarkXmlDeserializer = new TrustmarkXmlDeserializer();
+
+    private static final TrustmarkStatusReportJsonDeserializer trustmarkStatusReportJsonDeserializer = new TrustmarkStatusReportJsonDeserializer();
+    private static final TrustmarkStatusReportXmlDeserializer trustmarkStatusReportXmlDeserializer = new TrustmarkStatusReportXmlDeserializer();
+
+    private static final TrustmarkDefinitionJsonDeserializer trustmarkDefinitionJsonDeserializer = new TrustmarkDefinitionJsonDeserializer(true);
+    private static final TrustmarkDefinitionXmlDeserializer trustmarkDefinitionXmlDeserializer = new TrustmarkDefinitionXmlDeserializer(true);
+
     @Override
-    public ArtifactIdentification getArtifactIdentification(File file) throws ResolveException {
-        TrustmarkResolver tmResolver = FactoryLoader.getInstance(TrustmarkResolver.class);
+    public ArtifactIdentification getArtifactIdentification(final File file) throws ResolveException {
+
         try {
-            Trustmark trustmark = tmResolver.resolve(file, false);
-            return new ArtifactIdentificationImpl(file, ArtifactIdentification.ArtifactType.TRUSTMARK, trustmark.getOriginalSourceType());
-        }catch(Exception e){
-            log.debug("File["+file.getPath()+"] is not a Trustmark: "+e.toString());
+            final StringWriter stringWriter = new StringWriter();
+            IOUtils.copy(new FileReader(file), stringWriter);
+            final String string = stringWriter.toString();
+
+            if (AbstractResolverUtility.isXml(string)) {
+                try {
+                    trustInteroperabilityProfileXmlDeserializer.deserialize(string, null);
+                    return new ArtifactIdentificationImpl(
+                            file,
+                            ArtifactType.TRUST_INTEROPERABILITY_PROFILE,
+                            MediaType.TEXT_XML.getMediaType());
+                } catch (final ParseException parseException) {
+                    log.debug(parseException.toString());
+                }
+
+                try {
+                    trustmarkXmlDeserializer.deserialize(string, null);
+                    return new ArtifactIdentificationImpl(
+                            file,
+                            ArtifactType.TRUSTMARK,
+                            MediaType.TEXT_XML.getMediaType());
+                } catch (final ParseException parseException) {
+                    log.debug(parseException.toString());
+                }
+
+                try {
+                    trustmarkStatusReportXmlDeserializer.deserialize(string, null);
+                    return new ArtifactIdentificationImpl(
+                            file,
+                            ArtifactType.TRUSTMARK_STATUS_REPORT,
+                            MediaType.TEXT_XML.getMediaType());
+                } catch (final ParseException parseException) {
+                    log.debug(parseException.toString());
+                }
+
+                try {
+                    trustmarkDefinitionXmlDeserializer.deserialize(string, null);
+                    return new ArtifactIdentificationImpl(
+                            file,
+                            ArtifactType.TRUSTMARK_DEFINITION,
+                            MediaType.TEXT_XML.getMediaType());
+                } catch (final ParseException parseException) {
+                    log.debug(parseException.toString());
+                }
+            } else if (AbstractResolverUtility.isJson(string)) {
+
+                try {
+                    trustInteroperabilityProfileJsonDeserializer.deserialize(string, null);
+                    return new ArtifactIdentificationImpl(
+                            file,
+                            ArtifactType.TRUST_INTEROPERABILITY_PROFILE,
+                            MediaType.APPLICATION_JSON.getMediaType());
+                } catch (final ParseException parseException) {
+                    log.debug(parseException.toString());
+                }
+
+                try {
+                    trustmarkJsonDeserializer.deserialize(string, null);
+                    return new ArtifactIdentificationImpl(
+                            file,
+                            ArtifactType.TRUSTMARK,
+                            MediaType.APPLICATION_JSON.getMediaType());
+                } catch (final ParseException parseException) {
+                    log.debug(parseException.toString());
+                }
+
+                try {
+                    trustmarkStatusReportJsonDeserializer.deserialize(string, null);
+                    return new ArtifactIdentificationImpl(
+                            file,
+                            ArtifactType.TRUSTMARK_STATUS_REPORT,
+                            MediaType.APPLICATION_JSON.getMediaType());
+                } catch (final ParseException parseException) {
+                    log.debug(parseException.toString());
+                }
+
+                try {
+                    trustmarkDefinitionJsonDeserializer.deserialize(string, null);
+                    return new ArtifactIdentificationImpl(
+                            file,
+                            ArtifactType.TRUSTMARK_DEFINITION,
+                            MediaType.APPLICATION_JSON.getMediaType());
+                } catch (final ParseException parseException) {
+                    log.debug(parseException.toString());
+                }
+            }
+        } catch (final FileNotFoundException fileNotFoundException) {
+            throw new ResolveException(fileNotFoundException);
+        } catch (final IOException ioException) {
+            throw new ResolveException(ioException);
         }
 
-        TrustmarkStatusReportResolver tmStatusReportResolver = FactoryLoader.getInstance(TrustmarkStatusReportResolver.class);
-        try {
-            TrustmarkStatusReport trustmarkStatusReport = tmStatusReportResolver.resolve(file);
-            return new ArtifactIdentificationImpl(file, ArtifactIdentification.ArtifactType.TRUSTMARK_STATUS_REPORT, trustmarkStatusReport.getOriginalSourceType());
-        }catch(Exception e){
-            log.debug("File["+file.getPath()+"] is not a Trustmark Status Report: "+e.toString());
-        }
-
-        TrustInteroperabilityProfileResolver tipResolver = FactoryLoader.getInstance(TrustInteroperabilityProfileResolver.class);
-        try {
-            TrustInteroperabilityProfile tip = tipResolver.resolve(file);
-            return new ArtifactIdentificationImpl(file, ArtifactIdentification.ArtifactType.TRUST_INTEROPERABILITY_PROFILE, tip.getOriginalSourceType());
-        }catch(Exception e){
-            log.debug("File["+file.getPath()+"] is not a Trust Interoperability Profile: "+e.toString());
-        }
-
-        TrustmarkDefinitionResolver tdResolver = FactoryLoader.getInstance(TrustmarkDefinitionResolver.class);
-        try {
-            TrustmarkDefinition td = tdResolver.resolve(file);
-            return new ArtifactIdentificationImpl(file, ArtifactIdentification.ArtifactType.TRUSTMARK_DEFINITION, td.getOriginalSourceType());
-        }catch(Exception e){
-            log.debug("File["+file.getPath()+"] is not a Trustmark Definition: "+e.toString());
-        }
-
-        // TODO Any other types to manually try?
-
-        throw new ResolveException("Could not resolve an artifact type for file: "+file.getPath());
+        throw new ResolveException(format("The system could not identify the type of the file: '%s'.", file.getAbsolutePath()));
     }
 
     private class ArtifactIdentificationImpl implements ArtifactIdentification {
-        private File file;
-        private ArtifactType type;
-        private String mimeType;
 
-        private ArtifactIdentificationImpl(File file, ArtifactType type, String mimeType){
+        private final File file;
+        private final ArtifactType artifactType;
+        private final String mimeType;
+
+        public ArtifactIdentificationImpl(
+                final File file,
+                final ArtifactType artifactType,
+                final String mimeType) {
+
+            requireNonNull(file);
+            requireNonNull(artifactType);
+            requireNonNull(mimeType);
+
             this.file = file;
-            this.type = type;
+            this.artifactType = artifactType;
             this.mimeType = mimeType;
         }
 
         @Override
         public File getFile() {
-            return this.file;
+            return file;
         }
 
-        @Override
         public ArtifactType getArtifactType() {
-            return this.type;
+            return artifactType;
         }
 
         @Override
         public String getMimeType() {
-            return this.mimeType;
+            return mimeType;
         }
 
+        @Override
         public String toString() {
-            return this.type.toString()+"["+this.getMimeType()+"]";
+            return "ArtifactIdentificationImpl{" +
+                    "file=" + file +
+                    ", type=" + artifactType +
+                    ", mimeType='" + mimeType + '\'' +
+                    '}';
         }
     }
-
-
 }

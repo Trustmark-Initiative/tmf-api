@@ -102,14 +102,14 @@ public class TipTreeNodeImpl implements TipTreeNode {
 
     @Override
     public boolean isTrustmarkDefinition() {
-        return getTmfi().getTypeName().equalsIgnoreCase("TrustmarkDefinition");
+        return getTmfi().getTypeName().equalsIgnoreCase(TYPE_NAME_TRUSTMARK_DEFINITION);
     }
 
     @Override
     public boolean isTrustInteropProfile() {
         if( getTmfi() != null ){
             if( getTmfi().getTypeName() != null ){
-                return getTmfi().getTypeName().equalsIgnoreCase("TrustInteroperabilityProfile");
+                return getTmfi().getTypeName().equalsIgnoreCase(TYPE_NAME_TRUST_INTEROPERABILITY_PROFILE);
             }else{
                 log.error("Tmfi TypeName is null!");
             }

@@ -3,7 +3,7 @@ package edu.gatech.gtri.trustmark.v1_0.impl.io.xml;
 import edu.gatech.gtri.trustmark.v1_0.impl.AbstractTest;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustInteroperabilityProfile;
 import org.apache.commons.io.FileUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 
@@ -23,7 +23,7 @@ public class TestTrustInteroperabilityProfileXmlDeserializer extends AbstractTes
 
         File xmlFile = new File(TIP_FULL_FILE);
         String xml = FileUtils.readFileToString(xmlFile);
-        TrustInteroperabilityProfile tip = new TrustInteroperabilityProfileXmlDeserializer().deserialize(xml);
+        TrustInteroperabilityProfile tip = new TrustInteroperabilityProfileXmlDeserializer(true).deserialize(xml);
         assertThat(tip, notNullValue());
 
         assertTipFull(tip);

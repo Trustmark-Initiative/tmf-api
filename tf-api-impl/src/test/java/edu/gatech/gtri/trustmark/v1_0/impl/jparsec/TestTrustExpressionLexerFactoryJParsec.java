@@ -1,7 +1,7 @@
 package edu.gatech.gtri.trustmark.v1_0.impl.jparsec;
 
 import edu.gatech.gtri.trustmark.v1_0.impl.jparsec.TrustExpressionLexerToken.LexerTokenIdentifier;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 

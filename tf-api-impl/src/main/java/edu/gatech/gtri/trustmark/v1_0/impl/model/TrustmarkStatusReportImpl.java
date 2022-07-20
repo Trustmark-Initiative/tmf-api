@@ -15,8 +15,6 @@ import java.util.Set;
 public class TrustmarkStatusReportImpl implements TrustmarkStatusReport {
 
     private URI identifier;
-    private String originalSource;
-    private String originalSourceType;
     private String id;
     private URI trustmarkReference;
     private TrustmarkStatusCode status;
@@ -32,24 +30,6 @@ public class TrustmarkStatusReportImpl implements TrustmarkStatusReport {
 
     public void setIdentifier(final URI identifier) {
         this.identifier = identifier;
-    }
-
-    @Override
-    public String getOriginalSource() {
-        return originalSource;
-    }
-
-    public void setOriginalSource(String originalSource) {
-        this.originalSource = originalSource;
-    }
-
-    @Override
-    public String getOriginalSourceType() {
-        return originalSourceType;
-    }
-
-    public void setOriginalSourceType(String originalSourceType) {
-        this.originalSourceType = originalSourceType;
     }
 
     @Override

@@ -2,7 +2,7 @@ package edu.gatech.gtri.trustmark.v1_0.impl.io.json;
 
 import edu.gatech.gtri.trustmark.v1_0.impl.AbstractTest;
 import org.apache.commons.io.FileUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import javax.xml.bind.DatatypeConverter;
 import java.io.ByteArrayInputStream;
@@ -16,8 +16,7 @@ import java.security.cert.X509Certificate;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.spec.PKCS8EncodedKeySpec;
 
-import static org.junit.Assert.assertTrue;
-
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Created by robert on 11/19/2020.

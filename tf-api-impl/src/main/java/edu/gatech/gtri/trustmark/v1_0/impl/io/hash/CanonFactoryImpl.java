@@ -1,6 +1,10 @@
 package edu.gatech.gtri.trustmark.v1_0.impl.io.hash;
 
 import edu.gatech.gtri.trustmark.v1_0.FactoryLoader;
+import edu.gatech.gtri.trustmark.v1_0.impl.io.json.SerializerJson;
+import edu.gatech.gtri.trustmark.v1_0.impl.io.json.producers.TrustmarkBindingRegistryOrganizationJsonProducer;
+import edu.gatech.gtri.trustmark.v1_0.impl.io.json.producers.TrustmarkBindingRegistryOrganizationTrustmarkJsonProducer;
+import edu.gatech.gtri.trustmark.v1_0.impl.io.json.producers.TrustmarkBindingRegistrySystemJsonProducer;
 import edu.gatech.gtri.trustmark.v1_0.impl.io.xml.SerializerXml;
 import edu.gatech.gtri.trustmark.v1_0.impl.model.TrustInteroperabilityProfileImpl;
 import edu.gatech.gtri.trustmark.v1_0.impl.model.TrustmarkDefinitionImpl;
@@ -52,6 +56,10 @@ public final class CanonFactoryImpl implements CanonFactory {
     private final TrustmarkStatusReportResolver trustmarkStatusReportResolver;
     private final TrustmarkResolver trustmarkResolver;
     private final SerializerXml serializerXml;
+    private final SerializerJson serializerJson;
+    private final TrustmarkBindingRegistrySystemJsonProducer trustmarkBindingRegistrySystemJsonProducer = new TrustmarkBindingRegistrySystemJsonProducer();
+    private final TrustmarkBindingRegistryOrganizationTrustmarkJsonProducer trustmarkBindingRegistryOrganizationTrustmarkJsonProducer = new TrustmarkBindingRegistryOrganizationTrustmarkJsonProducer();
+    private final TrustmarkBindingRegistryOrganizationJsonProducer trustmarkBindingRegistryOrganizationJsonProducer = new TrustmarkBindingRegistryOrganizationJsonProducer();
 
     public CanonFactoryImpl() {
 
@@ -60,6 +68,7 @@ public final class CanonFactoryImpl implements CanonFactory {
         this.trustmarkStatusReportResolver = FactoryLoader.getInstance(TrustmarkStatusReportResolver.class);
         this.trustmarkResolver = FactoryLoader.getInstance(TrustmarkResolver.class);
         this.serializerXml = new SerializerXml();
+        this.serializerJson = new SerializerJson();
     }
 
     @Override
@@ -172,18 +181,12 @@ public final class CanonFactoryImpl implements CanonFactory {
         return Try.<T1, Exception>f(() -> {
             // TODO: Currently, artifacts ids change every time they're requested; when that changes, the setters below can be removed as well.
             final String id = trustmarkDefinition.getId();
-            final String originalSource = trustmarkDefinition.getOriginalSource();
-            final String originalSourceType = trustmarkDefinition.getOriginalSourceType();
 
             ((TrustmarkDefinitionImpl) trustmarkDefinition).setId("ID");
-            ((TrustmarkDefinitionImpl) trustmarkDefinition).setOriginalSource(null);
-            ((TrustmarkDefinitionImpl) trustmarkDefinition).setOriginalSourceType(null);
 
             serializerXml.serialize(trustmarkDefinition, outputStream);
 
             ((TrustmarkDefinitionImpl) trustmarkDefinition).setId(id);
-            ((TrustmarkDefinitionImpl) trustmarkDefinition).setOriginalSource(originalSource);
-            ((TrustmarkDefinitionImpl) trustmarkDefinition).setOriginalSourceType(originalSourceType);
 
             return outputStream;
         })._1().f().map(NonEmptyList::nel);
@@ -202,18 +205,12 @@ public final class CanonFactoryImpl implements CanonFactory {
         return Try.<T1, Exception>f(() -> {
             // TODO: Currently, artifacts ids change every time they're requested; when that changes, the setters below can be removed as well.
             final String id = trustmarkStatusReport.getId();
-            final String originalSource = trustmarkStatusReport.getOriginalSource();
-            final String originalSourceType = trustmarkStatusReport.getOriginalSourceType();
 
             ((TrustmarkStatusReportImpl) trustmarkStatusReport).setId("ID");
-            ((TrustmarkStatusReportImpl) trustmarkStatusReport).setOriginalSource(null);
-            ((TrustmarkStatusReportImpl) trustmarkStatusReport).setOriginalSourceType(null);
 
             serializerXml.serialize(trustmarkStatusReport, outputStream);
 
             ((TrustmarkStatusReportImpl) trustmarkStatusReport).setId(id);
-            ((TrustmarkStatusReportImpl) trustmarkStatusReport).setOriginalSource(originalSource);
-            ((TrustmarkStatusReportImpl) trustmarkStatusReport).setOriginalSourceType(originalSourceType);
 
             return outputStream;
         })._1().f().map(NonEmptyList::nel);
@@ -245,18 +242,12 @@ public final class CanonFactoryImpl implements CanonFactory {
         return Try.<T1, Exception>f(() -> {
             // TODO: Currently, artifacts ids change every time they're requested; when that changes, the setters below can be removed as well.
             final String id = trustInteroperabilityProfile.getId();
-            final String originalSource = trustInteroperabilityProfile.getOriginalSource();
-            final String originalSourceType = trustInteroperabilityProfile.getOriginalSourceType();
 
             ((TrustInteroperabilityProfileImpl) trustInteroperabilityProfile).setId("ID");
-            ((TrustInteroperabilityProfileImpl) trustInteroperabilityProfile).setOriginalSource(null);
-            ((TrustInteroperabilityProfileImpl) trustInteroperabilityProfile).setOriginalSourceType(null);
 
             serializerXml.serialize(trustInteroperabilityProfile, outputStream);
 
             ((TrustInteroperabilityProfileImpl) trustInteroperabilityProfile).setId(id);
-            ((TrustInteroperabilityProfileImpl) trustInteroperabilityProfile).setOriginalSource(originalSource);
-            ((TrustInteroperabilityProfileImpl) trustInteroperabilityProfile).setOriginalSourceType(originalSourceType);
 
             return outputStream;
         })._1().f().map(NonEmptyList::nel);
@@ -264,15 +255,14 @@ public final class CanonFactoryImpl implements CanonFactory {
 
     private <T1 extends OutputStream> Validation<NonEmptyList<Exception>, T1> serialize(final TrustmarkBindingRegistrySystemMap trustmarkBindingRegistrySystemMap, final T1 outputStream) {
         return Try.f(() -> {
-            outputStream.write(trustmarkBindingRegistrySystemMap.getOriginalSource().getBytes(StandardCharsets.UTF_8));
-            outputStream.flush();
+            serializerJson.serialize(trustmarkBindingRegistrySystemMap, outputStream);
             return outputStream;
         })._1().f().map(NonEmptyList::nel);
     }
 
     private <T1 extends OutputStream> Validation<NonEmptyList<Exception>, T1> serialize(final TrustmarkBindingRegistrySystem trustmarkBindingRegistrySystem, final T1 outputStream) {
         return Try.f(() -> {
-            outputStream.write(trustmarkBindingRegistrySystem.getOriginalSource().getBytes(StandardCharsets.UTF_8));
+            outputStream.write(trustmarkBindingRegistrySystemJsonProducer.serialize(trustmarkBindingRegistrySystem).toString().getBytes(StandardCharsets.UTF_8));
             outputStream.flush();
             return outputStream;
         })._1().f().map(NonEmptyList::nel);
@@ -280,15 +270,14 @@ public final class CanonFactoryImpl implements CanonFactory {
 
     private <T1 extends OutputStream> Validation<NonEmptyList<Exception>, T1> serialize(final TrustmarkBindingRegistryOrganizationMap trustmarkBindingRegistryOrganizationMap, final T1 outputStream) {
         return Try.f(() -> {
-            outputStream.write(trustmarkBindingRegistryOrganizationMap.getOriginalSource().getBytes(StandardCharsets.UTF_8));
-            outputStream.flush();
+            serializerJson.serialize(trustmarkBindingRegistryOrganizationMap, outputStream);
             return outputStream;
         })._1().f().map(NonEmptyList::nel);
     }
 
     private <T1 extends OutputStream> Validation<NonEmptyList<Exception>, T1> serialize(final TrustmarkBindingRegistryOrganization trustmarkBindingRegistryOrganization, final T1 outputStream) {
         return Try.f(() -> {
-            outputStream.write(trustmarkBindingRegistryOrganization.getOriginalSource().getBytes(StandardCharsets.UTF_8));
+            outputStream.write(trustmarkBindingRegistryOrganizationJsonProducer.serialize(trustmarkBindingRegistryOrganization).toString().getBytes(StandardCharsets.UTF_8));
             outputStream.flush();
             return outputStream;
         })._1().f().map(NonEmptyList::nel);
@@ -296,15 +285,14 @@ public final class CanonFactoryImpl implements CanonFactory {
 
     private <T1 extends OutputStream> Validation<NonEmptyList<Exception>, T1> serialize(final TrustmarkBindingRegistryOrganizationTrustmarkMap trustmarkBindingRegistryOrganizationTrustmarkMap, final T1 outputStream) {
         return Try.f(() -> {
-            outputStream.write(trustmarkBindingRegistryOrganizationTrustmarkMap.getOriginalSource().getBytes(StandardCharsets.UTF_8));
-            outputStream.flush();
+            serializerJson.serialize(trustmarkBindingRegistryOrganizationTrustmarkMap, outputStream);
             return outputStream;
         })._1().f().map(NonEmptyList::nel);
     }
 
     private <T1 extends OutputStream> Validation<NonEmptyList<Exception>, T1> serialize(final TrustmarkBindingRegistryOrganizationTrustmark trustmarkBindingRegistryOrganizationTrustmark, final T1 outputStream) {
         return Try.f(() -> {
-            outputStream.write(trustmarkBindingRegistryOrganizationTrustmark.getOriginalSource().getBytes(StandardCharsets.UTF_8));
+            outputStream.write(trustmarkBindingRegistryOrganizationTrustmarkJsonProducer.serialize(trustmarkBindingRegistryOrganizationTrustmark).toString().getBytes(StandardCharsets.UTF_8));
             outputStream.flush();
             return outputStream;
         })._1().f().map(NonEmptyList::nel);

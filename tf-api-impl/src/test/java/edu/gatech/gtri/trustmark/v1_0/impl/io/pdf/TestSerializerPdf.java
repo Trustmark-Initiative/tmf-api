@@ -6,7 +6,7 @@ import edu.gatech.gtri.trustmark.v1_0.io.AgreementResolver;
 import edu.gatech.gtri.trustmark.v1_0.io.Serializer;
 import edu.gatech.gtri.trustmark.v1_0.io.SerializerFactory;
 import edu.gatech.gtri.trustmark.v1_0.model.agreement.Agreement;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
 

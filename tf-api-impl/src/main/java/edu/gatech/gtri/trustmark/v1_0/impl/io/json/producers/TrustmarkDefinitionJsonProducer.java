@@ -2,7 +2,6 @@ package edu.gatech.gtri.trustmark.v1_0.impl.io.json.producers;
 
 import edu.gatech.gtri.trustmark.v1_0.FactoryLoader;
 import edu.gatech.gtri.trustmark.v1_0.TrustmarkFramework;
-import edu.gatech.gtri.trustmark.v1_0.impl.io.IdUtility;
 import edu.gatech.gtri.trustmark.v1_0.io.json.JsonProducer;
 import edu.gatech.gtri.trustmark.v1_0.io.json.JsonUtils;
 import edu.gatech.gtri.trustmark.v1_0.model.AssessmentStep;
@@ -40,7 +39,9 @@ public final class TrustmarkDefinitionJsonProducer implements JsonProducer<Trust
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("$TMF_VERSION", FactoryLoader.getInstance(TrustmarkFramework.class).getTrustmarkFrameworkVersion());
         jsonObject.put("$Type", TrustmarkDefinition.class.getSimpleName());
-        jsonObject.put("$id", td.getId() == null ? IdUtility.trustmarkDefinitionId() : td.getId());
+        if (td.getId() != null) {
+            jsonObject.put("$id", td.getId());
+        }
 
         JSONObject metadataJson = new JSONObject();
         metadataJson.put("Identifier", td.getMetadata().getIdentifier().toString());
@@ -128,7 +129,6 @@ public final class TrustmarkDefinitionJsonProducer implements JsonProducer<Trust
             }
             jsonObject.put("Terms", termsArray);
         } // TODO If terms is empty, is this an error?
-
 
         Collection<Source> sources = td.getSources();
         JSONArray sourcesArray = new JSONArray();

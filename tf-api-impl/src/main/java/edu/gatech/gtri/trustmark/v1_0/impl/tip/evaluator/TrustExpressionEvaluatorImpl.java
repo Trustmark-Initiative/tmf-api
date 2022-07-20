@@ -33,6 +33,7 @@ import org.gtri.fj.product.P2;
 
 import java.math.BigDecimal;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.time.Instant;
 
 import static edu.gatech.gtri.trustmark.v1_0.impl.trust.TrustmarkUtility.satisfyingTrustmarkList;
@@ -139,7 +140,7 @@ public class TrustExpressionEvaluatorImpl implements TrustExpressionEvaluator {
     private Either<TrustExpressionEvaluatorFailure, Trustmark> resolve(
             final String trustmarkUriString) {
 
-        return Try.<URI, RuntimeException>f(() -> URI.create(trustmarkUriString))._1().f().<TrustExpressionEvaluatorFailure>map(runtimeException -> evaluatorFailureURI(trustmarkUriString, runtimeException))
+        return Try.<URI, URISyntaxException>f(() -> new URI(trustmarkUriString))._1().f().<TrustExpressionEvaluatorFailure>map(uriSyntaxException -> evaluatorFailureURI(trustmarkUriString, uriSyntaxException))
                 .bind(trustmarkUri -> Try.<Trustmark, ResolveException>f(() -> trustmarkResolver.resolve(trustmarkUri))._1().f().map(resolveException -> evaluatorFailureResolve(trustmarkUri, resolveException)))
                 .toEither();
     }

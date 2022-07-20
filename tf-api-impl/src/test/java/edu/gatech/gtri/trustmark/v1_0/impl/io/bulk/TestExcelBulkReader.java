@@ -14,11 +14,12 @@ import edu.gatech.gtri.trustmark.v1_0.util.TrustmarkDefinitionUtils;
 import edu.gatech.gtri.trustmark.v1_0.util.diff.DiffSeverity;
 import edu.gatech.gtri.trustmark.v1_0.util.diff.TrustmarkDefinitionDiffResult;
 import edu.gatech.gtri.trustmark.v1_0.util.diff.json.*;
+import jdk.nashorn.internal.ir.annotations.Ignore;
 import org.slf4j.LoggerFactory;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
@@ -464,8 +465,144 @@ public class TestExcelBulkReader extends AbstractTest {
 
         doDiff(expectedTd, actualTd);
 
-        logger.info("Successfully tested that ExcelBulkReader handles deprecated / superseded by / superseds case case with one TD.");
+        logger.info("Successfully tested that ExcelBulkReader handles deprecated / superseded by / superseeds case case with one TD.");
     }
+
+    @Test
+    public void testIssuanceCriteriaValidExample() throws Exception {
+        logger.info("Testing excel with Missing Issuance Criteria");
+
+        File excelFile = getFile("IssuanceCriteriaValid.xlsx");
+        ExcelBulkReader reader = getExcelBulkReader();
+
+        logger.debug("Performing ExcelBulkReader.readBulkFrom() on file["+excelFile+"]...");
+        BulkReadResult readResult = null;
+        BulkReadContext readContext = this.getBulkReadContext();
+        try {
+            readResult = reader.readBulkFrom(readContext, excelFile);
+        } catch (UnsupportedOperationException uoe){
+        }
+
+        assertThat(readResult, notNullValue());
+
+        assertThat(readResult.getResultingTrustmarkDefinitions(), notNullValue());
+        assertThat(readResult.getResultingTrustmarkDefinitions().size(), equalTo(3));
+
+        assertThat(readResult.getResultingTrustInteroperabilityProfiles(), notNullValue()); // Even though it is empty
+        assertThat(readResult.getResultingTrustInteroperabilityProfiles().size(), equalTo(0));
+
+        logger.debug("Validating single TD...");
+        TrustmarkDefinition actualTd = readResult.getResultingTrustmarkDefinitions().get(1);
+        assertThat(actualTd, notNullValue());
+
+        BulkReadResult expectedResult = readJsonToResult("IssuanceCriteriaMissing.json");
+        assertThat(expectedResult, notNullValue());
+        assertThat(expectedResult.getResultingTrustmarkDefinitions().size(), equalTo(1));
+        assertThat(expectedResult.getResultingTrustInteroperabilityProfiles().size(), equalTo(0));
+        TrustmarkDefinition expectedTd = expectedResult.getResultingTrustmarkDefinitions().get(0);
+
+        doDiff(expectedTd, actualTd);
+
+        logger.info("Successfully tested with Missing Issuance Criteria case case with one TD.");
+    }
+
+
+    @Test
+    public void testIssuanceCriteriaMissingExample() throws Exception {
+        logger.info("Testing excel with Missing Issuance Criteria");
+
+        File excelFile = getFile("IssuanceCriteriaMissing.xlsx");
+        ExcelBulkReader reader = getExcelBulkReader();
+
+        logger.debug("Performing ExcelBulkReader.readBulkFrom() on file["+excelFile+"]...");
+        BulkReadContext readContext = this.getBulkReadContext();
+        try {
+            BulkReadResult readResult = reader.readBulkFrom(readContext, excelFile);
+        } catch (UnsupportedOperationException uoe){
+            assertThat(uoe.getMessage(),
+                    startsWith("Not all assertion steps are used in Issuance Criteria in TD: [SAML SP Requirements - User Interface - Complex Issuance] in <br/>"));
+        }
+
+    }
+
+    @Test
+    public void testIssuanceCriteriaInvalidSyntaxExample() throws Exception {
+        logger.info("Testing excel with Invalid Syntax Issuance Criteria");
+
+        File excelFile = getFile("IssuanceCriteriaInvalidSyntax.xlsx");
+        ExcelBulkReader reader = getExcelBulkReader();
+
+        logger.debug("Performing ExcelBulkReader.readBulkFrom() on file["+excelFile+"]...");
+        BulkReadContext readContext = this.getBulkReadContext();
+        try {
+            BulkReadResult readResult = reader.readBulkFrom(readContext, excelFile);
+        } catch (UnsupportedOperationException uoe){
+            assertThat(uoe.getMessage(),
+                    startsWith("Could not find Step [Support for IDP] as referenced from TD: [SAML SP Requirements - User Interface - Complex Issuance] in "));
+        }
+
+    }
+
+    @Test
+    public void testTdTipTerms() throws Exception {
+        logger.info("Testing excel with terms information...");
+
+        BulkReadResult expectedResult = readJsonToResult("terms.json");
+        assertThat(expectedResult, notNullValue());
+
+        File excelFile = getFile("terms.xlsx");
+        logger.debug("Performing ExcelBulkReader.readBulkFrom() on file["+excelFile+"]...");
+        ExcelBulkReader reader = getExcelBulkReader();
+        BulkReadContext readContext = this.getBulkReadContext();
+        BulkReadResult readResult = reader.readBulkFrom(readContext, excelFile);
+        assertThat(readResult, notNullValue());
+        assertThat(readResult.getResultingTrustmarkDefinitions(), notNullValue());
+        assertThat(readResult.getResultingTrustInteroperabilityProfiles(), notNullValue()); // Even though it is empty
+        for(int i = 0; i < 3; i++) {
+            TrustmarkDefinition actualTd = readResult.getResultingTrustmarkDefinitions().get(i);
+            assertThat(actualTd, notNullValue());
+            TrustmarkDefinition expectedTd = expectedResult.getResultingTrustmarkDefinitions().get(i);
+            doDiff(expectedTd, actualTd);
+
+            TrustInteroperabilityProfile actualTip = readResult.getResultingTrustInteroperabilityProfiles().get(i);
+            assertThat(actualTip, notNullValue());
+            TrustInteroperabilityProfile expectedTip = expectedResult.getResultingTrustInteroperabilityProfiles().get(i);
+            doDiff(expectedTip, actualTip);
+        }
+
+        int i = 3;
+        TrustmarkDefinition actualTd = readResult.getResultingTrustmarkDefinitions().get(i);
+        assertThat(actualTd, notNullValue());
+        TrustmarkDefinition expectedTd = expectedResult.getResultingTrustmarkDefinitions().get(i);
+        doDiff(expectedTd, actualTd);
+
+        logger.info("Successfully tested that ExcelBulkReader handles the maximum case with one TD.");
+    }
+
+    @Test
+    public void testTdTipTermsSmall() throws Exception {
+        BulkReadResult expectedResult = readJsonToResult("terms-small.json");
+        assertThat(expectedResult, notNullValue());
+
+        File excelFile = getFile("terms-small.xlsx");
+        ExcelBulkReader reader = getExcelBulkReader();
+        BulkReadContext readContext = this.getBulkReadContext();
+        BulkReadResult readResult = reader.readBulkFrom(readContext, excelFile);
+        assertThat(readResult, notNullValue());
+        assertThat(readResult.getResultingTrustmarkDefinitions(), notNullValue());
+        assertThat(readResult.getResultingTrustInteroperabilityProfiles(), notNullValue());
+
+        int i = 0;
+        TrustmarkDefinition actualTd = readResult.getResultingTrustmarkDefinitions().get(i);
+        assertThat(actualTd, notNullValue());
+        TrustmarkDefinition expectedTd = expectedResult.getResultingTrustmarkDefinitions().get(i);
+        doDiff(expectedTd, actualTd);
+        TrustInteroperabilityProfile actualTip = readResult.getResultingTrustInteroperabilityProfiles().get(i);
+        assertThat(actualTip, notNullValue());
+        TrustInteroperabilityProfile expectedTip = expectedResult.getResultingTrustInteroperabilityProfiles().get(i);
+        doDiff(expectedTip, actualTip);
+    }
+
 
     //==================================================================================================================
     //  Test Helper Methods

@@ -8,18 +8,26 @@ import edu.gatech.gtri.trustmark.v1_0.model.trustmarkBindingRegistry.TrustmarkBi
 import org.apache.commons.io.FileUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 
-/**
- * Created by brad on 12/9/15.
- */
 public class TestTrustmarkBindingRegistrySystemMapJsonDeserializer extends AbstractTest {
 
     @Test
     public void test() throws Exception {
-        File file = new File("./src/test/resources/edu/gatech/gtri/trustmark/v1_0/impl/io/json/TrustmarkBindingRegistrySystemMap.json");
+        testHelper("./src/test/resources/edu/gatech/gtri/trustmark/v1_0/impl/io/json/empty.json");
+        testHelper("./src/test/resources/edu/gatech/gtri/trustmark/v1_0/impl/io/json/OIDC_RP.json");
+        testHelper("./src/test/resources/edu/gatech/gtri/trustmark/v1_0/impl/io/json/SAML_SP.json");
+        testHelper("./src/test/resources/edu/gatech/gtri/trustmark/v1_0/impl/io/json/SAML_IDP.json");
+        testHelper("./src/test/resources/edu/gatech/gtri/trustmark/v1_0/impl/io/json/certificate_1.json");
+        testHelper("./src/test/resources/edu/gatech/gtri/trustmark/v1_0/impl/io/json/certificate_2.json");
+        testHelper("./src/test/resources/edu/gatech/gtri/trustmark/v1_0/impl/io/json/OIDC_OP_1.json");
+//        testHelper("./src/test/resources/edu/gatech/gtri/trustmark/v1_0/impl/io/json/OIDC_OP_2.json");
+    }
+
+    public void testHelper(final String fileName) throws Exception {
+        File file = new File(fileName);
         String json = FileUtils.readFileToString(file);
         TrustmarkBindingRegistrySystemMap trustmarkBindingRegistrySystemMap1 = new TrustmarkBindingRegistrySystemMapJsonDeserializer().deserialize(json);
 

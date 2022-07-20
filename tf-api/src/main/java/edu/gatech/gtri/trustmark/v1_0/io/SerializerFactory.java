@@ -1,40 +1,52 @@
 package edu.gatech.gtri.trustmark.v1_0.io;
 
 /**
- * Responsible for creating serializers.
- * <br/><br/>
- * Created by brad on 12/15/15.
+ * Implementations return serializers.
+ *
+ * @author GTRI Trustmark Team
  */
 public interface SerializerFactory {
 
     /**
-     * Returns the serializer most closely matching the given content type.  May return null.
+     * Returns a serializer for a content type.
+     *
+     * @param contentType
+     * @return a serializer for a content type
      */
-    public Serializer getSerializer(String contentType);
+    Serializer getSerializer(final String contentType);
 
     /**
-     * Returns a {@link Serializer} capable of writing XML which matches the Trustmark Framework v1.0 XML Spec.
+     * Returns a serializer for XML.
+     *
+     * @return a serializer for XML
      */
-    public Serializer getXmlSerializer();
+    Serializer getXmlSerializer();
 
     /**
-     * Returns a {@link Serializer} capable of writing unofficial JSON data (at least unofficial in v1.0 of TF spec)
+     * Returns a serializer for JSON.
+     *
+     * @return a serializer for JSON
      */
-    public Serializer getJsonSerializer();
+    Serializer getJsonSerializer();
 
     /**
-     * Returns a {@link Serializer} capable of writing HTML representing a visual version of TF artifacts.
+     * Returns a serializer for HTML.
+     *
+     * @return a serializer for HTML
      */
-    public Serializer getHtmlSerializer();
+    Serializer getHtmlSerializer();
 
     /**
-     * Renders artifacts as HTML, but capable of editing.
+     * Returns a serialzier for editable HTML.
+     *
+     * @return a serializer for editable HTML
      */
-    public Serializer getHtmlEditorSerializer();
-    
-    /**
-     * Returns a {@link Serializer} capable of writing to PDF.
-     */
-    public Serializer getPdfSerializer();
+    Serializer getHtmlEditorSerializer();
 
-}//end SerializerFactory
+    /**
+     * Returns a serializer for PDF.
+     *
+     * @return a serializer for PDF
+     */
+    Serializer getPdfSerializer();
+}

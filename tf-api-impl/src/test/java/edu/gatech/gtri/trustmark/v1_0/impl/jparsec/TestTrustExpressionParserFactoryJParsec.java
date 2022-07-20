@@ -3,8 +3,7 @@ package edu.gatech.gtri.trustmark.v1_0.impl.jparsec;
 import edu.gatech.gtri.trustmark.v1_0.tip.TrustExpression;
 import edu.gatech.gtri.trustmark.v1_0.tip.TrustExpressionData;
 import org.jparsec.Parser;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -28,6 +27,8 @@ import static edu.gatech.gtri.trustmark.v1_0.tip.TrustExpressionData.dataLiteral
 import static edu.gatech.gtri.trustmark.v1_0.tip.TrustExpressionData.dataNonTerminal;
 import static edu.gatech.gtri.trustmark.v1_0.tip.TrustExpressionData.dataReferenceTrustmarkDefinitionParameter;
 import static edu.gatech.gtri.trustmark.v1_0.tip.TrustExpressionData.dataReferenceTrustmarkDefinitionRequirement;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class TestTrustExpressionParserFactoryJParsec {
 
@@ -36,13 +37,13 @@ public class TestTrustExpressionParserFactoryJParsec {
 
         final Parser<TrustExpression<TrustExpressionData>> parser = TrustExpressionParserFactoryJParsec.parser();
 
-        Assert.assertNotNull(parser);
+        assertNotNull(parser);
 
-        Assert.assertEquals(
+        assertEquals(
                 terminal(dataLiteralBoolean(true)),
                 parser.parse("true"));
 
-        Assert.assertEquals(
+        assertEquals(
                 terminal(dataLiteralBoolean(false)),
                 parser.parse("false"));
     }
@@ -52,12 +53,12 @@ public class TestTrustExpressionParserFactoryJParsec {
 
         final Parser<TrustExpression<TrustExpressionData>> parser = TrustExpressionParserFactoryJParsec.parser();
 
-        Assert.assertNotNull(parser);
+        assertNotNull(parser);
 
         final Instant now = Instant.now();
         final String nowString = now.toString();
 
-        Assert.assertEquals(
+        assertEquals(
                 terminal(dataLiteralDateTimeStamp(now)),
                 parser.parse(nowString));
     }
@@ -67,41 +68,41 @@ public class TestTrustExpressionParserFactoryJParsec {
 
         final Parser<TrustExpression<TrustExpressionData>> parser = TrustExpressionParserFactoryJParsec.parser();
 
-        Assert.assertNotNull(parser);
+        assertNotNull(parser);
 
-        Assert.assertEquals(
+        assertEquals(
                 terminal(dataLiteralDecimal(new BigDecimal("0"))),
                 parser.parse("0"));
 
-        Assert.assertEquals(
+        assertEquals(
                 terminal(dataLiteralDecimal(new BigDecimal(".0"))),
                 parser.parse(".0"));
 
-        Assert.assertEquals(
+        assertEquals(
                 terminal(dataLiteralDecimal(new BigDecimal("1."))),
                 parser.parse("1."));
 
-        Assert.assertEquals(
+        assertEquals(
                 terminal(dataLiteralDecimal(new BigDecimal("+0"))),
                 parser.parse("+0"));
 
-        Assert.assertEquals(
+        assertEquals(
                 terminal(dataLiteralDecimal(new BigDecimal("+.0"))),
                 parser.parse("+.0"));
 
-        Assert.assertEquals(
+        assertEquals(
                 terminal(dataLiteralDecimal(new BigDecimal("+1."))),
                 parser.parse("+1."));
 
-        Assert.assertEquals(
+        assertEquals(
                 terminal(dataLiteralDecimal(new BigDecimal("-0"))),
                 parser.parse("-0"));
 
-        Assert.assertEquals(
+        assertEquals(
                 terminal(dataLiteralDecimal(new BigDecimal("-.0"))),
                 parser.parse("-.0"));
 
-        Assert.assertEquals(
+        assertEquals(
                 terminal(dataLiteralDecimal(new BigDecimal("-1."))),
                 parser.parse("-1."));
     }
@@ -111,9 +112,9 @@ public class TestTrustExpressionParserFactoryJParsec {
 
         final Parser<TrustExpression<TrustExpressionData>> parser = TrustExpressionParserFactoryJParsec.parser();
 
-        Assert.assertNotNull(parser);
+        assertNotNull(parser);
 
-        Assert.assertEquals(
+        assertEquals(
                 terminal(dataLiteralString("string")),
                 parser.parse("\"string\""));
 
@@ -124,9 +125,9 @@ public class TestTrustExpressionParserFactoryJParsec {
 
         final Parser<TrustExpression<TrustExpressionData>> parser = TrustExpressionParserFactoryJParsec.parser();
 
-        Assert.assertNotNull(parser);
+        assertNotNull(parser);
 
-        Assert.assertEquals(
+        assertEquals(
                 terminal(dataReferenceTrustmarkDefinitionRequirement("A")),
                 parser.parse("A"));
     }
@@ -136,9 +137,9 @@ public class TestTrustExpressionParserFactoryJParsec {
 
         final Parser<TrustExpression<TrustExpressionData>> parser = TrustExpressionParserFactoryJParsec.parser();
 
-        Assert.assertNotNull(parser);
+        assertNotNull(parser);
 
-        Assert.assertEquals(
+        assertEquals(
                 terminal(dataReferenceTrustmarkDefinitionParameter("A", "A")),
                 parser.parse("A.A"));
     }
@@ -148,85 +149,85 @@ public class TestTrustExpressionParserFactoryJParsec {
 
         final Parser<TrustExpression<TrustExpressionData>> parser = TrustExpressionParserFactoryJParsec.parser();
 
-        Assert.assertNotNull(parser);
+        assertNotNull(parser);
 
-        Assert.assertEquals(
+        assertEquals(
                 contains(terminal(dataReferenceTrustmarkDefinitionParameter("A", "A")), terminal(dataLiteralString("string")), dataNonTerminal()),
                 parser.parse("contains(A.A, \"string\")"));
 
-        Assert.assertEquals(
+        assertEquals(
                 exists(terminal(dataReferenceTrustmarkDefinitionParameter("A", "A")), dataNonTerminal()),
                 parser.parse("exists(A.A)"));
 
-        Assert.assertEquals(
+        assertEquals(
                 lessThan(terminal(dataLiteralString("string")), terminal(dataLiteralDecimal(new BigDecimal("1.0"))), dataNonTerminal()),
                 parser.parse("\"string\" < 1.0"));
 
-        Assert.assertEquals(
+        assertEquals(
                 lessThanOrEqual(terminal(dataLiteralString("string")), terminal(dataLiteralDecimal(new BigDecimal("1.0"))), dataNonTerminal()),
                 parser.parse("\"string\" <= 1.0"));
 
-        Assert.assertEquals(
+        assertEquals(
                 greaterThanOrEqual(terminal(dataLiteralString("string")), terminal(dataLiteralDecimal(new BigDecimal("1.0"))), dataNonTerminal()),
                 parser.parse("\"string\" >= 1.0"));
 
-        Assert.assertEquals(
+        assertEquals(
                 greaterThan(terminal(dataLiteralString("string")), terminal(dataLiteralDecimal(new BigDecimal("1.0"))), dataNonTerminal()),
                 parser.parse("\"string\" > 1.0"));
 
-        Assert.assertEquals(
+        assertEquals(
                 equal(terminal(dataLiteralString("string")), terminal(dataLiteralDecimal(new BigDecimal("1.0"))), dataNonTerminal()),
                 parser.parse("\"string\" == 1.0"));
 
-        Assert.assertEquals(
+        assertEquals(
                 notEqual(terminal(dataLiteralString("string")), terminal(dataLiteralDecimal(new BigDecimal("1.0"))), dataNonTerminal()),
                 parser.parse("\"string\" != 1.0"));
 
-        Assert.assertEquals(
+        assertEquals(
                 not(terminal(dataReferenceTrustmarkDefinitionRequirement("A")), dataNonTerminal()),
                 parser.parse("not A"));
 
-        Assert.assertEquals(
+        assertEquals(
                 and(terminal(dataReferenceTrustmarkDefinitionRequirement("A")), terminal(dataReferenceTrustmarkDefinitionRequirement("B")), dataNonTerminal()),
                 parser.parse("A and B"));
 
-        Assert.assertEquals(
+        assertEquals(
                 or(terminal(dataReferenceTrustmarkDefinitionRequirement("A")), terminal(dataReferenceTrustmarkDefinitionRequirement("B")), dataNonTerminal()),
                 parser.parse("A or B"));
 
-        Assert.assertEquals(
+        assertEquals(
                 and(not(terminal(dataReferenceTrustmarkDefinitionRequirement("A")), dataNonTerminal()), terminal(dataReferenceTrustmarkDefinitionRequirement("B")), dataNonTerminal()),
                 parser.parse("not A and B"));
 
-        Assert.assertEquals(
+        assertEquals(
                 and(terminal(dataReferenceTrustmarkDefinitionRequirement("A")), not(terminal(dataReferenceTrustmarkDefinitionRequirement("B")), dataNonTerminal()), dataNonTerminal()),
                 parser.parse("A and not B"));
 
-        Assert.assertEquals(
+        assertEquals(
                 not(and(terminal(dataReferenceTrustmarkDefinitionRequirement("A")), terminal(dataReferenceTrustmarkDefinitionRequirement("B")), dataNonTerminal()), dataNonTerminal()),
                 parser.parse("not (A and B)"));
 
-        Assert.assertEquals(
+        assertEquals(
                 or(not(terminal(dataReferenceTrustmarkDefinitionRequirement("A")), dataNonTerminal()), terminal(dataReferenceTrustmarkDefinitionRequirement("B")), dataNonTerminal()),
                 parser.parse("not A or B"));
 
-        Assert.assertEquals(
+        assertEquals(
                 or(terminal(dataReferenceTrustmarkDefinitionRequirement("A")), not(terminal(dataReferenceTrustmarkDefinitionRequirement("B")), dataNonTerminal()), dataNonTerminal()),
                 parser.parse("A or not B"));
 
-        Assert.assertEquals(
+        assertEquals(
                 not(or(terminal(dataReferenceTrustmarkDefinitionRequirement("A")), terminal(dataReferenceTrustmarkDefinitionRequirement("B")), dataNonTerminal()), dataNonTerminal()),
                 parser.parse("not (A or B)"));
 
-        Assert.assertEquals(
+        assertEquals(
                 or(terminal(dataReferenceTrustmarkDefinitionRequirement("A")), and(terminal(dataReferenceTrustmarkDefinitionRequirement("B")), terminal(dataReferenceTrustmarkDefinitionRequirement("C")), dataNonTerminal()), dataNonTerminal()),
                 parser.parse("A or B and C"));
 
-        Assert.assertEquals(
+        assertEquals(
                 or(and(terminal(dataReferenceTrustmarkDefinitionRequirement("A")), terminal(dataReferenceTrustmarkDefinitionRequirement("B")), dataNonTerminal()), terminal(dataReferenceTrustmarkDefinitionRequirement("C")), dataNonTerminal()),
                 parser.parse("A and B or C"));
 
-        Assert.assertEquals(
+        assertEquals(
                 and(terminal(dataReferenceTrustmarkDefinitionRequirement("A")), or(terminal(dataReferenceTrustmarkDefinitionRequirement("B")), terminal(dataReferenceTrustmarkDefinitionRequirement("C")), dataNonTerminal()), dataNonTerminal()),
                 parser.parse("A and (B or C)"));
     }

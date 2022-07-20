@@ -9,10 +9,10 @@ import edu.gatech.gtri.trustmark.v1_0.io.TrustmarkDefinitionResolver;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustInteroperabilityProfile;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkDefinition;
 import edu.gatech.gtri.trustmark.v1_0.service.*;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.net.URL;
 import java.util.List;
@@ -30,7 +30,7 @@ public class TestTrustmarkFrameworkServiceImpl extends AbstractTest {
     private static NetworkDownloader oldNetworkDownloader = null;
     protected static NetworkDownloader testNetworkDownloader = new RemoteServiceNetworkDownloader();
 
-    @BeforeClass
+    @BeforeAll
     public static void setTestNetworkDownloader() {
         synchronized (EXAMPLE_URL){
             if(oldNetworkDownloader == null && getBaseUrl().equalsIgnoreCase(EXAMPLE_URL) ) {
@@ -40,7 +40,7 @@ public class TestTrustmarkFrameworkServiceImpl extends AbstractTest {
         }
     }
 
-    @AfterClass
+    @AfterAll
     public static void restoreNetworkDownloader() {
         synchronized (EXAMPLE_URL){
             if (oldNetworkDownloader != null && getBaseUrl().equalsIgnoreCase(EXAMPLE_URL) ) {
@@ -179,7 +179,7 @@ public class TestTrustmarkFrameworkServiceImpl extends AbstractTest {
         logger.info("Successfully retrieved TIPs.");
     }
 
-    @Test @Ignore
+    @Test @Disabled
     public void testSetVersionSet() throws Exception {
         logger.info("Running test testSetVersionSet() on ["+ getBaseUrl() +"]...");
 

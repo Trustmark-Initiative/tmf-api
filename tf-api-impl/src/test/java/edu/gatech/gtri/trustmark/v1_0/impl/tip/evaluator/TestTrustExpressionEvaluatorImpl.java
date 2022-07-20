@@ -7,6 +7,7 @@ import edu.gatech.gtri.trustmark.v1_0.impl.io.TrustmarkDefinitionResolverFromMap
 import edu.gatech.gtri.trustmark.v1_0.impl.io.TrustmarkDefinitionResolverImpl;
 import edu.gatech.gtri.trustmark.v1_0.impl.io.TrustmarkResolverFromMap;
 import edu.gatech.gtri.trustmark.v1_0.impl.io.TrustmarkResolverImpl;
+import edu.gatech.gtri.trustmark.v1_0.impl.io.json.producers.TrustExpressionEvaluationJsonProducer;
 import edu.gatech.gtri.trustmark.v1_0.impl.model.TrustmarkFrameworkIdentifiedObjectImpl;
 import edu.gatech.gtri.trustmark.v1_0.impl.model.TrustmarkImpl;
 import edu.gatech.gtri.trustmark.v1_0.impl.tip.TrustExpressionEnvironment;
@@ -25,10 +26,11 @@ import org.gtri.fj.data.List;
 import org.gtri.fj.data.TreeMap;
 import org.gtri.fj.product.P3;
 import org.gtri.fj.product.P5;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.time.Instant;
 import java.util.HashMap;
 
@@ -91,7 +93,7 @@ public class TestTrustExpressionEvaluatorImpl {
         final Trustmark trustmark = new TrustmarkImpl();
 
         assertThrows(NullPointerException.class, () -> trustExpressionEvaluator.evaluate(null, list(trustmark)));
-        assertThrows(NullPointerException.class, () -> trustExpressionEvaluator.evaluate(terminal(fail(nel(failureURI(list(), "", new RuntimeException())))), null));
+        assertThrows(NullPointerException.class, () -> trustExpressionEvaluator.evaluate(terminal(fail(nel(failureURI(list(), "", new URISyntaxException("", ""))))), null));
     }
 
     @Test
@@ -104,22 +106,23 @@ public class TestTrustExpressionEvaluatorImpl {
                 resolverForTrustmark._1(),
                 trustExpressionParser);
 
-        final RuntimeException runtimeException = new RuntimeException();
+        final URISyntaxException uriSyntaxException = new URISyntaxException("", "");
         final ResolveException resolveException = new ResolveException();
+        final RuntimeException runtimeException = new RuntimeException();
 
         assertEquals(
-                terminal(fail(nel(failureURI(nil(), "", runtimeException)))),
+                terminal(fail(nel(failureURI(nil(), "", uriSyntaxException)))),
                 trustInteroperabilityProfileTrustExpressionEvaluator.evaluate(
-                        terminal(fail(nel(failureURI(nil(), "", runtimeException)))),
+                        terminal(fail(nel(failureURI(nil(), "", uriSyntaxException)))),
                         nil()).getTrustExpression());
 
         assertEquals(
-                trustExpressionEvaluation(list(evaluatorFailureURI("|", runtimeException)), terminal(success(dataValueBoolean(nel(resolver._4()), resolver._5().get("B").some(), nil())))),
-                normalizeException(trustInteroperabilityProfileTrustExpressionEvaluator.evaluate(resolver._3().toString(), list(resolverForTrustmark._2().toString(), "|")), runtimeException, resolveException));
+                trustExpressionEvaluation(list(evaluatorFailureURI("|", uriSyntaxException)), terminal(success(dataValueBoolean(nel(resolver._4()), resolver._5().get("B").some(), nil())))),
+                normalizeException(trustInteroperabilityProfileTrustExpressionEvaluator.evaluate(resolver._3().toString(), list(resolverForTrustmark._2().toString(), "|")), uriSyntaxException, resolveException, runtimeException));
 
         assertEquals(
                 trustExpressionEvaluation(list(evaluatorFailureResolve(URI.create("failure"), resolveException)), terminal(success(dataValueBoolean(nel(resolver._4()), resolver._5().get("B").some(), nil())))),
-                normalizeException(trustInteroperabilityProfileTrustExpressionEvaluator.evaluate(resolver._3().toString(), list(resolverForTrustmark._2().toString(), "failure")), runtimeException, resolveException));
+                normalizeException(trustInteroperabilityProfileTrustExpressionEvaluator.evaluate(resolver._3().toString(), list(resolverForTrustmark._2().toString(), "failure")), uriSyntaxException, resolveException, runtimeException));
     }
 
     @Test

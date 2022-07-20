@@ -7,6 +7,7 @@ import org.gtri.fj.data.NonEmptyList;
 import org.gtri.fj.function.F2;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Objects;
 
 import static java.lang.String.format;
@@ -19,18 +20,18 @@ public abstract class TrustExpressionEvaluatorFailure {
     }
 
     public abstract <T1> T1 match(
-            final F2<String, RuntimeException, T1> fTrustExpressionEvaluatorFailureURI,
+            final F2<String, URISyntaxException, T1> fTrustExpressionEvaluatorFailureURI,
             final F2<URI, ResolveException, T1> fTrustExpressionEvaluatorFailureResolve,
             final F2<Trustmark, NonEmptyList<TrustmarkVerifierFailure>, T1> fTrustExpressionEvaluatorFailureVerify);
 
     public static final class TrustExpressionEvaluatorFailureURI extends TrustExpressionEvaluatorFailure {
 
         private final String uriString;
-        private final RuntimeException exception;
+        private final URISyntaxException exception;
 
         private TrustExpressionEvaluatorFailureURI(
                 final String uriString,
-                final RuntimeException exception) {
+                final URISyntaxException exception) {
 
             requireNonNull(uriString);
             requireNonNull(exception);
@@ -43,13 +44,13 @@ public abstract class TrustExpressionEvaluatorFailure {
             return uriString;
         }
 
-        public RuntimeException getException() {
+        public URISyntaxException getException() {
             return exception;
         }
 
         @Override
         public <T1> T1 match(
-                final F2<String, RuntimeException, T1> fTrustExpressionEvaluatorFailureURI,
+                final F2<String, URISyntaxException, T1> fTrustExpressionEvaluatorFailureURI,
                 final F2<URI, ResolveException, T1> fTrustExpressionEvaluatorFailureResolve,
                 final F2<Trustmark, NonEmptyList<TrustmarkVerifierFailure>, T1> fTrustExpressionEvaluatorFailureVerify) {
 
@@ -108,7 +109,7 @@ public abstract class TrustExpressionEvaluatorFailure {
 
         @Override
         public <T1> T1 match(
-                final F2<String, RuntimeException, T1> fTrustExpressionEvaluatorFailureURI,
+                final F2<String, URISyntaxException, T1> fTrustExpressionEvaluatorFailureURI,
                 final F2<URI, ResolveException, T1> fTrustExpressionEvaluatorFailureResolve,
                 final F2<Trustmark, NonEmptyList<TrustmarkVerifierFailure>, T1> fTrustExpressionEvaluatorFailureVerify) {
 
@@ -167,7 +168,7 @@ public abstract class TrustExpressionEvaluatorFailure {
 
         @Override
         public <T1> T1 match(
-                final F2<String, RuntimeException, T1> fTrustExpressionEvaluatorFailureURI,
+                final F2<String, URISyntaxException, T1> fTrustExpressionEvaluatorFailureURI,
                 final F2<URI, ResolveException, T1> fTrustExpressionEvaluatorFailureResolve,
                 final F2<Trustmark, NonEmptyList<TrustmarkVerifierFailure>, T1> fTrustExpressionEvaluatorFailureVerify) {
 
@@ -192,7 +193,7 @@ public abstract class TrustExpressionEvaluatorFailure {
         }
     }
 
-    public static final TrustExpressionEvaluatorFailureURI evaluatorFailureURI(final String uriString, final RuntimeException exception) {
+    public static final TrustExpressionEvaluatorFailureURI evaluatorFailureURI(final String uriString, final URISyntaxException exception) {
         return new TrustExpressionEvaluatorFailureURI(uriString, exception);
     }
 

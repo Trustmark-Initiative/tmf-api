@@ -5,7 +5,7 @@ import edu.gatech.gtri.trustmark.v1_0.impl.converter.Converter_1_0_to_1_1;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 

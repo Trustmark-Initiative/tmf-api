@@ -15,8 +15,8 @@ public final class TrustInteroperabilityProfileResolverImpl extends AbstractReso
     public TrustInteroperabilityProfileResolverImpl() {
         super(
                 arrayList(
-                        p(AbstractResolverUtility::isJson, new TrustInteroperabilityProfileJsonDeserializer()::deserialize),
-                        p(AbstractResolverUtility::isXml, new TrustInteroperabilityProfileXmlDeserializer()::deserialize)),
+                        p(AbstractResolverUtility::isJson, new TrustInteroperabilityProfileJsonDeserializer(true)::deserialize),
+                        p(AbstractResolverUtility::isXml, new TrustInteroperabilityProfileXmlDeserializer(true)::deserialize)),
                 entity -> entity,
                 FactoryLoader.getInstance(URIResolver.class),
                 new URIIteratorStrategyAcceptXmlAcceptJson());

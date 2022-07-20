@@ -1,0 +1,16 @@
+[
+  {
+    "id": 20,
+    "name": "Test OIDC Provider",
+    "organization": {
+      "id": 1,
+      "name": "National Identity Exchange Federation",
+      "displayName": "nief",
+      "description": null,
+      "siteUrl": "https://nief.org/"
+    },
+    "providerType": "OIDC Provider",
+    "trustmarks": [],
+    "conformanceTargetTips": []
+  }
+]

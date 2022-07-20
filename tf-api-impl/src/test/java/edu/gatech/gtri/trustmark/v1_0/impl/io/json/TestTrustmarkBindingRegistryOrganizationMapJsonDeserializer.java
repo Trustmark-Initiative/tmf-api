@@ -2,22 +2,18 @@ package edu.gatech.gtri.trustmark.v1_0.impl.io.json;
 
 import edu.gatech.gtri.trustmark.v1_0.impl.AbstractTest;
 import edu.gatech.gtri.trustmark.v1_0.impl.io.json.producers.TrustmarkBindingRegistryOrganizationMapJsonProducer;
-import edu.gatech.gtri.trustmark.v1_0.impl.io.json.producers.TrustmarkBindingRegistryOrganizationTrustmarkMapJsonProducer;
 import edu.gatech.gtri.trustmark.v1_0.model.trustmarkBindingRegistry.TrustmarkBindingRegistryOrganizationMap;
 import org.apache.commons.io.FileUtils;
 import org.json.JSONObject;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 
-/**
- * Created by brad on 12/9/15.
- */
 public class TestTrustmarkBindingRegistryOrganizationMapJsonDeserializer extends AbstractTest {
 
     @Test
     public void test() throws Exception {
-        File file = new File("./src/test/resources/edu/gatech/gtri/trustmark/v1_0/impl/io/json/TrustmarkBindingRegistryOrganizationMap.json");
+        File file = new File("./src/test/resources/edu/gatech/gtri/trustmark/v1_0/impl/io/json/organizations.json");
         String json = FileUtils.readFileToString(file);
         TrustmarkBindingRegistryOrganizationMap trustmarkBindingRegistryOrganizationMap1 = new TrustmarkBindingRegistryOrganizationMapJsonDeserializer().deserialize(json);
 

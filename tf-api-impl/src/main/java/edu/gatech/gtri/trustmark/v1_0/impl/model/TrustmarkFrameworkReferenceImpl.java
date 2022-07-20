@@ -27,8 +27,6 @@ public class TrustmarkFrameworkReferenceImpl extends TrustmarkFrameworkIdentifie
         return terms;
     }
 
-    private String originalSource;
-    private String originalSourceType;
     private Date publicationDateTime;
     private String legalNotice;
     private String notes;
@@ -44,8 +42,6 @@ public class TrustmarkFrameworkReferenceImpl extends TrustmarkFrameworkIdentifie
 
     public TrustmarkFrameworkReferenceImpl() {
         super();
-        this.originalSource = null;
-        this.originalSourceType = null;
         this.publicationDateTime = null;
         this.legalNotice = null;
         this.notes = null;
@@ -66,8 +62,6 @@ public class TrustmarkFrameworkReferenceImpl extends TrustmarkFrameworkIdentifie
             final Integer number,
             final String version,
             final String description,
-            final String originalSource,
-            final String originalSourceType,
             final Date publicationDateTime,
             final String legalNotice,
             final String notes,
@@ -81,8 +75,6 @@ public class TrustmarkFrameworkReferenceImpl extends TrustmarkFrameworkIdentifie
             final Collection<Term> terms) {
 
         super(typeName, identifier, name, number, version, description);
-        this.originalSource = originalSource;
-        this.originalSourceType = originalSourceType;
         this.publicationDateTime = publicationDateTime;
         this.legalNotice = legalNotice;
         this.notes = notes;
@@ -94,24 +86,6 @@ public class TrustmarkFrameworkReferenceImpl extends TrustmarkFrameworkIdentifie
         this.satisfies = satisfies;
         this.knownConflicts = knownConflicts;
         this.terms = terms;
-    }
-
-    @Override
-    public String getOriginalSource() {
-        return originalSource;
-    }
-
-    public void setOriginalSource(final String originalSource) {
-        this.originalSource = originalSource;
-    }
-
-    @Override
-    public String getOriginalSourceType() {
-        return originalSourceType;
-    }
-
-    public void setOriginalSourceType(final String originalSourceType) {
-        this.originalSourceType = originalSourceType;
     }
 
     @Override

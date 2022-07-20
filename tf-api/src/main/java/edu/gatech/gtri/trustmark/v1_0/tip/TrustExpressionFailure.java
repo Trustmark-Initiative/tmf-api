@@ -14,6 +14,7 @@ import org.gtri.fj.function.F2;
 import org.gtri.fj.function.F3;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Objects;
 
 import static java.lang.String.format;
@@ -28,7 +29,7 @@ public abstract class TrustExpressionFailure {
     }
 
     public abstract <T1> T1 match(
-            F3<List<TrustInteroperabilityProfile>, String, RuntimeException, T1> fTrustExpressionFailureURI,
+            F3<List<TrustInteroperabilityProfile>, String, URISyntaxException, T1> fTrustExpressionFailureURI,
             F3<List<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustInteroperabilityProfile,
             F1<NonEmptyList<TrustInteroperabilityProfile>, T1> fTrustExpressionFailureCycle,
             F3<NonEmptyList<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustmarkDefinition,
@@ -79,12 +80,12 @@ public abstract class TrustExpressionFailure {
     public static final class TrustExpressionFailureURI extends TrustExpressionFailure {
         private final List<TrustInteroperabilityProfile> trustInteroperabilityProfileList;
         private final String uriString;
-        private final RuntimeException exception;
+        private final URISyntaxException exception;
 
         public TrustExpressionFailureURI(
                 final List<TrustInteroperabilityProfile> trustInteroperabilityProfileList,
                 final String uriString,
-                final RuntimeException exception) {
+                final URISyntaxException exception) {
 
             requireNonNull(trustInteroperabilityProfileList);
             requireNonNull(uriString);
@@ -96,7 +97,7 @@ public abstract class TrustExpressionFailure {
         }
 
         public <T1> T1 match(
-                F3<List<TrustInteroperabilityProfile>, String, RuntimeException, T1> fTrustExpressionFailureURI,
+                F3<List<TrustInteroperabilityProfile>, String, URISyntaxException, T1> fTrustExpressionFailureURI,
                 F3<List<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustInteroperabilityProfile,
                 F1<NonEmptyList<TrustInteroperabilityProfile>, T1> fTrustExpressionFailureCycle,
                 F3<NonEmptyList<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustmarkDefinition,
@@ -177,7 +178,7 @@ public abstract class TrustExpressionFailure {
         }
 
         public <T1> T1 match(
-                F3<List<TrustInteroperabilityProfile>, String, RuntimeException, T1> fTrustExpressionFailureURI,
+                F3<List<TrustInteroperabilityProfile>, String, URISyntaxException, T1> fTrustExpressionFailureURI,
                 F3<List<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustInteroperabilityProfile,
                 F1<NonEmptyList<TrustInteroperabilityProfile>, T1> fTrustExpressionFailureCycle,
                 F3<NonEmptyList<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustmarkDefinition,
@@ -250,7 +251,7 @@ public abstract class TrustExpressionFailure {
         }
 
         public <T1> T1 match(
-                F3<List<TrustInteroperabilityProfile>, String, RuntimeException, T1> fTrustExpressionFailureURI,
+                F3<List<TrustInteroperabilityProfile>, String, URISyntaxException, T1> fTrustExpressionFailureURI,
                 F3<List<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustInteroperabilityProfile,
                 F1<NonEmptyList<TrustInteroperabilityProfile>, T1> fTrustExpressionFailureCycle,
                 F3<NonEmptyList<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustmarkDefinition,
@@ -331,7 +332,7 @@ public abstract class TrustExpressionFailure {
         }
 
         public <T1> T1 match(
-                F3<List<TrustInteroperabilityProfile>, String, RuntimeException, T1> fTrustExpressionFailureURI,
+                F3<List<TrustInteroperabilityProfile>, String, URISyntaxException, T1> fTrustExpressionFailureURI,
                 F3<List<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustInteroperabilityProfile,
                 F1<NonEmptyList<TrustInteroperabilityProfile>, T1> fTrustExpressionFailureCycle,
                 F3<NonEmptyList<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustmarkDefinition,
@@ -412,7 +413,7 @@ public abstract class TrustExpressionFailure {
         }
 
         public <T1> T1 match(
-                F3<List<TrustInteroperabilityProfile>, String, RuntimeException, T1> fTrustExpressionFailureURI,
+                F3<List<TrustInteroperabilityProfile>, String, URISyntaxException, T1> fTrustExpressionFailureURI,
                 F3<List<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustInteroperabilityProfile,
                 F1<NonEmptyList<TrustInteroperabilityProfile>, T1> fTrustExpressionFailureCycle,
                 F3<NonEmptyList<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustmarkDefinition,
@@ -489,7 +490,7 @@ public abstract class TrustExpressionFailure {
         }
 
         public <T1> T1 match(
-                F3<List<TrustInteroperabilityProfile>, String, RuntimeException, T1> fTrustExpressionFailureURI,
+                F3<List<TrustInteroperabilityProfile>, String, URISyntaxException, T1> fTrustExpressionFailureURI,
                 F3<List<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustInteroperabilityProfile,
                 F1<NonEmptyList<TrustInteroperabilityProfile>, T1> fTrustExpressionFailureCycle,
                 F3<NonEmptyList<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustmarkDefinition,
@@ -570,7 +571,7 @@ public abstract class TrustExpressionFailure {
         }
 
         public <T1> T1 match(
-                F3<List<TrustInteroperabilityProfile>, String, RuntimeException, T1> fTrustExpressionFailureURI,
+                F3<List<TrustInteroperabilityProfile>, String, URISyntaxException, T1> fTrustExpressionFailureURI,
                 F3<List<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustInteroperabilityProfile,
                 F1<NonEmptyList<TrustInteroperabilityProfile>, T1> fTrustExpressionFailureCycle,
                 F3<NonEmptyList<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustmarkDefinition,
@@ -651,7 +652,7 @@ public abstract class TrustExpressionFailure {
         }
 
         public <T1> T1 match(
-                F3<List<TrustInteroperabilityProfile>, String, RuntimeException, T1> fTrustExpressionFailureURI,
+                F3<List<TrustInteroperabilityProfile>, String, URISyntaxException, T1> fTrustExpressionFailureURI,
                 F3<List<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustInteroperabilityProfile,
                 F1<NonEmptyList<TrustInteroperabilityProfile>, T1> fTrustExpressionFailureCycle,
                 F3<NonEmptyList<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustmarkDefinition,
@@ -732,7 +733,7 @@ public abstract class TrustExpressionFailure {
         }
 
         public <T1> T1 match(
-                F3<List<TrustInteroperabilityProfile>, String, RuntimeException, T1> fTrustExpressionFailureURI,
+                F3<List<TrustInteroperabilityProfile>, String, URISyntaxException, T1> fTrustExpressionFailureURI,
                 F3<List<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustInteroperabilityProfile,
                 F1<NonEmptyList<TrustInteroperabilityProfile>, T1> fTrustExpressionFailureCycle,
                 F3<NonEmptyList<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustmarkDefinition,
@@ -805,7 +806,7 @@ public abstract class TrustExpressionFailure {
         }
 
         public <T1> T1 match(
-                F3<List<TrustInteroperabilityProfile>, String, RuntimeException, T1> fTrustExpressionFailureURI,
+                F3<List<TrustInteroperabilityProfile>, String, URISyntaxException, T1> fTrustExpressionFailureURI,
                 F3<List<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustInteroperabilityProfile,
                 F1<NonEmptyList<TrustInteroperabilityProfile>, T1> fTrustExpressionFailureCycle,
                 F3<NonEmptyList<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustmarkDefinition,
@@ -886,7 +887,7 @@ public abstract class TrustExpressionFailure {
         }
 
         public <T1> T1 match(
-                F3<List<TrustInteroperabilityProfile>, String, RuntimeException, T1> fTrustExpressionFailureURI,
+                F3<List<TrustInteroperabilityProfile>, String, URISyntaxException, T1> fTrustExpressionFailureURI,
                 F3<List<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustInteroperabilityProfile,
                 F1<NonEmptyList<TrustInteroperabilityProfile>, T1> fTrustExpressionFailureCycle,
                 F3<NonEmptyList<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustmarkDefinition,
@@ -967,7 +968,7 @@ public abstract class TrustExpressionFailure {
         }
 
         public <T1> T1 match(
-                F3<List<TrustInteroperabilityProfile>, String, RuntimeException, T1> fTrustExpressionFailureURI,
+                F3<List<TrustInteroperabilityProfile>, String, URISyntaxException, T1> fTrustExpressionFailureURI,
                 F3<List<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustInteroperabilityProfile,
                 F1<NonEmptyList<TrustInteroperabilityProfile>, T1> fTrustExpressionFailureCycle,
                 F3<NonEmptyList<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustmarkDefinition,
@@ -1048,7 +1049,7 @@ public abstract class TrustExpressionFailure {
         }
 
         public <T1> T1 match(
-                F3<List<TrustInteroperabilityProfile>, String, RuntimeException, T1> fTrustExpressionFailureURI,
+                F3<List<TrustInteroperabilityProfile>, String, URISyntaxException, T1> fTrustExpressionFailureURI,
                 F3<List<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustInteroperabilityProfile,
                 F1<NonEmptyList<TrustInteroperabilityProfile>, T1> fTrustExpressionFailureCycle,
                 F3<NonEmptyList<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustmarkDefinition,
@@ -1129,7 +1130,7 @@ public abstract class TrustExpressionFailure {
         }
 
         public <T1> T1 match(
-                F3<List<TrustInteroperabilityProfile>, String, RuntimeException, T1> fTrustExpressionFailureURI,
+                F3<List<TrustInteroperabilityProfile>, String, URISyntaxException, T1> fTrustExpressionFailureURI,
                 F3<List<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustInteroperabilityProfile,
                 F1<NonEmptyList<TrustInteroperabilityProfile>, T1> fTrustExpressionFailureCycle,
                 F3<NonEmptyList<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustmarkDefinition,
@@ -1210,7 +1211,7 @@ public abstract class TrustExpressionFailure {
         }
 
         public <T1> T1 match(
-                F3<List<TrustInteroperabilityProfile>, String, RuntimeException, T1> fTrustExpressionFailureURI,
+                F3<List<TrustInteroperabilityProfile>, String, URISyntaxException, T1> fTrustExpressionFailureURI,
                 F3<List<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustInteroperabilityProfile,
                 F1<NonEmptyList<TrustInteroperabilityProfile>, T1> fTrustExpressionFailureCycle,
                 F3<NonEmptyList<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustmarkDefinition,
@@ -1291,7 +1292,7 @@ public abstract class TrustExpressionFailure {
         }
 
         public <T1> T1 match(
-                F3<List<TrustInteroperabilityProfile>, String, RuntimeException, T1> fTrustExpressionFailureURI,
+                F3<List<TrustInteroperabilityProfile>, String, URISyntaxException, T1> fTrustExpressionFailureURI,
                 F3<List<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustInteroperabilityProfile,
                 F1<NonEmptyList<TrustInteroperabilityProfile>, T1> fTrustExpressionFailureCycle,
                 F3<NonEmptyList<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustmarkDefinition,
@@ -1368,7 +1369,7 @@ public abstract class TrustExpressionFailure {
         }
 
         public <T1> T1 match(
-                F3<List<TrustInteroperabilityProfile>, String, RuntimeException, T1> fTrustExpressionFailureURI,
+                F3<List<TrustInteroperabilityProfile>, String, URISyntaxException, T1> fTrustExpressionFailureURI,
                 F3<List<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustInteroperabilityProfile,
                 F1<NonEmptyList<TrustInteroperabilityProfile>, T1> fTrustExpressionFailureCycle,
                 F3<NonEmptyList<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustmarkDefinition,
@@ -1445,7 +1446,7 @@ public abstract class TrustExpressionFailure {
         }
 
         public <T1> T1 match(
-                F3<List<TrustInteroperabilityProfile>, String, RuntimeException, T1> fTrustExpressionFailureURI,
+                F3<List<TrustInteroperabilityProfile>, String, URISyntaxException, T1> fTrustExpressionFailureURI,
                 F3<List<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustInteroperabilityProfile,
                 F1<NonEmptyList<TrustInteroperabilityProfile>, T1> fTrustExpressionFailureCycle,
                 F3<NonEmptyList<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustmarkDefinition,
@@ -1522,7 +1523,7 @@ public abstract class TrustExpressionFailure {
         }
 
         public <T1> T1 match(
-                F3<List<TrustInteroperabilityProfile>, String, RuntimeException, T1> fTrustExpressionFailureURI,
+                F3<List<TrustInteroperabilityProfile>, String, URISyntaxException, T1> fTrustExpressionFailureURI,
                 F3<List<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustInteroperabilityProfile,
                 F1<NonEmptyList<TrustInteroperabilityProfile>, T1> fTrustExpressionFailureCycle,
                 F3<NonEmptyList<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustmarkDefinition,
@@ -1599,7 +1600,7 @@ public abstract class TrustExpressionFailure {
         }
 
         public <T1> T1 match(
-                F3<List<TrustInteroperabilityProfile>, String, RuntimeException, T1> fTrustExpressionFailureURI,
+                F3<List<TrustInteroperabilityProfile>, String, URISyntaxException, T1> fTrustExpressionFailureURI,
                 F3<List<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustInteroperabilityProfile,
                 F1<NonEmptyList<TrustInteroperabilityProfile>, T1> fTrustExpressionFailureCycle,
                 F3<NonEmptyList<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustmarkDefinition,
@@ -1676,7 +1677,7 @@ public abstract class TrustExpressionFailure {
         }
 
         public <T1> T1 match(
-                F3<List<TrustInteroperabilityProfile>, String, RuntimeException, T1> fTrustExpressionFailureURI,
+                F3<List<TrustInteroperabilityProfile>, String, URISyntaxException, T1> fTrustExpressionFailureURI,
                 F3<List<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustInteroperabilityProfile,
                 F1<NonEmptyList<TrustInteroperabilityProfile>, T1> fTrustExpressionFailureCycle,
                 F3<NonEmptyList<TrustInteroperabilityProfile>, URI, ResolveException, T1> fTrustExpressionFailureResolveTrustmarkDefinition,
@@ -1740,7 +1741,7 @@ public abstract class TrustExpressionFailure {
     public static final TrustExpressionFailure failureURI(
             final List<TrustInteroperabilityProfile> trustInteroperabilityProfileList,
             final String uriString,
-            final RuntimeException exception) {
+            final URISyntaxException exception) {
 
         return new TrustExpressionFailureURI(trustInteroperabilityProfileList, uriString, exception);
     }
