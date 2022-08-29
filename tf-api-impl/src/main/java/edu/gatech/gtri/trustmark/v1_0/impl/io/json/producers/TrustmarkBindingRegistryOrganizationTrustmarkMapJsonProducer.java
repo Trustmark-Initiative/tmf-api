@@ -7,8 +7,11 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.kohsuke.MetaInfServices;
 
+import java.net.URI;
+
 import static org.gtri.fj.Ord.ord;
 import static org.gtri.fj.lang.StringUtility.stringOrd;
+import static org.gtri.fj.product.P2.p2Ord1;
 
 @MetaInfServices
 public final class TrustmarkBindingRegistryOrganizationTrustmarkMapJsonProducer implements JsonProducer<TrustmarkBindingRegistryOrganizationTrustmarkMap, JSONObject> {
@@ -32,7 +35,7 @@ public final class TrustmarkBindingRegistryOrganizationTrustmarkMapJsonProducer 
         return new JSONObject(new java.util.HashMap<String, JSONArray>() {{
             put(PROPERTY_NAME_LIST, new JSONArray(trustmarkBindingRegistryOrganizationTrustmarkMap.getTrustmarkMap()
                     .toList()
-                    .sort(ord((o1, o2) -> stringOrd.compare(o1._1().toString(), o2._1().toString())))
+                    .sort(p2Ord1(ord((URI o1, URI o2) -> stringOrd.compare(o1.toString(), o2.toString()))))
                     .map(P2::_2)
                     .map(trustmarkBindingRegistryOrganizationTrustmark -> trustmarkBindingRegistryOrganizationTrustmarkJsonProducer.serialize(trustmarkBindingRegistryOrganizationTrustmark))
                     .toCollection()));

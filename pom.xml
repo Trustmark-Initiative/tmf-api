@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>edu.gatech.gtri.trustmark</groupId>
     <artifactId>tf-api-reactor</artifactId>
-    <version>1.4.35</version>
+    <version>1.4.37</version>
     <packaging>pom</packaging>
     <modules>
         <module>tf-api-maven</module>

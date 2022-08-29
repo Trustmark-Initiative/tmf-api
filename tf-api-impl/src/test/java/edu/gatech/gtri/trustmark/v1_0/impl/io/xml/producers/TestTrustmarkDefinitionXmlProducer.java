@@ -66,5 +66,37 @@ public class TestTrustmarkDefinitionXmlProducer extends AbstractTest {
         logger.info("Successfully output XML using the TrustmarkDefinitionXmlProducer!");
     }//end testXmlOutput()
 
+    @Test
+    public void testMultiCriteriaIdGeneration() throws Exception {
+        String TD_FULL_FILE = "./src/test/resources/TDs/tdAssessmentSteps.json";
+        logger.debug("Loading TrustmarkDefinition from json file...{}", TD_FULL_FILE);
+        File jsonFile = new File(TD_FULL_FILE);
+        String json = FileUtils.readFileToString(jsonFile);
+        TrustmarkDefinition td = new TrustmarkDefinitionJsonDeserializer(true).deserialize(json);
+        assertThat(td, notNullValue());
+
+        logger.debug("Getting XmlManager...");
+        XmlManager manager = FactoryLoader.getInstance(XmlManager.class);
+        assertThat(manager, notNullValue());
+
+        logger.debug("Getting the XmlSerializer....");
+        SerializerFactory factory = FactoryLoader.getInstance(SerializerFactory.class);
+        Serializer serializer = factory.getXmlSerializer();
+
+        logger.debug("Serializing TD to XML...");
+        StringWriter output = new StringWriter();
+        serializer.serialize(td, output);
+
+        String xml2 = output.toString();
+        //logger.debug("Successfully produced XML: \n" + xml2);
+        XmlHelper.validateXml(xml2);
+        //XmlHelper.readWithDom4j(xml2).selectSingleNode("//*[local-name()='TrustmarkDefinition']/*[local-name()='AssessmentSteps']/*[local-name()='AssessmentStep']/@tf:id")
+        assertThat(XmlHelper.readWithDom4j(xml2).selectSingleNode("//tf:TrustmarkDefinition/tf:AssessmentSteps/tf:AssessmentStep[@tf:id='SingleAssessmentStep']"),
+                notNullValue());
+
+        TrustmarkDefinition td2 = new TrustmarkDefinitionXmlDeserializer(true).deserialize(xml2);
+        assertThat(td2, notNullValue());
+        logger.info("Successfully output XML using the TrustmarkDefinitionXmlProducer!");
+    }//end testXmlOutput()
 
 }

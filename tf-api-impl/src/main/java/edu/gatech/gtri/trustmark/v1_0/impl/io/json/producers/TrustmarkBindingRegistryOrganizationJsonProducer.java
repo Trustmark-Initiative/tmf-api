@@ -8,6 +8,8 @@ import org.kohsuke.MetaInfServices;
 
 import java.net.URI;
 
+import static org.gtri.fj.lang.StringUtility.stringOrd;
+
 @MetaInfServices
 public final class TrustmarkBindingRegistryOrganizationJsonProducer implements JsonProducer<TrustmarkBindingRegistryOrganization, JSONObject> {
 
@@ -37,7 +39,7 @@ public final class TrustmarkBindingRegistryOrganizationJsonProducer implements J
             put(PROPERTY_NAME_NAME_LONG, trustmarkBindingRegistryOrganization.getDisplayName() == null ? null : trustmarkBindingRegistryOrganization.getDisplayName());
             put(PROPERTY_NAME_DESCRIPTION, trustmarkBindingRegistryOrganization.getDescription() == null ? null : trustmarkBindingRegistryOrganization.getDescription());
             put(PROPERTY_NAME_TRUSTMARK_MAP, trustmarkBindingRegistryOrganization.getOrganizationTrustmarkMapURI() == null ? null : trustmarkBindingRegistryOrganization.getOrganizationTrustmarkMapURI().toString());
-            put(PROPERTY_NAME_TRUSTMARK_RECIPIENT_IDENTIFIER_LIST, new JSONArray(trustmarkBindingRegistryOrganization.getTrustmarkRecipientIdentifiers().map(URI::toString).toCollection()));
+            put(PROPERTY_NAME_TRUSTMARK_RECIPIENT_IDENTIFIER_LIST, new JSONArray(trustmarkBindingRegistryOrganization.getTrustmarkRecipientIdentifiers().map(URI::toString).sort(stringOrd).toCollection()));
         }});
     }
 }

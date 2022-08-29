@@ -30,7 +30,7 @@ public class AssessmentStepXmlProducer implements XmlProducer<AssessmentStep> {
     public void serialize(AssessmentStep step, XMLStreamWriter xmlWriter) throws XMLStreamException {
         log.debug("Writing XML for AssessmentStep #" + step.getNumber() + ": " + step.getName());
 
-        String id = "Step" + step.getNumber();
+        String id = step.getId();
         xmlWriter.writeAttribute("tf", NAMESPACE_URI, "id", id);
 
         xmlWriter.writeStartElement(NAMESPACE_URI, "Number");

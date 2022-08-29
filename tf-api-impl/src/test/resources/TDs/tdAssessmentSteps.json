@@ -1,0 +1,86 @@
+{
+  "ConformanceCriteria": [
+    {
+      "Description": "For each certificate issued, the Entity CAs and/or RAs shall record a signed declaration by that person that he or she verified the identity of the\napplicant as required using the format set forth at 28 U.S.C. 1746 (declaration\nunder penalty of perjury) or comparable...",
+      "Number": 1,
+      "Citations": [
+        {
+          "Description": "Telecon 8/11",
+          "Source": {
+            "$ref": "#source2571410"
+          }
+        }
+      ],
+      "$id": "criterion1",
+      "Name": "C1"
+    }
+  ],
+  "AssessmentSteps": [
+    {
+      "ConformanceCriteria": [
+        {
+          "$ref": "#criterion1"
+        }
+      ],
+      "Artifacts": [
+        {
+          "Description": "Provide evidence (e.g. organizational policies, procedures, compliance/assessment reports, etc.) that support the assessor's response to this assessment step.",
+          "Name": "A1"
+        }
+      ],
+      "Description": "To test this assessment step review all conformance criteria and confirm they have been adequately met.",
+      "Number": 1,
+      "$id": "SingleAssessmentStep",
+      "Name": "Single Assessment Step"
+    }
+  ],
+  "$TMF_VERSION": "1.4",
+  "IssuanceCriteria": "yes(all)",
+  "Metadata": {
+    "PublicationDateTime": "2020-08-11T00:00:00.000Z",
+    "TargetRecipientDescription": "Description of the Target Recipient",
+    "Description": "This Trustmark Definition has multiple criteria covered by a single assessment step and is useful for testing visualization of that use case.",
+    "Keywords": [
+      "TEST"
+    ],
+    "ExtensionDescription": "Description of an Extension",
+    "Name": "Multiple Criteria Per Assessment Step",
+    "Identifier": "http://localhost:8080/tpat/tds/mutli-criteria/1.0-test/",
+    "TargetProviderDescription": "Description of the Target Provider",
+    "ProviderEligibilityCriteria": "Eligibility Criteria of Provider",
+    "Version": "1.0-test",
+    "TrustmarkRevocationCriteria": "Criteria for a Trustmark Revocation",
+    "LegalNotice": "Default TD Legal Notice",
+    "TargetRelyingPartyDescription": "Description of the Target Relying Party",
+    "TargetStakeholderDescription": "Description of the Target Stakeholder",
+    "AssessorQualificationsDescription": "Description of the Assessors Qualifications",
+    "TrustmarkDefiningOrganization": {
+      "Identifier": "https://trustmarkinitiative.org/",
+      "PrimaryContact": {
+        "Email": "help@trustmarkinitiative.org",
+        "Kind": "PRIMARY",
+        "WebsiteURL": "https://trustmarkinitiative.org/",
+        "Responder": ""
+      },
+      "Name": "TDO"
+    },
+    "Notes": "Default TD Notes"
+  },
+  "Terms": [
+    {
+      "Definition": "Used to mark TDs and TIPs that are meant for testing only.",
+      "Abbreviations": [
+        "TEST"
+      ],
+      "Name": "TEST"
+    }
+  ],
+  "$Type": "TrustmarkDefinition",
+  "Sources": [
+    {
+      "Identifier": "TEST",
+      "Reference": "Telecon discussion on 8/10",
+      "$id": "source2571410"
+    }
+  ]
+}

@@ -8,6 +8,8 @@ import org.kohsuke.MetaInfServices;
 
 import java.net.URI;
 
+import static org.gtri.fj.lang.StringUtility.stringOrd;
+
 @MetaInfServices
 public final class TrustmarkBindingRegistrySystemJsonProducer implements JsonProducer<TrustmarkBindingRegistrySystem, JSONObject> {
 
@@ -21,7 +23,6 @@ public final class TrustmarkBindingRegistrySystemJsonProducer implements JsonPro
         return JSONObject.class;
     }
 
-    public static final String PROPERTY_NAME_ID = "id";
     public static final String PROPERTY_NAME_IDENTIFYER_FOR_OIDC = "uniqueId";
     public static final String PROPERTY_NAME_IDENTIFIER_FOR_CERTIFICATE = "systemCertificateUrl";
     public static final String PROPERTY_NAME_IDENTIFIER_FOR_SAML = "entityId";
@@ -54,10 +55,10 @@ public final class TrustmarkBindingRegistrySystemJsonProducer implements JsonPro
                     ignore -> null,
                     ignore -> null);
             put(PROPERTY_NAME_ORGANIZATION, new JSONObject(new java.util.HashMap<String, Object>() {{
-                put(PROPERTY_NAME_TRUSTMARK_RECIPIENT_IDENTIFIER_LIST, new JSONArray(trustmarkBindingRegistrySystem.getTrustmarkRecipientIdentifiers().map(URI::toString).toCollection()));
+                put(PROPERTY_NAME_TRUSTMARK_RECIPIENT_IDENTIFIER_LIST, new JSONArray(trustmarkBindingRegistrySystem.getTrustmarkRecipientIdentifiers().map(URI::toString).sort(stringOrd).toCollection()));
             }}));
-            put(PROPERTY_NAME_TRUSTMARK, new JSONArray(trustmarkBindingRegistrySystem.getTrustmarks().map(uri -> new JSONObject(new java.util.HashMap<String, String>() {{
-                put(PROPERTY_NAME_TRUSTMARK_URI, uri.toString());
+            put(PROPERTY_NAME_TRUSTMARK, new JSONArray(trustmarkBindingRegistrySystem.getTrustmarks().map(URI::toString).sort(stringOrd).map(uriString -> new JSONObject(new java.util.HashMap<String, String>() {{
+                put(PROPERTY_NAME_TRUSTMARK_URI, uriString);
             }})).toCollection()));
         }});
     }

@@ -6,8 +6,8 @@ import org.gtri.fj.product.P2;
 import org.json.JSONArray;
 import org.kohsuke.MetaInfServices;
 
-import static org.gtri.fj.Ord.ord;
 import static org.gtri.fj.lang.StringUtility.stringOrd;
+import static org.gtri.fj.product.P2.p2Ord1;
 
 @MetaInfServices
 public final class TrustmarkBindingRegistrySystemMapJsonProducer implements JsonProducer<TrustmarkBindingRegistrySystemMap, JSONArray> {
@@ -28,7 +28,7 @@ public final class TrustmarkBindingRegistrySystemMapJsonProducer implements Json
     public JSONArray serialize(final TrustmarkBindingRegistrySystemMap trustmarkBindingRegistrySystemMap) {
         return new JSONArray(trustmarkBindingRegistrySystemMap.getSystemMap()
                 .toList()
-                .sort(ord((o1, o2) -> stringOrd.compare(o1._1(), o2._1())))
+                .sort(p2Ord1(stringOrd))
                 .map(P2::_2)
                 .map(trustmarkBindingRegistrySystem -> trustmarkBindingRegistrySystemJsonProducer.serialize(trustmarkBindingRegistrySystem)).toCollection());
     }
