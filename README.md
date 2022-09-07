@@ -6,7 +6,7 @@ This project contains the Java API implementing the Trustmark Framework specific
 
 ## How to build
 
-You must have Java 11+ and Maven available to build this project.  It is built with 
+You must have Java 1.8+ and Maven available to build this project.  It is built with 
 
          mvn clean install
 

@@ -34,19 +34,59 @@ public class TestIssuanceCriteriaEvaluatorJUEL extends AbstractTest {
     }//end doTest()
 
     @Test
-    public void testYesAllPredicateWith2YesResults() throws Exception {
-        String name = "testYesAllPredicateWith2YesResults";
-        String issuanceCriteria = "yes(ALL)";
+    public void testIssuanceCriteriaWithHiphensInStepIDs() throws Exception {
+        String name = "testIssuanceCriteriaWithHiphensInStepIDs";
+        String issuanceCriteria = "yes(AccessAuthorizations-Valid) " +
+                "and yes(AccessAuthorizations-IntendedUse) " +
+                "and not na(AccessAuthorizations-NeedToKnow) " +
+                "and not na(AccessAuthorizations-PersonnelSecurity) " +
+                "and not na(AccessAuthorizations-OtherCriteria)";
+
         AssessmentResults results = new AssessmentResultsImpl();
-        results.put("FirstStep", StepResult.YES);
-        results.put("SecondStep", StepResult.YES);
+        results.put("AccessAuthorizations-Valid", StepResult.YES);
+        results.put("AccessAuthorizations-IntendedUse", StepResult.YES);
+        results.put("AccessAuthorizations-NeedToKnow", StepResult.YES);
+        results.put("AccessAuthorizations-PersonnelSecurity", StepResult.YES);
+        results.put("AccessAuthorizations-OtherCriteria", StepResult.YES);
+
+        Boolean expectedEvaluation = true;
+        doTest(name, issuanceCriteria, results, expectedEvaluation);
+    }
+
+    @Test
+    public void testComplexExpressionWithExplicitNewlines() throws Exception {
+        String name = "testComplexExpressionWithExplicitNewlines";
+        String issuanceCriteria = "yes(SystemUsesandSupportsSAML20) \n" +
+                "and yes(RedirectBindingSupport) \n" +
+                "and (yes(NameIDPolicySupport) or yes(ForceAuthnSupport) or yes(isPassiveSupport))\n" +
+                "and (yes(SignatureVerificationonAuthnRequest) or yes(ProperUseofAssertioninSAMLResponse) or yes(ProperDigitalSignatureofSAMLAssertion))\n" +
+                "and (yes(UseofProperAssertionConsumerServiceURL) or yes(POSTBindingSupport) \n" +
+                "     or yes(ProperUseofIssuerinSAMLResponse) or yes(ProperUseofSAMLAuthnStatement)\n" +
+                "  or yes(ValidContextClass) or yes(ValidSubjectID) or yes(ValidConditions))";
+
+        AssessmentResults results = new AssessmentResultsImpl();
+        results.put("SystemUsesandSupportsSAML20", StepResult.YES);
+        results.put("RedirectBindingSupport", StepResult.YES);
+        results.put("NameIDPolicySupport", StepResult.YES);
+        results.put("ForceAuthnSupport", StepResult.YES);
+        results.put("isPassiveSupport", StepResult.YES);
+        results.put("SignatureVerificationonAuthnRequest", StepResult.YES);
+        results.put("ProperUseofAssertioninSAMLResponse", StepResult.YES);
+        results.put("ProperDigitalSignatureofSAMLAssertion", StepResult.YES);
+        results.put("UseofProperAssertionConsumerServiceURL", StepResult.YES);
+        results.put("POSTBindingSupport", StepResult.YES);
+        results.put("ProperUseofIssuerinSAMLResponse", StepResult.YES);
+        results.put("ProperUseofSAMLAuthnStatement", StepResult.YES);
+        results.put("ValidContextClass", StepResult.NO);
+        results.put("ValidSubjectID", StepResult.NO);
+        results.put("ValidConditions", StepResult.NO);
         Boolean expectedEvaluation = true;
         doTest(name, issuanceCriteria, results, expectedEvaluation);
     }
 
     @Test
     public void testYesAllLowerCasePredicateWith2YesResults() throws Exception {
-        String name = "testYesAllPredicateWith2YesResults";
+        String name = "testYesAllLowerCasePredicateWith2YesResults";
         String issuanceCriteria = "yes(all)";
         AssessmentResults results = new AssessmentResultsImpl();
         results.put("FirstStep", StepResult.YES);

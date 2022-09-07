@@ -16,6 +16,7 @@ import edu.gatech.gtri.trustmark.v1_0.assessment.AssessmentResults;
 import edu.gatech.gtri.trustmark.v1_0.assessment.IssuanceCriteriaEvaluation;
 import edu.gatech.gtri.trustmark.v1_0.assessment.IssuanceCriteriaEvaluationException;
 import edu.gatech.gtri.trustmark.v1_0.assessment.IssuanceCriteriaEvaluator;
+import edu.gatech.gtri.trustmark.v1_0.impl.assessment.AssessmentResultsImpl;
 import edu.gatech.gtri.trustmark.v1_0.impl.assessment.IssuanceCriteriaEvaluationImpl;
 
 /**
@@ -172,10 +173,32 @@ public class IssuanceCriteriaEvaluatorJUEL implements IssuanceCriteriaEvaluator 
 		return false;
 	}
 
+	private String replaceMinusWithUnderscoreInExpression(String expression) {
+
+		String replaced = expression.replace("-", "_");
+
+		return replaced;
+	}
+
+	private AssessmentResults replaceMinusWithUnderscoreInStepResults(AssessmentResults results) {
+
+		AssessmentResults tempResults = new AssessmentResultsImpl();
+		results.forEach((key, value) ->  tempResults.put(replaceMinusWithUnderscoreInExpression(key), value));
+
+		return tempResults;
+	}
+
 	public IssuanceCriteriaEvaluation evaluate(String issuanceCriteria, AssessmentResults results)
 			throws IssuanceCriteriaEvaluationException {
 
 		try {
+			// Step ids in Issuance criteria expressions and in step results can potentially contain hiphens ("-") which
+			// is by default interpreted as an operator by JUEL. Replace all hiphens with underscores in both the
+			// issuance criteria expression and in the assessment results step ids.
+			issuanceCriteria = replaceMinusWithUnderscoreInExpression(issuanceCriteria);
+			results = replaceMinusWithUnderscoreInStepResults(results);
+
+
 			String elStr = toELString(issuanceCriteria);
 
 			// for no-function expressions, add yes function
