@@ -10,7 +10,7 @@ import java.util.List;
  *
  * @author GTRI Trustmark Team
  */
-public interface TrustmarkFrameworkReference extends TrustmarkFrameworkIdentifiedObject, HasSource {
+public interface TrustmarkFrameworkReference extends TrustmarkFrameworkIdentifiedObject {
 
     /**
      * Returns the terms; non-null.

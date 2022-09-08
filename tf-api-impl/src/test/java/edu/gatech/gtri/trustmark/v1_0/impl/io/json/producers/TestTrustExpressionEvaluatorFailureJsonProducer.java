@@ -8,9 +8,10 @@ import edu.gatech.gtri.trustmark.v1_0.tip.evaluator.TrustExpressionEvaluatorFail
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 import org.json.JSONObject;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 
 public class TestTrustExpressionEvaluatorFailureJsonProducer {
 
@@ -22,7 +23,7 @@ public class TestTrustExpressionEvaluatorFailureJsonProducer {
 
         JsonProducer<TrustExpressionEvaluatorFailure, JSONObject> jsonProducer = jsonManager.findProducerStrict(TrustExpressionEvaluatorFailure.class, JSONObject.class).some();
 
-        log.info(jsonProducer.serialize(TrustExpressionEvaluatorFailure.evaluatorFailureURI("|", new RuntimeException())).toString(2));
+        log.info(jsonProducer.serialize(TrustExpressionEvaluatorFailure.evaluatorFailureURI("|", new URISyntaxException("", ""))).toString(2));
         log.info(jsonProducer.serialize(TrustExpressionEvaluatorFailure.evaluatorFailureResolve(URI.create("uri"), new ResolveException())).toString(2));
     }
 }

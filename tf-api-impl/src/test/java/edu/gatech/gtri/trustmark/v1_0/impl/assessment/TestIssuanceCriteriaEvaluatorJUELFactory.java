@@ -6,7 +6,7 @@ import static org.hamcrest.Matchers.notNullValue;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import edu.gatech.gtri.trustmark.v1_0.FactoryLoader;
 import edu.gatech.gtri.trustmark.v1_0.assessment.IssuanceCriteriaEvaluatorFactory;

@@ -3,33 +3,54 @@ package edu.gatech.gtri.trustmark.v1_0.impl;
 import edu.gatech.gtri.trustmark.v1_0.FactoryLoader;
 import edu.gatech.gtri.trustmark.v1_0.io.ResolveException;
 import edu.gatech.gtri.trustmark.v1_0.io.TrustmarkDefinitionResolver;
-import edu.gatech.gtri.trustmark.v1_0.model.*;
+import edu.gatech.gtri.trustmark.v1_0.model.AbstractTIPReference;
+import edu.gatech.gtri.trustmark.v1_0.model.Contact;
+import edu.gatech.gtri.trustmark.v1_0.model.ContactKindCode;
+import edu.gatech.gtri.trustmark.v1_0.model.Entity;
+import edu.gatech.gtri.trustmark.v1_0.model.Source;
+import edu.gatech.gtri.trustmark.v1_0.model.Term;
+import edu.gatech.gtri.trustmark.v1_0.model.TrustInteroperabilityProfile;
+import edu.gatech.gtri.trustmark.v1_0.model.TrustInteroperabilityProfileReference;
+import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkDefinition;
+import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkDefinitionRequirement;
+import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkFrameworkIdentifiedObject;
 import edu.gatech.gtri.trustmark.v1_0.util.diff.DiffSeverity;
-import edu.gatech.gtri.trustmark.v1_0.util.diff.json.*;
+import edu.gatech.gtri.trustmark.v1_0.util.diff.json.JsonDiff;
+import edu.gatech.gtri.trustmark.v1_0.util.diff.json.JsonDiffManager;
+import edu.gatech.gtri.trustmark.v1_0.util.diff.json.JsonDiffResult;
+import edu.gatech.gtri.trustmark.v1_0.util.diff.json.JsonDiffResultCollection;
+import edu.gatech.gtri.trustmark.v1_0.util.diff.json.JsonDiffType;
 import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.json.JSONObject;
-import org.json.XML;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
+import org.json.JSONObject;
+import org.json.XML;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringReader;
+import java.io.StringWriter;
 import java.net.URL;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.Collection;
-import java.util.List;
 
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 
 /**
@@ -41,16 +62,17 @@ public abstract class AbstractTest {
 
     protected static Logger logger = LoggerFactory.getLogger(AbstractTest.class);
 
-    @Before
-    public void printStart(){
+    @BeforeEach
+    public void printStart() {
         logger.info("======================================== STARTING TEST ========================================");
     }
-    @After
-    public void printStop(){
+
+    @AfterEach
+    public void printStop() {
         logger.info("======================================== STOPPING TEST ========================================\n\n");
     }
 
-    protected Element readXML( String xml ) throws DocumentException {
+    protected Element readXML(String xml) throws DocumentException {
         SAXReader reader = new SAXReader();
         Document document = reader.read(new StringReader(xml));
         assertThat(document, notNullValue());
@@ -61,10 +83,10 @@ public abstract class AbstractTest {
         return root;
     }//end readXML()
 
-    protected void toFile( String text, String filepath) throws IOException {
+    protected void toFile(String text, String filepath) throws IOException {
         File output = new File(filepath);
-        if( output.exists() ){
-            throw new IOException("Cannot write to file["+filepath+"], it exists!");
+        if (output.exists()) {
+            throw new IOException("Cannot write to file[" + filepath + "], it exists!");
         }
         output.getParentFile().mkdirs(); // Just in case...
 
@@ -83,15 +105,15 @@ public abstract class AbstractTest {
     }
 
 
-    protected TrustmarkDefinition readTdFromFile( String path ){
+    protected TrustmarkDefinition readTdFromFile(String path) {
         File file = new File(path);
-        if(!file.exists())
-            throw new UnsupportedOperationException("Could not find filepath: "+path);
+        if (!file.exists())
+            throw new UnsupportedOperationException("Could not find filepath: " + path);
 
         try {
             return FactoryLoader.getInstance(TrustmarkDefinitionResolver.class).resolve(file);
-        }catch(ResolveException re){
-            throw new UnsupportedOperationException("Error reading TD from path: "+path, re);
+        } catch (ResolveException re) {
+            throw new UnsupportedOperationException("Error reading TD from path: " + path, re);
         }
     }
 
@@ -103,7 +125,7 @@ public abstract class AbstractTest {
         assertThat(td.getMetadata().getName(), equalTo("Trustmark Definition Name"));
         assertThat(td.getMetadata().getVersion(), equalTo("1.0.0"));
         assertThat(td.getMetadata().getDescription(), equalTo("This is a description of this Trustmark Definition."));
-  //      assertThat(td.getMetadata().getPublicationDateTime().getTime(), equalTo(1388552400000L));
+        //      assertThat(td.getMetadata().getPublicationDateTime().getTime(), equalTo(1388552400000L));
         assertThat(td.getMetadata().isDeprecated(), equalTo(false));
         assertThat(td.getMetadata().getTargetStakeholderDescription(), equalTo("TargetStakeholderDescription"));
         assertThat(td.getMetadata().getTargetRecipientDescription(), equalTo("TargetRecipientDescription"));
@@ -148,7 +170,7 @@ public abstract class AbstractTest {
         assertThat(c1.getResponder(), equalTo("George P. Burdell"));
         assertThat(c1.getEmails(), contains("TrustmarkFeedback@gtri.gatech.edu"));
         assertThat(c1.getTelephones(), contains("404-555-1234", "404-555-2345"));
-        assertThat(c1.getWebsiteURLs(), contains( new URL("http://trustmark.gtri.gatech.edu/"), new URL("http://www.gtri.gatech.edu/") ));
+        assertThat(c1.getWebsiteURLs(), contains(new URL("http://trustmark.gtri.gatech.edu/"), new URL("http://www.gtri.gatech.edu/")));
         assertThat(c1.getMailingAddresses(), contains("Trustmark Feedback, 75 5th Street NW, Suite 900, Atlanta GA 30308"));
         assertThat(c1.getPhysicalAddresses(), contains("75 5th Street NW, Suite 900, Atlanta GA 30308"));
         assertThat(c1.getNotes(), equalTo("The responder may change."));
@@ -189,10 +211,10 @@ public abstract class AbstractTest {
 
     }
 
-    protected Source findSource(Collection<Source> sources, String name){
-        if( sources != null && sources.size() > 0 ){
-            for( Source s : sources ){
-                if( s.getIdentifier().equals(name) ){
+    protected Source findSource(Collection<Source> sources, String name) {
+        if (sources != null && sources.size() > 0) {
+            for (Source s : sources) {
+                if (s.getIdentifier().equals(name)) {
                     return s;
                 }
             }
@@ -200,15 +222,15 @@ public abstract class AbstractTest {
         return null;
     }
 
-    protected void assertTermEquals(Term term, String name, String definition, String ... abbreviations) throws Exception {
+    protected void assertTermEquals(Term term, String name, String definition, String... abbreviations) throws Exception {
         assertThat(term, notNullValue());
         assertThat(term.getName(), equalTo(name));
         assertThat(term.getDefinition(), equalTo(definition));
-        if( abbreviations != null && abbreviations.length > 0 ){
+        if (abbreviations != null && abbreviations.length > 0) {
             assertThat(term.getAbbreviations(), notNullValue());
-            logger.debug("Term abbreviations in memory: "+term.getAbbreviations());
+            logger.debug("Term abbreviations in memory: " + term.getAbbreviations());
             assertThat(term.getAbbreviations().size(), equalTo(abbreviations.length));
-            for( String abbr : abbreviations ){
+            for (String abbr : abbreviations) {
                 assertThat(term.getAbbreviations().contains(abbr), equalTo(true));
             }
         }
@@ -249,23 +271,23 @@ public abstract class AbstractTest {
         assertThat(c2.getEmails(), contains("test@example.org", "test2@example.org"));
         assertThat(c2.getTelephones(), contains("404-555-5555"));
 
-        assertThat( tip.getSupersededBy(), notNullValue() );
-        assertThat( tip.getSupersededBy().size(), equalTo(2) );
+        assertThat(tip.getSupersededBy(), notNullValue());
+        assertThat(tip.getSupersededBy().size(), equalTo(2));
         assertTFICollectionContainsURI(tip.getSupersededBy(), "https://example.org/tip1-supersededBy");
         assertTFICollectionContainsURI(tip.getSupersededBy(), "https://example.org/tip2-supersededBy");
 
-        assertThat( tip.getSupersedes(), notNullValue() );
-        assertThat( tip.getSupersedes().size(), equalTo(2) );
+        assertThat(tip.getSupersedes(), notNullValue());
+        assertThat(tip.getSupersedes().size(), equalTo(2));
         assertTFICollectionContainsURI(tip.getSupersedes(), "https://example.org/tip1-supersedes");
         assertTFICollectionContainsURI(tip.getSupersedes(), "https://example.org/tip2-supersedes");
 
-        assertThat( tip.getSatisfies(), notNullValue() );
-        assertThat( tip.getSatisfies().size(), equalTo(2) );
+        assertThat(tip.getSatisfies(), notNullValue());
+        assertThat(tip.getSatisfies().size(), equalTo(2));
         assertTFICollectionContainsURI(tip.getSatisfies(), "https://example.org/tip1-satisfies");
         assertTFICollectionContainsURI(tip.getSatisfies(), "https://example.org/tip2-satisfies");
 
-        assertThat( tip.getKnownConflicts(), notNullValue());
-        assertThat( tip.getKnownConflicts().size(), equalTo(1) );
+        assertThat(tip.getKnownConflicts(), notNullValue());
+        assertThat(tip.getKnownConflicts().size(), equalTo(1));
         assertTFICollectionContainsURI(tip.getKnownConflicts(), "https://example.org/tip1-conflict");
 
         assertThat(tip.getTrustExpression(), equalTo("tip1 and (tdr1 or tdr2)"));
@@ -319,11 +341,11 @@ public abstract class AbstractTest {
 
     }
 
-    private TrustmarkDefinitionRequirement getTdRequirement(Collection<AbstractTIPReference> refs, String id ){
+    private TrustmarkDefinitionRequirement getTdRequirement(Collection<AbstractTIPReference> refs, String id) {
         TrustmarkDefinitionRequirement tdReq = null;
-        if( refs != null && !refs.isEmpty() ){
-            for( AbstractTIPReference tipRef : refs ){
-                if( tipRef.isTrustmarkDefinitionRequirement() ){
+        if (refs != null && !refs.isEmpty()) {
+            for (AbstractTIPReference tipRef : refs) {
+                if (tipRef.isTrustmarkDefinitionRequirement()) {
                     tdReq = (TrustmarkDefinitionRequirement) tipRef;
                     break;
                 }
@@ -332,11 +354,11 @@ public abstract class AbstractTest {
         return tdReq;
     }
 
-    private TrustInteroperabilityProfileReference getTipReference(Collection<AbstractTIPReference> refs, String id ){
+    private TrustInteroperabilityProfileReference getTipReference(Collection<AbstractTIPReference> refs, String id) {
         TrustInteroperabilityProfileReference tipRef = null;
-        if( refs != null && !refs.isEmpty() ){
-            for( AbstractTIPReference nextRef : refs ){
-                if( nextRef.isTrustInteroperabilityProfileReference() ){
+        if (refs != null && !refs.isEmpty()) {
+            for (AbstractTIPReference nextRef : refs) {
+                if (nextRef.isTrustInteroperabilityProfileReference()) {
                     tipRef = (TrustInteroperabilityProfileReference) nextRef;
                     break;
                 }
@@ -346,56 +368,56 @@ public abstract class AbstractTest {
     }
 
 
-    private void assertTFICollectionContainsURI(Collection<TrustmarkFrameworkIdentifiedObject> tfiCol, String identifier){
+    private void assertTFICollectionContainsURI(Collection<TrustmarkFrameworkIdentifiedObject> tfiCol, String identifier) {
         boolean found = false;
-        for( TrustmarkFrameworkIdentifiedObject tfi : tfiCol ){
-            if( tfi.getIdentifier().toString().equals(identifier) ){
+        for (TrustmarkFrameworkIdentifiedObject tfi : tfiCol) {
+            if (tfi.getIdentifier().toString().equals(identifier)) {
                 found = true;
                 break;
             }
         }
         if (!found)
-            Assert.fail("List does not contain "+identifier);
+            fail("List does not contain " + identifier);
     }
-    
-    
+
+
     //==================================================================================================================
     //  Test Helper Methods
     //==================================================================================================================
-    
+
     protected String getFileString(String folderName, String name) throws IOException {
         File file = new File(new File("./target/test-classes", folderName), name);
         assertThat(file.exists(), equalTo(Boolean.TRUE));
         return readStringFromFile(file);
     }
-    
+
     protected void writeStringToFile(String folderName, String name, String content) throws IOException {
         this.writeBytesToFile(folderName, name, content.getBytes(StandardCharsets.UTF_8));
     }
-    
+
     protected void writeBytesToFile(String folderName, String name, byte[] content) throws IOException {
         File file = new File(new File("./target/test-classes", folderName), name);
         Files.write(file.toPath(), content);
         logger.debug("Wrote bytes to file: " + file.getAbsolutePath());
     }
-    
+
     protected <T> JsonDiffResultCollection doJsonDiff(Class<T> type, T expected, T actual) {
         // Updated JSON Diff
         JsonDiffManager manager = FactoryLoader.getInstance(JsonDiffManager.class);
         JsonDiff<? super T> diff = manager.getComponent(type);
         JsonDiffResultCollection resultCollection = diff.doDiff("expected", expected, "actual", actual);
         assertThat(resultCollection, notNullValue());
-        
+
         Collection<JsonDiffResult> majorDiffIssues = resultCollection.getResultsForSeverity(DiffSeverity.MAJOR);
         assertThat(majorDiffIssues, notNullValue());
-        
+
         Collection<JsonDiffResult> minorDiffIssues = resultCollection.getResultsForSeverity(DiffSeverity.MINOR);
         assertThat(minorDiffIssues, notNullValue());
-        
+
         for (JsonDiffResult diffResult : majorDiffIssues) {
             logger.warn(diffResult.getDescription());
         }
-        
+
         for (JsonDiffResult diffResult : minorDiffIssues) {
             logger.debug(diffResult.getDescription());
         }
@@ -403,37 +425,41 @@ public abstract class AbstractTest {
     }
 
     protected static String getAssertionReason(Collection<JsonDiffResult> diffResults) {
-        if (diffResults == null || diffResults.isEmpty()) { return "No differences."; }
+        if (diffResults == null || diffResults.isEmpty()) {
+            return "No differences.";
+        }
         return diffResults.iterator().next().getDescription();
     }
 
     protected void assertJsonDiffCount(
-        JsonDiffResultCollection resultCollection,
-        DiffSeverity severity,
-        int targetCount
+            JsonDiffResultCollection resultCollection,
+            DiffSeverity severity,
+            int targetCount
     ) {
         Collection<JsonDiffResult> resultsForSeverity = resultCollection.getResultsForSeverity(severity);
         assertThat(resultsForSeverity, notNullValue());
         String reason = getAssertionReason(resultsForSeverity);
         assertThat(reason, resultsForSeverity.size(), equalTo(targetCount));
     }
-    
+
     protected void assertJsonDiffCount(
-        JsonDiffResultCollection resultCollection,
-        DiffSeverity severity,
-        JsonDiffType diffType,
-        int targetCount
+            JsonDiffResultCollection resultCollection,
+            DiffSeverity severity,
+            JsonDiffType diffType,
+            int targetCount
     ) {
         Collection<JsonDiffResult> resultsForSeverity = resultCollection.getResultsForSeverity(severity);
         assertThat(resultsForSeverity, notNullValue());
         int count = 0;
         for (JsonDiffResult result : resultsForSeverity) {
-            if (result.getJsonDiffType() == diffType) { ++count; }
+            if (result.getJsonDiffType() == diffType) {
+                ++count;
+            }
         }
         String reason = getAssertionReason(resultsForSeverity);
         assertThat(reason, count, equalTo(targetCount));
     }
-    
+
     protected <T> void assertNoJsonDiffIssuesOfType(DiffSeverity severity, Class<T> type, T expected, T actual) {
         logger.debug("======== Started JSON Diff ========");
         JsonDiffResultCollection jsonDiffResultCollection = this.doJsonDiff(type, expected, actual);
@@ -443,7 +469,7 @@ public abstract class AbstractTest {
         String reason = getAssertionReason(jsonDiffResultCollectionIssues);
         assertThat(reason, jsonDiffResultCollectionIssues.size(), equalTo(0));
     }
-    
+
     protected void assertNoXmlDiffIssuesOfType(DiffSeverity severity, String expectedXml, String actualXml) {
         logger.debug("======== Started XML Diff ========");
         JSONObject expectedXmlAsJson = XML.toJSONObject(expectedXml);

@@ -1,6 +1,5 @@
 package edu.gatech.gtri.trustmark.v1_0.impl.io.xml.producers;
 
-import edu.gatech.gtri.trustmark.v1_0.impl.io.IdUtility;
 import edu.gatech.gtri.trustmark.v1_0.io.xml.XmlProducer;
 import edu.gatech.gtri.trustmark.v1_0.model.AbstractTIPReference;
 import edu.gatech.gtri.trustmark.v1_0.model.Entity;
@@ -9,14 +8,13 @@ import edu.gatech.gtri.trustmark.v1_0.model.Term;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustInteroperabilityProfile;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustInteroperabilityProfileReference;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkDefinitionRequirement;
-import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
 
 import static edu.gatech.gtri.trustmark.v1_0.impl.TrustmarkFrameworkConstants.NAMESPACE_URI;
 
@@ -36,9 +34,9 @@ public class TrustInteroperabilityProfileXmlProducer implements XmlProducer<Trus
     public void serialize(TrustInteroperabilityProfile tip, XMLStreamWriter xmlWriter) throws XMLStreamException {
         log.debug("Writing XML for TIP[" + tip.getIdentifier() + "]...");
 
-        xmlWriter.writeAttribute(NAMESPACE_URI, "id", tip.getId() == null ?
-                IdUtility.trustInteroperabilityProfileId() :
-                tip.getId());
+        if (tip.getId() != null) {
+            xmlWriter.writeAttribute(NAMESPACE_URI, "id", tip.getId());
+        }
 
         XmlProducerUtility.writeMainIdentifyingInformation(xmlWriter, tip);
 

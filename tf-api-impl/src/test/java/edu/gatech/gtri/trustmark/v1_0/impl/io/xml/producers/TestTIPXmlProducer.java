@@ -11,7 +11,7 @@ import edu.gatech.gtri.trustmark.v1_0.io.SerializerFactory;
 import edu.gatech.gtri.trustmark.v1_0.io.xml.XmlManager;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustInteroperabilityProfile;
 import org.apache.commons.io.FileUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,7 +37,7 @@ public class TestTIPXmlProducer extends AbstractTest {
         logger.debug("Loading Trustmark from file...");
         File xmlFile = new File(TIP_FULL_FILE);
         String xml = FileUtils.readFileToString(xmlFile);
-        TrustInteroperabilityProfile tip = new TrustInteroperabilityProfileJsonDeserializer().deserialize(xml);
+        TrustInteroperabilityProfile tip = new TrustInteroperabilityProfileJsonDeserializer(true).deserialize(xml);
         assertThat(tip, notNullValue());
         assertTipFull(tip);
         logger.debug("Successfully loaded tip-full.json!");
@@ -58,7 +58,7 @@ public class TestTIPXmlProducer extends AbstractTest {
         XmlHelper.validateXml(xml2);
         logger.debug("Successfully produced XML: \n" + xml2);
 
-        TrustInteroperabilityProfile tip2 = new TrustInteroperabilityProfileXmlDeserializer().deserialize(xml2);
+        TrustInteroperabilityProfile tip2 = new TrustInteroperabilityProfileXmlDeserializer(true).deserialize(xml2);
         assertThat(tip2, notNullValue());
         assertTipFull(tip2);
 

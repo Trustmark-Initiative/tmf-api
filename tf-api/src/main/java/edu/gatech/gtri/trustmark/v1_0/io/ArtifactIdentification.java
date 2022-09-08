@@ -3,11 +3,13 @@ package edu.gatech.gtri.trustmark.v1_0.io;
 import java.io.File;
 
 /**
- * Created by brad on 7/29/16.
+ * Implementations describe an artifact type.
+ *
+ * @author GTRI Trustmark Team
  */
 public interface ArtifactIdentification {
 
-    public static enum ArtifactType {
+    enum ArtifactType {
         TRUSTMARK,
         TRUSTMARK_STATUS_REPORT,
         TRUSTMARK_DEFINITION,
@@ -15,18 +17,23 @@ public interface ArtifactIdentification {
     }
 
     /**
-     * Returns the file that this identification is for.
+     * Returns the file for the artifact.
+     *
+     * @return the file for the artifact
      */
-    public File getFile();
+    File getFile();
 
     /**
-     * Returns the type of artifact in the file.
+     * Returns the artifact type for the artifact.
+     *
+     * @return the artifact type for the artifact
      */
-    public ArtifactType getArtifactType();
+    ArtifactType getArtifactType();
 
     /**
-     * Returns the mime type of the file, such as application/json or text/xml.
+     * Returns the media type for the artifact.
+     *
+     * @return the media type for the artifact
      */
-    public String getMimeType();
-
+    String getMimeType();
 }

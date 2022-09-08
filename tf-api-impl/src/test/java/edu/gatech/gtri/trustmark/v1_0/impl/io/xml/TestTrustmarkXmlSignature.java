@@ -2,7 +2,7 @@ package edu.gatech.gtri.trustmark.v1_0.impl.io.xml;
 
 import edu.gatech.gtri.trustmark.v1_0.impl.AbstractTest;
 import org.apache.commons.io.FileUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 
@@ -13,7 +13,12 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.StringReader;
 import java.security.GeneralSecurityException;
 import java.security.KeyFactory;
 import java.security.cert.Certificate;
@@ -22,9 +27,7 @@ import java.security.cert.X509Certificate;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.spec.PKCS8EncodedKeySpec;
 
-import static edu.gatech.gtri.trustmark.v1_0.impl.TrustmarkFrameworkConstants.NAMESPACE_URI;
-import static edu.gatech.gtri.trustmark.v1_0.impl.TrustmarkFrameworkConstants.NAMESPACE_URI_1_2;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 /**
@@ -63,7 +66,7 @@ public class TestTrustmarkXmlSignature extends AbstractTest {
         //saveXmlToFile(signedXml, "/localPath/signedWithJavaTrustmark.xml");
 
         System.out.println(signedXml);
-        
+
         boolean validSignature = xmlSign.validateXmlSignature(referenceUri, signedXml);
 
         assertTrue(validSignature);
@@ -73,7 +76,7 @@ public class TestTrustmarkXmlSignature extends AbstractTest {
     }//end testSignTrustmarkXmlString()
 
 
-    X509Certificate loadX509Certificate(String pemFile) throws Exception{
+    X509Certificate loadX509Certificate(String pemFile) throws Exception {
         File certPemFile = new File(pemFile);
         String certPem = FileUtils.readFileToString(certPemFile);
 
@@ -81,7 +84,7 @@ public class TestTrustmarkXmlSignature extends AbstractTest {
 
         ByteArrayInputStream inStream = new ByteArrayInputStream(certPem.getBytes());
         Certificate cert = cf.generateCertificate(inStream);
-        X509Certificate x509Cert = (X509Certificate)cert;
+        X509Certificate x509Cert = (X509Certificate) cert;
 
         return x509Cert;
     }
@@ -112,7 +115,7 @@ public class TestTrustmarkXmlSignature extends AbstractTest {
     }
 
     Document loadXMLFrom(String xml) throws Exception {
-        InputSource is= new InputSource(new StringReader(xml));
+        InputSource is = new InputSource(new StringReader(xml));
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         factory.setNamespaceAware(true);
         DocumentBuilder builder = null;

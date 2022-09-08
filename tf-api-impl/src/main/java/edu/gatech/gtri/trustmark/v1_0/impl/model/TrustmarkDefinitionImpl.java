@@ -65,8 +65,6 @@ public class TrustmarkDefinitionImpl extends TrustmarkFrameworkReferenceImpl imp
             final Integer number,
             final String version,
             final String description,
-            final String originalSource,
-            final String originalSourceType,
             final Date publicationDateTime,
             final String legalNotice,
             final String notes,
@@ -95,7 +93,7 @@ public class TrustmarkDefinitionImpl extends TrustmarkFrameworkReferenceImpl imp
             final List<AssessmentStep> assessmentSteps,
             final Map<String, Object> transientDataMap) {
 
-        super(typeName, identifier, name, number, version, description, originalSource, originalSourceType, publicationDateTime, legalNotice, notes, deprecated, keywords, sources, supersedes, supersededBy, satisfies, knownConflicts, terms);
+        super(typeName, identifier, name, number, version, description, publicationDateTime, legalNotice, notes, deprecated, keywords, sources, supersedes, supersededBy, satisfies, knownConflicts, terms);
         this.id = id;
         this.trustmarkDefiningOrganization = trustmarkDefiningOrganization;
         this.targetStakeholderDescription = targetStakeholderDescription;

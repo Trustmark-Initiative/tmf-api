@@ -1,7 +1,6 @@
 package edu.gatech.gtri.trustmark.v1_0.model.trustmarkBindingRegistry;
 
 import edu.gatech.gtri.trustmark.v1_0.model.HasIdentifier;
-import edu.gatech.gtri.trustmark.v1_0.model.HasSource;
 import org.gtri.fj.data.TreeMap;
 
 import java.net.URI;
@@ -12,7 +11,7 @@ import java.net.URI;
  *
  * @author GTRI Trustmark Team
  */
-public interface TrustmarkBindingRegistryOrganizationTrustmarkMap extends HasSource, HasIdentifier {
+public interface TrustmarkBindingRegistryOrganizationTrustmarkMap extends HasIdentifier {
 
     /**
      * Returns the trustmarks the organization possesses.

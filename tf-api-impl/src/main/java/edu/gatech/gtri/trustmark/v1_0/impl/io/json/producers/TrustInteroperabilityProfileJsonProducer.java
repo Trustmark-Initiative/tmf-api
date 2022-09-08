@@ -2,7 +2,6 @@ package edu.gatech.gtri.trustmark.v1_0.impl.io.json.producers;
 
 import edu.gatech.gtri.trustmark.v1_0.FactoryLoader;
 import edu.gatech.gtri.trustmark.v1_0.TrustmarkFramework;
-import edu.gatech.gtri.trustmark.v1_0.impl.io.IdUtility;
 import edu.gatech.gtri.trustmark.v1_0.io.json.JsonProducer;
 import edu.gatech.gtri.trustmark.v1_0.io.json.JsonUtils;
 import edu.gatech.gtri.trustmark.v1_0.model.AbstractTIPReference;
@@ -13,10 +12,10 @@ import edu.gatech.gtri.trustmark.v1_0.model.TrustInteroperabilityProfile;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkDefinitionRequirement;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkFrameworkIdentifiedObject;
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -48,7 +47,9 @@ public final class TrustInteroperabilityProfileJsonProducer implements JsonProdu
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("$TMF_VERSION", FactoryLoader.getInstance(TrustmarkFramework.class).getTrustmarkFrameworkVersion());
         jsonObject.put("$Type", TrustInteroperabilityProfile.class.getSimpleName());
-        jsonObject.put("$id", tip.getId() == null ? IdUtility.trustInteroperabilityProfileId() : tip.getId());
+        if (tip.getId() != null) {
+            jsonObject.put("$id", tip.getId());
+        }
         jsonObject.put("Identifier", tip.getIdentifier().toString());
         jsonObject.put("Name", tip.getName());
         jsonObject.put("Version", tip.getVersion());
@@ -150,7 +151,7 @@ public final class TrustInteroperabilityProfileJsonProducer implements JsonProdu
                 if (providers != null && providers.size() > 0) {
                     JSONArray providersArray = new JSONArray();
                     for (Entity provider : providers) {
-                        if(provider.getIdentifier() == null || StringUtils.isEmpty(provider.getIdentifier().toString())){
+                        if (provider.getIdentifier() == null || StringUtils.isEmpty(provider.getIdentifier().toString())) {
                             log.info("Skipping adding empty provider reference = [" + provider + "]");
                             continue;
                         }
@@ -169,7 +170,7 @@ public final class TrustInteroperabilityProfileJsonProducer implements JsonProdu
                             providersArray.put(providerJson);
                         }
                     }
-                    if(providersArray != null && providersArray.length() > 0) {
+                    if (providersArray != null && providersArray.length() > 0) {
                         refObj.put("ProviderReferences", providersArray);
                     }
                 }

@@ -1,6 +1,6 @@
 package edu.gatech.gtri.trustmark.v1_0.impl.jparsec;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static edu.gatech.gtri.trustmark.v1_0.impl.jparsec.TrustExpressionLexerToken.identifier;
 import static edu.gatech.gtri.trustmark.v1_0.impl.jparsec.TrustExpressionLexerToken.literalDateTimeStamp;

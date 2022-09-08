@@ -1,7 +1,6 @@
 package edu.gatech.gtri.trustmark.v1_0.impl.io.json;
 
 import edu.gatech.gtri.trustmark.v1_0.impl.model.TrustmarkStatusReportImpl;
-import edu.gatech.gtri.trustmark.v1_0.io.MediaType;
 import edu.gatech.gtri.trustmark.v1_0.io.ParseException;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkStatusCode;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkStatusReport;
@@ -38,16 +37,13 @@ public final class TrustmarkStatusReportJsonDeserializer implements JsonDeserial
 
         log.debug("Deserializing Trustmark Status Report JSON . . .");
 
-        final JSONObject jsonObject = new JSONObject(jsonString);
+        final JSONObject jsonObject = readJSONObject(jsonString);
 
         assertSupported(jsonObject);
 
         final TrustmarkStatusReportImpl trustmarkStatusReport = new TrustmarkStatusReportImpl();
 
         trustmarkStatusReport.setIdentifier(uri);
-
-        trustmarkStatusReport.setOriginalSource(jsonString);
-        trustmarkStatusReport.setOriginalSourceType(MediaType.APPLICATION_JSON.getMediaType());
 
         trustmarkStatusReport.setId(readString(jsonObject, "$id"));
         trustmarkStatusReport.setStatus(readTrustmarkStatusCode(readString(jsonObject, "StatusCode")));

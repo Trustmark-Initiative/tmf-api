@@ -14,7 +14,7 @@ import edu.gatech.gtri.trustmark.v1_0.assessment.StepResult;
  * @author GTRI Trustmark Team
  *
  */
-public class IssuanceCriteriaELFunctionMapper extends FunctionMapper {
+public class IssuanceCriteriaELFunctionMapper extends IssuanceCriteriaELFunctionMapperBase {
 
 	private static final Map<String, Method> functionMap = new HashMap<String, Method>();;
 	private static final Boolean syncVar = false;
@@ -33,6 +33,7 @@ public class IssuanceCriteriaELFunctionMapper extends FunctionMapper {
 					functionMap.put(":na",
 							IssuanceCriteriaELFunctionMapper.class.getMethod(
 									"na", StepResult.class));
+
 				} catch (NoSuchMethodException nsme) {
 					// this should never happen since all methods that implement
 					// functions are defined in this class
@@ -40,6 +41,10 @@ public class IssuanceCriteriaELFunctionMapper extends FunctionMapper {
 				}
 			}
 		}
+	}
+
+	protected Map<String, Method> functionMap() {
+		return this.functionMap;
 	}
 
 	public static IssuanceCriteriaELFunctionMapper getInstance() {
@@ -50,7 +55,7 @@ public class IssuanceCriteriaELFunctionMapper extends FunctionMapper {
 
 	/**
 	 * Returns true if the supplied assessment step result is YES.
-	 * 
+	 *
 	 * @param result
 	 *            The assessment step result to check.
 	 * @return true if the supplied assessment step result is YES.
@@ -63,7 +68,7 @@ public class IssuanceCriteriaELFunctionMapper extends FunctionMapper {
 
 	/**
 	 * Returns true if the supplied assessment step result is NO.
-	 * 
+	 *
 	 * @param result
 	 *            The assessment step result to check.
 	 * @return true if the supplied assessment step result is NO.
@@ -76,7 +81,7 @@ public class IssuanceCriteriaELFunctionMapper extends FunctionMapper {
 
 	/**
 	 * Returns true if the supplied assessment step result is NA.
-	 * 
+	 *
 	 * @param result
 	 *            The assessment step result to check.
 	 * @return true if the supplied assessment step result is NA.
@@ -85,10 +90,5 @@ public class IssuanceCriteriaELFunctionMapper extends FunctionMapper {
 		if (result.equals(StepResult.NA))
 			return true;
 		return false;
-	}
-
-	@Override
-	public Method resolveFunction(String prefix, String localName) {
-		return functionMap.get(prefix + ":" + localName);
 	}
 }

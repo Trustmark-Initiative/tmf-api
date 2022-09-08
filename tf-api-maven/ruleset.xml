@@ -1,0 +1,15 @@
+<ruleset>
+    <rules>
+        <rule groupId="org.slf4j">
+            <ignoreVersions>
+                <ignoreVersion type="regex">.*-alpha[0-9]</ignoreVersion>
+                <ignoreVersion type="regex">.*-beta[0-9]</ignoreVersion>
+            </ignoreVersions>
+        </rule>
+        <rule groupId="javax.xml.bind">
+            <ignoreVersions>
+                <ignoreVersion type="regex">.*-b[0-9]+\.[0-9]+</ignoreVersion>
+            </ignoreVersions>
+        </rule>
+    </rules>
+</ruleset>

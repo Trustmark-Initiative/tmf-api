@@ -6,9 +6,9 @@ import edu.gatech.gtri.trustmark.v1_0.dao.DaoManagerFactory;
 import edu.gatech.gtri.trustmark.v1_0.impl.AbstractTest;
 import edu.gatech.gtri.trustmark.v1_0.impl.RemoteServiceNetworkDownloader;
 import edu.gatech.gtri.trustmark.v1_0.io.NetworkDownloader;
-import edu.gatech.gtri.trustmark.v1_0.service.TrustmarkFrameworkService;
-import edu.gatech.gtri.trustmark.v1_0.service.TrustmarkFrameworkServiceFactory;
-import org.junit.*;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 
 import javax.sql.DataSource;
 
@@ -21,7 +21,7 @@ import static org.hamcrest.Matchers.notNullValue;
  * @user brad
  * @date 9/13/16
  */
-public abstract class AbstractDaoTest extends AbstractTest  {
+public abstract class AbstractDaoTest extends AbstractTest {
 
     protected static final String EXAMPLE_URL = "https://trustmark.example.org/test";
 
@@ -33,10 +33,10 @@ public abstract class AbstractDaoTest extends AbstractTest  {
                 System.getProperty("use.operational.pilot").equalsIgnoreCase("true");
     }
 
-    @BeforeClass
+    @BeforeAll
     public static void setTestNetworkDownloader() {
-        synchronized (EXAMPLE_URL){
-            if( !doTestWithOperationalPilot() ){
+        synchronized (EXAMPLE_URL) {
+            if (!doTestWithOperationalPilot()) {
                 if (oldNetworkDownloader == null) {
                     oldNetworkDownloader = FactoryLoader.getInstance(NetworkDownloader.class);
                     FactoryLoader.register(NetworkDownloader.class, testNetworkDownloader);
@@ -45,10 +45,10 @@ public abstract class AbstractDaoTest extends AbstractTest  {
         }
     }
 
-    @AfterClass
+    @AfterAll
     public static void restoreNetworkDownloader() {
-        synchronized (EXAMPLE_URL){
-            if( !doTestWithOperationalPilot() ) {
+        synchronized (EXAMPLE_URL) {
+            if (!doTestWithOperationalPilot()) {
                 if (oldNetworkDownloader != null) {
                     FactoryLoader.register(NetworkDownloader.class, oldNetworkDownloader);
                     oldNetworkDownloader = null;
@@ -58,24 +58,19 @@ public abstract class AbstractDaoTest extends AbstractTest  {
     }
 
 
-
     private static DataSource dataSource;
-    public static DataSource getDataSource(){
+
+    public static DataSource getDataSource() {
         return dataSource;
     }
 
     private static DatabaseHelper databaseHelper;
 
     static {
-        if( System.getProperty("mysql.test") != null && System.getProperty("mysql.test").equalsIgnoreCase("true") ){
-            logger.warn("The user has chosen to test with MYSQL...");
-            databaseHelper = new MysqlDatabaseHelper();
-        }else{
-            databaseHelper = new H2DatabaseHelper();
-        }
+        databaseHelper = new H2DatabaseHelper();
     }
 
-    @BeforeClass
+    @BeforeAll
     public static void initializeTestDatabase() {
         synchronized (EXAMPLE_URL) {
             if (dataSource == null) {
@@ -84,7 +79,7 @@ public abstract class AbstractDaoTest extends AbstractTest  {
         }
     }
 
-    @Before
+    @BeforeEach
     public void resetDatabase() {
         logger.debug("Resetting the database...");
         initializeTestDatabase();

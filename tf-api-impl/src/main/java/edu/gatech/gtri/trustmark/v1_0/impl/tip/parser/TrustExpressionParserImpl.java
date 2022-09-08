@@ -29,6 +29,7 @@ import org.gtri.fj.function.Try;
 import org.gtri.fj.product.P2;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 
 import static edu.gatech.gtri.trustmark.v1_0.tip.TrustExpression.noop;
 import static edu.gatech.gtri.trustmark.v1_0.tip.TrustExpression.terminal;
@@ -135,8 +136,8 @@ public class TrustExpressionParserImpl implements TrustExpressionParser {
             final List<TrustInteroperabilityProfile> trustInteroperabilityProfileList,
             final String trustInteroperabilityProfileUriString) {
 
-        return reduce(Try.<URI, RuntimeException>f(() -> URI.create(trustInteroperabilityProfileUriString))._1().toEither().bimap(
-                runtimeException -> terminal(fail(nel(failureURI(trustInteroperabilityProfileList, trustInteroperabilityProfileUriString, runtimeException)))),
+        return reduce(Try.<URI, URISyntaxException>f(() -> new URI(trustInteroperabilityProfileUriString))._1().toEither().bimap(
+                uriSyntaxException -> terminal(fail(nel(failureURI(trustInteroperabilityProfileList, trustInteroperabilityProfileUriString, uriSyntaxException)))),
                 uri -> parse(trustInteroperabilityProfileList, uri)));
     }
 

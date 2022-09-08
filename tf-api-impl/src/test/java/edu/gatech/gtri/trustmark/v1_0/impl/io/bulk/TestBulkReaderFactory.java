@@ -4,7 +4,7 @@ import edu.gatech.gtri.trustmark.v1_0.FactoryLoader;
 import edu.gatech.gtri.trustmark.v1_0.impl.AbstractTest;
 import edu.gatech.gtri.trustmark.v1_0.io.bulk.BulkReaderFactory;
 import edu.gatech.gtri.trustmark.v1_0.io.bulk.ExcelBulkReader;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 

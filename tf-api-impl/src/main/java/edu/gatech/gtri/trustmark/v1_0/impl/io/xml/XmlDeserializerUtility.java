@@ -244,7 +244,7 @@ public final class XmlDeserializerUtility {
         } catch (URISyntaxException urise) {
             throw new ParseException("Invalid Trustmark Definition URI: " + getString(tfiXml, "tf:Identifier", true), urise);
         }
-        identifiedObject.setTypeName("TrustmarkDefinitionReference");
+        identifiedObject.setTypeName(TrustmarkFrameworkIdentifiedObject.TYPE_NAME_TRUSTMARK_DEFINITION_REFERENCE);
         identifiedObject.setName(getString(tfiXml, "Name", false));
         identifiedObject.setVersion(getString(tfiXml, "Version", false));
         if (exists(tfiXml, "Number")) {

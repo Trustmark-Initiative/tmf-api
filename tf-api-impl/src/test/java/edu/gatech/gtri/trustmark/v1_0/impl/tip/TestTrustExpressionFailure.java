@@ -28,9 +28,10 @@ import edu.gatech.gtri.trustmark.v1_0.tip.TrustExpressionType;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import org.gtri.fj.data.List;
 import org.gtri.fj.data.NonEmptyList;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 
 import static edu.gatech.gtri.trustmark.v1_0.tip.TrustExpressionType.TrustExpressionTypeBoolean.TYPE_BOOLEAN;
 import static org.gtri.fj.data.List.arrayList;
@@ -45,13 +46,13 @@ public class TestTrustExpressionFailure {
     public void testFailureURI() {
         final List<TrustInteroperabilityProfile> trustInteroperabilityProfileList = arrayList(new TrustInteroperabilityProfileImpl());
         final String uriString = "";
-        final RuntimeException runtimeException = new RuntimeException();
+        final URISyntaxException uriSyntaxException = new URISyntaxException("", "");
 
-        assertThrows(NullPointerException.class, () -> TrustExpressionFailure.failureURI(null, uriString, runtimeException));
-        assertThrows(NullPointerException.class, () -> TrustExpressionFailure.failureURI(trustInteroperabilityProfileList, null, runtimeException));
+        assertThrows(NullPointerException.class, () -> TrustExpressionFailure.failureURI(null, uriString, uriSyntaxException));
+        assertThrows(NullPointerException.class, () -> TrustExpressionFailure.failureURI(trustInteroperabilityProfileList, null, uriSyntaxException));
         assertThrows(NullPointerException.class, () -> TrustExpressionFailure.failureURI(trustInteroperabilityProfileList, uriString, null));
 
-        assertThrows(NullPointerException.class, () -> TrustExpressionFailure.failureURI(trustInteroperabilityProfileList, uriString, runtimeException).match(
+        assertThrows(NullPointerException.class, () -> TrustExpressionFailure.failureURI(trustInteroperabilityProfileList, uriString, uriSyntaxException).match(
                 null,
                 (i1, i2, i3) -> null,
                 (i1) -> null,
@@ -74,7 +75,7 @@ public class TestTrustExpressionFailure {
                 (i1, i2) -> null,
                 (i1, i2) -> null));
 
-        assertEquals(true, TrustExpressionFailure.failureURI(trustInteroperabilityProfileList, uriString, runtimeException).match(
+        assertEquals(true, TrustExpressionFailure.failureURI(trustInteroperabilityProfileList, uriString, uriSyntaxException).match(
                 (i1, i2, i3) -> true,
                 (i1, i2, i3) -> false,
                 (i1) -> false,
@@ -1019,7 +1020,7 @@ public class TestTrustExpressionFailure {
     @Test
     public void testFailureExpression() {
         final NonEmptyList<TrustInteroperabilityProfile> trustInteroperabilityProfileNonEmptyList = nel(new TrustInteroperabilityProfileImpl());
-        final NonEmptyList<TrustExpressionFailure> trustExpressionFailureNonEmptyList = nel(TrustExpressionFailure.failureURI(nil(), "", new RuntimeException()));
+        final NonEmptyList<TrustExpressionFailure> trustExpressionFailureNonEmptyList = nel(TrustExpressionFailure.failureURI(nil(), "", new URISyntaxException("", "")));
 
         assertThrows(NullPointerException.class, () -> TrustExpressionFailure.failureExpression(null, trustExpressionFailureNonEmptyList));
         assertThrows(NullPointerException.class, () -> TrustExpressionFailure.failureExpression(trustInteroperabilityProfileNonEmptyList, null));
@@ -1073,7 +1074,7 @@ public class TestTrustExpressionFailure {
         EqualsVerifier
                 .forClass(TrustExpressionFailureExpression.class)
                 .withPrefabValues(NonEmptyList.class, nel(new TrustInteroperabilityProfileImpl()), nel(new TrustInteroperabilityProfileImpl(), new TrustInteroperabilityProfileImpl()))
-                .withPrefabValues(NonEmptyList.class, nel(TrustExpressionFailure.failureURI(nil(), "", new RuntimeException())), nel(TrustExpressionFailure.failureURI(nil(), "", new RuntimeException()), TrustExpressionFailure.failureURI(nil(), "", new RuntimeException())))
+                .withPrefabValues(NonEmptyList.class, nel(TrustExpressionFailure.failureURI(nil(), "", new URISyntaxException("", ""))), nel(TrustExpressionFailure.failureURI(nil(), "",  new URISyntaxException("", "")), TrustExpressionFailure.failureURI(nil(), "", new URISyntaxException("", ""))))
                 .withNonnullFields("trustInteroperabilityProfileNonEmptyList", "trustExpressionFailureNonEmptyList")
                 .verify();
     }
@@ -1081,7 +1082,7 @@ public class TestTrustExpressionFailure {
     @Test
     public void testFailureExpressionLeft() {
         final NonEmptyList<TrustInteroperabilityProfile> trustInteroperabilityProfileNonEmptyList = nel(new TrustInteroperabilityProfileImpl());
-        final NonEmptyList<TrustExpressionFailure> trustExpressionFailureNonEmptyList = nel(TrustExpressionFailure.failureURI(nil(), "", new RuntimeException()));
+        final NonEmptyList<TrustExpressionFailure> trustExpressionFailureNonEmptyList = nel(TrustExpressionFailure.failureURI(nil(), "", new URISyntaxException("", "")));
 
         assertThrows(NullPointerException.class, () -> TrustExpressionFailure.failureExpressionLeft(null, trustExpressionFailureNonEmptyList));
         assertThrows(NullPointerException.class, () -> TrustExpressionFailure.failureExpressionLeft(trustInteroperabilityProfileNonEmptyList, null));
@@ -1135,7 +1136,7 @@ public class TestTrustExpressionFailure {
         EqualsVerifier
                 .forClass(TrustExpressionFailureExpressionLeft.class)
                 .withPrefabValues(NonEmptyList.class, nel(new TrustInteroperabilityProfileImpl()), nel(new TrustInteroperabilityProfileImpl(), new TrustInteroperabilityProfileImpl()))
-                .withPrefabValues(NonEmptyList.class, nel(TrustExpressionFailure.failureURI(nil(), "", new RuntimeException())), nel(TrustExpressionFailure.failureURI(nil(), "", new RuntimeException()), TrustExpressionFailure.failureURI(nil(), "", new RuntimeException())))
+                .withPrefabValues(NonEmptyList.class, nel(TrustExpressionFailure.failureURI(nil(), "", new URISyntaxException("", ""))), nel(TrustExpressionFailure.failureURI(nil(), "", new URISyntaxException("", "")), TrustExpressionFailure.failureURI(nil(), "", new URISyntaxException("", ""))))
                 .withNonnullFields("trustInteroperabilityProfileNonEmptyList", "trustExpressionFailureNonEmptyList")
                 .verify();
     }
@@ -1143,7 +1144,7 @@ public class TestTrustExpressionFailure {
     @Test
     public void testFailureExpressionRight() {
         final NonEmptyList<TrustInteroperabilityProfile> trustInteroperabilityProfileNonEmptyList = nel(new TrustInteroperabilityProfileImpl());
-        final NonEmptyList<TrustExpressionFailure> trustExpressionFailureNonEmptyList = nel(TrustExpressionFailure.failureURI(nil(), "", new RuntimeException()));
+        final NonEmptyList<TrustExpressionFailure> trustExpressionFailureNonEmptyList = nel(TrustExpressionFailure.failureURI(nil(), "", new URISyntaxException("", "")));
 
         assertThrows(NullPointerException.class, () -> TrustExpressionFailure.failureExpressionRight(null, trustExpressionFailureNonEmptyList));
         assertThrows(NullPointerException.class, () -> TrustExpressionFailure.failureExpressionRight(trustInteroperabilityProfileNonEmptyList, null));
@@ -1197,7 +1198,7 @@ public class TestTrustExpressionFailure {
         EqualsVerifier
                 .forClass(TrustExpressionFailureExpressionRight.class)
                 .withPrefabValues(NonEmptyList.class, nel(new TrustInteroperabilityProfileImpl()), nel(new TrustInteroperabilityProfileImpl(), new TrustInteroperabilityProfileImpl()))
-                .withPrefabValues(NonEmptyList.class, nel(TrustExpressionFailure.failureURI(nil(), "", new RuntimeException())), nel(TrustExpressionFailure.failureURI(nil(), "", new RuntimeException()), TrustExpressionFailure.failureURI(nil(), "", new RuntimeException())))
+                .withPrefabValues(NonEmptyList.class, nel(TrustExpressionFailure.failureURI(nil(), "", new URISyntaxException("", ""))), nel(TrustExpressionFailure.failureURI(nil(), "", new URISyntaxException("", "")), TrustExpressionFailure.failureURI(nil(), "", new URISyntaxException("", ""))))
                 .withNonnullFields("trustInteroperabilityProfileNonEmptyList", "trustExpressionFailureNonEmptyList")
                 .verify();
     }

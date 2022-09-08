@@ -436,9 +436,7 @@ public class ExcelBulkReaderImpl extends AbstractBulkReader implements ExcelBulk
     }
     
     public static class TDsSheetRowMapper extends AbstractExcelSheetRowMapper<RawTrustmarkDefinition> {
-        // Constants
-        public static final String DEFAULT_ISSUANCE_CRITERIA = "yes(ALL)";
-        
+
         // Instance Fields
         public final FilteredStringColumn   STEP_NAME                     = new FilteredStringColumn(            LISTING_COL_STEP_NAME);
         public final FilteredStringColumn   STEP_DESC                     = new FilteredStringColumn(            LISTING_COL_STEP_DESC);
@@ -466,12 +464,14 @@ public class ExcelBulkReaderImpl extends AbstractBulkReader implements ExcelBulk
         public final StringColumn           DEPRECATED                    = new StringColumn(                    LISTING_COL_DEPRECATED);
         public final PipeListColumn         SUPERSEDES                    = new PipeListColumn(                  LISTING_COL_SUPERSEDES);
         public final PipeListColumn         SUPERSEDED_BY                 = new PipeListColumn(                  LISTING_COL_SUPERSEDED_BY);
+
+        public final ColonPipeListColumn    TERMS                         = new ColonPipeListColumn(             TERMS_COL_TERMS);
         public final PipeListColumn         TERMS_INCLUDE                 = new PipeListColumn(                  LISTING_TERMS_INCLUDE);
         public final PipeListColumn         TERMS_EXCLUDE                 = new PipeListColumn(                  LISTING_TERMS_EXCLUDE);
+
         public final PipeListColumn         TIPS                          = new PipeListColumn(                  LISTING_COL_TIPS);
         public final ColonPipeListColumn    CITATIONS                     = new ColonPipeListColumn(             LISTING_COL_CITATIONS);
         public final ColonPipeListColumn    ARTIFACTS                     = new ColonPipeListColumn(             LISTING_COL_ARTIFACTS);
-        public final ColonPipeListColumn    TERMS                         = new ColonPipeListColumn(             TERMS_COL_TERMS);
         public final FilteredValueColonPipeMapColumn SOURCES              = new FilteredValueColonPipeMapColumn( TERMS_COL_SOURCES);
         public final ParameterListColumn    PARAMETERS                    = new ParameterListColumn(             TERMS_COL_PARAMETERS);
         
@@ -555,16 +555,18 @@ public class ExcelBulkReaderImpl extends AbstractBulkReader implements ExcelBulk
                 rawTd.metadata.criteriaPreface = this.CRITERIA_PREFACE.getFor(row);
                 rawTd.metadata.assessmentPreface = this.ASSESSMENT_PREFACE.getFor(row);
                 rawTd.metadata.issuanceCriteria = this.ISSUANCE_CRITERIA.getFor(row);
-                // Pipe Lists
+
+                // Colon+Pipe Lists
                 rawTd.metadata.keywords.addAll(this.KEYWORDS.getFor(row));
-                rawTd.metadata.deprecated = Boolean.parseBoolean(this.DEPRECATED.getFor(row));
                 rawTd.metadata.supersedesUris.addAll(BulkImportUtils.lowerCaseAll(this.SUPERSEDES.getFor(row)));
                 rawTd.metadata.supersededByUris.addAll(BulkImportUtils.lowerCaseAll(this.SUPERSEDED_BY.getFor(row)));
+                rawTd.metadata.deprecated = Boolean.parseBoolean(this.DEPRECATED.getFor(row));
+
+                rawTd.metadata.terms.addAll(this.TERMS.getFor(row));
                 rawTd.metadata.termsInclude.addAll(BulkImportUtils.lowerCaseAll(this.TERMS_INCLUDE.getFor(row)));
                 rawTd.metadata.termsExclude.addAll(BulkImportUtils.lowerCaseAll(this.TERMS_EXCLUDE.getFor(row)));
+
                 rawTd.metadata.tips.addAll(this.TIPS.getFor(row));
-                // Colon+Pipe Lists
-                rawTd.metadata.terms.addAll(this.TERMS.getFor(row));
 
                 logger.debug(String.format("    TD Row #%s has TD: %s", row.getRowNum() + 1, name));
             }
@@ -587,9 +589,6 @@ public class ExcelBulkReaderImpl extends AbstractBulkReader implements ExcelBulk
         public final FilteredStringColumn            TIP_DESC             = new FilteredStringColumn(            LISTING_COL_TIP_DESC);
         public final StringColumn                    TIP_VERSION          = new StringColumn(                    LISTING_COL_TIP_VERSION);
         public final StringColumn                    TIP_TRUST_EXPRESSION = new StringColumn(                    LISTING_COL_TRUST_EXPRESSION);
-        public final StringColumn                    TIP_ID               = new StringColumn(                    LISTING_COL_TIP_ID);
-        public final StringColumn                    TIP_ISSUER_NAME      = new StringColumn(                    LISTING_COL_ISSUER_NAME);
-        public final StringColumn                    TIP_ISSUER_ID        = new StringColumn(                    LISTING_COL_ISSUER_ID);
         public final StringColumn                    TIP_PRIMARY          = new StringColumn(                    LISTING_COL_PRIMARY);
         public final StringColumn                    TIP_MONIKER          = new StringColumn(                    LISTING_COL_TIP_MONIKER);
         public final StringColumn                    NOTES                = new StringColumn(                    LISTING_COL_NOTES);
@@ -598,9 +597,11 @@ public class ExcelBulkReaderImpl extends AbstractBulkReader implements ExcelBulk
         public final StringColumn                    DEPRECATED           = new StringColumn(                    LISTING_COL_DEPRECATED);
         public final PipeListColumn                  SUPERSEDES           = new PipeListColumn(                  LISTING_COL_SUPERSEDES);
         public final PipeListColumn                  SUPERSEDED_BY        = new PipeListColumn(                  LISTING_COL_SUPERSEDED_BY);
+
         public final ColonPipeListColumn             TERMS                = new ColonPipeListColumn(             TERMS_COL_TERMS);
         public final PipeListColumn                  TERMS_INCLUDE        = new PipeListColumn(                  LISTING_TERMS_INCLUDE);
         public final PipeListColumn                  TERMS_EXCLUDE        = new PipeListColumn(                  LISTING_TERMS_EXCLUDE);
+
         public final PipeListColumn                  KEYWORDS             = new PipeListColumn(                  LISTING_COL_KEYWORDS);
         public final FilteredValueColonPipeMapColumn SOURCES              = new FilteredValueColonPipeMapColumn( TERMS_COL_SOURCES);
         
@@ -644,6 +645,7 @@ public class ExcelBulkReaderImpl extends AbstractBulkReader implements ExcelBulk
                 rawTip.terms.addAll(this.TERMS.getFor(row));
                 rawTip.termsInclude.addAll(BulkImportUtils.lowerCaseAll(this.TERMS_INCLUDE.getFor(row)));
                 rawTip.termsExclude.addAll(BulkImportUtils.lowerCaseAll(this.TERMS_EXCLUDE.getFor(row)));
+
                 rawTip.sources.putAll(this.SOURCES.getFor(row));
                 rawTip.keywords.addAll(this.KEYWORDS.getFor(row));
 

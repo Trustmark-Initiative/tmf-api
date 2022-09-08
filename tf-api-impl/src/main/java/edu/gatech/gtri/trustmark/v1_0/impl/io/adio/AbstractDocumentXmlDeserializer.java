@@ -150,7 +150,7 @@ public class AbstractDocumentXmlDeserializer<T> extends AbstractDocumentInputDes
     @Override
     protected TrustInteroperabilityProfile getTipFromObjectNode(Element tipNode) throws ParseException {
         String tipXml = tipNode.asXML();
-        return new TrustInteroperabilityProfileXmlDeserializer().deserialize(tipXml);
+        return new TrustInteroperabilityProfileXmlDeserializer(true).deserialize(tipXml);
     }
 
 }

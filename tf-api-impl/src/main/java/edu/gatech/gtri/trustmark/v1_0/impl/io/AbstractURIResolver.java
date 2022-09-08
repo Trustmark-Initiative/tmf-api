@@ -78,7 +78,7 @@ public abstract class AbstractURIResolver implements URIResolver {
         requireNonNull(mediaTypeStringOption);
 
         try {
-            return downloadUrl(uri.toURL(), mediaTypeStringOption);
+            return downloadUrl(new URL(uri.toString()), mediaTypeStringOption);
         } catch (final MalformedURLException malformedURLException) {
             throw new ResolveException(format("The system could not convert the given URI ('%s') and given media type ('%s') to a URL: %s", uri, mediaTypeStringOption.toNull(), malformedURLException.getMessage(), malformedURLException));
         } catch (final IOException ioException) {

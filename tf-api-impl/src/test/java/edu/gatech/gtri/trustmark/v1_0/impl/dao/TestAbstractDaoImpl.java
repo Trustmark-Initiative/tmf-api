@@ -1,7 +1,7 @@
 package edu.gatech.gtri.trustmark.v1_0.impl.dao;
 
 import edu.gatech.gtri.trustmark.v1_0.impl.AbstractTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.MatcherAssert.*;

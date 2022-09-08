@@ -7,9 +7,9 @@ import edu.gatech.gtri.trustmark.v1_0.impl.AbstractTest;
 import edu.gatech.gtri.trustmark.v1_0.service.TrustmarkFrameworkService;
 import edu.gatech.gtri.trustmark.v1_0.service.TrustmarkFrameworkServiceFactory;
 import org.h2.jdbcx.JdbcConnectionPool;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import javax.sql.DataSource;
 

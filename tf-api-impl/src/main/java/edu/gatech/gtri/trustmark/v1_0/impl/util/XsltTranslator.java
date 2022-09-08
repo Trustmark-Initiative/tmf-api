@@ -4,6 +4,7 @@ import javax.xml.transform.*;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 
 /**
  * Performs XSLT Translations in a consistent way.
@@ -28,7 +29,7 @@ public class XsltTranslator {
      */
     public static void translate(String xsltText, InputStream input, OutputStream output)
     throws TransformerConfigurationException, TransformerException, IOException {
-        translate( xsltText, new InputStreamReader(input), new OutputStreamWriter(output));
+        translate( xsltText, new InputStreamReader(input), new OutputStreamWriter(output, StandardCharsets.UTF_8));
     }//end translate()
 
     /**

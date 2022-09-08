@@ -6,31 +6,28 @@ import org.gtri.fj.function.F1;
 
 import static java.util.Objects.requireNonNull;
 
-/**
- * Created by brad on 12/7/15.
- */
 public class TrustInteroperabilityProfileReferenceImpl extends TrustmarkFrameworkIdentifiedObjectImpl implements TrustInteroperabilityProfileReference {
 
-    public TrustInteroperabilityProfileReferenceImpl() {
-        this.setTypeName("TrustInteroperabilityProfileReference");
-    }
-
     private String id;
+
+    public TrustInteroperabilityProfileReferenceImpl() {
+        this.setTypeName(TYPE_NAME_TRUST_INTEROPERABILITY_PROFILE_REFERENCE);
+    }
 
     @Override
     public String getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(final String id) {
         this.id = id;
     }
 
-    public Boolean isTrustmarkDefinitionRequirement() {
+    public boolean isTrustmarkDefinitionRequirement() {
         return false;
     }
 
-    public Boolean isTrustInteroperabilityProfileReference() {
+    public boolean isTrustInteroperabilityProfileReference() {
         return true;
     }
 

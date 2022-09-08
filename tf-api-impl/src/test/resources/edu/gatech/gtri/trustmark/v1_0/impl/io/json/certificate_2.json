@@ -1,0 +1,18 @@
+[
+  {
+    "id": 18,
+    "name": "NIEF CA",
+    "organization": {
+      "id": 1,
+      "name": "National Identity Exchange Federation",
+      "displayName": "nief",
+      "description": null,
+      "siteUrl": "https://nief.org/"
+    },
+    "providerType": "Certificate",
+    "trustmarks": [],
+    "conformanceTargetTips": [],
+    "systemCertificate": "-----BEGIN CERTIFICATE-----\nMIIGNzCCBB+gAwIBAgIJALYpIkfILsa6MA0GCSqGSIb3DQEBCwUAMIGxMQswCQYD\nVQQGEwJVUzELMAkGA1UECAwCR0ExEDAOBgNVBAcMB0F0bGFudGExLjAsBgNVBAoM\nJU5hdGlvbmFsIElkZW50aXR5IEV4Y2hhbmdlIEZlZGVyYXRpb24xHzAdBgNVBAsM\nFk5JRUYgVHJ1c3QgIE9wZXJhdGlvbnMxFDASBgNVBAMMC2NhLm5pZWYub3JnMRww\nGgYJKoZIhvcNAQkBFg1oZWxwQG5pZWYub3JnMB4XDTE4MDcwMjE5MDMwN1oXDTI4\nMDcwMTE5MDMwN1owgbExCzAJBgNVBAYTAlVTMQswCQYDVQQIDAJHQTEQMA4GA1UE\nBwwHQXRsYW50YTEuMCwGA1UECgwlTmF0aW9uYWwgSWRlbnRpdHkgRXhjaGFuZ2Ug\nRmVkZXJhdGlvbjEfMB0GA1UECwwWTklFRiBUcnVzdCAgT3BlcmF0aW9uczEUMBIG\nA1UEAwwLY2EubmllZi5vcmcxHDAaBgkqhkiG9w0BCQEWDWhlbHBAbmllZi5vcmcw\nggIiMA0GCSqGSIb3DQEBAQUAA4ICDwAwggIKAoICAQDV8mLHLttjxHqcxfM1Wshm\n7xt8567a9JqyI0JBp+85xlJiPWffBi69L+S4hQVDy1DI5YmNOy5QTvAQiRSajoKw\nWHy073PS4kUGWJyD/+aUpFUKtGRevBHtJxAyWLi5XEUIenqkQWpgs/HSdsQ0vfqQ\nA55tNmkGGzao8WT8q5UWsbH1Wpn/9SLCMgIvxoEC7FuL46u/B7k5+21pKefpvKYq\nX3mLjvDPqbUx/DNgmJYSuK1KYCh1wNsZPj2Mbrj5Ii2ZPg7VgZHHsS3HC9h31SD3\ngt86ux3dOBsxbqOkB9fFW5H0NfbXSFptraXjsXXgx4Hf9UpsYZSpdOG8/bVl+x2B\nCZ9g+qZw0VAstfn3P7mJW6OfqKxnQhReXtVRUkWjbn22mHh/YVl5BoDGtjHKegUQ\n0K9oNURcjtcdCOErQtXT3oM4r0XgU7fPCg/FrcRZzWKUB3Mbh1CkyrvBCSf4rS/p\nUvSvBLPPXZotLj9Mis8NyzzNNTPxANujWpx0LHYAGTZLR7TVxBcKpp6oHw9k6ZuA\ngrfkF2iHuD7gz39XZqCX2iFv4cM2S2jARJsmfbKsbeuLNy6FH7638hnfo8bQtW/f\nIvj9SKTFws2RBJCS2i7oPbs4VV0ZPtcZm0HK4VkKDvw+1sKFkZl9NQlhk6rsT4AR\nBKrcXKgXuUnpFhc2oSXsXQIDAQABo1AwTjAdBgNVHQ4EFgQUAnDWF/EJ1UN2deQk\n55/Lj04rYLQwHwYDVR0jBBgwFoAUAnDWF/EJ1UN2deQk55/Lj04rYLQwDAYDVR0T\nBAUwAwEB/zANBgkqhkiG9w0BAQsFAAOCAgEAGMDIZBocu5c/UqgTF2s3ubfFgkuu\njfyD3JBjKQGImvEg/UvAolCBgt0uV3CtqpSH0qPYTxEqYIX7Uwe2sSkw/+uyCUPO\nf4Ow6mmrCAyIhOrgBhOvUrV/cgcr6UlZ174M91H8qSsA3N3cX7+qotrgKwyVJbIt\nxxTSBNJo36zRUzIY246fG4OFP7KSOFtlQ0NBP17RbnnIDbNR3jiOQ0y1F4qj4Fhs\nHtgaDwFCxzQZlBKx+DDdklmcowA92mgyVbmEgWWQZcrHW07Hd5PJigwfyM6nlOfZ\ng4rt4mYOfgXoxuK8RRVW9be/Qd0aykLn/54KY/gN86LaGPtyxftGu8ypBXTFRKmy\nRrRPlUYi3e12mLbGbGkKNbKiYgIlaPxssme9/D3AkEDLdK+DwKKhChqq7znSN31a\nqtBC40l8NCDs2NHYibBaxaaZQj1SYBHG1LHC1IAde4V1oQ+2p5XS4WcqUJ8E6Jo2\nTVreLRXTgNm4n92jQTLEiIW4yEskStm3lFh7UBx5IzpbfEq97UHgnRYsVK5QwRa0\n57TyEaSUeq8Ifo5rIk3ih0VUM5hjvonQ7kQbSRARepx6IO9Rjv9apdlKSqkcJh+h\n1D3TwBhsbxIgKsPGdX57sVos8kFLeBoJMMbt6zuR3xAU/n2HCUCOiLTFUQ6Q9tWr\nvy1PdLBFEPmfdaQ=\n-----END CERTIFICATE-----\n",
+    "systemCertificateUrl": "https://trustmark.nief.org/tbr/public/system-certificate/ca-nief-org-75bfe46b84a15417d92518904d23153089703706.pem"
+  }
+]

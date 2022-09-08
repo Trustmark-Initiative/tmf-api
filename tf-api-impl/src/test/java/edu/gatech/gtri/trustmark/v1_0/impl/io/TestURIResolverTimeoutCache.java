@@ -4,9 +4,9 @@ import edu.gatech.gtri.trustmark.v1_0.FactoryLoader;
 import edu.gatech.gtri.trustmark.v1_0.impl.AbstractTest;
 import edu.gatech.gtri.trustmark.v1_0.io.HttpResponse;
 import edu.gatech.gtri.trustmark.v1_0.io.NetworkDownloader;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.net.URL;
@@ -25,11 +25,12 @@ import static org.hamcrest.Matchers.notNullValue;
  */
 public class TestURIResolverTimeoutCache extends AbstractTest {
 
-    @Before
+    @BeforeEach
     public void registerNetworkDownloader() {
         FactoryLoader.register(NetworkDownloader.class, new NetworkDownloaderFaker());
     }
-    @After
+
+    @AfterEach
     public void unregisterNetworkDownloader() {
         FactoryLoader.unregister(NetworkDownloader.class);
     }
@@ -44,7 +45,10 @@ public class TestURIResolverTimeoutCache extends AbstractTest {
         URIResolverTimeoutCache uriResolverSimple = new URIResolverTimeoutCache(timeout);
         String content1 = uriResolverSimple.resolve(nowTestURL);
         assertThat(content1, notNullValue());
-        try{ Thread.sleep(10l); } catch( Exception e ){}
+        try {
+            Thread.sleep(10l);
+        } catch (Exception e) {
+        }
         // This call will happen after the first one, and should have been enough time for the page to change.
         String content2 = uriResolverSimple.resolve(nowTestURL);
         assertThat(content2, notNullValue());
@@ -52,7 +56,10 @@ public class TestURIResolverTimeoutCache extends AbstractTest {
         // The content should be equal, because the cache window is still valid.
         assertThat(content1, equalTo(content2));
 
-        try{ Thread.sleep(timeout + 10l); } catch(Throwable t){} // Guaranteed to wait longer than cache expiration.
+        try {
+            Thread.sleep(timeout + 10l);
+        } catch (Throwable t) {
+        } // Guaranteed to wait longer than cache expiration.
 
         // The cache window has expired, so the page should be different now.
         String content3 = uriResolverSimple.resolve(nowTestURL);
@@ -68,31 +75,53 @@ public class TestURIResolverTimeoutCache extends AbstractTest {
     public static class NetworkDownloaderFaker implements NetworkDownloader {
         @Override
         public HttpResponse download(URL url) throws IOException {
-            if( url.toExternalForm().contains("now-test") ){
+            if (url.toExternalForm().contains("now-test")) {
                 return new HttpResponse() {
                     @Override
-                    public List<String> getHeader(String name) {return null;}
+                    public List<String> getHeader(String name) {
+                        return null;
+                    }
+
                     @Override
-                    public Map<String, List<String>> getHeaders() {return null;}
+                    public Map<String, List<String>> getHeaders() {
+                        return null;
+                    }
+
                     @Override
-                    public int getResponseCode() {return 200;}
+                    public int getResponseCode() {
+                        return 200;
+                    }
+
                     @Override
-                    public String getResponseMessage() {return null;}
+                    public String getResponseMessage() {
+                        return null;
+                    }
+
                     @Override
-                    public String getContentType() {return TEXT_PLAIN.getMediaType();}
+                    public String getContentType() {
+                        return TEXT_PLAIN.getMediaType();
+                    }
+
                     @Override
-                    public boolean isBinary() {return false;}
+                    public boolean isBinary() {
+                        return false;
+                    }
+
                     @Override
-                    public String getContent() {return  System.currentTimeMillis() + "";}
+                    public String getContent() {
+                        return System.currentTimeMillis() + "";
+                    }
+
                     @Override
-                    public byte[] getBinaryContent() {return  (System.currentTimeMillis() + "").getBytes(Charset.defaultCharset());}
+                    public byte[] getBinaryContent() {
+                        return (System.currentTimeMillis() + "").getBytes(Charset.defaultCharset());
+                    }
                 };
-            }else{
+            } else {
                 throw new IOException("CANNOT DOWNLOAD");
             }
         }
     }
-
 
 
 }//end testGetSimpleHTMLResource()

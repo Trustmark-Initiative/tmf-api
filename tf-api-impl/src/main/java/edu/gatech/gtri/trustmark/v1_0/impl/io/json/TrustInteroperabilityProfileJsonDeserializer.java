@@ -3,11 +3,11 @@ package edu.gatech.gtri.trustmark.v1_0.impl.io.json;
 import edu.gatech.gtri.trustmark.v1_0.impl.model.TrustInteroperabilityProfileImpl;
 import edu.gatech.gtri.trustmark.v1_0.impl.model.TrustInteroperabilityProfileReferenceImpl;
 import edu.gatech.gtri.trustmark.v1_0.impl.model.TrustmarkDefinitionRequirementImpl;
-import edu.gatech.gtri.trustmark.v1_0.io.MediaType;
 import edu.gatech.gtri.trustmark.v1_0.io.ParseException;
 import edu.gatech.gtri.trustmark.v1_0.model.AbstractTIPReference;
 import edu.gatech.gtri.trustmark.v1_0.model.Entity;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustInteroperabilityProfile;
+import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkFrameworkIdentifiedObject;
 import org.gtri.fj.data.List;
 import org.gtri.fj.data.TreeMap;
 import org.gtri.fj.function.Try1;
@@ -47,18 +47,21 @@ public final class TrustInteroperabilityProfileJsonDeserializer implements JsonD
 
     private static final Logger log = LoggerFactory.getLogger(TrustInteroperabilityProfileJsonDeserializer.class);
 
+    private final boolean withTerms;
+
+    public TrustInteroperabilityProfileJsonDeserializer(final boolean withTerms) {
+        this.withTerms = withTerms;
+    }
+
     public TrustInteroperabilityProfile deserialize(final String jsonString, final URI uri) throws ParseException {
         requireNonNull(jsonString);
 
         log.debug("Deserializing Trust Interoperability Profile JSON . . .");
 
-        final JSONObject jsonObject = new JSONObject(jsonString);
+        final JSONObject jsonObject = readJSONObject(jsonString);
         assertSupported(jsonObject);
 
         final TrustInteroperabilityProfileImpl trustInteroperabilityProfile = new TrustInteroperabilityProfileImpl();
-
-        trustInteroperabilityProfile.setOriginalSource(jsonString);
-        trustInteroperabilityProfile.setOriginalSourceType(MediaType.APPLICATION_JSON.getMediaType());
 
         trustInteroperabilityProfile.setDeprecated(readBooleanOption(jsonObject, "Deprecated").orSome(false));
         trustInteroperabilityProfile.setDescription(readString(jsonObject, "Description"));
@@ -67,7 +70,7 @@ public final class TrustInteroperabilityProfileJsonDeserializer implements JsonD
         trustInteroperabilityProfile.setName(readString(jsonObject, "Name"));
         trustInteroperabilityProfile.setPublicationDateTime(readDate(jsonObject, "PublicationDateTime"));
         trustInteroperabilityProfile.setTrustExpression(readString(jsonObject, "TrustExpression"));
-        trustInteroperabilityProfile.setTypeName("TrustInteroperabilityProfile");
+        trustInteroperabilityProfile.setTypeName(TrustmarkFrameworkIdentifiedObject.TYPE_NAME_TRUST_INTEROPERABILITY_PROFILE);
         trustInteroperabilityProfile.setVersion(readString(jsonObject, "Version"));
 
         readStringOption(jsonObject, "$id").forEach(trustInteroperabilityProfile::setId);
@@ -84,7 +87,9 @@ public final class TrustInteroperabilityProfileJsonDeserializer implements JsonD
         readJSONObjectList(jsonObject, "KnownConflicts").mapException(JsonDeserializerUtility::readTrustmarkDefinitionReference).forEach(trustInteroperabilityProfile::addToKnownConflict);
         readJSONObjectList(jsonObject, "Satisfies").mapException(JsonDeserializerUtility::readTrustmarkDefinitionReference).forEach(trustInteroperabilityProfile::addToSatisfies);
         readJSONObjectList(jsonObject, "Sources").mapException(JsonDeserializerUtility::readSource).forEach(trustInteroperabilityProfile::addSource);
-        readJSONObjectList(jsonObject, "Terms").mapException(JsonDeserializerUtility::readTerm).forEach(trustInteroperabilityProfile::addTerm);
+        if (withTerms) {
+            readJSONObjectList(jsonObject, "Terms").mapException(JsonDeserializerUtility::readTerm).forEach(trustInteroperabilityProfile::addTerm);
+        }
 
         readStringList(jsonObject, "Keywords").foreachDoEffectException(trustInteroperabilityProfile::addToKeywords);
 
@@ -130,7 +135,7 @@ public final class TrustInteroperabilityProfileJsonDeserializer implements JsonD
 
             trustmarkDefinitionRequirement.setId(readString(jsonObject, "$id"));
             trustmarkDefinitionRequirement.setIdentifier(readURI(jsonObjectTrustmarkDefinitionReference, "Identifier"));
-            trustmarkDefinitionRequirement.setTypeName("TrustmarkDefinitionRequirement");
+            trustmarkDefinitionRequirement.setTypeName(TrustmarkFrameworkIdentifiedObject.TYPE_NAME_TRUSTMARK_DEFINITION_REQUIREMENT);
 
             readIntOption(jsonObjectTrustmarkDefinitionReference, "Number").forEach(trustmarkDefinitionRequirement::setNumber);
 
@@ -152,7 +157,7 @@ public final class TrustInteroperabilityProfileJsonDeserializer implements JsonD
 
         trustInteroperabilityProfileReference.setId(readString(jsonObject, "$id"));
         trustInteroperabilityProfileReference.setIdentifier(readURI(jsonObject, "Identifier"));
-        trustInteroperabilityProfileReference.setTypeName("TrustInteroperabilityProfileReference");
+        trustInteroperabilityProfileReference.setTypeName(TrustmarkFrameworkIdentifiedObject.TYPE_NAME_TRUST_INTEROPERABILITY_PROFILE_REFERENCE);
 
         readIntOption(jsonObject, "Number").forEach(trustInteroperabilityProfileReference::setNumber);
 

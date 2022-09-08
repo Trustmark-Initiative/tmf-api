@@ -1,6 +1,5 @@
 package edu.gatech.gtri.trustmark.v1_0.model.trustmarkBindingRegistry;
 
-import edu.gatech.gtri.trustmark.v1_0.model.HasSource;
 import org.gtri.fj.data.List;
 
 import java.net.URI;
@@ -10,7 +9,7 @@ import java.net.URI;
  *
  * @author GTRI Trustmark Team
  */
-public interface TrustmarkBindingRegistrySystem extends HasSource {
+public interface TrustmarkBindingRegistrySystem {
 
     /**
      * Returns the entity id.

@@ -19,14 +19,15 @@ import edu.gatech.gtri.trustmark.v1_0.tip.parser.TrustExpressionParserFactory;
 import org.gtri.fj.data.TreeMap;
 import org.gtri.fj.product.P3;
 import org.gtri.fj.product.P5;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.time.Instant;
 
 import static edu.gatech.gtri.trustmark.v1_0.tip.TrustExpression.and;
@@ -113,16 +114,17 @@ public class TestTrustExpressionParserImpl {
                 terminal(success(dataReferenceTrustmarkDefinitionRequirement(nel(resolver._4()), resolver._5().get("B").some()))),
                 trustExpressionParser.parse(resolver._3().toString()));
 
-        final RuntimeException runtimeException = new RuntimeException();
+        final URISyntaxException uriSyntaxException = new URISyntaxException("", "");
         final ResolveException resolveException = new ResolveException();
+        final RuntimeException runtimeException = new RuntimeException();
 
         assertEquals(
-                terminal(fail(nel(failureURI(nil(), "|", runtimeException)))),
-                TestTrustExpressionUtility.normalizeExceptionForTrustExpressionParserData(trustExpressionParser.parse("|"), runtimeException, resolveException));
+                terminal(fail(nel(failureURI(nil(), "|", uriSyntaxException)))),
+                TestTrustExpressionUtility.normalizeExceptionForTrustExpressionParserData(trustExpressionParser.parse("|"), uriSyntaxException, resolveException, runtimeException));
 
         assertEquals(
                 terminal(fail(nel(failureResolveTrustInteroperabilityProfile(nil(), URI.create("failure"), resolveException)))),
-                TestTrustExpressionUtility.normalizeExceptionForTrustExpressionParserData(trustExpressionParser.parse(URI.create("failure")), runtimeException, resolveException));
+                TestTrustExpressionUtility.normalizeExceptionForTrustExpressionParserData(trustExpressionParser.parse(URI.create("failure")), uriSyntaxException, resolveException, runtimeException));
     }
 
     @Test
@@ -142,12 +144,13 @@ public class TestTrustExpressionParserImpl {
         final P5<TrustInteroperabilityProfileResolverFromMap, TrustmarkDefinitionResolverFromMap, URI, TrustInteroperabilityProfile, TreeMap<String, TrustmarkDefinitionRequirement>> resolver = TestTrustExpressionUtility.resolver("", nil());
         final TrustExpressionParser trustExpressionParser = new TrustExpressionParserImpl(resolver._1(), resolver._2());
 
-        final RuntimeException runtimeException = new RuntimeException();
+        final URISyntaxException uriSyntaxException = new URISyntaxException("", "");
         final ResolveException resolveException = new ResolveException();
+        final RuntimeException runtimeException = new RuntimeException();
 
         assertEquals(
                 terminal(fail(nel(failureParser(nel(resolver._4()), "", runtimeException)))),
-                TestTrustExpressionUtility.normalizeExceptionForTrustExpressionParserData(trustExpressionParser.parse(resolver._4()), runtimeException, resolveException));
+                TestTrustExpressionUtility.normalizeExceptionForTrustExpressionParserData(trustExpressionParser.parse(resolver._4()), uriSyntaxException, resolveException, runtimeException));
     }
 
     @Test
@@ -361,7 +364,7 @@ public class TestTrustExpressionParserImpl {
                 trustExpressionParser.parse(trustInteroperabilityProfile));
     }
 
-    @Ignore
+    @Disabled
     @Test
     public void test() throws IOException {
 

@@ -15,8 +15,9 @@ import edu.gatech.gtri.trustmark.v1_0.tip.parser.TrustExpressionParserData.Trust
 import edu.gatech.gtri.trustmark.v1_0.tip.parser.TrustExpressionParserData.TrustExpressionParserDataReference.TrustExpressionParserDataReferenceTrustmarkDefinitionParameter;
 import edu.gatech.gtri.trustmark.v1_0.tip.parser.TrustExpressionParserData.TrustExpressionParserDataReference.TrustExpressionParserDataReferenceTrustmarkDefinitionRequirement;
 import nl.jqno.equalsverifier.EqualsVerifier;
+import nl.jqno.equalsverifier.Warning;
 import org.gtri.fj.data.NonEmptyList;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -30,8 +31,8 @@ import static edu.gatech.gtri.trustmark.v1_0.tip.parser.TrustExpressionParserDat
 import static edu.gatech.gtri.trustmark.v1_0.tip.parser.TrustExpressionParserData.dataReferenceTrustmarkDefinitionParameter;
 import static edu.gatech.gtri.trustmark.v1_0.tip.parser.TrustExpressionParserData.dataReferenceTrustmarkDefinitionRequirement;
 import static org.gtri.fj.data.NonEmptyList.nel;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TestTrustExpressionParserData {
@@ -149,6 +150,7 @@ public class TestTrustExpressionParserData {
 
         EqualsVerifier
                 .forClass(TrustExpressionParserDataLiteralDecimal.class)
+                .suppress(Warning.BIGDECIMAL_EQUALITY)
                 .withPrefabValues(NonEmptyList.class, nel(new TrustInteroperabilityProfileImpl()), nel(new TrustInteroperabilityProfileImpl(), new TrustInteroperabilityProfileImpl()))
                 .withNonnullFields("trustInteroperabilityProfileNonEmptyList", "value")
                 .verify();

@@ -1,6 +1,5 @@
 package edu.gatech.gtri.trustmark.v1_0.impl.io.xml.producers;
 
-import edu.gatech.gtri.trustmark.v1_0.impl.io.IdUtility;
 import edu.gatech.gtri.trustmark.v1_0.io.xml.XmlProducer;
 import edu.gatech.gtri.trustmark.v1_0.io.xml.XmlUtils;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkStatusReport;
@@ -8,7 +7,6 @@ import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkStatusReport;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 import java.net.URI;
-import java.util.UUID;
 
 import static edu.gatech.gtri.trustmark.v1_0.impl.TrustmarkFrameworkConstants.NAMESPACE_URI;
 
@@ -25,9 +23,9 @@ public class TrustmarkStatusReportXmlProducer implements XmlProducer<TrustmarkSt
     @Override
     public void serialize(TrustmarkStatusReport tsr, XMLStreamWriter xmlWriter) throws XMLStreamException {
 
-        xmlWriter.writeAttribute(NAMESPACE_URI, "id", tsr.getId() == null ?
-                IdUtility.trustmarkStatusReportId() :
-                tsr.getId());
+        if (tsr.getId() != null) {
+            xmlWriter.writeAttribute(NAMESPACE_URI, "id", tsr.getId());
+        }
 
         // TODO Digital Signature?
 

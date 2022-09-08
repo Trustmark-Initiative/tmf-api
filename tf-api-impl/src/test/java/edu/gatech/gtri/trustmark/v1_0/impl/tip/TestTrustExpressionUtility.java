@@ -30,6 +30,7 @@ import org.gtri.fj.product.P3;
 import org.gtri.fj.product.P5;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -164,12 +165,13 @@ public class TestTrustExpressionUtility {
 
     public static final TrustExpression<Validation<NonEmptyList<TrustExpressionFailure>, TrustExpressionParserData>> normalizeExceptionForTrustExpressionParserData(
             final TrustExpression<Validation<NonEmptyList<TrustExpressionFailure>, TrustExpressionParserData>> trustExpression,
-            final RuntimeException runtimeException,
-            final ResolveException resolveException) {
+            final URISyntaxException uriSyntaxException,
+            final ResolveException resolveException,
+            final RuntimeException runtimeException) {
 
         return trustExpression.match(
                 terminal -> terminal(terminal.f().map(trustExpressionFailureNonEmptyList -> trustExpressionFailureNonEmptyList.map(trustExpressionFailure -> trustExpressionFailure.match(
-                        (trustInteroperabilityProfileList, uriString, exception) -> failureURI(trustInteroperabilityProfileList, uriString, runtimeException),
+                        (trustInteroperabilityProfileList, uriString, exception) -> failureURI(trustInteroperabilityProfileList, uriString, uriSyntaxException),
                         (trustInteroperabilityProfileList, uri, exception) -> failureResolveTrustInteroperabilityProfile(trustInteroperabilityProfileList, uri, resolveException),
                         (trustInteroperabilityProfileList) -> failureCycle(trustInteroperabilityProfileList),
                         (trustInteroperabilityProfileList, uri, exception) -> failureResolveTrustmarkDefinition(trustInteroperabilityProfileList, uri, resolveException),
@@ -208,12 +210,13 @@ public class TestTrustExpressionUtility {
 
     public static final TrustExpression<Validation<NonEmptyList<TrustExpressionFailure>, TrustExpressionEvaluatorData>> normalizeExceptionForTrustExpressionEvaluatorData(
             final TrustExpression<Validation<NonEmptyList<TrustExpressionFailure>, TrustExpressionEvaluatorData>> trustExpression,
-            final RuntimeException runtimeException,
-            final ResolveException resolveException) {
+            final URISyntaxException uriSyntaxException,
+            final ResolveException resolveException,
+            final RuntimeException runtimeException) {
 
         return trustExpression.match(
                 terminal -> terminal(terminal.f().map(trustExpressionFailureNonEmptyList -> trustExpressionFailureNonEmptyList.map(trustExpressionFailure -> trustExpressionFailure.match(
-                        (trustInteroperabilityProfileList, uriString, exception) -> failureURI(trustInteroperabilityProfileList, uriString, runtimeException),
+                        (trustInteroperabilityProfileList, uriString, exception) -> failureURI(trustInteroperabilityProfileList, uriString, uriSyntaxException),
                         (trustInteroperabilityProfileList, uri, exception) -> failureResolveTrustInteroperabilityProfile(trustInteroperabilityProfileList, uri, resolveException),
                         (trustInteroperabilityProfileList) -> failureCycle(trustInteroperabilityProfileList),
                         (trustInteroperabilityProfileList, uri, exception) -> failureResolveTrustmarkDefinition(trustInteroperabilityProfileList, uri, resolveException),
@@ -252,17 +255,19 @@ public class TestTrustExpressionUtility {
 
     public static final TrustExpressionEvaluation normalizeException(
             final TrustExpressionEvaluation trustExpressionEvaluation,
-            final RuntimeException runtimeException,
-            final ResolveException resolveException) {
+            final URISyntaxException uriSyntaxException,
+            final ResolveException resolveException,
+            final RuntimeException runtimeException) {
 
         return trustExpressionEvaluation(
                 trustExpressionEvaluation.getTrustExpressionEvaluatorFailureList().map(trustExpressionEvaluatorFailure -> trustExpressionEvaluatorFailure.match(
-                        (string, exception) -> evaluatorFailureURI(string, runtimeException),
+                        (string, exception) -> evaluatorFailureURI(string, uriSyntaxException),
                         (uri, exception) -> evaluatorFailureResolve(uri, resolveException),
                         (trustmark, trustmarkVerificationFailureNonEmptyList) -> evaluatorFailureVerify(trustmark, trustmarkVerificationFailureNonEmptyList))),
                 normalizeExceptionForTrustExpressionEvaluatorData(
                         trustExpressionEvaluation.getTrustExpression(),
-                        runtimeException,
-                        resolveException));
+                        uriSyntaxException,
+                        resolveException,
+                        runtimeException));
     }
 }

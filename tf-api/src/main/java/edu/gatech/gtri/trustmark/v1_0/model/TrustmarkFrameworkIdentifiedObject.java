@@ -8,6 +8,14 @@ package edu.gatech.gtri.trustmark.v1_0.model;
  */
 public interface TrustmarkFrameworkIdentifiedObject extends HasIdentifier {
 
+    String TYPE_NAME_TRUSTMARK_DEFINITION = "TrustmarkDefinition";
+    String TYPE_NAME_TRUSTMARK_DEFINITION_REFERENCE = "TrustmarkDefinitionReference";
+    String TYPE_NAME_TRUSTMARK_DEFINITION_REMOTE = "RemoteTrustmarkDefinition";
+    String TYPE_NAME_TRUSTMARK_DEFINITION_REQUIREMENT = "TrustmarkDefinitionRequirement";
+    String TYPE_NAME_TRUST_INTEROPERABILITY_PROFILE = "TrustInteroperabilityProfile";
+    String TYPE_NAME_TRUST_INTEROPERABILITY_PROFILE_REFERENCE = "TrustInteroperabilityProfileReference";
+    String TYPE_NAME_TRUST_INTEROPERABILITY_PROFILE_REMOTE = "RemoteTrustInteroperabilityProfile";
+
     /**
      * Returns the type name; non-null.
      *

@@ -3,92 +3,85 @@ package edu.gatech.gtri.trustmark.v1_0.impl;
 import edu.gatech.gtri.trustmark.v1_0.FactoryLoader;
 import edu.gatech.gtri.trustmark.v1_0.TrustmarkFramework;
 import edu.gatech.gtri.trustmark.v1_0.io.URIResolver;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
-/**
- * Created by brad on 1/6/16.
- */
+import static java.lang.String.format;
+
 public class TrustmarkFrameworkImpl implements TrustmarkFramework {
 
-    private static final Logger log = LoggerFactory.getLogger(TrustmarkFrameworkImpl.class);
+    private final ResourceBundle resourceBundleForTfApi = ResourceBundle.getBundle("tf-api");
+    private final ResourceBundle resourceBundleForTfApiImpl = ResourceBundle.getBundle("tf-api-impl");
 
-    private ResourceBundle tfApiResources;
-    private ResourceBundle tfApiImplResources;
-
-    public TrustmarkFrameworkImpl(){
-        try{
-            tfApiResources = ResourceBundle.getBundle("tfapi");
-            tfApiImplResources = ResourceBundle.getBundle("tfapi_impl");
-        }catch(Throwable t){
-            throw new UnsupportedOperationException("Unable to load the TF API bundles!");
-        }
-
-        String apiTfVersion = tfApiResources.getString("tf_version");
-        String apiImplTfVersion = tfApiImplResources.getString("tf_version");
-        if( !apiImplTfVersion.equalsIgnoreCase(apiTfVersion) ){
-            throw new UnsupportedOperationException("The TrustmarkFramework API and IMPL do not agree on the TF versions they support[api={"+apiTfVersion+"}, impl={"+apiImplTfVersion+"}].");
-        }
-
-        String apiVersion = tfApiResources.getString("tfapi_version");
-        String implApiVersion = tfApiImplResources.getString("tfapi_version");
-        if( !apiVersion.equalsIgnoreCase(implApiVersion) ){
-            throw new UnsupportedOperationException("The TrustmarkFramework API and IMPL do not agree on the API versions they support[api={"+apiVersion+"}, impl={"+implApiVersion+"}].");
-        }
-
+    public TrustmarkFrameworkImpl() {
+        validateSystem();
     }
 
     @Override
     public String getTrustmarkFrameworkVersion() {
-        return tfApiResources.getString("tf_version");
+        return resourceBundleForTfApi.getString("trustmark.framework.version");
+    }
+
+    @Override
+    public String getTrustmarkFrameworkVersionImpl() {
+        return resourceBundleForTfApi.getString("trustmark.framework.version");
     }
 
     @Override
     public String getApiVersion() {
-        return tfApiResources.getString("tfapi_version");
+        return resourceBundleForTfApi.getString("project.version");
+    }
+
+    @Override
+    public String getApiParentVersion() {
+        return resourceBundleForTfApi.getString("project.parent.version");
     }
 
     @Override
     public String getApiBuildDate() {
-        return tfApiResources.getString("tfapi_timestamp");
+        return resourceBundleForTfApi.getString("timestamp");
     }
 
     @Override
     public String getApiImplVersion() {
-        return tfApiImplResources.getString("tfapi_impl_version");
+        return resourceBundleForTfApiImpl.getString("project.version");
+    }
+
+    @Override
+    public String getApiImplParentVersion() {
+        return resourceBundleForTfApiImpl.getString("project.parent.version");
     }
 
     @Override
     public String getApiImplBuildDate() {
-        return tfApiImplResources.getString("tfapi_impl_timestamp");
+        return resourceBundleForTfApiImpl.getString("timestamp");
     }
 
-
-
-    public static final Class[] userRequiredClasses = {
-            URIResolver.class
-    };
-    /**
-     * Performs any necessary "Sanity Checks" on the system before usage can proceed.
-     */
+    @Override
     public void validateSystem() {
-        log.debug("Checking necessary pre-requisites for the TF-API system to run...");
 
-        log.debug("Checking that necessary, but not provided, classes are registered with FactoryLoader appropriately...");
-        for( Class c : userRequiredClasses ){
-            log.debug("   Finding instance of ["+c.getName()+"]...");
-            Object cInstance = FactoryLoader.getInstance(c);
-            if( cInstance == null ){
-                log.error("Missing required implementation of class["+c.getName()+"]!  Please use either FactoryLoader.register() or ServiceLoader mechanism to register an instance of this class before library usage.");
-                throw new UnsupportedOperationException("Missing required implementation of class["+c.getName()+"]");
-            }
+        if (!getTrustmarkFrameworkVersion().equals(getTrustmarkFrameworkVersionImpl())) {
+            throw new RuntimeException(format("The Trustmark Framework version for the API ('%s') does not match the Trustmark Framework version for the implementation ('%s').", getTrustmarkFrameworkVersion(), getTrustmarkFrameworkVersionImpl()));
         }
 
+        if (!getApiParentVersion().equals(getApiImplParentVersion())) {
+            throw new RuntimeException(format("The parent version for the API ('%s') does not match the parent version for the implementation ('%s').", getApiParentVersion(), getApiImplParentVersion()));
+        }
 
-        // TODO Anything else we need to check?
+        final List<String> list = Arrays.stream(new Class[]{
+                        URIResolver.class
+                })
+                .map(clazz -> FactoryLoader.getInstance(clazz) == null ? Optional.ofNullable(format("The system requires an implementation of '%s'.", clazz.getCanonicalName())) : Optional.<String>empty())
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .collect(Collectors.toList());
 
-    }//end TrustmarkFrameworkImpl()
-
+        if (!list.isEmpty()) {
+            throw new RuntimeException(list.stream().collect(Collectors.joining("\n")));
+        }
+    }
 }

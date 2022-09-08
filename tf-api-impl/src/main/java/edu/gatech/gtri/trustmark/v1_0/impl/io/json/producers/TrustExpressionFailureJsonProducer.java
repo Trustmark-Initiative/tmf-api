@@ -7,6 +7,7 @@ import edu.gatech.gtri.trustmark.v1_0.model.TrustInteroperabilityProfile;
 import edu.gatech.gtri.trustmark.v1_0.model.Trustmark;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkDefinitionRequirement;
 import edu.gatech.gtri.trustmark.v1_0.tip.TrustExpressionFailure;
+import edu.gatech.gtri.trustmark.v1_0.tip.TrustExpressionFailure.TrustExpressionFailureCycle;
 import edu.gatech.gtri.trustmark.v1_0.tip.TrustExpressionFailure.TrustExpressionFailureExpression;
 import edu.gatech.gtri.trustmark.v1_0.tip.TrustExpressionFailure.TrustExpressionFailureExpressionLeft;
 import edu.gatech.gtri.trustmark.v1_0.tip.TrustExpressionFailure.TrustExpressionFailureExpressionRight;
@@ -75,7 +76,7 @@ public class TrustExpressionFailureJsonProducer implements JsonProducer<TrustExp
                     put("Message", exception.getMessage());
                 }}),
                 (trustInteroperabilityProfileList) -> new JSONObject(new java.util.HashMap<String, Object>() {{
-                    put("$Type", TrustExpressionFailureResolveTrustmarkDefinition.class.getSimpleName());
+                    put("$Type", TrustExpressionFailureCycle.class.getSimpleName());
                     put("TrustInteroperabilityProfileList", new JSONArray(trustInteroperabilityProfileList.map(TrustExpressionFailureJsonProducer::serializeTrustInteroperabilityProfile).toCollection()));
                 }}),
                 (trustInteroperabilityProfileList, uri, exception) -> new JSONObject(new java.util.HashMap<String, Object>() {{

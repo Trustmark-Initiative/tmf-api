@@ -2,7 +2,6 @@ package edu.gatech.gtri.trustmark.v1_0.impl.io.json.producers;
 
 import edu.gatech.gtri.trustmark.v1_0.FactoryLoader;
 import edu.gatech.gtri.trustmark.v1_0.TrustmarkFramework;
-import edu.gatech.gtri.trustmark.v1_0.impl.io.IdUtility;
 import edu.gatech.gtri.trustmark.v1_0.io.json.JsonProducer;
 import edu.gatech.gtri.trustmark.v1_0.io.json.JsonUtils;
 import edu.gatech.gtri.trustmark.v1_0.model.Trustmark;
@@ -11,6 +10,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.producers.JsonProducerUtility.toJson;
+import static java.util.Objects.requireNonNull;
 
 /**
  * Created by brad on 1/7/16.
@@ -30,10 +30,13 @@ public final class TrustmarkJsonProducer implements JsonProducer<Trustmark, JSON
     @Override
     public JSONObject serialize(Trustmark trustmark) {
 
+        requireNonNull(trustmark);
+        requireNonNull(trustmark.getId());
+
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("$TMF_VERSION", FactoryLoader.getInstance(TrustmarkFramework.class).getTrustmarkFrameworkVersion());
         jsonObject.put("$Type", Trustmark.class.getSimpleName());
-//        jsonObject.put("$id", trustmark.getId() == null ? IdUtility.trustmarkId() : trustmark.getId()); // TODO: Add $id for consistency.
+        jsonObject.put("$id", trustmark.getId());
 
         jsonObject.put("Identifier", trustmark.getIdentifier());
         jsonObject.put("TrustmarkDefinitionReference", toJson(trustmark.getTrustmarkDefinitionReference()));

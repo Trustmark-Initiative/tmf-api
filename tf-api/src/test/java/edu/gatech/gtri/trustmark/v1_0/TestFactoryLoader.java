@@ -1,12 +1,13 @@
 package edu.gatech.gtri.trustmark.v1_0;
 
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.junit.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.notNullValue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Created by brad on 3/30/15.
@@ -42,10 +43,10 @@ public class TestFactoryLoader extends AbstractTest {
     }
 
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testRegistrationFailsOnNull() {
         logger.info("Expecting the registration of a null class to fail.");
-        FactoryLoader.register(ExampleService.class, null);
+        assertThrows(NullPointerException.class, () -> FactoryLoader.register(ExampleService.class, null));
     }
 
     @Test

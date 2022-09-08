@@ -64,9 +64,6 @@ public class ExcelMultiTdBuilder implements MultiTrustmarkDefinitionBuilder {
 
     public static final String LISTING_COL_CATEGORY                            = "Category";
     public static final String LISTING_COL_TRUST_EXPRESSION                    = "Trust Expression";
-    public static final String LISTING_COL_TIP_ID                              = "TIP Id";
-    public static final String LISTING_COL_ISSUER_NAME                         = "Issuer Name";
-    public static final String LISTING_COL_ISSUER_ID                           = "Issuer ID";
     public static final String LISTING_COL_PRIMARY                             = "Primary";
 
 
@@ -88,13 +85,14 @@ public class ExcelMultiTdBuilder implements MultiTrustmarkDefinitionBuilder {
     public static final String LISTING_COL_SUPERSEDED_BY                       = "Superseded By";
     public static final String LISTING_COL_NOTES                               = "Notes";
     public static final String LISTING_COL_LEGAL_NOTICE                        = "Legal Notice";
+
+    public static final String TERMS_COL_TERMS                                 = "Terms";
     public static final String LISTING_TERMS_INCLUDE                           = "Terms Include";
     public static final String LISTING_TERMS_EXCLUDE                           = "Terms Exclude";
 
     public static final String TERMS_COL_TERM                                  = "Term";
     public static final String TERMS_COL_TERM_NAME                             = "Term Name";
     public static final String TERMS_COL_TERM_DEFINITION                       = "Term Definition";
-    public static final String TERMS_COL_TERMS                                 = "Terms";
     public static final String TERMS_COL_SOURCES                               = "Sources";
     public static final String TERMS_COL_ABBREVIATIONS                         = "Abbreviations";
     public static final String TERMS_COL_DEFINITION                            = "Definition";

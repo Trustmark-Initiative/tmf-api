@@ -174,7 +174,7 @@ public class AbstractDocumentJsonDeserializer<T> extends AbstractDocumentInputDe
     @Override
     protected TrustInteroperabilityProfile getTipFromObjectNode(JSONObject tipNode) throws ParseException {
         String tipJson = tipNode.toString();
-        return new TrustInteroperabilityProfileJsonDeserializer().deserialize(tipJson);
+        return new TrustInteroperabilityProfileJsonDeserializer(true).deserialize(tipJson);
     }
 
 }

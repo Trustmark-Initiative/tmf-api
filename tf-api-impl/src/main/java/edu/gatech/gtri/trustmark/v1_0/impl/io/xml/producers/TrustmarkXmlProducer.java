@@ -1,6 +1,5 @@
 package edu.gatech.gtri.trustmark.v1_0.impl.io.xml.producers;
 
-import edu.gatech.gtri.trustmark.v1_0.impl.io.IdUtility;
 import edu.gatech.gtri.trustmark.v1_0.io.xml.XmlProducer;
 import edu.gatech.gtri.trustmark.v1_0.io.xml.XmlUtils;
 import edu.gatech.gtri.trustmark.v1_0.model.Trustmark;
@@ -8,9 +7,9 @@ import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkParameterBinding;
 
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
-import java.util.UUID;
 
 import static edu.gatech.gtri.trustmark.v1_0.impl.TrustmarkFrameworkConstants.NAMESPACE_URI;
+import static java.util.Objects.requireNonNull;
 
 /**
  * Created by brad on 1/7/16.
@@ -25,9 +24,10 @@ public class TrustmarkXmlProducer implements XmlProducer<Trustmark> {
     @Override
     public void serialize(Trustmark trustmark, XMLStreamWriter xmlWriter) throws XMLStreamException {
 
-        xmlWriter.writeAttribute(NAMESPACE_URI, "id", trustmark.getId() == null ?
-                IdUtility.trustmarkId() :
-                trustmark.getId());
+        requireNonNull(trustmark);
+        requireNonNull(trustmark.getId());
+
+        xmlWriter.writeAttribute(NAMESPACE_URI, "id", trustmark.getId());
 
         xmlWriter.writeStartElement(NAMESPACE_URI, "Identifier");
         xmlWriter.writeCharacters(trustmark.getIdentifier().toString());

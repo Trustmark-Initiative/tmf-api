@@ -16,8 +16,8 @@ public final class TrustmarkDefinitionResolverFromMap extends AbstractResolverFr
     public TrustmarkDefinitionResolverFromMap(final Map<URI, TrustmarkDefinition> map) {
         super(
                 arrayList(
-                        p(AbstractResolverUtility::isJson, new TrustmarkDefinitionJsonDeserializer()::deserialize),
-                        p(AbstractResolverUtility::isXml, new TrustmarkDefinitionXmlDeserializer()::deserialize)),
+                        p(AbstractResolverUtility::isJson, new TrustmarkDefinitionJsonDeserializer(true)::deserialize),
+                        p(AbstractResolverUtility::isXml, new TrustmarkDefinitionXmlDeserializer(true)::deserialize)),
                 TrustmarkDefinitionUtility::validate,
                 map);
     }

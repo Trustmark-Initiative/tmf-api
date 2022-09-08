@@ -16,6 +16,7 @@ import edu.gatech.gtri.trustmark.v1_0.model.ParameterKind;
 import edu.gatech.gtri.trustmark.v1_0.model.Source;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkDefinition;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkDefinitionParameter;
+import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkFrameworkIdentifiedObject;
 import org.apache.commons.lang.StringUtils;
 import org.dom4j.Element;
 import org.dom4j.Node;
@@ -36,7 +37,6 @@ import static edu.gatech.gtri.trustmark.v1_0.impl.io.xml.XmlDeserializerUtility.
 import static edu.gatech.gtri.trustmark.v1_0.impl.io.xml.XmlDeserializerUtility.readSource;
 import static edu.gatech.gtri.trustmark.v1_0.impl.io.xml.XmlDeserializerUtility.readTerm;
 import static edu.gatech.gtri.trustmark.v1_0.impl.io.xml.XmlDeserializerUtility.readTrustmarkFrameworkIdentifiedObject;
-import static edu.gatech.gtri.trustmark.v1_0.io.MediaType.TEXT_XML;
 import static java.lang.String.format;
 import static java.util.Objects.requireNonNull;
 
@@ -49,6 +49,12 @@ import static java.util.Objects.requireNonNull;
 public class TrustmarkDefinitionXmlDeserializer implements XmlDeserializer<TrustmarkDefinition> {
 
     private static final Logger log = LoggerFactory.getLogger(TrustmarkDefinitionXmlDeserializer.class);
+
+    private final boolean withTerms;
+
+    public TrustmarkDefinitionXmlDeserializer(final boolean withTerms) {
+        this.withTerms = withTerms;
+    }
 
     public TrustmarkDefinition deserialize(final String xml, final URI uri) throws ParseException {
 
@@ -64,20 +70,18 @@ public class TrustmarkDefinitionXmlDeserializer implements XmlDeserializer<Trust
 
         }
 
-        return fromDom4j(element, xml, uri);
+        return fromDom4j(element, uri, withTerms);
     }
 
-    public static TrustmarkDefinition fromDom4j(final Element element, final String originalSource, final URI uri) throws ParseException {
+    public static TrustmarkDefinition fromDom4j(final Element element, final URI uri, final boolean withTerms) throws ParseException {
 
         final TrustmarkDefinitionImpl trustmarkDefinition = new TrustmarkDefinitionImpl();
 
-        trustmarkDefinition.setOriginalSource(originalSource);
-        trustmarkDefinition.setOriginalSourceType(TEXT_XML.getMediaType());
-        trustmarkDefinition.setId(getString(element, "/@tf:id", false));
+        trustmarkDefinition.setId(getString(element, "./@tf:id", false));
 
         Element metadataXml = (Element) element.selectSingleNode("./tf:Metadata");
 
-        trustmarkDefinition.setTypeName("TrustmarkDefinition");
+        trustmarkDefinition.setTypeName(TrustmarkFrameworkIdentifiedObject.TYPE_NAME_TRUSTMARK_DEFINITION);
         trustmarkDefinition.setIdentifier(getUri(metadataXml, "./tf:Identifier", true));
 
         trustmarkDefinition.setName(getString(metadataXml, "./tf:Name", true));
@@ -144,10 +148,12 @@ public class TrustmarkDefinitionXmlDeserializer implements XmlDeserializer<Trust
 
         parseComments(element, trustmarkDefinition);
 
-        List<Node> termsXmlList = element.selectNodes("./tf:Terms/tf:Term");
-        if (termsXmlList != null && !termsXmlList.isEmpty()) {
-            for (Node term : termsXmlList) {
-                trustmarkDefinition.addTerm(readTerm(term));
+        if (withTerms) {
+            List<Node> termsXmlList = element.selectNodes("./tf:Terms/tf:Term");
+            if (termsXmlList != null && !termsXmlList.isEmpty()) {
+                for (Node term : termsXmlList) {
+                    trustmarkDefinition.addTerm(readTerm(term));
+                }
             }
         }
 
@@ -205,7 +211,7 @@ public class TrustmarkDefinitionXmlDeserializer implements XmlDeserializer<Trust
                     } catch (URISyntaxException urise) {
                         throw new ParseException("Invalid Trustmark Definition Reference Identifier: " + supersedesId, urise);
                     }
-                    tfi.setTypeName("TrustmarkDefinitionReference");
+                    tfi.setTypeName(TrustmarkFrameworkIdentifiedObject.TYPE_NAME_TRUSTMARK_DEFINITION_REQUIREMENT);
                     metadata.addToSupersedes(tfi);
                 } else if (commentText.startsWith("KEYWORD: ")) {
                     String keyword = commentText.substring("KEYWORD: ".length());

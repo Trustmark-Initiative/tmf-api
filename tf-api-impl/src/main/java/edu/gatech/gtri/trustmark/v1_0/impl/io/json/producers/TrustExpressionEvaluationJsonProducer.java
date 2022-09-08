@@ -27,11 +27,13 @@ import org.kohsuke.MetaInfServices;
 
 import java.util.HashMap;
 
+import static org.gtri.fj.Ord.ord;
 import static org.gtri.fj.data.Either.left;
 import static org.gtri.fj.data.Either.reduce;
 import static org.gtri.fj.data.Either.right;
 import static org.gtri.fj.data.List.arrayList;
 import static org.gtri.fj.data.List.iterableList;
+import static org.gtri.fj.lang.StringUtility.stringOrd;
 
 @MetaInfServices
 public class TrustExpressionEvaluationJsonProducer implements JsonProducer<TrustExpressionEvaluation, JSONObject> {
@@ -244,7 +246,7 @@ public class TrustExpressionEvaluationJsonProducer implements JsonProducer<Trust
                 }}),
                 (source, type, value) -> new JSONObject(new HashMap<String, Object>() {{
                     put("TrustExpressionEvaluatorDataType", type.getClass().getSimpleName());
-                    put("TrustExpressionEvaluatorDataValue", new JSONArray(value.toCollection()));
+                    put("TrustExpressionEvaluatorDataValue", new JSONArray(value.sort(stringOrd).toCollection()));
                     put("TrustExpressionEvaluatorDataSource", serializeSourceToJSONObject(source));
                 }}),
                 (source, type) -> new JSONObject(new HashMap<String, Object>() {{
@@ -265,7 +267,7 @@ public class TrustExpressionEvaluationJsonProducer implements JsonProducer<Trust
                     put("$Type", source.getClass().getSimpleName());
                     put("TrustInteroperabilityProfileList", new JSONArray(trustInteroperabilityProfileNonEmptyList.map(TrustExpressionEvaluationJsonProducer::serializeTrustInteroperabilityProfile).toCollection()));
                     put("TrustmarkDefinitionRequirement", serializeTrustmarkDefinitionRequirement(trustmarkDefinitionRequirement));
-                    put("TrustmarkList", new JSONArray(trustmarkList.map(TrustExpressionEvaluationJsonProducer::serializeTrustmark).toCollection()));
+                    put("TrustmarkList", new JSONArray(trustmarkList.sort(ord((o1, o2) -> stringOrd.compare(o1.getIdentifier().toString(), o2.getIdentifier().toString()))).map(TrustExpressionEvaluationJsonProducer::serializeTrustmark).toCollection()));
                     put("TrustmarkVerifierFailureList", new JSONArray(trustmarkVerifierFailureList.map(TrustmarkVerifierFailure::messageFor).toCollection()));
                 }}),
                 (trustInteroperabilityProfileNonEmptyList, trustmarkDefinitionRequirement, trustmarkDefinitionParameter, trustmarkNonEmptyList) -> new JSONObject(new HashMap<String, Object>() {{
@@ -273,7 +275,7 @@ public class TrustExpressionEvaluationJsonProducer implements JsonProducer<Trust
                     put("TrustInteroperabilityProfileList", new JSONArray(trustInteroperabilityProfileNonEmptyList.map(TrustExpressionEvaluationJsonProducer::serializeTrustInteroperabilityProfile).toCollection()));
                     put("TrustmarkDefinitionRequirement", serializeTrustmarkDefinitionRequirement(trustmarkDefinitionRequirement));
                     put("TrustmarkDefinitionParameter", trustmarkDefinitionParameter.getIdentifier());
-                    put("TrustmarkList", new JSONArray(trustmarkNonEmptyList.map(TrustExpressionEvaluationJsonProducer::serializeTrustmark).toCollection()));
+                    put("TrustmarkList", new JSONArray(trustmarkNonEmptyList.sort(ord((o1, o2) -> stringOrd.compare(o1.getIdentifier().toString(), o2.getIdentifier().toString()))).map(TrustExpressionEvaluationJsonProducer::serializeTrustmark).toCollection()));
                 }}));
     }
 

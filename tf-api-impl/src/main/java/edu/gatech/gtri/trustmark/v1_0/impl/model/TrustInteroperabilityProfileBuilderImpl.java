@@ -2,16 +2,27 @@ package edu.gatech.gtri.trustmark.v1_0.impl.model;
 
 import edu.gatech.gtri.trustmark.v1_0.FactoryLoader;
 import edu.gatech.gtri.trustmark.v1_0.impl.io.AbstractBuilderImpl;
-import edu.gatech.gtri.trustmark.v1_0.model.*;
+import edu.gatech.gtri.trustmark.v1_0.model.AbstractTIPReference;
+import edu.gatech.gtri.trustmark.v1_0.model.BuilderException;
+import edu.gatech.gtri.trustmark.v1_0.model.ContactKindCode;
+import edu.gatech.gtri.trustmark.v1_0.model.Entity;
+import edu.gatech.gtri.trustmark.v1_0.model.Source;
+import edu.gatech.gtri.trustmark.v1_0.model.TrustInteroperabilityProfile;
+import edu.gatech.gtri.trustmark.v1_0.model.TrustInteroperabilityProfileBuilder;
+import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkFrameworkIdentifiedObject;
+import edu.gatech.gtri.trustmark.v1_0.model.ValidationBuilderException;
 import edu.gatech.gtri.trustmark.v1_0.util.TrustInteroperabilityProfileUtils;
-import edu.gatech.gtri.trustmark.v1_0.util.TrustmarkDefinitionUtils;
 import edu.gatech.gtri.trustmark.v1_0.util.ValidationResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
 
 /**
  * TODO: Insert Comment Here
@@ -408,7 +419,7 @@ public class TrustInteroperabilityProfileBuilderImpl extends AbstractBuilderImpl
         removeReferenceById(id);
         TrustInteroperabilityProfileReferenceImpl reference = new TrustInteroperabilityProfileReferenceImpl();
         reference.setId(id);
-        reference.setTypeName("TrustInteroperabilityProfile");
+        reference.setTypeName(TrustmarkFrameworkIdentifiedObject.TYPE_NAME_TRUST_INTEROPERABILITY_PROFILE);
         reference.setIdentifier(tmfi.getIdentifier());
         reference.setName(tmfi.getName());
         reference.setVersion(tmfi.getVersion());
@@ -421,7 +432,7 @@ public class TrustInteroperabilityProfileBuilderImpl extends AbstractBuilderImpl
     public TrustInteroperabilityProfileBuilder addTrustInteroperabilityProfileReference(String id, URI identifier) {
         TrustmarkFrameworkIdentifiedObjectImpl tmfi = new TrustmarkFrameworkIdentifiedObjectImpl();
         tmfi.setIdentifier(identifier);
-        tmfi.setTypeName("TrustInteroperabilityProfile");
+        tmfi.setTypeName(TrustmarkFrameworkIdentifiedObject.TYPE_NAME_TRUST_INTEROPERABILITY_PROFILE);
         return this.addTrustInteroperabilityProfileReference(id, tmfi);
     }
 
@@ -434,7 +445,7 @@ public class TrustInteroperabilityProfileBuilderImpl extends AbstractBuilderImpl
     public TrustInteroperabilityProfileBuilder addTrustInteroperabilityProfileReference(String id, String identifierString, String name, String version, String description) throws URISyntaxException {
         TrustmarkFrameworkIdentifiedObjectImpl tmfi = new TrustmarkFrameworkIdentifiedObjectImpl();
         tmfi.setIdentifier(new URI(identifierString));
-        tmfi.setTypeName("TrustInteroperabilityProfile");
+        tmfi.setTypeName(TrustmarkFrameworkIdentifiedObject.TYPE_NAME_TRUST_INTEROPERABILITY_PROFILE);
         tmfi.setName(name);
         tmfi.setVersion(version);
         tmfi.setDescription(description);
@@ -449,7 +460,7 @@ public class TrustInteroperabilityProfileBuilderImpl extends AbstractBuilderImpl
         this.removeReferenceById(id);
         TrustmarkDefinitionRequirementImpl requirement = new TrustmarkDefinitionRequirementImpl();
         requirement.setId(id);
-        requirement.setTypeName("TrustmarkDefinition");
+        requirement.setTypeName(TrustmarkFrameworkIdentifiedObject.TYPE_NAME_TRUSTMARK_DEFINITION);
         requirement.setIdentifier(tmfi.getIdentifier());
         requirement.setName(tmfi.getName());
         requirement.setVersion(tmfi.getVersion());
@@ -469,7 +480,7 @@ public class TrustInteroperabilityProfileBuilderImpl extends AbstractBuilderImpl
     @Override
     public TrustInteroperabilityProfileBuilder addTrustmarkDefinitionRequirement(String id, URI identifier, Entity... providerReferences) {
         TrustmarkFrameworkIdentifiedObjectImpl tmfi = new TrustmarkFrameworkIdentifiedObjectImpl();
-        tmfi.setTypeName("TrustmarkDefinition");
+        tmfi.setTypeName(TrustmarkFrameworkIdentifiedObject.TYPE_NAME_TRUSTMARK_DEFINITION);
         tmfi.setIdentifier(identifier);
         return this.addTrustmarkDefinitionRequirement(id, tmfi, providerReferences);
     }
@@ -482,7 +493,7 @@ public class TrustInteroperabilityProfileBuilderImpl extends AbstractBuilderImpl
     @Override
     public TrustInteroperabilityProfileBuilder addTrustmarkDefinitionRequirement(String id, String identifierString, String name, String version, String description, Entity... providerReferences) throws URISyntaxException {
         TrustmarkFrameworkIdentifiedObjectImpl tmfi = new TrustmarkFrameworkIdentifiedObjectImpl();
-        tmfi.setTypeName("TrustmarkDefinition");
+        tmfi.setTypeName(TrustmarkFrameworkIdentifiedObject.TYPE_NAME_TRUSTMARK_DEFINITION);
         tmfi.setIdentifier(new URI(identifierString));
         tmfi.setName(name);
         tmfi.setVersion(version);

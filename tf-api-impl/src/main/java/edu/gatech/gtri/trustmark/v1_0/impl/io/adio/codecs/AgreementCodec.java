@@ -1,31 +1,50 @@
 package edu.gatech.gtri.trustmark.v1_0.impl.io.adio.codecs;
 
-import edu.gatech.gtri.trustmark.v1_0.impl.io.adio.*;
+import edu.gatech.gtri.trustmark.v1_0.impl.io.adio.AbstractDocumentInputContext;
+import edu.gatech.gtri.trustmark.v1_0.impl.io.adio.AbstractDocumentInputDeserializer;
+import edu.gatech.gtri.trustmark.v1_0.impl.io.adio.AbstractDocumentOutputContext;
+import edu.gatech.gtri.trustmark.v1_0.impl.io.adio.AbstractDocumentOutputSerializer;
 import edu.gatech.gtri.trustmark.v1_0.impl.model.agreement.AgreementImpl;
 import edu.gatech.gtri.trustmark.v1_0.io.ParseException;
 import edu.gatech.gtri.trustmark.v1_0.model.Term;
-import edu.gatech.gtri.trustmark.v1_0.model.agreement.*;
+import edu.gatech.gtri.trustmark.v1_0.model.agreement.Agreement;
+import edu.gatech.gtri.trustmark.v1_0.model.agreement.AgreementAttachment;
+import edu.gatech.gtri.trustmark.v1_0.model.agreement.AgreementLegalSection;
+import edu.gatech.gtri.trustmark.v1_0.model.agreement.AgreementNonBindingSection;
+import edu.gatech.gtri.trustmark.v1_0.model.agreement.AgreementParty;
+import edu.gatech.gtri.trustmark.v1_0.model.agreement.AgreementResponsibility;
+import edu.gatech.gtri.trustmark.v1_0.model.agreement.ListStyleType;
 import org.apache.commons.collections4.BidiMap;
 import org.apache.commons.collections4.SetValuedMap;
 import org.apache.commons.collections4.bidimap.DualHashBidiMap;
 import org.dom4j.QName;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by Nicholas on 01/30/2017.
  */
 public class AgreementCodec extends Codec<Agreement> {
-    
+
     @Override
-    public Class<Agreement> getSupportedType() { return Agreement.class; }
-    
+    public Class<Agreement> getSupportedType() {
+        return Agreement.class;
+    }
+
     @Override
-    public Map<String, QName> getNonTfQualifiedNamesByElementName() { return null; }
-    
+    public Map<String, QName> getNonTfQualifiedNamesByElementName() {
+        return null;
+    }
+
     @Override
-    public SetValuedMap<String, String> getAttributeNamesByElementName() { return null; }
-    
+    public SetValuedMap<String, String> getAttributeNamesByElementName() {
+        return null;
+    }
+
     @Override
     public BidiMap<String, Class<?>> getObjectSequenceParentNameChildTypeMap() {
         BidiMap<String, Class<?>> result = new DualHashBidiMap<>();
@@ -37,36 +56,39 @@ public class AgreementCodec extends Codec<Agreement> {
         result.put("AgreementAttachments", AgreementAttachment.class);
         return result;
     }
-    
+
     @Override
-    public BidiMap<String, String> getValueSequenceParentNameChildNameMap() { return null; }
-    
+    public BidiMap<String, String> getValueSequenceParentNameChildNameMap() {
+        return null;
+    }
+
     @Override
     public Set<String> getCdataValueNames() {
         return new HashSet<>(Arrays.asList(
-            "Title",
-            "Description",
-            "SignaturePageText"
+                "Title",
+                "Description",
+                "SignaturePageText"
         ));
     }
-    
+
     @Override
-    public String getIdFor(Agreement obj) { return null; }
-    
+    public String getIdFor(Agreement obj) {
+        return null;
+    }
+
     @Override
     public <W, Ex extends Exception> void serializeChildrenFor(
-        Agreement obj,
-        AbstractDocumentOutputSerializer<Agreement, W, Ex> ados,
-        AbstractDocumentOutputContext<W> context
+            Agreement obj,
+            AbstractDocumentOutputSerializer<Agreement, W, Ex> ados,
+            AbstractDocumentOutputContext<W> context
     )
-        throws Ex
-    {
+            throws Ex {
         ados.serializeValueInObject(context, "Identifier", obj.getIdentifier());
         ados.serializeValueInObject(context, "Title", obj.getTitle());
         ados.serializeValueInObject(context, "Version", obj.getVersion());
         ados.serializeValueInObject(context, "Description", obj.getDescription());
         ados.serializeValueInObject(context, "CreationDateTime", obj.getCreationDateTime());
-        Map<String,Object> durationMap = new HashMap<>();
+        Map<String, Object> durationMap = new HashMap<>();
         durationMap.put("EffectiveDateTime", obj.getEffectiveDateTime());
         durationMap.put("TerminationDateTime", obj.getTerminationDateTime());
         ados.serializeMapLiteralObjectInObject(context, "Duration", durationMap);
@@ -79,24 +101,21 @@ public class AgreementCodec extends Codec<Agreement> {
         ados.serializeValueInObject(context, "SignaturePageText", obj.getSignaturePageText());
         ados.serializeObjectSequenceInObject(context, AgreementAttachment.class, obj.getAttachments());
     }
-    
+
     @Override
     public <O> Agreement deserializeFullObject(
-        O node,
-        String id,
-        String sourceString,
-        String sourceType,
-        AbstractDocumentInputDeserializer<Agreement, O, ?, ?> adid,
-        AbstractDocumentInputContext context
+            O node,
+            String id,
+            String sourceString,
+            String sourceType,
+            AbstractDocumentInputDeserializer<Agreement, O, ?, ?> adid,
+            AbstractDocumentInputContext context
     )
-        throws ParseException
-    {
+            throws ParseException {
         AgreementImpl result = new AgreementImpl();
-        result.setOriginalSource(sourceString);
-        result.setOriginalSourceType(sourceType);
-        result.setIdentifier(adid.deserializeUriValueInObject(node,true, "Identifier"));
-        result.setTitle(adid.deserializeStringValueInObject(node,true, "Title"));
-        result.setVersion(adid.deserializeStringValueInObject(node,true, "Version"));
+        result.setIdentifier(adid.deserializeUriValueInObject(node, true, "Identifier"));
+        result.setTitle(adid.deserializeStringValueInObject(node, true, "Title"));
+        result.setVersion(adid.deserializeStringValueInObject(node, true, "Version"));
         result.setDescription(adid.deserializeStringValueInObject(node, false, "Description"));
         result.setCreationDateTime(adid.deserializeDateValueInObject(node, true, "CreationDateTime"));
         result.setEffectiveDateTime(adid.deserializeDateValueInObject(node, false, "Duration/EffectiveDateTime"));
@@ -111,5 +130,5 @@ public class AgreementCodec extends Codec<Agreement> {
         result.setAttachments(adid.deserializeObjectSequenceInObject(node, context, false, AgreementAttachment.class));
         return result;
     }
-    
+
 }

@@ -7,10 +7,10 @@ import edu.gatech.gtri.trustmark.v1_0.impl.model.ConformanceCriterionImpl;
 import edu.gatech.gtri.trustmark.v1_0.impl.model.SourceImpl;
 import edu.gatech.gtri.trustmark.v1_0.impl.model.TrustmarkDefinitionImpl;
 import edu.gatech.gtri.trustmark.v1_0.impl.model.TrustmarkDefinitionParameterImpl;
-import edu.gatech.gtri.trustmark.v1_0.io.MediaType;
 import edu.gatech.gtri.trustmark.v1_0.io.ParseException;
 import edu.gatech.gtri.trustmark.v1_0.model.ParameterKind;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkDefinition;
+import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkFrameworkIdentifiedObject;
 import org.gtri.fj.data.TreeMap;
 import org.gtri.fj.function.Try1;
 import org.json.JSONObject;
@@ -48,12 +48,18 @@ public final class TrustmarkDefinitionJsonDeserializer implements JsonDeserializ
 
     private static final Logger log = LoggerFactory.getLogger(TrustmarkDefinitionJsonDeserializer.class);
 
+    private final boolean withTerms;
+
+    public TrustmarkDefinitionJsonDeserializer(final boolean withTerms) {
+        this.withTerms = withTerms;
+    }
+
     public TrustmarkDefinition deserialize(final String jsonString, final URI uri) throws ParseException {
         requireNonNull(jsonString);
 
         log.debug("Deserializing Trustmark Definition JSON . . .");
 
-        final JSONObject jsonObject = new JSONObject(jsonString);
+        final JSONObject jsonObject = readJSONObject(jsonString);
         assertSupported(jsonObject);
 
         final TrustmarkDefinitionImpl trustmarkDefinition = new TrustmarkDefinitionImpl();
@@ -66,14 +72,13 @@ public final class TrustmarkDefinitionJsonDeserializer implements JsonDeserializ
                 .mapException(readConformanceCriterion(sourceTreeMap))
                 .foldLeft(tree -> conformanceCriterion -> tree.set(conformanceCriterion.getId(), conformanceCriterion), TreeMap.empty(stringOrd));
 
-        trustmarkDefinition.setOriginalSource(jsonString);
-        trustmarkDefinition.setOriginalSourceType(MediaType.APPLICATION_JSON.getMediaType());
-
         trustmarkDefinition.setIssuanceCriteria(readString(jsonObject, "IssuanceCriteria"));
         readMetadata(trustmarkDefinition, readJSONObject(jsonObject, "Metadata"));
 
         readJSONObjectList(jsonObject, "AssessmentSteps").mapException(readAssessmentStep(conformanceCriterionTreeMap)).forEach(trustmarkDefinition::addAssessmentStep);
-        readJSONObjectList(jsonObject, "Terms").mapException(JsonDeserializerUtility::readTerm).forEach(trustmarkDefinition::addTerm);
+        if (withTerms) {
+            readJSONObjectList(jsonObject, "Terms").mapException(JsonDeserializerUtility::readTerm).forEach(trustmarkDefinition::addTerm);
+        }
 
         readStringOption(jsonObject, "$id").forEach(trustmarkDefinition::setId);
         readStringOption(jsonObject, "AssessmentStepsPreface").forEach(trustmarkDefinition::setAssessmentStepPreface);
@@ -148,7 +153,7 @@ public final class TrustmarkDefinitionJsonDeserializer implements JsonDeserializ
         trustmarkDefinition.setName(readString(jsonObject, "Name"));
         trustmarkDefinition.setPublicationDateTime(readDate(jsonObject, "PublicationDateTime"));
         trustmarkDefinition.setTrustmarkDefiningOrganization(readEntity(readJSONObject(jsonObject, "TrustmarkDefiningOrganization")));
-        trustmarkDefinition.setTypeName("TrustmarkDefinition");
+        trustmarkDefinition.setTypeName(TrustmarkFrameworkIdentifiedObject.TYPE_NAME_TRUSTMARK_DEFINITION);
         trustmarkDefinition.setVersion(readString(jsonObject, "Version"));
 
         readJSONObjectList(jsonObject, "KnownConflicts").mapException(JsonDeserializerUtility::readTrustmarkDefinitionReference).forEach(trustmarkDefinition::addToKnownConflict);

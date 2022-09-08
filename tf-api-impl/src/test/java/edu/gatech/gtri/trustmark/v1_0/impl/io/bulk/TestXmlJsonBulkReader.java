@@ -7,7 +7,7 @@ import edu.gatech.gtri.trustmark.v1_0.io.bulk.BulkReader;
 import edu.gatech.gtri.trustmark.v1_0.io.bulk.BulkReaderFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.util.ArrayList;

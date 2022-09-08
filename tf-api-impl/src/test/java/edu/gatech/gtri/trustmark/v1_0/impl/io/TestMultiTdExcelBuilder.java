@@ -5,8 +5,8 @@ import edu.gatech.gtri.trustmark.v1_0.impl.AbstractTest;
 import edu.gatech.gtri.trustmark.v1_0.io.MultiTrustmarkDefinitionBuilder;
 import edu.gatech.gtri.trustmark.v1_0.io.MultiTrustmarkDefinitionBuilderFactory;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkDefinition;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,7 +19,7 @@ import static org.hamcrest.MatcherAssert.*;
  */
 public class TestMultiTdExcelBuilder extends AbstractTest {
 
-    @BeforeClass
+    @BeforeAll
     public static void createExcelOutputDir() throws IOException {
         File excelDir = new File("./target/excel");
         excelDir.mkdirs();

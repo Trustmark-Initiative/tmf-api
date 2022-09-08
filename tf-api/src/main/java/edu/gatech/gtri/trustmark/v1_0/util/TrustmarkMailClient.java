@@ -54,12 +54,15 @@ public interface TrustmarkMailClient {
 
     /**
      * set whether authorization should be done for this email
+     *
      * @param auth
      * @return
      */
     TrustmarkMailClient setSmtpAuthorization(boolean auth);
+
     /**
      * set the from address for this email
+     *
      * @param addr
      * @return
      */
@@ -116,6 +119,7 @@ public interface TrustmarkMailClient {
 
     /**
      * sets the body content of this email
+     *
      * @param obj
      * @param type
      * @return

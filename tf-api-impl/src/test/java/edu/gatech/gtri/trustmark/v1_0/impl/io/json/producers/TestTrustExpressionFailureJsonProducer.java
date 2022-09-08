@@ -11,9 +11,10 @@ import edu.gatech.gtri.trustmark.v1_0.tip.TrustExpressionFailure;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 import org.json.JSONObject;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 
 import static java.util.Collections.singletonList;
 import static org.gtri.fj.data.List.nil;
@@ -41,7 +42,7 @@ public class TestTrustExpressionFailureJsonProducer {
 
         JsonProducer<TrustExpressionFailure, JSONObject> jsonProducer = jsonManager.findProducerStrict(TrustExpressionFailure.class, JSONObject.class).some();
 
-        log.info(jsonProducer.serialize(TrustExpressionFailure.failureURI(nil(), "|", new RuntimeException())).toString(2));
+        log.info(jsonProducer.serialize(TrustExpressionFailure.failureURI(nil(), "|", new URISyntaxException("", ""))).toString(2));
         log.info(jsonProducer.serialize(TrustExpressionFailure.failureResolveTrustInteroperabilityProfile(nil(), URI.create("uri"), new ResolveException())).toString(2));
         log.info(jsonProducer.serialize(TrustExpressionFailure.failureResolveTrustmarkDefinition(nel(trustInteroperabilityProfile), URI.create("uri"), new ResolveException())).toString(2));
         log.info(jsonProducer.serialize(TrustExpressionFailure.failureParser(nel(trustInteroperabilityProfile), "identifier", new RuntimeException())).toString(2));
