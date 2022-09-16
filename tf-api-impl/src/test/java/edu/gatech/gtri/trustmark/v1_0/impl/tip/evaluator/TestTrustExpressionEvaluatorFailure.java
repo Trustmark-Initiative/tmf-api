@@ -59,11 +59,6 @@ public class TestTrustExpressionEvaluatorFailure {
                 (a, b) -> null));
 
         assertTrue(TrustExpressionEvaluatorFailure.evaluatorFailureURI(uriString, uriSyntaxException).toString().contains(TrustExpressionEvaluatorFailureURI.class.getSimpleName()));
-
-        EqualsVerifier
-                .forClass(TrustExpressionEvaluatorFailureURI.class)
-                .withNonnullFields("uriString", "exception")
-                .verify();
     }
 
     @Test

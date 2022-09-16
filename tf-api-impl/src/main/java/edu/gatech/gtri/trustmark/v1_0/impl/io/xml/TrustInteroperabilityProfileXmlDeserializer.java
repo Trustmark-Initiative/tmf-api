@@ -148,14 +148,11 @@ public class TrustInteroperabilityProfileXmlDeserializer implements XmlDeseriali
             }
         }
 
-        HashMap<String, Source> sourceMap = new HashMap<>();
         List<Node> sourcesXmlList = element.selectNodes("./tf:Sources/tf:Source");
         if (sourcesXmlList != null && !sourcesXmlList.isEmpty()) {
             for (Node sourceXml : sourcesXmlList) {
                 Source source = readSource(sourceXml);
                 trustInteroperabilityProfile.addSource(source);
-                String id = getString(sourceXml, "./@tf:id", true);
-                sourceMap.put(id, source);
             }
         }
 

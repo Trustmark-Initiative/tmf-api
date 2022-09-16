@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>edu.gatech.gtri.trustmark</groupId>
     <artifactId>tf-api-maven</artifactId>
-    <version>1.4.37</version>
+    <version>1.4.38</version>
     <packaging>pom</packaging>
     <name>Trustmark Framework Java API</name>
     <distributionManagement>
@@ -88,7 +88,7 @@
             <dependency>
                 <groupId>edu.gatech.gtri.trustmark</groupId>
                 <artifactId>tf-api</artifactId>
-                <version>1.4.37</version>
+                <version>1.4.38</version>
             </dependency>
             <dependency>
                 <groupId>javax.xml.bind</groupId>
@@ -161,7 +161,7 @@
                 <!--	FOr JSON Web Signature	-->
                 <groupId>org.bitbucket.b_c</groupId>
                 <artifactId>jose4j</artifactId>
-                <version>0.7.12</version>
+                <version>0.8.0</version>
             </dependency>
             <dependency>
                 <groupId>org.bouncycastle</groupId>

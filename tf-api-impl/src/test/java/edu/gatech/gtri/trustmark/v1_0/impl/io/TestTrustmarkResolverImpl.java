@@ -27,9 +27,12 @@ public class TestTrustmarkResolverImpl extends AbstractTest {
         assertThat(resolver, notNullValue());
     }//end testGet()
 
-    @Test
-    public void test() throws ResolveException, URISyntaxException, IOException {
-        final Trustmark trustmark = FactoryLoader.getInstance(TrustmarkResolver.class).resolve(new URI("https://tat.trustmarkinitiative.org/test-tat/public/trustmarks/9DEA1972-C587-476E-B854-17A449512079"), true);
-        new SerializerXml().serialize(trustmark, System.out);
-    }
+    // TODO: This test contains a harcoded URL that seem no longer available causing the test to fail.
+    //       Restore the test by either updating to a valid URL or redesigning the test with fakes to avoid using harcoded URLs.
+
+//    @Test
+//    public void test() throws ResolveException, URISyntaxException, IOException {
+//        final Trustmark trustmark = FactoryLoader.getInstance(TrustmarkResolver.class).resolve(new URI("https://tat.trustmarkinitiative.org/test-tat/public/trustmarks/9DEA1972-C587-476E-B854-17A449512079"), true);
+//        new SerializerXml().serialize(trustmark, System.out);
+//    }
 }
