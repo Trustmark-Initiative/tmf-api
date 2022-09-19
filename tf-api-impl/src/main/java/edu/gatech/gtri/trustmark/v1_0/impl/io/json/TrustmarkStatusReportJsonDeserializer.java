@@ -45,7 +45,7 @@ public final class TrustmarkStatusReportJsonDeserializer implements JsonDeserial
 
         trustmarkStatusReport.setIdentifier(uri);
 
-        trustmarkStatusReport.setId(readString(jsonObject, "$id"));
+        readStringOption(jsonObject, "$id").forEach(trustmarkStatusReport::setId);
         trustmarkStatusReport.setStatus(readTrustmarkStatusCode(readString(jsonObject, "StatusCode")));
         trustmarkStatusReport.setStatusDateTime(readDate(jsonObject, "StatusDateTime"));
         trustmarkStatusReport.setTrustmarkReference(readURI(readJSONObject(jsonObject, "TrustmarkReference"), "Identifier"));

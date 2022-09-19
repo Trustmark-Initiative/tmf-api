@@ -4,11 +4,11 @@
     <parent>
         <groupId>edu.gatech.gtri.trustmark</groupId>
         <artifactId>tf-api-maven</artifactId>
-        <version>1.4.38</version>
+        <version>1.4.39</version>
         <relativePath>../tf-api-maven</relativePath>
     </parent>
     <artifactId>tf-api-impl</artifactId>
-    <version>1.4.60</version>
+    <version>1.4.61</version>
     <packaging>jar</packaging>
     <dependencies>
         <dependency>
@@ -158,11 +158,6 @@
         <dependency>
             <groupId>nl.jqno.equalsverifier</groupId>
             <artifactId>equalsverifier</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-slf4j-impl</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>

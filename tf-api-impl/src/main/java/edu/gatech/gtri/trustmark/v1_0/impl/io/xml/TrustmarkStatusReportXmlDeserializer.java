@@ -52,7 +52,7 @@ public class TrustmarkStatusReportXmlDeserializer implements XmlDeserializer<Tru
 
         final TrustmarkStatusReportImpl trustmarkStatusReport = new TrustmarkStatusReportImpl();
 
-        trustmarkStatusReport.setId(getString(element, "./@tf:id", true));
+        trustmarkStatusReport.setId(getString(element, "./@tf:id", false));
 
         trustmarkStatusReport.setTrustmarkReference(getUri(element, "./tf:TrustmarkReference/tf:Identifier", true));
 

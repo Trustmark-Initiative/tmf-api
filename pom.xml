@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>edu.gatech.gtri.trustmark</groupId>
     <artifactId>tf-api-reactor</artifactId>
-    <version>1.4.38</version>
+    <version>1.4.39</version>
     <packaging>pom</packaging>
     <modules>
         <module>tf-api-maven</module>
@@ -47,12 +47,12 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-install-plugin</artifactId>
-                <version>3.0.0</version>
+                <version>3.0.1</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>
-                <version>4.0.0-M2</version>
+                <version>4.0.0-M3</version>
             </plugin>
         </plugins>
     </build>
