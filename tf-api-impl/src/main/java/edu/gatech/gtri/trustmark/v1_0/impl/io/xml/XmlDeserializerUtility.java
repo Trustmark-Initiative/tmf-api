@@ -23,6 +23,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import static java.lang.String.format;
+
 /**
  * Utilities for XML deserializers.
  *
@@ -185,14 +187,13 @@ public final class XmlDeserializerUtility {
         return getNumber(dom4j, xpath, false);
     }
 
-    public static String getString(Node dom4j, String xpath, Boolean required) throws ParseException {
-        Object dom4jSelection = dom4j.selectObject("string(" + xpath + ")");
-        if (dom4jSelection != null) {
-            return dom4jSelection.toString().trim();
-        } else if (required) {
-            throw new ParseException("Expecting to find a value for Xpath[" + xpath + "], but was null.");
+    public static String getString(Node dom4j, String xpath, boolean required) throws ParseException {
+        Node dom4jSelection = dom4j.selectSingleNode(xpath);
+        if (required && dom4jSelection == null) {
+            throw new ParseException(format("'%s' must reference a node.", xpath));
+        } else {
+            return dom4jSelection == null ? null : dom4jSelection.getStringValue().trim();
         }
-        return null;
     }
 
     public static String getString(Node dom4j, String xpath) throws ParseException {

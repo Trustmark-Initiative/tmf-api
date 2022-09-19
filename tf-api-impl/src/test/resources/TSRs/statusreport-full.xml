@@ -1,5 +1,4 @@
-<tf:TrustmarkStatusReport tf:id="tsr1"
-                          xmlns:my="https://my.example/"
+<tf:TrustmarkStatusReport xmlns:my="https://my.example/"
                           xmlns:tf="https://trustmarkinitiative.org/specifications/trustmark-framework/1.4/schema/"
                           xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
                           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"

@@ -97,12 +97,6 @@ public class TestTrustExpressionFailure {
                 (i1, i2) -> false,
                 (i1, i2) -> false,
                 (i1, i2) -> false));
-
-        EqualsVerifier
-                .forClass(TrustExpressionFailureURI.class)
-                .withPrefabValues(List.class, nil(), arrayList(new TrustInteroperabilityProfileImpl()))
-                .withNonnullFields("trustInteroperabilityProfileList", "uriString", "exception")
-                .verify();
     }
 
     @Test

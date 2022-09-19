@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>edu.gatech.gtri.trustmark</groupId>
     <artifactId>tf-api-maven</artifactId>
-    <version>1.4.37</version>
+    <version>1.4.39</version>
     <packaging>pom</packaging>
     <name>Trustmark Framework Java API</name>
     <distributionManagement>
@@ -88,7 +88,7 @@
             <dependency>
                 <groupId>edu.gatech.gtri.trustmark</groupId>
                 <artifactId>tf-api</artifactId>
-                <version>1.4.37</version>
+                <version>1.4.39</version>
             </dependency>
             <dependency>
                 <groupId>javax.xml.bind</groupId>
@@ -131,19 +131,14 @@
                 <version>2.11.1</version>
             </dependency>
             <dependency>
-                <groupId>org.apache.logging.log4j</groupId>
-                <artifactId>log4j-slf4j-impl</artifactId>
-                <version>2.17.2</version>
-            </dependency>
-            <dependency>
                 <groupId>org.apache.poi</groupId>
                 <artifactId>poi</artifactId>
-                <version>5.2.2</version>
+                <version>5.2.3</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.poi</groupId>
                 <artifactId>poi-ooxml</artifactId>
-                <version>5.2.2</version>
+                <version>5.2.3</version>
             </dependency>
             <dependency>
                 <!-- For rendering PDF from TMF Artifacts -->
@@ -161,7 +156,7 @@
                 <!--	FOr JSON Web Signature	-->
                 <groupId>org.bitbucket.b_c</groupId>
                 <artifactId>jose4j</artifactId>
-                <version>0.7.12</version>
+                <version>0.8.0</version>
             </dependency>
             <dependency>
                 <groupId>org.bouncycastle</groupId>
@@ -235,7 +230,7 @@
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-api</artifactId>
-                <version>1.7.36</version>
+                <version>2.0.1</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -349,7 +344,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-install-plugin</artifactId>
-                    <version>3.0.0</version>
+                    <version>3.0.1</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -359,7 +354,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
-                    <version>3.4.0</version>
+                    <version>3.4.1</version>
                     <configuration>
                         <doclint>${javadoc.opts.doclint}</doclint>
                     </configuration>
@@ -367,12 +362,12 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-resources-plugin</artifactId>
-                    <version>3.2.0</version>
+                    <version>3.3.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-site-plugin</artifactId>
-                    <version>4.0.0-M2</version>
+                    <version>4.0.0-M3</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -382,7 +377,7 @@
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>versions-maven-plugin</artifactId>
-                    <version>2.11.0</version>
+                    <version>2.12.0</version>
                     <configuration>
                         <rulesUri>file://${project.basedir}/../tf-api-maven/ruleset.xml</rulesUri>
                     </configuration>
