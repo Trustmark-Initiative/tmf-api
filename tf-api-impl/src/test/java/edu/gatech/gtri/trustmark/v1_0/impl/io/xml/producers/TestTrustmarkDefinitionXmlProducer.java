@@ -6,6 +6,7 @@ import edu.gatech.gtri.trustmark.v1_0.impl.AbstractTest;
 import edu.gatech.gtri.trustmark.v1_0.impl.io.json.TrustmarkDefinitionJsonDeserializer;
 import edu.gatech.gtri.trustmark.v1_0.impl.io.xml.TrustmarkDefinitionXmlDeserializer;
 import edu.gatech.gtri.trustmark.v1_0.impl.io.xml.XmlHelper;
+import edu.gatech.gtri.trustmark.v1_0.impl.util.ConformanceCriterionUtils;
 import edu.gatech.gtri.trustmark.v1_0.io.Serializer;
 import edu.gatech.gtri.trustmark.v1_0.io.SerializerFactory;
 import edu.gatech.gtri.trustmark.v1_0.io.xml.XmlManager;
@@ -29,6 +30,10 @@ public class TestTrustmarkDefinitionXmlProducer extends AbstractTest {
     private static final Logger logger = LoggerFactory.getLogger(TestTrustmarkDefinitionXmlProducer.class);
 
     public static final String TD_FULL_FILE = "./src/test/resources/TDs/td-full.json";
+    public static final String TD_FULL_FILE_XML = "./src/test/resources/TDs/td-full.xml";
+
+
+    public static final String TD_FULL_FILE_XML_CRITERION = "./src/test/resources/TDs/td-full-criterion.xml";
 
     @Test
     public void testXmlOutput() throws Exception {
@@ -99,4 +104,35 @@ public class TestTrustmarkDefinitionXmlProducer extends AbstractTest {
         logger.info("Successfully output XML using the TrustmarkDefinitionXmlProducer!");
     }//end testXmlOutput()
 
+    @Test
+    public void testConformanceCriterionId() throws Exception {
+        logger.info("Testing Serialization of a TrustmarkDefinition in XML emphasizing the conformance criteria id...");
+
+        logger.debug("Loading trustmark from file...");
+        File file = new File(TD_FULL_FILE_XML_CRITERION);
+        String text = FileUtils.readFileToString(file);
+        TrustmarkDefinition td = new TrustmarkDefinitionXmlDeserializer(true).deserialize(text);
+        assertThat(td, notNullValue());
+
+        logger.debug("Successfully parsed JSON");
+
+        logger.debug("Loading jsonSerializer...");
+        Serializer xmlSerializer = FactoryLoader.getInstance(SerializerFactory.class).getXmlSerializer();
+        assertThat(xmlSerializer, notNullValue());
+
+        logger.debug("Serializing json...");
+        StringWriter jsonWriter = new StringWriter();
+        xmlSerializer.serialize(td, jsonWriter);
+
+        String xml = jsonWriter.toString();
+        assertThat(xml, notNullValue());
+        logger.debug("Successfully produced xml: \n" + xml);
+
+        TrustmarkDefinition td2 = new TrustmarkDefinitionXmlDeserializer(true).deserialize(xml);
+        assertThat(td2, notNullValue());
+
+        td2.getConformanceCriteria().forEach(criterion -> {
+            assert(criterion.getId().contains(ConformanceCriterionUtils.CRITERION_ID_PREFIX));
+        });
+    }
 }

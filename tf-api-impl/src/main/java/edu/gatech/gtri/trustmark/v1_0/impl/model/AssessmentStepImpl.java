@@ -6,6 +6,7 @@ import edu.gatech.gtri.trustmark.v1_0.model.ConformanceCriterion;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkDefinitionParameter;
 
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 /**
@@ -74,8 +75,9 @@ public class AssessmentStepImpl implements AssessmentStep, Comparable<Assessment
 
     @Override
     public Set<Artifact> getArtifacts() {
-        if( artifacts == null )
-            artifacts = new HashSet<Artifact>();
+        if( artifacts == null ) {
+            artifacts = new LinkedHashSet<Artifact>();
+        }
         return artifacts;
     }
 

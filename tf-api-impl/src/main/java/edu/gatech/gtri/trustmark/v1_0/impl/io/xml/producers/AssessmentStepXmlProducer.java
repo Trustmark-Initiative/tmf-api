@@ -1,5 +1,6 @@
 package edu.gatech.gtri.trustmark.v1_0.impl.io.xml.producers;
 
+import edu.gatech.gtri.trustmark.v1_0.impl.util.ConformanceCriterionUtils;
 import edu.gatech.gtri.trustmark.v1_0.io.xml.XmlProducer;
 import edu.gatech.gtri.trustmark.v1_0.model.Artifact;
 import edu.gatech.gtri.trustmark.v1_0.model.AssessmentStep;
@@ -47,7 +48,7 @@ public class AssessmentStepXmlProducer implements XmlProducer<AssessmentStep> {
 
         for (ConformanceCriterion crit : step.getConformanceCriteria()) {
             xmlWriter.writeStartElement(NAMESPACE_URI, "ConformanceCriterion");
-            String critId = "Criterion" + crit.getNumber();
+            String critId = ConformanceCriterionUtils.CRITERION_ID_PREFIX + crit.getNumber();
             xmlWriter.writeAttribute("tf", NAMESPACE_URI, "ref", critId);
             xmlWriter.writeAttribute("xsi", XmlProducerUtility.XSI_NS_URI, "nil", "true");
             xmlWriter.writeEndElement();
