@@ -12,6 +12,8 @@ import javax.xml.stream.XMLStreamWriter;
 import static edu.gatech.gtri.trustmark.v1_0.impl.TrustmarkFrameworkConstants.NAMESPACE_URI;
 import edu.gatech.gtri.trustmark.v1_0.impl.util.ConformanceCriterionUtils;
 
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.adio.AbstractDocumentJsonSerializer.*;
+
 /**
  * Created by brad on 1/7/16.
  */
@@ -30,7 +32,7 @@ public class ConformanceCriterionXmlProducer implements XmlProducer<ConformanceC
         log.debug("Writing XML for ConformanceCriterion #" + crit.getNumber() + ": " + crit.getName());
 
         String id = ConformanceCriterionUtils.CRITERION_ID_PREFIX + crit.getNumber();
-        xmlWriter.writeAttribute("tf", NAMESPACE_URI, "id", id);
+        xmlWriter.writeAttribute("tf", NAMESPACE_URI, ATTRIBUTE_KEY_JSON_ID, id);
 
         xmlWriter.writeStartElement(NAMESPACE_URI, "Number");
         xmlWriter.writeCharacters(crit.getNumber().toString());

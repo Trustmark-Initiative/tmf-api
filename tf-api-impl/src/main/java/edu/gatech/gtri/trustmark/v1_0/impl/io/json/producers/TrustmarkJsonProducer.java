@@ -9,6 +9,7 @@ import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkParameterBinding;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.adio.AbstractDocumentJsonSerializer.*;
 import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.producers.JsonProducerUtility.toJson;
 import static java.util.Objects.requireNonNull;
 
@@ -34,8 +35,8 @@ public final class TrustmarkJsonProducer implements JsonProducer<Trustmark, JSON
         requireNonNull(trustmark.getId());
 
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("$TMF_VERSION", FactoryLoader.getInstance(TrustmarkFramework.class).getTrustmarkFrameworkVersion());
-        jsonObject.put("$Type", Trustmark.class.getSimpleName());
+        jsonObject.put(ATTRIBUTE_KEY_JSON_TMF_VERSION, FactoryLoader.getInstance(TrustmarkFramework.class).getTrustmarkFrameworkVersion());
+        jsonObject.put(ATTRIBUTE_KEY_JSON_TYPE, Trustmark.class.getSimpleName());
         jsonObject.put("$id", trustmark.getId());
 
         jsonObject.put("Identifier", trustmark.getIdentifier());

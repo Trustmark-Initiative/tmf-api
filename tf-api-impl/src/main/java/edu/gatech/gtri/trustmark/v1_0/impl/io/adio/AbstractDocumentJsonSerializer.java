@@ -8,11 +8,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONWriter;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Created by Nicholas on 01/31/2017.
@@ -27,12 +23,6 @@ public class AbstractDocumentJsonSerializer<T> extends AbstractDocumentOutputSer
     public static final String ATTRIBUTE_KEY_JSON_ID = ATTRIBUTE_KEY_ID;
     public static final String ATTRIBUTE_KEY_JSON_REF = ATTRIBUTE_KEY_JSON_META_PREFIX + ATTRIBUTE_KEY_REF;
     public static final String ATTRIBUTE_VALUE_JSON_REF_PREFIX = "#";
-    public static final Set<String> ATTRIBUTE_KEYS_JSON_META = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(
-            ATTRIBUTE_KEY_JSON_TYPE,        // $Type
-            ATTRIBUTE_KEY_JSON_TMF_VERSION, // $TMF_VERSION
-            ATTRIBUTE_KEY_JSON_ID,          // id [or $id ??] TODO: determine whether to prefix
-            ATTRIBUTE_KEY_JSON_REF          // $ref
-    )));
 
 
     ////// Constructor //////

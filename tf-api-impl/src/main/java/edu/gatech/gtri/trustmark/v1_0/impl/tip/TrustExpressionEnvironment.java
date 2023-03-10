@@ -26,10 +26,7 @@ import org.gtri.fj.data.Option;
 import org.gtri.fj.data.TreeMap;
 
 import java.net.URI;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.lang.String.format;
@@ -134,7 +131,7 @@ public class TrustExpressionEnvironment {
                         .map(trustmarkDefinition -> createTrustmarkImpl(
                                 trustmarkDefinitionRequirement,
                                 trustmarkDefinition,
-                                new HashSet<>(somes(trustmarkParameterValueMap.toList()
+                                new LinkedHashSet<>(somes(trustmarkParameterValueMap.toList()
                                         .map(p -> p(getTrustmarkDefinitionParameter(trustmarkDefinitionRequirementIdentifier, p._1()), p._2()))
                                         .map(p -> p._1().map(trustmarkDefinitionParameter -> createTrustmarkParameterBindingImpl(
                                                 trustmarkDefinitionParameter.getIdentifier(),
@@ -159,7 +156,7 @@ public class TrustExpressionEnvironment {
     private static final TrustmarkImpl createTrustmarkImpl(
             final TrustmarkDefinitionRequirement trustmarkDefinitionRequirement,
             final TrustmarkDefinition trustmarkDefinition,
-            final HashSet<TrustmarkParameterBinding> trustmarkParameterBindingHashSet) {
+            final LinkedHashSet<TrustmarkParameterBinding> trustmarkParameterBindingHashSet) {
 
         final TrustmarkImpl trustmark = new TrustmarkImpl();
 
@@ -176,7 +173,7 @@ public class TrustExpressionEnvironment {
             final ParameterKind trustmarkDefinitionParameterKind) {
 
         final AssessmentStepImpl assessmentStep = new AssessmentStepImpl();
-        assessmentStep.setParameters(new HashSet<>(singletonList(createTrustmarkDefinitionParameterImpl(trustmarkDefinitionParameterIdentifier, trustmarkDefinitionParameterKind))));
+        assessmentStep.setParameters(new LinkedHashSet<>(singletonList(createTrustmarkDefinitionParameterImpl(trustmarkDefinitionParameterIdentifier, trustmarkDefinitionParameterKind))));
 
         return assessmentStep;
     }

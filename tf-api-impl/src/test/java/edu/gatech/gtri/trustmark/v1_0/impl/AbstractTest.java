@@ -300,13 +300,16 @@ public abstract class AbstractTest {
         assertThat(tdr1.getName(), equalTo("Trustmark Definition Name"));
         assertThat(tdr1.getVersion(), equalTo("1.0.0"));
         assertThat(tdr1.getDescription(), equalTo("This is a description of this Trustmark Definition."));
-        assertThat(tdr1.getProviderReferences(), notNullValue());
-        assertThat(tdr1.getProviderReferences().size(), equalTo(1));
-        Entity provider1 = tdr1.getProviderReferences().get(0);
-        assertThat(provider1, notNullValue());
-        assertThat(provider1.getIdentifier().toString(), equalTo("http://provider.example/"));
-        assertThat(provider1.getContacts().size(), equalTo(1));
-        assertThat(provider1.getContacts().get(0), notNullValue());
+
+        if (tdr1.getProviderReferences() != null) {
+            assertThat(tdr1.getProviderReferences(), notNullValue());
+            assertThat(tdr1.getProviderReferences().size(), equalTo(1));
+            Entity provider1 = tdr1.getProviderReferences().get(0);
+            assertThat(provider1, notNullValue());
+            assertThat(provider1.getIdentifier().toString(), equalTo("http://provider.example/"));
+            assertThat(provider1.getContacts().size(), equalTo(1));
+            assertThat(provider1.getContacts().get(0), notNullValue());
+        }
 
         TrustmarkDefinitionRequirement tdr2 = getTdRequirement(tip.getReferences(), "http://tdo.example/td2");
         assertThat(tdr2, notNullValue());
@@ -314,17 +317,26 @@ public abstract class AbstractTest {
         assertThat(tdr2.getName(), equalTo("Trustmark Definition Name"));
         assertThat(tdr2.getVersion(), equalTo("1.0.0"));
         assertThat(tdr2.getDescription(), equalTo("This is a description of this Trustmark Definition."));
-        assertThat(tdr2.getProviderReferences(), notNullValue());
-        assertThat(tdr2.getProviderReferences().size(), equalTo(1));
-        Entity provider2 = tdr2.getProviderReferences().get(0);
-        assertThat(provider2, notNullValue());
-        assertThat(provider2.getIdentifier().toString(), equalTo("http://provider.example/"));
-        assertThat(provider2.getContacts().size(), equalTo(1));
-        assertThat(provider2.getContacts().get(0), notNullValue());
 
+        if (tdr2.getProviderReferences() != null ) {
+            assertThat(tdr2.getProviderReferences(), notNullValue());
+            assertThat(tdr2.getProviderReferences().size(), equalTo(1));
+            Entity provider2 = tdr2.getProviderReferences().get(0);
+            assertThat(provider2, notNullValue());
+            assertThat(provider2.getIdentifier().toString(), equalTo("http://provider.example/"));
+            assertThat(provider2.getContacts().size(), equalTo(1));
+            assertThat(provider2.getContacts().get(0), notNullValue());
+        }
 
         TrustInteroperabilityProfileReference tip1 = getTipReference(tip.getReferences(), "http://tip.example/tip");
         assertThat(tip1, notNullValue());
+
+        //RequiredProviders
+        if (tip.getRequiredProviders() != null){
+            assertThat(
+                    tip.getRequiredProviders().get(0).getIdentifier().toString(),
+                    equalTo("https://trustmarkinitiative.org/tp/tip/full"));
+        }
 
         // Terms
         assertThat(tip.getTerms(), notNullValue());

@@ -5,6 +5,8 @@ import edu.gatech.gtri.trustmark.v1_0.impl.util.diff.json.field.RootNodeJsonDiff
 import edu.gatech.gtri.trustmark.v1_0.model.agreement.AgreementResponsibilityTemplate;
 import edu.gatech.gtri.trustmark.v1_0.util.diff.DiffSeverity;
 
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.adio.AbstractDocumentJsonSerializer.*;
+
 /**
  * Created by Nicholas Saney on 2017-06-06.
  */
@@ -19,8 +21,8 @@ public class AgreementResponsibilityTemplateJsonDiffImpl extends AbstractJsonDif
     public RootNodeJsonDiffField getRootNodeDiffField() {
         return JsonDiffField.rootNode(
             DiffSeverity.MAJOR,
-            JsonDiffField.valueExact("$TMF_VERSION"),
-            JsonDiffField.valueExact("$Type"),
+            JsonDiffField.valueExact(ATTRIBUTE_KEY_JSON_TMF_VERSION),
+            JsonDiffField.valueExact(ATTRIBUTE_KEY_JSON_TYPE),
             JsonDiffField.valueExact("Name"),
             JsonDiffField.valueMinor("Category"),
             JsonDiffField.valueDistance("Definition"),

@@ -2,7 +2,7 @@ package edu.gatech.gtri.trustmark.v1_0.impl.model;
 
 import edu.gatech.gtri.trustmark.v1_0.model.Term;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 /**
@@ -26,7 +26,7 @@ public class TermImpl implements Term, Comparable<Term> {
     @Override
     public Set<String> getAbbreviations() {
         if( abbreviations == null )
-            abbreviations = new HashSet<String>();
+            abbreviations = new LinkedHashSet<>();
         return abbreviations;
     }
 

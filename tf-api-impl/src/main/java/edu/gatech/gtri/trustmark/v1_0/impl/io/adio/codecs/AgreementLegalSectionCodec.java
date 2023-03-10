@@ -37,7 +37,7 @@ public class AgreementLegalSectionCodec extends Codec<AgreementLegalSection> {
     
     @Override
     public Set<String> getCdataValueNames() {
-        return new HashSet<>(Arrays.asList(
+        return new LinkedHashSet<>(Arrays.asList(
             "Title",
             "Text"
         ));

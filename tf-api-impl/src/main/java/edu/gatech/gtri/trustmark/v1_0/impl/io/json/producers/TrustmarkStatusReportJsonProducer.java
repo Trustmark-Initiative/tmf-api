@@ -10,6 +10,7 @@ import org.json.JSONObject;
 
 import java.net.URI;
 
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.adio.AbstractDocumentJsonSerializer.*;
 import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.producers.JsonProducerUtility.toJson;
 
 /**
@@ -31,8 +32,8 @@ public final class TrustmarkStatusReportJsonProducer implements JsonProducer<Tru
     public JSONObject serialize(TrustmarkStatusReport tsr) {
 
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("$TMF_VERSION", FactoryLoader.getInstance(TrustmarkFramework.class).getTrustmarkFrameworkVersion());
-        jsonObject.put("$Type", TrustmarkStatusReport.class.getSimpleName());
+        jsonObject.put(ATTRIBUTE_KEY_JSON_TMF_VERSION, FactoryLoader.getInstance(TrustmarkFramework.class).getTrustmarkFrameworkVersion());
+        jsonObject.put(ATTRIBUTE_KEY_JSON_TYPE, TrustmarkStatusReport.class.getSimpleName());
 
         if (tsr.getId() != null) {
             jsonObject.put("$id", tsr.getId());

@@ -74,5 +74,25 @@ public interface HttpResponse {
      * @return the content
      */
     byte[] getBinaryContent();
+
+    default  void setHeaders(final Map<String, List<String>> headers) {
+
+    }
+
+    default  void setContentType(final String contentType) {
+
+    }
+
+    default  void setResponseCode(final int responseCode) {
+
+    }
+
+    default  void setResponseMessage(final String responseMessage) {
+
+    }
+
+    default  void setData(final byte[] data) {
+
+    }
 }
 

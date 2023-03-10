@@ -63,6 +63,7 @@ public class ExcelMultiTdBuilder implements MultiTrustmarkDefinitionBuilder {
     public static final String LISTING_COL_TIP_PUB_TIME                        = "TIP Publication DateTime";
 
     public static final String LISTING_COL_CATEGORY                            = "Category";
+    public static final String LISTING_COL_TRUSTMARK_PROVIDER                  = "Trustmark Provider";
     public static final String LISTING_COL_TRUST_EXPRESSION                    = "Trust Expression";
     public static final String LISTING_COL_PRIMARY                             = "Primary";
 

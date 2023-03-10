@@ -19,11 +19,7 @@ import org.apache.commons.collections4.SetValuedMap;
 import org.apache.commons.collections4.bidimap.DualHashBidiMap;
 import org.dom4j.QName;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by Nicholas on 01/30/2017.
@@ -64,7 +60,7 @@ public class AgreementCodec extends Codec<Agreement> {
 
     @Override
     public Set<String> getCdataValueNames() {
-        return new HashSet<>(Arrays.asList(
+        return new LinkedHashSet<>(Arrays.asList(
                 "Title",
                 "Description",
                 "SignaturePageText"

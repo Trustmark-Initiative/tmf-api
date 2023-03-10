@@ -18,6 +18,7 @@ import org.slf4j.LoggerFactory;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Assertions;
 
 import java.io.File;
 import java.io.IOException;
@@ -601,6 +602,39 @@ public class TestExcelBulkReader extends AbstractTest {
         doDiff(expectedTip, actualTip);
     }
 
+    @Test
+    public void testTrustmarkProviders() throws Exception {
+        logger.debug("Parsing expected results...");
+        File excelFile = getFile("trustmarkProviders.xlsx");
+        ExcelBulkReader reader = getExcelBulkReader();
+
+        logger.debug("Performing ExcelBulkReader.readBulkFrom() on file["+excelFile+"]...");
+        BulkReadContext readContext = this.getBulkReadContext();
+
+        //List of Trustmark Provider references does not include https://trustmarkinitiativeB.org/tp
+        Assertions.assertThrows(Exception.class, () -> reader.readBulkFrom(readContext, excelFile));
+
+        //Add https://trustmarkinitiativeB.org/tp to tdProviderReferenceIds and run again
+        EntityImpl tdProviderReference = new EntityImpl();
+        tdProviderReference.setIdentifier(new URI("https://trustmarkinitiativeB.org/tp"));
+        readContext.getTrustmarkProviderReferences().add(tdProviderReference);
+        BulkReadResult actualResult = reader.readBulkFrom(readContext, excelFile);
+        assertThat(actualResult, notNullValue());
+
+        assertThat(actualResult.getResultingTrustInteroperabilityProfiles(), notNullValue());
+        assertThat(actualResult.getResultingTrustInteroperabilityProfiles().size(), equalTo(2));
+
+        logger.debug("Comparing actual results to expected results...");
+
+        BulkReadResult expectedResult = readJsonToResult("trustmarkProviders.json");
+        assertThat(expectedResult, notNullValue());
+        assertThat(expectedResult.getResultingTrustInteroperabilityProfiles().size(), equalTo(2));
+
+        assertAllArtifactsMatch(expectedResult, actualResult);
+
+        toJsonString(actualResult.getResultingTrustInteroperabilityProfiles().get(0));
+        logger.info("Successfully tested sources-and-terms TIPs import.");
+    }
 
     //==================================================================================================================
     //  Test Helper Methods
@@ -727,7 +761,7 @@ public class TestExcelBulkReader extends AbstractTest {
     }
 
     private void assertAllArtifactsMatch(BulkReadResult expectedResult, BulkReadResult actualResult) {
-        Set<URI> tipIdentifiers = new HashSet<>();
+        Set<URI> tipIdentifiers = new LinkedHashSet<>();
         expectedResult.getResultingTrustInteroperabilityProfiles().forEach(tip -> tipIdentifiers.add(tip.getIdentifier()));
         actualResult.getResultingTrustInteroperabilityProfiles().forEach(tip -> tipIdentifiers.add(tip.getIdentifier()));
         for (URI identifier : tipIdentifiers) {
@@ -737,7 +771,7 @@ public class TestExcelBulkReader extends AbstractTest {
             doDiff(tipExpected, tipActual);
         }
 
-        Set<URI> tdIdentifiers = new HashSet<>();
+        Set<URI> tdIdentifiers = new LinkedHashSet<>();
         expectedResult.getResultingTrustmarkDefinitions().forEach(td -> tdIdentifiers.add(td.getMetadata().getIdentifier()));
         actualResult.getResultingTrustmarkDefinitions().forEach(td -> tdIdentifiers.add(td.getMetadata().getIdentifier()));
         for (URI identifier : tdIdentifiers) {

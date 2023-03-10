@@ -5,7 +5,6 @@ import edu.gatech.gtri.trustmark.v1_0.model.AssessmentStep;
 import edu.gatech.gtri.trustmark.v1_0.model.ConformanceCriterion;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkDefinitionParameter;
 
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -61,7 +60,7 @@ public class AssessmentStepImpl implements AssessmentStep, Comparable<Assessment
     @Override
     public Set<ConformanceCriterion> getConformanceCriteria() {
         if( conformanceCriteria == null )
-            conformanceCriteria = new HashSet<ConformanceCriterion>();
+            conformanceCriteria = new LinkedHashSet<>();
         return conformanceCriteria;
     }
 
@@ -94,7 +93,7 @@ public class AssessmentStepImpl implements AssessmentStep, Comparable<Assessment
 
     public Set<TrustmarkDefinitionParameter> getParameters(){
         if( this.parameters == null )
-            this.parameters = new HashSet<>();
+            this.parameters = new LinkedHashSet<>();
         return this.parameters;
     }
     public void setParameters(Set<TrustmarkDefinitionParameter> parameters){

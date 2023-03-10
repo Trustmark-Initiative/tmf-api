@@ -12,10 +12,7 @@ import org.apache.commons.collections4.BidiMap;
 import org.apache.commons.collections4.SetValuedMap;
 import org.dom4j.QName;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by Nicholas Saney on 2017-09-01.
@@ -38,7 +35,7 @@ public class AgreementAttachmentCodec extends Codec<AgreementAttachment>  {
     
     @Override
     public Set<String> getCdataValueNames() {
-        return new HashSet<>(Arrays.asList(
+        return new LinkedHashSet<>(Arrays.asList(
             "Name",
             "Description"
         ));

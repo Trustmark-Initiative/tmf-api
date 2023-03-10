@@ -17,6 +17,7 @@ import java.util.Collection;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.notNullValue;
 
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.adio.AbstractDocumentJsonSerializer.*;
 import edu.gatech.gtri.trustmark.v1_0.impl.util.diff.json.field.JsonDiffField;
 
 /**
@@ -412,73 +413,73 @@ public class TestJsonDiff extends AbstractTest {
     public void test_diffIdCollectionWithoutChildren() throws Exception {
         JSONObject expected = obj(
             prop("idCollection1", arr(
-                obj(prop("id", "A")),
-                obj(prop("id", "B"))
+                obj(prop(ATTRIBUTE_KEY_JSON_ID, "A")),
+                obj(prop(ATTRIBUTE_KEY_JSON_ID, "B"))
             )),
             prop("idCollection2", arr(
-                obj(prop("id", "C"))
+                obj(prop(ATTRIBUTE_KEY_JSON_ID, "C"))
             )),
             prop("idCollection3", arr(
-                obj(prop("id", "P")),
-                obj(prop("id", "Q1"))
+                obj(prop(ATTRIBUTE_KEY_JSON_ID, "P")),
+                obj(prop(ATTRIBUTE_KEY_JSON_ID, "Q1"))
             )),
             prop("idCollection4", arr(
-                obj(prop("id", "1")),
-                obj(prop("id", "2"))
+                obj(prop(ATTRIBUTE_KEY_JSON_ID, "1")),
+                obj(prop(ATTRIBUTE_KEY_JSON_ID, "2"))
             )),
             prop("idCollection5", arr(
-                obj(prop("id", "3")),
-                obj(prop("id", "4"))
+                obj(prop(ATTRIBUTE_KEY_JSON_ID, "3")),
+                obj(prop(ATTRIBUTE_KEY_JSON_ID, "4"))
             )),
             prop("idCollection6", arr(
-                obj(prop("$ref", "#2")),
-                obj(prop("$ref", "#4"))
+                obj(prop(ATTRIBUTE_KEY_JSON_REF, "#2")),
+                obj(prop(ATTRIBUTE_KEY_JSON_REF, "#4"))
             )),
             prop("idCollection7", arr(
-                obj(prop("id", "5")),
-                obj(prop("id", "6a")),
-                obj(prop("id", "7"))
+                obj(prop(ATTRIBUTE_KEY_JSON_ID, "5")),
+                obj(prop(ATTRIBUTE_KEY_JSON_ID, "6a")),
+                obj(prop(ATTRIBUTE_KEY_JSON_ID, "7"))
             )),
             prop("idCollection8", arr(
-                obj(prop("$ref", "#6a")),
-                obj(prop("$ref", "#7")),
-                obj(prop("id", "8"))
+                obj(prop(ATTRIBUTE_KEY_JSON_REF, "#6a")),
+                obj(prop(ATTRIBUTE_KEY_JSON_REF, "#7")),
+                obj(prop(ATTRIBUTE_KEY_JSON_ID, "8"))
             ))
         );
         
         JSONObject actual = obj(
             prop("idCollection1", arr(
-                obj(prop("id", "A"))
+                obj(prop(ATTRIBUTE_KEY_JSON_ID, "A"))
             )),
             prop("idCollection2", arr(
-                obj(prop("id", "C")),
-                obj(prop("id", "D"))
+                obj(prop(ATTRIBUTE_KEY_JSON_ID, "C")),
+                obj(prop(ATTRIBUTE_KEY_JSON_ID, "D"))
             )),
             prop("idCollection3", arr(
-                obj(prop("id", "P")),
-                obj(prop("id", "Q2"))
+                obj(prop(ATTRIBUTE_KEY_JSON_ID, "P")),
+                obj(prop(ATTRIBUTE_KEY_JSON_ID, "Q2"))
             )),
             prop("idCollection4", arr(
-                obj(prop("id", "2")),
-                obj(prop("id", "1"))
+                obj(prop(ATTRIBUTE_KEY_JSON_ID, "2")),
+                obj(prop(ATTRIBUTE_KEY_JSON_ID, "1"))
             )),
             prop("idCollection5", arr(
-                obj(prop("id", "3")),
-                obj(prop("id", "4"))
+                obj(prop(ATTRIBUTE_KEY_JSON_ID, "3")),
+                obj(prop(ATTRIBUTE_KEY_JSON_ID, "4"))
             )),
             prop("idCollection6", arr(
-                obj(prop("$ref", "#2")),
-                obj(prop("$ref", "#4"))
+                obj(prop(ATTRIBUTE_KEY_JSON_REF, "#2")),
+                obj(prop(ATTRIBUTE_KEY_JSON_REF, "#4"))
             )),
             prop("idCollection7", arr(
-                obj(prop("id", "5")),
-                obj(prop("id", "6b")),
-                obj(prop("id", "7"))
+                obj(prop(ATTRIBUTE_KEY_JSON_ID, "5")),
+                obj(prop(ATTRIBUTE_KEY_JSON_ID, "6b")),
+                obj(prop(ATTRIBUTE_KEY_JSON_ID, "7"))
             )),
             prop("idCollection8", arr(
-                obj(prop("id", "6a")),
-                obj(prop("$ref", "#7")),
-                obj(prop("id", "8"))
+                obj(prop(ATTRIBUTE_KEY_JSON_ID, "6a")),
+                obj(prop(ATTRIBUTE_KEY_JSON_REF, "#7")),
+                obj(prop(ATTRIBUTE_KEY_JSON_ID, "8"))
             ))
         );
         
@@ -505,85 +506,85 @@ public class TestJsonDiff extends AbstractTest {
     public void test_diffIdCollectionWithChildren() throws Exception {
         JSONObject expected = obj(
             prop("idCollWithChildren1", arr(
-                obj(prop("id", "A"), prop("field1", "F01")),
-                obj(prop("id", "B"), prop("field1", "F02")),
-                obj(prop("id", "C"), prop("field1", "F03"))
+                obj(prop(ATTRIBUTE_KEY_JSON_ID, "A"), prop("field1", "F01")),
+                obj(prop(ATTRIBUTE_KEY_JSON_ID, "B"), prop("field1", "F02")),
+                obj(prop(ATTRIBUTE_KEY_JSON_ID, "C"), prop("field1", "F03"))
             )),
             prop("idCollWithChildren2", arr(
-                obj(prop("id", "D"), prop("field1", "F04")),
-                obj(prop("id", "F"), prop("field1", "F06"))
+                obj(prop(ATTRIBUTE_KEY_JSON_ID, "D"), prop("field1", "F04")),
+                obj(prop(ATTRIBUTE_KEY_JSON_ID, "F"), prop("field1", "F06"))
             )),
             prop("idCollWithChildren3", arr(
-                obj(prop("id", "P"), prop("field1", "F07")),
-                obj(prop("id", "Q1"), prop("field1", "F08")),
-                obj(prop("id", "R"), prop("field1", "F09"))
+                obj(prop(ATTRIBUTE_KEY_JSON_ID, "P"), prop("field1", "F07")),
+                obj(prop(ATTRIBUTE_KEY_JSON_ID, "Q1"), prop("field1", "F08")),
+                obj(prop(ATTRIBUTE_KEY_JSON_ID, "R"), prop("field1", "F09"))
             )),
             prop("idCollWithChildren4", arr(
-                obj(prop("id", "1"), prop("field1", "F10")),
-                obj(prop("id", "2"), prop("field1", "F11")),
-                obj(prop("id", "3"), prop("field1", "F12"))
+                obj(prop(ATTRIBUTE_KEY_JSON_ID, "1"), prop("field1", "F10")),
+                obj(prop(ATTRIBUTE_KEY_JSON_ID, "2"), prop("field1", "F11")),
+                obj(prop(ATTRIBUTE_KEY_JSON_ID, "3"), prop("field1", "F12"))
             )),
             prop("idCollWithChildren5", arr(
-                obj(prop("id", "4"), prop("field1", "F13")),
-                obj(prop("id", "5"), prop("field1", "F14")),
-                obj(prop("id", "6"), prop("field1", "F15"))
+                obj(prop(ATTRIBUTE_KEY_JSON_ID, "4"), prop("field1", "F13")),
+                obj(prop(ATTRIBUTE_KEY_JSON_ID, "5"), prop("field1", "F14")),
+                obj(prop(ATTRIBUTE_KEY_JSON_ID, "6"), prop("field1", "F15"))
             )),
             prop("idCollWithChildren6", arr(
-                obj(prop("$ref", "#2")),
-                obj(prop("$ref", "#4")),
-                obj(prop("$ref", "#6"))
+                obj(prop(ATTRIBUTE_KEY_JSON_REF, "#2")),
+                obj(prop(ATTRIBUTE_KEY_JSON_REF, "#4")),
+                obj(prop(ATTRIBUTE_KEY_JSON_REF, "#6"))
             )),
             prop("idCollWithChildren7", arr(
-                obj(prop("id", "7")),
-                obj(prop("id", "8a")),
-                obj(prop("id", "9"))
+                obj(prop(ATTRIBUTE_KEY_JSON_ID, "7")),
+                obj(prop(ATTRIBUTE_KEY_JSON_ID, "8a")),
+                obj(prop(ATTRIBUTE_KEY_JSON_ID, "9"))
             )),
             prop("idCollWithChildren8", arr(
-                obj(prop("$ref", "#8a")),
-                obj(prop("$ref", "#9")),
-                obj(prop("id", "10"))
+                obj(prop(ATTRIBUTE_KEY_JSON_REF, "#8a")),
+                obj(prop(ATTRIBUTE_KEY_JSON_REF, "#9")),
+                obj(prop(ATTRIBUTE_KEY_JSON_ID, "10"))
             ))
         );
         
         JSONObject actual = obj(
             prop("idCollWithChildren1", arr(
-                obj(prop("id", "A"), prop("field1", "F01")),
-                obj(prop("id", "C"), prop("field1", "Z03"))
+                obj(prop(ATTRIBUTE_KEY_JSON_ID, "A"), prop("field1", "F01")),
+                obj(prop(ATTRIBUTE_KEY_JSON_ID, "C"), prop("field1", "Z03"))
             )),
             prop("idCollWithChildren2", arr(
-                obj(prop("id", "D"), prop("field1", "F04")),
-                obj(prop("id", "E"), prop("field1", "F05")),
-                obj(prop("id", "F"), prop("field1", "Z06"))
+                obj(prop(ATTRIBUTE_KEY_JSON_ID, "D"), prop("field1", "F04")),
+                obj(prop(ATTRIBUTE_KEY_JSON_ID, "E"), prop("field1", "F05")),
+                obj(prop(ATTRIBUTE_KEY_JSON_ID, "F"), prop("field1", "Z06"))
             )),
             prop("idCollWithChildren3", arr(
-                obj(prop("id", "P"), prop("field1", "F07")),
-                obj(prop("id", "Q2"), prop("field1", "F08")),
-                obj(prop("id", "R"), prop("field1", "Z09"))
+                obj(prop(ATTRIBUTE_KEY_JSON_ID, "P"), prop("field1", "F07")),
+                obj(prop(ATTRIBUTE_KEY_JSON_ID, "Q2"), prop("field1", "F08")),
+                obj(prop(ATTRIBUTE_KEY_JSON_ID, "R"), prop("field1", "Z09"))
             )),
             prop("idCollWithChildren4", arr(
-                obj(prop("id", "3"), prop("field1", "F12")),
-                obj(prop("id", "1"), prop("field1", "F10")),
-                obj(prop("id", "2"), prop("field1", "F11"))
+                obj(prop(ATTRIBUTE_KEY_JSON_ID, "3"), prop("field1", "F12")),
+                obj(prop(ATTRIBUTE_KEY_JSON_ID, "1"), prop("field1", "F10")),
+                obj(prop(ATTRIBUTE_KEY_JSON_ID, "2"), prop("field1", "F11"))
             )),
             prop("idCollWithChildren5", arr(
-                obj(prop("id", "4"), prop("field1", "F13")),
-                obj(prop("id", "5"), prop("field1", "F14")),
-                obj(prop("id", "6"), prop("field1", "F15"))
+                obj(prop(ATTRIBUTE_KEY_JSON_ID, "4"), prop("field1", "F13")),
+                obj(prop(ATTRIBUTE_KEY_JSON_ID, "5"), prop("field1", "F14")),
+                obj(prop(ATTRIBUTE_KEY_JSON_ID, "6"), prop("field1", "F15"))
             )),
             prop("idCollWithChildren6", arr(
-                obj(prop("$ref", "#2")),
-                obj(prop("$ref", "#4")),
-                obj(prop("$ref", "#6"))
+                obj(prop(ATTRIBUTE_KEY_JSON_REF, "#2")),
+                obj(prop(ATTRIBUTE_KEY_JSON_REF, "#4")),
+                obj(prop(ATTRIBUTE_KEY_JSON_REF, "#6"))
             )),
             prop("idCollWithChildren7", arr(
-                obj(prop("id", "7")),
-                obj(prop("id", "8b")),
-                obj(prop("id", "9"))
+                obj(prop(ATTRIBUTE_KEY_JSON_ID, "7")),
+                obj(prop(ATTRIBUTE_KEY_JSON_ID, "8b")),
+                obj(prop(ATTRIBUTE_KEY_JSON_ID, "9"))
             )),
             prop("idCollWithChildren8", arr(
-                obj(prop("id", "8a")),
-                obj(prop("$ref", "#9")),
-                obj(prop("id", "10"))
+                obj(prop(ATTRIBUTE_KEY_JSON_ID, "8a")),
+                obj(prop(ATTRIBUTE_KEY_JSON_REF, "#9")),
+                obj(prop(ATTRIBUTE_KEY_JSON_ID, "10"))
             ))
         );
         
@@ -635,37 +636,37 @@ public class TestJsonDiff extends AbstractTest {
         JSONObject expected = obj(
             prop("parentIdCollection1", arr(
                 obj(
-                    prop("id", "A."),
+                    prop(ATTRIBUTE_KEY_JSON_ID, "A."),
                     prop("field1", "F-A"),
                     prop("recursiveCollection1", arr(
                         obj(
-                            prop("id", "A.1."),
+                            prop(ATTRIBUTE_KEY_JSON_ID, "A.1."),
                             prop("field1", "F-A1"),
                             prop("recursiveCollection1", arr())
                         ),
                         obj(
-                            prop("id", "A.2a."),
+                            prop(ATTRIBUTE_KEY_JSON_ID, "A.2a."),
                             prop("field1", "F-A2a"),
                             prop("recursiveCollection1", arr())
                         ),
                         obj(
-                            prop("id", "A.3."),
+                            prop(ATTRIBUTE_KEY_JSON_ID, "A.3."),
                             prop("field1", "F-A3"),
                             prop("recursiveCollection1", arr())
                         )
                     ))
                 ),
                 obj(
-                    prop("id", "B."),
+                    prop(ATTRIBUTE_KEY_JSON_ID, "B."),
                     prop("recursiveCollection1", arr(
                         obj(
-                            prop("$ref", "#A.2a.")
+                            prop(ATTRIBUTE_KEY_JSON_REF, "#A.2a.")
                         ),
                         obj(
-                            prop("$ref", "#A.3.")
+                            prop(ATTRIBUTE_KEY_JSON_REF, "#A.3.")
                         ),
                         obj(
-                            prop("id", "B.1."),
+                            prop(ATTRIBUTE_KEY_JSON_ID, "B.1."),
                             prop("field1", "F-B1"),
                             prop("recursiveCollection1", arr())
                         )
@@ -674,10 +675,10 @@ public class TestJsonDiff extends AbstractTest {
             )),
             prop("parentIdCollection2", arr(
                 obj(
-                    prop("id", "C."),
+                    prop(ATTRIBUTE_KEY_JSON_ID, "C."),
                     prop("recursiveCollection2", arr(
                         obj(
-                            prop("$ref", "#C.")
+                            prop(ATTRIBUTE_KEY_JSON_REF, "#C.")
                         )
                     ))
                 )
@@ -687,39 +688,39 @@ public class TestJsonDiff extends AbstractTest {
         JSONObject actual = obj(
             prop("parentIdCollection1", arr(
                 obj(
-                    prop("id", "A."),
+                    prop(ATTRIBUTE_KEY_JSON_ID, "A."),
                     prop("field1", "F-A"),
                     prop("recursiveCollection1", arr(
                         obj(
-                            prop("id", "A.1."),
+                            prop(ATTRIBUTE_KEY_JSON_ID, "A.1."),
                             prop("field1", "F-A1"),
                             prop("recursiveCollection1", arr())
                         ),
                         obj(
-                            prop("id", "A.2b."),
+                            prop(ATTRIBUTE_KEY_JSON_ID, "A.2b."),
                             prop("field1", "F-A2b"),
                             prop("recursiveCollection1", arr())
                         ),
                         obj(
-                            prop("id", "A.3."),
+                            prop(ATTRIBUTE_KEY_JSON_ID, "A.3."),
                             prop("field1", "F-A3"),
                             prop("recursiveCollection1", arr())
                         )
                     ))
                 ),
                 obj(
-                    prop("id", "B."),
+                    prop(ATTRIBUTE_KEY_JSON_ID, "B."),
                     prop("recursiveCollection1", arr(
                         obj(
-                            prop("id", "A.2a."),
+                            prop(ATTRIBUTE_KEY_JSON_ID, "A.2a."),
                             prop("field1", "F-A2a"),
                             prop("recursiveCollection1", arr())
                         ),
                         obj(
-                            prop("$ref", "#A.3.")
+                            prop(ATTRIBUTE_KEY_JSON_REF, "#A.3.")
                         ),
                         obj(
-                            prop("id", "B.1."),
+                            prop(ATTRIBUTE_KEY_JSON_ID, "B.1."),
                             prop("field1", "F-B1"),
                             prop("recursiveCollection1", arr())
                         )
@@ -728,10 +729,10 @@ public class TestJsonDiff extends AbstractTest {
             )),
             prop("parentIdCollection2", arr(
                 obj(
-                    prop("id", "C."),
+                    prop(ATTRIBUTE_KEY_JSON_ID, "C."),
                     prop("recursiveCollection2", arr(
                         obj(
-                            prop("$ref", "#C.")
+                            prop(ATTRIBUTE_KEY_JSON_REF, "#C.")
                         )
                     ))
                 )

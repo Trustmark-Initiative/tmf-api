@@ -10,6 +10,8 @@ import edu.gatech.gtri.trustmark.v1_0.model.agreement.Agreement;
 import edu.gatech.gtri.trustmark.v1_0.util.diff.DiffSeverity;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.StringWriter;
 
@@ -17,6 +19,7 @@ import java.io.StringWriter;
  * Created by Nicholas on 02/03/2017.
  */
 public class TestAgreementIO extends AbstractTest {
+    private static final Logger logger = LoggerFactory.getLogger(TestAgreementIO.class);
 
     public static final String FOLDER_NAME = "agreements/io_test";
 

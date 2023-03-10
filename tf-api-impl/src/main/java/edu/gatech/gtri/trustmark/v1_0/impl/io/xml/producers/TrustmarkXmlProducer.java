@@ -8,6 +8,7 @@ import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkParameterBinding;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.adio.AbstractDocumentJsonSerializer.*;
 import static edu.gatech.gtri.trustmark.v1_0.impl.TrustmarkFrameworkConstants.NAMESPACE_URI;
 import static java.util.Objects.requireNonNull;
 
@@ -27,7 +28,7 @@ public class TrustmarkXmlProducer implements XmlProducer<Trustmark> {
         requireNonNull(trustmark);
         requireNonNull(trustmark.getId());
 
-        xmlWriter.writeAttribute(NAMESPACE_URI, "id", trustmark.getId());
+        xmlWriter.writeAttribute(NAMESPACE_URI, ATTRIBUTE_KEY_JSON_ID, trustmark.getId());
 
         xmlWriter.writeStartElement(NAMESPACE_URI, "Identifier");
         xmlWriter.writeCharacters(trustmark.getIdentifier().toString());

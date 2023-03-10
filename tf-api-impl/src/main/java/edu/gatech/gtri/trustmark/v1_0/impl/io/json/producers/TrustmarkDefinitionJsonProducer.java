@@ -17,6 +17,7 @@ import java.util.Collection;
 import java.util.List;
 
 import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.producers.JsonProducerUtility.toJson;
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.adio.AbstractDocumentJsonSerializer.*;
 
 /**
  * Created by brad on 1/7/16.
@@ -37,8 +38,8 @@ public final class TrustmarkDefinitionJsonProducer implements JsonProducer<Trust
     public JSONObject serialize(TrustmarkDefinition td) {
 
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("$TMF_VERSION", FactoryLoader.getInstance(TrustmarkFramework.class).getTrustmarkFrameworkVersion());
-        jsonObject.put("$Type", TrustmarkDefinition.class.getSimpleName());
+        jsonObject.put(ATTRIBUTE_KEY_JSON_TMF_VERSION, FactoryLoader.getInstance(TrustmarkFramework.class).getTrustmarkFrameworkVersion());
+        jsonObject.put(ATTRIBUTE_KEY_JSON_TYPE, TrustmarkDefinition.class.getSimpleName());
         if (td.getId() != null) {
             jsonObject.put("$id", td.getId());
         }

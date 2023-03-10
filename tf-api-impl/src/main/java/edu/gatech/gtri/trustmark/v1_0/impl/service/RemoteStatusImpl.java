@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.adio.AbstractDocumentJsonSerializer.*;
 import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.JsonDeserializerUtility.readEntity;
 
 /**
@@ -39,8 +40,8 @@ public class RemoteStatusImpl extends RemoteObjectImpl implements RemoteStatus {
     }
 
     public RemoteStatusImpl(JSONObject statusJson) throws RemoteException {
-        if (statusJson.optString("$TMF_VERSION") != null)
-            this.setTrustmarkFrameworkVersion(statusJson.optString("$TMF_VERSION").trim());
+        if (statusJson.optString(ATTRIBUTE_KEY_JSON_TMF_VERSION) != null)
+            this.setTrustmarkFrameworkVersion(statusJson.optString(ATTRIBUTE_KEY_JSON_TMF_VERSION).trim());
 
         log.debug("Checking remote framework version...");
         Double localApiVersion = Double.parseDouble(getLocalAPIVersion());

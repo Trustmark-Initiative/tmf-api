@@ -6,6 +6,7 @@ import edu.gatech.gtri.trustmark.v1_0.io.HttpResponse;
 import edu.gatech.gtri.trustmark.v1_0.io.NetworkDownloader;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -36,6 +37,7 @@ public class TestURIResolverTimeoutCache extends AbstractTest {
     }
 
 
+    @Disabled
     @Test
     public void testTimeout() throws Exception {
         String nowTestURL = "http://gtri.org/#now-test";

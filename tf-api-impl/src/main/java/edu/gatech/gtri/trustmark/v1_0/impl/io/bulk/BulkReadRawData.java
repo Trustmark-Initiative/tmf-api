@@ -4,29 +4,12 @@ import edu.gatech.gtri.trustmark.v1_0.FactoryLoader;
 import edu.gatech.gtri.trustmark.v1_0.impl.TrustmarkFrameworkConstants;
 import edu.gatech.gtri.trustmark.v1_0.impl.io.TrustInteroperabilityProfileSyntaxException;
 import edu.gatech.gtri.trustmark.v1_0.impl.issuanceCriteria.IssuanceCriteriaStringParserFactoryImpl;
-import edu.gatech.gtri.trustmark.v1_0.impl.model.ArtifactImpl;
-import edu.gatech.gtri.trustmark.v1_0.impl.model.AssessmentStepImpl;
-import edu.gatech.gtri.trustmark.v1_0.impl.model.CitationImpl;
-import edu.gatech.gtri.trustmark.v1_0.impl.model.ConformanceCriterionImpl;
-import edu.gatech.gtri.trustmark.v1_0.impl.model.SourceImpl;
-import edu.gatech.gtri.trustmark.v1_0.impl.model.TermImpl;
-import edu.gatech.gtri.trustmark.v1_0.impl.model.TrustInteroperabilityProfileImpl;
-import edu.gatech.gtri.trustmark.v1_0.impl.model.TrustInteroperabilityProfileReferenceImpl;
-import edu.gatech.gtri.trustmark.v1_0.impl.model.TrustmarkDefinitionImpl;
-import edu.gatech.gtri.trustmark.v1_0.impl.model.TrustmarkDefinitionParameterImpl;
-import edu.gatech.gtri.trustmark.v1_0.impl.model.TrustmarkDefinitionRequirementImpl;
-import edu.gatech.gtri.trustmark.v1_0.impl.model.TrustmarkFrameworkIdentifiedObjectImpl;
+import edu.gatech.gtri.trustmark.v1_0.impl.model.*;
 import edu.gatech.gtri.trustmark.v1_0.io.bulk.BulkReadContext;
 import edu.gatech.gtri.trustmark.v1_0.issuanceCriteria.IssuanceCriteria;
 import edu.gatech.gtri.trustmark.v1_0.issuanceCriteria.IssuanceCriteriaData;
 import edu.gatech.gtri.trustmark.v1_0.issuanceCriteria.IssuanceCriteriaStringParser;
-import edu.gatech.gtri.trustmark.v1_0.model.AbstractTIPReference;
-import edu.gatech.gtri.trustmark.v1_0.model.AssessmentStep;
-import edu.gatech.gtri.trustmark.v1_0.model.ParameterKind;
-import edu.gatech.gtri.trustmark.v1_0.model.Term;
-import edu.gatech.gtri.trustmark.v1_0.model.TrustInteroperabilityProfile;
-import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkDefinition;
-import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkFrameworkIdentifiedObject;
+import edu.gatech.gtri.trustmark.v1_0.model.*;
 import edu.gatech.gtri.trustmark.v1_0.tip.TrustExpression;
 import edu.gatech.gtri.trustmark.v1_0.tip.TrustExpressionData;
 import edu.gatech.gtri.trustmark.v1_0.tip.TrustExpressionStringParser;
@@ -303,7 +286,7 @@ public final class BulkReadRawData {
     private Set<TermImpl> lookupTerms(RawArtifact artifact) throws Exception {
         List<Element> supersededArtifacs = this.getSupersededArtifactElements(artifact);
 
-        Set<TermImpl> alreadyFoundTerms = new HashSet<>(); // TermImpl already compares on name, case-insensitive
+        Set<TermImpl> alreadyFoundTerms = new LinkedHashSet<>(); // TermImpl already compares on name, case-insensitive
 
         for (Element supersededArtifact : supersededArtifacs) {
             for (Object node : supersededArtifact.selectNodes("//tf:Term")) {
@@ -364,7 +347,7 @@ public final class BulkReadRawData {
             Map<String, String> sources = metadata.sources;
             this.cachedSources.putAll(sources);
 
-            Set<String> sourceReferences = new HashSet<>();
+            Set<String> sourceReferences = new LinkedHashSet<>();
             List<RawTdCriterion> criteria = new ArrayList<>();
             List<RawTdAssessmentStep> assessmentSteps = new ArrayList<>();
             MultiValuedMap<String, String> stepCriteriaMap = new ArrayListValuedHashMap<>(); // Maps which assessment step pertains to which criteria.
@@ -712,7 +695,7 @@ public final class BulkReadRawData {
             throw new UnsupportedOperationException("TD " + metadata.name + " has no criteria!");
         }
 
-        Set<String> stepIds = new HashSet<>();
+        Set<String> stepIds = new LinkedHashSet<>();
         for (RawTdAssessmentStep step : assessmentSteps) {
             if (stepIds.contains(step.id)) {
                 logger.warn("TD " + metadata.name + " has 2 steps with ID " + step.id + "!");
@@ -721,7 +704,7 @@ public final class BulkReadRawData {
                 stepIds.add(step.id);
             }
         }
-        Set<String> critIds = new HashSet<>();
+        Set<String> critIds = new LinkedHashSet<>();
         for (RawTdCriterion crit : criteria) {
             if (critIds.contains(crit.id)) {
                 logger.warn("TD " + metadata.name + " has 2 criteria with ID " + crit.id + "!");
@@ -1105,9 +1088,28 @@ public final class BulkReadRawData {
         }
         this.listenerCollection.fireSetPercentage(100);
 
+        List<URI> tmpReferences = new ArrayList<>();
+        for (Entity trustmarkProviderEntity:this.context.getTrustmarkProviderReferences()) {
+            tmpReferences.add(trustmarkProviderEntity.getIdentifier());
+        }
+        logger.debug("Following TrustmarkProvider's are allowed: " + tmpReferences);
+
         logger.debug("Checking that there are no ID or Name/Version collisions...");
         for (int i = 0; i < parsedTips.size(); i++) {
             TrustInteroperabilityProfile tip1 = parsedTips.get(i);
+
+            if(tip1.getRequiredProviders() != null && tip1.getRequiredProviders().size() > 0) {
+                for (Entity requiredProviderReference: tip1.getRequiredProviders()) {
+                    if( !tmpReferences.contains(requiredProviderReference.getIdentifier())){
+                        String msg = "TIP [ Name: " + tip1.getName() + ", URI: " + requiredProviderReference.getIdentifier() + " ] requires " +
+                                "<br/>Trustmark Provider [" + requiredProviderReference.getIdentifier() + "] not included in the list of Trustmark Provider organizations or is not marked as such." +
+                                "<br/>Valid Trustmark Provider organization(s): " + tmpReferences +
+                                "<br/>Please, correct this by either adding a valid Trustmark Provider organization or remove Trustmark Provider from TIP.";
+                        logger.error(msg);
+                        throw new Exception(msg);
+                    }
+                }
+            }
 
             // Do some data set sanity checks (ie, make sure there are no collisions just yet)
             for (int j = 0; j < parsedTips.size() && j < i; j++) {
@@ -1167,6 +1169,13 @@ public final class BulkReadRawData {
         }
 
         parsedTip.setKeywords(rawTip.keywords);
+
+        for (String tdProviderReferenceId : rawTip.requiredProviders) {
+            EntityImpl tdProviderReference = new EntityImpl();
+            //URISyntaxException
+            tdProviderReference.setIdentifier(new URI(tdProviderReferenceId));
+            parsedTip.addRequiredProvider(tdProviderReference);
+        }//Add required providers
 
         BidiMap<String, SourceImpl> parsedSourcesById = this.assembleSourcesById(rawTip.sources);
         for (SourceImpl source : parsedSourcesById.values()) {
@@ -1236,10 +1245,10 @@ public final class BulkReadRawData {
                 .collect(Collectors.toList());
 
         // TIP references
-        Set<URI> referencedTipUris = new HashSet<>();
+        Set<URI> referencedTipUris = new LinkedHashSet<>();
         List<TrustInteroperabilityProfileReferenceImpl> referencedTips = new ArrayList<>();
         // TD references
-        Set<URI> referencedTdUris = new HashSet<>();
+        Set<URI> referencedTdUris = new LinkedHashSet<>();
         List<TrustmarkDefinitionRequirementImpl> referencedTds = new ArrayList<>();
 
         expressionList.forEach(s -> {
@@ -1828,6 +1837,7 @@ public final class BulkReadRawData {
         public String notes = DEFAULT_STRING;
         public String legalNotice = DEFAULT_STRING;
         public final List<String> keywords = DEFAULT_LIST();
+        public final List<String> requiredProviders = DEFAULT_LIST();
 
         @Override
         public String getArtifactAbbr() {

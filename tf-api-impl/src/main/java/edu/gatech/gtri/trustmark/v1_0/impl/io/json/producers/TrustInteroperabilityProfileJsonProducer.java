@@ -11,7 +11,6 @@ import edu.gatech.gtri.trustmark.v1_0.model.Term;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustInteroperabilityProfile;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkDefinitionRequirement;
 import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkFrameworkIdentifiedObject;
-import org.apache.commons.lang.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -23,6 +22,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.producers.JsonProducerUtility.toJson;
+
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.adio.AbstractDocumentJsonSerializer.*;
 
 /**
  * Created by brad on 1/7/16.
@@ -45,8 +46,8 @@ public final class TrustInteroperabilityProfileJsonProducer implements JsonProdu
     public JSONObject serialize(TrustInteroperabilityProfile tip) {
 
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("$TMF_VERSION", FactoryLoader.getInstance(TrustmarkFramework.class).getTrustmarkFrameworkVersion());
-        jsonObject.put("$Type", TrustInteroperabilityProfile.class.getSimpleName());
+        jsonObject.put(ATTRIBUTE_KEY_JSON_TMF_VERSION, FactoryLoader.getInstance(TrustmarkFramework.class).getTrustmarkFrameworkVersion());
+        jsonObject.put(ATTRIBUTE_KEY_JSON_TYPE, TrustInteroperabilityProfile.class.getSimpleName());
         if (tip.getId() != null) {
             jsonObject.put("$id", tip.getId());
         }
@@ -130,6 +131,14 @@ public final class TrustInteroperabilityProfileJsonProducer implements JsonProdu
         }
         jsonObject.put("Sources", sourcesArray);
 
+        if(tip.getRequiredProviders() != null && tip.getRequiredProviders().size() > 0) {
+            List<Entity> requiredProviders = tip.getRequiredProviders();
+            JSONArray requiredProvidersArray = new JSONArray();
+            for (Entity providerReference : requiredProviders) {
+                requiredProvidersArray.put(toJson(providerReference));
+            }
+            jsonObject.put("RequiredProviders", requiredProvidersArray);
+        }
 
         jsonObject.put("TrustExpression", tip.getTrustExpression());
 
@@ -146,37 +155,11 @@ public final class TrustInteroperabilityProfileJsonProducer implements JsonProdu
                 TrustmarkDefinitionRequirement tdReqRef = (TrustmarkDefinitionRequirement) abstractTIPReference;
                 List<Entity> providers = tdReqRef.getProviderReferences();
                 log.info("Providers = [" + (providers == null ? "" : Arrays.toString(providers.toArray())) + "]");
-                refObj.put("$Type", "TrustmarkDefinitionRequirement");
+                refObj.put(ATTRIBUTE_KEY_JSON_TYPE, "TrustmarkDefinitionRequirement");
                 refObj.put("TrustmarkDefinitionReference", toTMIRefJson(tdReqRef));
-                if (providers != null && providers.size() > 0) {
-                    JSONArray providersArray = new JSONArray();
-                    for (Entity provider : providers) {
-                        if (provider.getIdentifier() == null || StringUtils.isEmpty(provider.getIdentifier().toString())) {
-                            log.info("Skipping adding empty provider reference = [" + provider + "]");
-                            continue;
-                        }
-                        if (encounteredEntities.containsKey(provider.getIdentifier().toString())) {
-                            log.info("Adding new provider reference = [" + provider + "]");
-                            String providerRef = encounteredEntities.get(provider.getIdentifier().toString());
-                            JSONObject providerRefJson = new JSONObject();
-                            providerRefJson.put("$ref", "#" + providerRef);
-                            providersArray.put(providerRefJson);
-                        } else {
-                            String providerRef = "provider" + provider.getIdentifier().toString().hashCode();
-                            log.info("Adding a reference to an existing provider = [" + provider + "] providerRef = [" + providerRef + "]");
-                            encounteredEntities.put(provider.getIdentifier().toString(), providerRef);
-                            JSONObject providerJson = (JSONObject) toJson(provider);
-                            providerJson.put("$id", providerRef);
-                            providersArray.put(providerJson);
-                        }
-                    }
-                    if (providersArray != null && providersArray.length() > 0) {
-                        refObj.put("ProviderReferences", providersArray);
-                    }
-                }
                 tdRequirementsArray.put(refObj);
             } else if (abstractTIPReference.isTrustInteroperabilityProfileReference()) {
-                refObj.put("$Type", "TrustInteroperabilityProfileReference");
+                refObj.put(ATTRIBUTE_KEY_JSON_TYPE, "TrustInteroperabilityProfileReference");
                 fillTMIRefJson(refObj, abstractTIPReference);
                 tipReferencesArray.put(refObj);
             } else {

@@ -1,14 +1,7 @@
 package edu.gatech.gtri.trustmark.v1_0.impl.io.bulk;
 
 import java.io.File;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.Set;
-import java.util.HashSet;
+import java.util.*;
 
 import edu.gatech.gtri.trustmark.v1_0.impl.io.bulk.BulkReadRawData.RawTrustInteroperabilityProfile;
 import edu.gatech.gtri.trustmark.v1_0.impl.io.bulk.BulkReadRawData.RawTrustmarkDefinition;
@@ -425,7 +418,7 @@ public class ExcelBulkReaderImpl extends AbstractBulkReader implements ExcelBulk
                     this.getDebugLocation(row)
                 ));
             }
-            result.setAbbreviations(new HashSet<>(this.ABBREVIATIONS.getFor(row)));
+            result.setAbbreviations(new LinkedHashSet<>(this.ABBREVIATIONS.getFor(row)));
             return result;
         }
         
@@ -602,6 +595,7 @@ public class ExcelBulkReaderImpl extends AbstractBulkReader implements ExcelBulk
         public final PipeListColumn                  TERMS_INCLUDE        = new PipeListColumn(                  LISTING_TERMS_INCLUDE);
         public final PipeListColumn                  TERMS_EXCLUDE        = new PipeListColumn(                  LISTING_TERMS_EXCLUDE);
 
+        public final PipeListColumn                  TRUSTMARK_PROVIDER   = new PipeListColumn(                  LISTING_COL_TRUSTMARK_PROVIDER);
         public final PipeListColumn                  KEYWORDS             = new PipeListColumn(                  LISTING_COL_KEYWORDS);
         public final FilteredValueColonPipeMapColumn SOURCES              = new FilteredValueColonPipeMapColumn( TERMS_COL_SOURCES);
         
@@ -648,6 +642,7 @@ public class ExcelBulkReaderImpl extends AbstractBulkReader implements ExcelBulk
 
                 rawTip.sources.putAll(this.SOURCES.getFor(row));
                 rawTip.keywords.addAll(this.KEYWORDS.getFor(row));
+                rawTip.requiredProviders.addAll(this.TRUSTMARK_PROVIDER.getFor(row));
 
                 logger.debug(String.format("    TIP Row #%s has TIP: %s", row.getRowNum() + 1, name));
                 // TODO: There are other columns in the spreadsheet, figure those out later.

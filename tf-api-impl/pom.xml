@@ -4,11 +4,11 @@
     <parent>
         <groupId>edu.gatech.gtri.trustmark</groupId>
         <artifactId>tf-api-maven</artifactId>
-        <version>1.4.39</version>
+        <version>1.4.44</version>
         <relativePath>../tf-api-maven</relativePath>
     </parent>
     <artifactId>tf-api-impl</artifactId>
-    <version>1.4.63</version>
+    <version>1.4.70</version>
     <packaging>jar</packaging>
     <dependencies>
         <dependency>
@@ -64,6 +64,10 @@
             <artifactId>commons-pool2</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.apache.httpcomponents.client5</groupId>
+            <artifactId>httpclient5</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.bitbucket.b_c</groupId>
             <artifactId>jose4j</artifactId>
         </dependency>
@@ -94,6 +98,11 @@
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.keycloak</groupId>
+            <artifactId>keycloak-client-registration-api</artifactId>
         </dependency>
         <dependency>
             <groupId>org.kohsuke.metainf-services</groupId>

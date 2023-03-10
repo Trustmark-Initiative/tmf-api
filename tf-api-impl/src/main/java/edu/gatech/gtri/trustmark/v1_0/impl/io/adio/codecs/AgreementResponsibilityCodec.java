@@ -10,7 +10,7 @@ import org.apache.commons.collections4.bidimap.DualHashBidiMap;
 import org.dom4j.QName;
 
 import java.util.Arrays;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -39,7 +39,7 @@ public class AgreementResponsibilityCodec extends Codec<AgreementResponsibility>
     
     @Override
     public Set<String> getCdataValueNames() {
-        return new HashSet<>(Arrays.asList(
+        return new LinkedHashSet<>(Arrays.asList(
             "Definition"
         ));
     }

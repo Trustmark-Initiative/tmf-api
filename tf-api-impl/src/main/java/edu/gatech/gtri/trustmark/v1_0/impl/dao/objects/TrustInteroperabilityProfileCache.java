@@ -8,6 +8,8 @@ import edu.gatech.gtri.trustmark.v1_0.dao.TrustmarkFrameworkDao;
 import java.util.Calendar;
 import java.util.Date;
 
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.adio.AbstractDocumentJsonSerializer.*;
+
 /**
  * TODO: Insert Comment Here
  * <br/><br/>
@@ -20,7 +22,7 @@ public class TrustInteroperabilityProfileCache {
     //==================================================================================================================
     //  STATIC VARIABLES
     //==================================================================================================================
-    public static final String COL_ID = "id";
+    public static final String COL_ID = ATTRIBUTE_KEY_JSON_ID;
     public static final String COL_IDENTIFIER_URL = "identifier_url";
     public static final String COL_NAME = "td_name";
     public static final String COL_NUMBER = "td_number";

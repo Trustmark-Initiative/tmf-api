@@ -31,7 +31,7 @@ public class AgreementNonBindingSectionCodec extends Codec<AgreementNonBindingSe
     
     @Override
     public Set<String> getCdataValueNames() {
-        return new HashSet<>(Arrays.asList(
+        return new LinkedHashSet<>(Arrays.asList(
             "Title",
             "Text"
         ));

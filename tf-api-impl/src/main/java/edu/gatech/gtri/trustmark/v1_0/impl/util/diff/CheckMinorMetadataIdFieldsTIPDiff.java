@@ -1,8 +1,6 @@
 package edu.gatech.gtri.trustmark.v1_0.impl.util.diff;
 
-import edu.gatech.gtri.trustmark.v1_0.model.TrustInteroperabilityProfile;
-import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkDefinition;
-import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkFrameworkIdentifiedObject;
+import edu.gatech.gtri.trustmark.v1_0.model.*;
 import edu.gatech.gtri.trustmark.v1_0.util.diff.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

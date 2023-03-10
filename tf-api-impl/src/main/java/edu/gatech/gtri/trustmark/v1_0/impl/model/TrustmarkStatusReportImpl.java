@@ -6,7 +6,7 @@ import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkStatusReport;
 
 import java.net.URI;
 import java.util.Date;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 /**
@@ -71,7 +71,7 @@ public class TrustmarkStatusReportImpl implements TrustmarkStatusReport {
     @Override
     public Set<URI> getSupersederTrustmarkReferences() {
         if (supersederTrustmarkReferences == null)
-            supersederTrustmarkReferences = new HashSet<URI>();
+            supersederTrustmarkReferences = new LinkedHashSet<>();
         return supersederTrustmarkReferences;
     }
 

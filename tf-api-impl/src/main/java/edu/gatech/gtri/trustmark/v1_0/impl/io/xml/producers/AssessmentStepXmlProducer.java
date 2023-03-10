@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.adio.AbstractDocumentJsonSerializer.*;
 import static edu.gatech.gtri.trustmark.v1_0.impl.TrustmarkFrameworkConstants.NAMESPACE_URI;
 
 /**
@@ -32,7 +33,7 @@ public class AssessmentStepXmlProducer implements XmlProducer<AssessmentStep> {
         log.debug("Writing XML for AssessmentStep #" + step.getNumber() + ": " + step.getName());
 
         String id = step.getId();
-        xmlWriter.writeAttribute("tf", NAMESPACE_URI, "id", id);
+        xmlWriter.writeAttribute("tf", NAMESPACE_URI, ATTRIBUTE_KEY_JSON_ID, id);
 
         xmlWriter.writeStartElement(NAMESPACE_URI, "Number");
         xmlWriter.writeCharacters(step.getNumber().toString());

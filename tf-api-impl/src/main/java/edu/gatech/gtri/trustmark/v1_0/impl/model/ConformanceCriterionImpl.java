@@ -3,7 +3,7 @@ package edu.gatech.gtri.trustmark.v1_0.impl.model;
 import edu.gatech.gtri.trustmark.v1_0.model.Citation;
 import edu.gatech.gtri.trustmark.v1_0.model.ConformanceCriterion;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 /**
@@ -56,7 +56,7 @@ public class ConformanceCriterionImpl implements ConformanceCriterion, Comparabl
     @Override
     public Set<Citation> getCitations() {
         if( citations == null )
-            citations = new HashSet<Citation>();
+            citations = new LinkedHashSet<>();
         return citations;
     }
 

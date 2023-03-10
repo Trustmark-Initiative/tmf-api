@@ -1,22 +1,17 @@
 package edu.gatech.gtri.trustmark.v1_0.impl.io.xml.producers;
 
 import edu.gatech.gtri.trustmark.v1_0.io.xml.XmlProducer;
-import edu.gatech.gtri.trustmark.v1_0.model.AbstractTIPReference;
-import edu.gatech.gtri.trustmark.v1_0.model.Entity;
-import edu.gatech.gtri.trustmark.v1_0.model.Source;
-import edu.gatech.gtri.trustmark.v1_0.model.Term;
-import edu.gatech.gtri.trustmark.v1_0.model.TrustInteroperabilityProfile;
-import edu.gatech.gtri.trustmark.v1_0.model.TrustInteroperabilityProfileReference;
-import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkDefinitionRequirement;
+import edu.gatech.gtri.trustmark.v1_0.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 import java.util.HashMap;
-import java.util.List;
 
 import static edu.gatech.gtri.trustmark.v1_0.impl.TrustmarkFrameworkConstants.NAMESPACE_URI;
+
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.adio.AbstractDocumentJsonSerializer.*;
 
 /**
  * Created by brad on 1/7/16.
@@ -35,7 +30,7 @@ public class TrustInteroperabilityProfileXmlProducer implements XmlProducer<Trus
         log.debug("Writing XML for TIP[" + tip.getIdentifier() + "]...");
 
         if (tip.getId() != null) {
-            xmlWriter.writeAttribute(NAMESPACE_URI, "id", tip.getId());
+            xmlWriter.writeAttribute(NAMESPACE_URI, ATTRIBUTE_KEY_JSON_ID, tip.getId());
         }
 
         XmlProducerUtility.writeMainIdentifyingInformation(xmlWriter, tip);
@@ -74,7 +69,7 @@ public class TrustInteroperabilityProfileXmlProducer implements XmlProducer<Trus
             if (abstractTIPReference.isTrustInteroperabilityProfileReference()) {
                 TrustInteroperabilityProfileReference tipRef = (TrustInteroperabilityProfileReference) abstractTIPReference;
                 xmlWriter.writeStartElement(NAMESPACE_URI, "TrustInteroperabilityProfileReference");
-                xmlWriter.writeAttribute("tf", NAMESPACE_URI, "id", tipRef.getId());
+                xmlWriter.writeAttribute("tf", NAMESPACE_URI, ATTRIBUTE_KEY_JSON_ID, tipRef.getId());
                 XmlProducerUtility.writeXml(tipRef, xmlWriter); // Should match up with 'TrustmarkFrameworkIdentifiedObject'
                 xmlWriter.writeEndElement();
             } else if (abstractTIPReference.isTrustmarkDefinitionRequirement()) {
@@ -91,6 +86,19 @@ public class TrustInteroperabilityProfileXmlProducer implements XmlProducer<Trus
         xmlWriter.writeCData(tip.getTrustExpression());
         xmlWriter.writeEndElement();
 
+        if(tip.getRequiredProviders() != null && tip.getRequiredProviders().size()>0) {
+            xmlWriter.writeStartElement(NAMESPACE_URI, "RequiredProviders");
+
+            for (Entity trustmarkProvider : tip.getRequiredProviders()) {
+                String theProviderId = "provider" + trustmarkProvider.getIdentifier().hashCode();
+                xmlWriter.writeStartElement(NAMESPACE_URI, "ProviderReference");
+                xmlWriter.writeAttribute("tf", NAMESPACE_URI, ATTRIBUTE_KEY_JSON_ID, theProviderId);
+                XmlProducerUtility.writeXml(trustmarkProvider, xmlWriter);
+                xmlWriter.writeEndElement(); // End "ProviderReference"
+
+            }
+            xmlWriter.writeEndElement(); // end "RequiredProviders"
+        }
 
         if (tip.getSources() != null && tip.getSources().size() > 0) {
             log.debug("Writing " + tip.getSources().size() + " sources...");
@@ -124,33 +132,11 @@ public class TrustInteroperabilityProfileXmlProducer implements XmlProducer<Trus
     private void tdRequirementHelper(HashMap<String, String> encounteredEntities, TrustmarkDefinitionRequirement tdReq, XMLStreamWriter xmlWriter) throws XMLStreamException {
 
         xmlWriter.writeStartElement(NAMESPACE_URI, "TrustmarkDefinitionRequirement");
-        xmlWriter.writeAttribute("tf", NAMESPACE_URI, "id", tdReq.getId());
+        xmlWriter.writeAttribute("tf", NAMESPACE_URI, ATTRIBUTE_KEY_JSON_ID, tdReq.getId());
 
         xmlWriter.writeStartElement(NAMESPACE_URI, "TrustmarkDefinitionReference");
         XmlProducerUtility.writeXml(tdReq, xmlWriter); // Should match up with 'TrustmarkFrameworkIdentifiedObject'
         xmlWriter.writeEndElement(); //end "TrustmarkDefinitionReference"
-
-        List<Entity> providers = tdReq.getProviderReferences();
-        if (providers != null && providers.size() > 0) {
-            for (Entity provider : providers) {
-                if (encounteredEntities.containsKey(provider.getIdentifier().toString())) {
-
-                    xmlWriter.writeStartElement(NAMESPACE_URI, "ProviderReference");
-                    String theProviderId = encounteredEntities.get(provider.getIdentifier().toString());
-                    xmlWriter.writeAttribute("tf", NAMESPACE_URI, "ref", theProviderId);
-                    xmlWriter.writeAttribute("xsi", XmlProducerUtility.XSI_NS_URI, "nil", "true");
-                    xmlWriter.writeEndElement();
-
-                } else {
-                    String theProviderId = "provider" + provider.getIdentifier().toString().hashCode();
-                    encounteredEntities.put(provider.getIdentifier().toString(), theProviderId);
-                    xmlWriter.writeStartElement(NAMESPACE_URI, "ProviderReference");
-                    xmlWriter.writeAttribute("tf", NAMESPACE_URI, "id", theProviderId);
-                    XmlProducerUtility.writeXml(provider, xmlWriter);
-                    xmlWriter.writeEndElement(); // End "ProviderReference"
-                }
-            }
-        }
 
         xmlWriter.writeEndElement(); //end "TrustmarkDefinitionRequirement"
 

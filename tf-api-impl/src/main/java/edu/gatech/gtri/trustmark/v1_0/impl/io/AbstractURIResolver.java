@@ -1,10 +1,7 @@
 package edu.gatech.gtri.trustmark.v1_0.impl.io;
 
 import edu.gatech.gtri.trustmark.v1_0.FactoryLoader;
-import edu.gatech.gtri.trustmark.v1_0.io.HttpResponse;
-import edu.gatech.gtri.trustmark.v1_0.io.NetworkDownloader;
-import edu.gatech.gtri.trustmark.v1_0.io.ResolveException;
-import edu.gatech.gtri.trustmark.v1_0.io.URIResolver;
+import edu.gatech.gtri.trustmark.v1_0.io.*;
 import org.gtri.fj.data.Option;
 
 import java.io.IOException;

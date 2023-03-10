@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.adio.AbstractDocumentJsonSerializer.*;
 import static edu.gatech.gtri.trustmark.v1_0.impl.TrustmarkFrameworkConstants.NAMESPACE_URI;
 
 /**
@@ -28,7 +29,7 @@ public class SourceXmlProducer implements XmlProducer<Source> {
 
         String id = "Source" + source.getIdentifier().hashCode(); // Should be unique for all sources, and a source should always resolve this, because we write refs to this later.
         log.debug("  generated source id: " + id);
-        xmlWriter.writeAttribute("tf", NAMESPACE_URI, "id", id);
+        xmlWriter.writeAttribute("tf", NAMESPACE_URI, ATTRIBUTE_KEY_JSON_ID, id);
 
         log.debug("Writing identifier[" + source.getIdentifier() + "]...");
         xmlWriter.writeStartElement(NAMESPACE_URI, "Identifier");
