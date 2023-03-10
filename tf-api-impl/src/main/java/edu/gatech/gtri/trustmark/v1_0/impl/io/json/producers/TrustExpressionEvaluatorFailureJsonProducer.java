@@ -9,6 +9,8 @@ import org.kohsuke.MetaInfServices;
 
 import static java.util.Objects.requireNonNull;
 
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.adio.AbstractDocumentJsonSerializer.*;
+
 @MetaInfServices
 public class TrustExpressionEvaluatorFailureJsonProducer implements JsonProducer<TrustExpressionEvaluatorFailure, JSONObject> {
 
@@ -28,19 +30,19 @@ public class TrustExpressionEvaluatorFailureJsonProducer implements JsonProducer
 
         return trustExpressionEvaluatorFailure.match(
                 (uriString, exception) -> new JSONObject(new java.util.HashMap<String, String>() {{
-                    put("$Type", TrustExpressionEvaluatorFailure.TrustExpressionEvaluatorFailureURI.class.getSimpleName());
+                    put(ATTRIBUTE_KEY_JSON_TYPE, TrustExpressionEvaluatorFailure.TrustExpressionEvaluatorFailureURI.class.getSimpleName());
                     put("UriString", uriString);
                     put("Exception", exception.getClass().getSimpleName());
                     put("Message", exception.getMessage());
                 }}),
                 (uri, exception) -> new JSONObject(new java.util.HashMap<String, String>() {{
-                    put("$Type", TrustExpressionEvaluatorFailure.TrustExpressionEvaluatorFailureResolve.class.getSimpleName());
+                    put(ATTRIBUTE_KEY_JSON_TYPE, TrustExpressionEvaluatorFailure.TrustExpressionEvaluatorFailureResolve.class.getSimpleName());
                     put("Uri", uri.toString());
                     put("Exception", exception.getClass().getSimpleName());
                     put("Message", exception.getMessage());
                 }}),
                 (trustmark, trustmarkVerificationFailureNonEmptyList) -> new JSONObject(new java.util.HashMap<String, Object>() {{
-                    put("$Type", TrustExpressionEvaluatorFailure.TrustExpressionEvaluatorFailureVerify.class.getSimpleName());
+                    put(ATTRIBUTE_KEY_JSON_TYPE, TrustExpressionEvaluatorFailure.TrustExpressionEvaluatorFailureVerify.class.getSimpleName());
                     put("Uri", trustmark.getIdentifier().toString());
                     put("Message", new JSONArray(trustmarkVerificationFailureNonEmptyList.map(TrustmarkVerifierFailure::messageFor).toCollection()));
                 }}));

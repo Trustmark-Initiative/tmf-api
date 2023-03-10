@@ -48,6 +48,8 @@ import java.util.concurrent.Future;
 
 import static java.lang.String.format;
 
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.adio.AbstractDocumentJsonSerializer.*;
+
 /**
  * A simple implementation of TrustInteroperabilityProfileUtils.  Do not look under the covers of this beast, it is nasty.
  * Implements TrustmarkDefinitionComparator as a delegator to an underlying implementation.
@@ -97,7 +99,7 @@ public class TrustInteroperabilityProfileUtilsImpl implements TrustInteroperabil
             byte[] bytes = Files.readAllBytes(file.toPath());
             String json = new String(bytes, StandardCharsets.UTF_8);
             JSONObject jsonObject = new JSONObject(json);
-            String typeKey = jsonObject.keySet().stream().filter("$type"::equalsIgnoreCase).findFirst().orElse(null);
+            String typeKey = jsonObject.keySet().stream().filter(ATTRIBUTE_KEY_JSON_TYPE::equalsIgnoreCase).findFirst().orElse(null);
             if (typeKey != null) {
                 String typeValue = jsonObject.optString(typeKey, "");
                 log.debug("Found $type, next double quoted value is: " + typeValue);
@@ -193,7 +195,6 @@ public class TrustInteroperabilityProfileUtilsImpl implements TrustInteroperabil
             log.error("Error ensuring format json!", e);
             throw new ResolveException("Unable to build URL with JSON parameter!", e);
         }
-
         TrustInteroperabilityProfile tip = null;
         try {
             tip = FactoryLoader.getInstance(TrustInteroperabilityProfileResolver.class).resolve(toDownload);

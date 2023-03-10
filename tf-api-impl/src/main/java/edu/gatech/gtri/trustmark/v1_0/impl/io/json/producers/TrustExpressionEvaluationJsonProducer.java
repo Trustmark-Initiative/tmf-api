@@ -35,6 +35,8 @@ import static org.gtri.fj.data.List.arrayList;
 import static org.gtri.fj.data.List.iterableList;
 import static org.gtri.fj.lang.StringUtility.stringOrd;
 
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.adio.AbstractDocumentJsonSerializer.*;
+
 @MetaInfServices
 public class TrustExpressionEvaluationJsonProducer implements JsonProducer<TrustExpressionEvaluation, JSONObject> {
 
@@ -58,7 +60,7 @@ public class TrustExpressionEvaluationJsonProducer implements JsonProducer<Trust
     @Override
     public JSONObject serialize(final TrustExpressionEvaluation trustExpressionEvaluation) {
         return new JSONObject(new HashMap<String, Object>() {{
-            put("$Type", TrustExpressionEvaluation.class.getSimpleName());
+            put(ATTRIBUTE_KEY_JSON_TYPE, TrustExpressionEvaluation.class.getSimpleName());
             put("TrustExpressionEvaluatorFailureList", new JSONArray(trustExpressionEvaluation.getTrustExpressionEvaluatorFailureList().map(jsonProducerForTrustExpressionEvaluatorFailure::serialize).toCollection()));
             put("TrustExpression", serializeTrustExpression(trustExpressionEvaluation.getTrustExpression()));
         }});
@@ -159,7 +161,7 @@ public class TrustExpressionEvaluationJsonProducer implements JsonProducer<Trust
             final F2<Option<TrustInteroperabilityProfile>, TrustExpression<Validation<NonEmptyList<TrustExpressionFailure>, TrustExpressionEvaluatorData>>, Either<JSONObject, JSONArray>> serialize) {
 
         return new JSONObject(new HashMap<String, Object>() {{
-            put("$Type", trustExpressionOperatorBinary.getClass().getSimpleName());
+            put(ATTRIBUTE_KEY_JSON_TYPE, trustExpressionOperatorBinary.getClass().getSimpleName());
             put("TrustExpression", serializeTrustExpressionBinaryToJSONArray(left, right, data, serialize));
             put("TrustExpressionData", serializeDataToJSONObject(data));
         }});
@@ -194,7 +196,7 @@ public class TrustExpressionEvaluationJsonProducer implements JsonProducer<Trust
             final Validation<NonEmptyList<TrustExpressionFailure>, TrustExpressionEvaluatorData> data) {
 
         return new JSONObject(new HashMap<String, Object>() {{
-            put("$Type", trustExpressionOperatorUnary.getClass().getSimpleName());
+            put(ATTRIBUTE_KEY_JSON_TYPE, trustExpressionOperatorUnary.getClass().getSimpleName());
             put("TrustExpression", serializeTrustExpression(expression));
             put("TrustExpressionData", serializeDataToJSONObject(data));
         }});
@@ -211,11 +213,11 @@ public class TrustExpressionEvaluationJsonProducer implements JsonProducer<Trust
 
         return reduce(data.toEither().bimap(
                 failure -> new JSONObject(new HashMap<String, Object>() {{
-                    put("$Type", TrustExpressionFailure.class.getSimpleName());
+                    put(ATTRIBUTE_KEY_JSON_TYPE, TrustExpressionFailure.class.getSimpleName());
                     put("TrustExpressionFailureList", new JSONArray(failure.map(trustExpressionFailure -> jsonProducerForTrustExpressionFailure.serialize(trustExpressionFailure)).toCollection()));
                 }}),
                 success -> new JSONObject(new HashMap<String, Object>() {{
-                    put("$Type", success.getClass().getSimpleName());
+                    put(ATTRIBUTE_KEY_JSON_TYPE, success.getClass().getSimpleName());
                     putAll(serializeDataToJSONObjectHelper(success).toMap());
                 }})));
     }
@@ -260,18 +262,18 @@ public class TrustExpressionEvaluationJsonProducer implements JsonProducer<Trust
 
         return source.match(
                 trustInteroperabilityProfileNonEmptyList -> new JSONObject(new HashMap<String, Object>() {{
-                    put("$Type", source.getClass().getSimpleName());
+                    put(ATTRIBUTE_KEY_JSON_TYPE, source.getClass().getSimpleName());
                     put("TrustInteroperabilityProfileList", new JSONArray(trustInteroperabilityProfileNonEmptyList.map(TrustExpressionEvaluationJsonProducer::serializeTrustInteroperabilityProfile).toCollection()));
                 }}),
                 (trustInteroperabilityProfileNonEmptyList, trustmarkDefinitionRequirement, trustmarkList, trustmarkVerifierFailureList) -> new JSONObject(new HashMap<String, Object>() {{
-                    put("$Type", source.getClass().getSimpleName());
+                    put(ATTRIBUTE_KEY_JSON_TYPE, source.getClass().getSimpleName());
                     put("TrustInteroperabilityProfileList", new JSONArray(trustInteroperabilityProfileNonEmptyList.map(TrustExpressionEvaluationJsonProducer::serializeTrustInteroperabilityProfile).toCollection()));
                     put("TrustmarkDefinitionRequirement", serializeTrustmarkDefinitionRequirement(trustmarkDefinitionRequirement));
                     put("TrustmarkList", new JSONArray(trustmarkList.sort(ord((o1, o2) -> stringOrd.compare(o1.getIdentifier().toString(), o2.getIdentifier().toString()))).map(TrustExpressionEvaluationJsonProducer::serializeTrustmark).toCollection()));
                     put("TrustmarkVerifierFailureList", new JSONArray(trustmarkVerifierFailureList.map(TrustmarkVerifierFailure::messageFor).toCollection()));
                 }}),
                 (trustInteroperabilityProfileNonEmptyList, trustmarkDefinitionRequirement, trustmarkDefinitionParameter, trustmarkNonEmptyList) -> new JSONObject(new HashMap<String, Object>() {{
-                    put("$Type", source.getClass().getSimpleName());
+                    put(ATTRIBUTE_KEY_JSON_TYPE, source.getClass().getSimpleName());
                     put("TrustInteroperabilityProfileList", new JSONArray(trustInteroperabilityProfileNonEmptyList.map(TrustExpressionEvaluationJsonProducer::serializeTrustInteroperabilityProfile).toCollection()));
                     put("TrustmarkDefinitionRequirement", serializeTrustmarkDefinitionRequirement(trustmarkDefinitionRequirement));
                     put("TrustmarkDefinitionParameter", trustmarkDefinitionParameter.getIdentifier());

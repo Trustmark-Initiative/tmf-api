@@ -1,5 +1,6 @@
 package edu.gatech.gtri.trustmark.v1_0.impl.io.json.producers;
 
+import edu.gatech.gtri.trustmark.v1_0.impl.util.ConformanceCriterionUtils;
 import edu.gatech.gtri.trustmark.v1_0.io.json.JsonProducer;
 import edu.gatech.gtri.trustmark.v1_0.model.Citation;
 import edu.gatech.gtri.trustmark.v1_0.model.ConformanceCriterion;
@@ -27,7 +28,7 @@ public final class ConformanceCriterionJsonProducer implements JsonProducer<Conf
     public JSONObject serialize(ConformanceCriterion crit) {
         JSONObject jsonObject = new JSONObject();
 
-        jsonObject.put("$id", "criterion" + crit.getNumber());
+        jsonObject.put("$id", ConformanceCriterionUtils.CRITERION_ID_PREFIX + crit.getNumber());
         jsonObject.put("Number", crit.getNumber());
         jsonObject.put("Name", crit.getName());
         jsonObject.put("Description", crit.getDescription());

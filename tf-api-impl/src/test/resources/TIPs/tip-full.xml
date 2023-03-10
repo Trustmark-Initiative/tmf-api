@@ -143,6 +143,12 @@
     <tf:TrustExpression>
     <![CDATA[tip1 and (tdr1 or tdr2)]]>
     </tf:TrustExpression>
+    <tf:RequiredProviders>
+        <tf:ProviderReference tf:id="provider1213526346">
+            <tf:Identifier>https://trustmarkinitiative.org/tp/tip/full</tf:Identifier>
+            <tf:Name/>
+        </tf:ProviderReference>
+    </tf:RequiredProviders>
     <tf:Sources>
         <tf:Source>
             <tf:Identifier>Source1</tf:Identifier>

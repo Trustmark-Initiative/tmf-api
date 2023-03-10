@@ -8,6 +8,7 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 import java.net.URI;
 
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.adio.AbstractDocumentJsonSerializer.*;
 import static edu.gatech.gtri.trustmark.v1_0.impl.TrustmarkFrameworkConstants.NAMESPACE_URI;
 
 /**
@@ -24,7 +25,7 @@ public class TrustmarkStatusReportXmlProducer implements XmlProducer<TrustmarkSt
     public void serialize(TrustmarkStatusReport tsr, XMLStreamWriter xmlWriter) throws XMLStreamException {
 
         if (tsr.getId() != null) {
-            xmlWriter.writeAttribute(NAMESPACE_URI, "id", tsr.getId());
+            xmlWriter.writeAttribute(NAMESPACE_URI, ATTRIBUTE_KEY_JSON_ID, tsr.getId());
         }
 
         // TODO Digital Signature?

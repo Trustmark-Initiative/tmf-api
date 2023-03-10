@@ -26,6 +26,7 @@ public class TrustInteroperabilityProfileImpl extends TrustmarkFrameworkReferenc
     private String trustExpression;
     private boolean primary;
     private Collection<AbstractTIPReference> references;
+    private List<Entity> requiredProviders;
     private transient Map<String, Object> transientDataMap;
 
     public TrustInteroperabilityProfileImpl() {
@@ -36,6 +37,7 @@ public class TrustInteroperabilityProfileImpl extends TrustmarkFrameworkReferenc
         this.trustExpression = null;
         this.primary = false;
         this.references = new ArrayList<>();
+        this.requiredProviders = new ArrayList<>();
         this.transientDataMap = new HashMap<>();
     }
 
@@ -51,6 +53,7 @@ public class TrustInteroperabilityProfileImpl extends TrustmarkFrameworkReferenc
             final String notes,
             final boolean deprecated,
             final List<String> keywords,
+            final List<Entity>  requiredProviders,
             final Collection<Source> sources,
             final List<TrustmarkFrameworkIdentifiedObject> supersedes,
             final List<TrustmarkFrameworkIdentifiedObject> supersededBy,
@@ -72,6 +75,7 @@ public class TrustInteroperabilityProfileImpl extends TrustmarkFrameworkReferenc
         this.trustExpression = trustExpression;
         this.primary = primary;
         this.references = references;
+        this.requiredProviders = requiredProviders;
         this.transientDataMap = transientDataMap;
     }
 
@@ -135,6 +139,20 @@ public class TrustInteroperabilityProfileImpl extends TrustmarkFrameworkReferenc
 
     public Map<String, Object> getTransientDataMap() {
         return transientDataMap;
+    }
+
+    @Override
+    public List <Entity> getRequiredProviders() {
+        return requiredProviders;
+    }
+
+    public void setRequiredProviders(final List<Entity> requiredProviders) {
+        this.requiredProviders = requiredProviders;
+    }
+
+    public void addRequiredProvider(final Entity providerReference) {
+        if (!requiredProviders.contains(providerReference))
+            requiredProviders.add(providerReference);
     }
 
     @Override

@@ -86,7 +86,7 @@ public abstract class AbstractTypeSpecificComponentManager<C extends TypeSpecifi
     ////////////////////////////////
     
     private Set<Class> buildClassCheckList(Class baseType) {
-        Set<Class> classes = new HashSet<>();
+        Set<Class> classes = new LinkedHashSet<>();
         Class[] interfaces = baseType.getInterfaces();
         if (interfaces != null && interfaces.length > 0) {
             Collections.addAll(classes, interfaces);

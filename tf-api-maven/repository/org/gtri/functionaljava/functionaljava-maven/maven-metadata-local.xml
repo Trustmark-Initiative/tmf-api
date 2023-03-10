@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>org.gtri.functionaljava</groupId>
+  <artifactId>functionaljava-maven</artifactId>
+  <versioning>
+    <release>4.10.1-GTRI</release>
+    <versions>
+      <version>4.10.1-GTRI</version>
+    </versions>
+    <lastUpdated>20230306152523</lastUpdated>
+  </versioning>
+</metadata>

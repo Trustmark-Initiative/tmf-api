@@ -37,6 +37,7 @@ import static java.util.Objects.requireNonNull;
 import static org.gtri.fj.lang.StringUtility.stringOrd;
 import static org.gtri.fj.product.P.p;
 
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.adio.AbstractDocumentJsonSerializer.*;
 
 /**
  * Implementations deserialize JSON and, optionally, a URI into a Trust
@@ -208,7 +209,7 @@ public final class TrustmarkDefinitionJsonDeserializer implements JsonDeserializ
     }
 
     private static String readRef(final JSONObject jsonObjectInner) {
-        String ref = jsonObjectInner.optString("$ref");
+        String ref = jsonObjectInner.optString(ATTRIBUTE_KEY_JSON_REF);
         if (ref != null && ref.startsWith("#")) ref = ref.substring(1);
         return ref;
     }

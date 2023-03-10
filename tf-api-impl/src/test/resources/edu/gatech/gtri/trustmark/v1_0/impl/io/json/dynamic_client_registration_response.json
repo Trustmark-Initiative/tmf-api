@@ -1,0 +1,27 @@
+{
+  "redirect_uris": [],
+  "token_endpoint_auth_method": "client_secret_basic",
+  "grant_types": [
+    "authorization_code",
+    "client_credentials"
+  ],
+  "response_types": [
+    "code",
+    "none"
+  ],
+  "client_id": "ab28889c-8dcc-43bb-9f5a-1575aca79549",
+  "client_secret": "nuSGds098sDryGfEgujuGhiDVwSEYOh2",
+  "client_name": "Portal 998",
+  "client_uri": "http://localhost:2023/portal998",
+  "scope": "address phone offline_access microprofile-jwt",
+  "subject_type": "public",
+  "request_uris": [],
+  "tls_client_certificate_bound_access_tokens": false,
+  "client_id_issued_at": 1671734361,
+  "client_secret_expires_at": 0,
+  "registration_client_uri": "http://localhost:8080/realms/master/clients-registrations/openid-connect/ab28889c-8dcc-43bb-9f5a-1575aca79549",
+  "registration_access_token": "eyJhbGciOiJIUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJhMjZhNWFjZS1hNWViLTQxYzYtODcyYy1iYjhmZDFiZjZkZTAifQ.eyJleHAiOjAsImlhdCI6MTY3MTczNDM2MSwianRpIjoiMGE2M2QyYzctYzFjZS00NmU3LTk5NGQtZDU1Zjg3MDcxZGQzIiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo4MDgwL3JlYWxtcy9tYXN0ZXIiLCJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjgwODAvcmVhbG1zL21hc3RlciIsInR5cCI6IlJlZ2lzdHJhdGlvbkFjY2Vzc1Rva2VuIiwicmVnaXN0cmF0aW9uX2F1dGgiOiJhdXRoZW50aWNhdGVkIn0.jdc78MRmOVNhrjWzwf2dWWRk-OEwOtjjb5V00vQmS8Y",
+  "backchannel_logout_session_required": false,
+  "require_pushed_authorization_requests": false,
+  "frontchannel_logout_session_required": false
+}

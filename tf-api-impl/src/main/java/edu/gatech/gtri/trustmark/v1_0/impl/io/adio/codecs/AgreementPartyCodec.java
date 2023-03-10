@@ -39,7 +39,7 @@ public class AgreementPartyCodec extends Codec<AgreementParty> {
     
     @Override
     public Set<String> getCdataValueNames() {
-        return new HashSet<>(Arrays.asList(
+        return new LinkedHashSet<>(Arrays.asList(
             "Notes"
         ));
     }

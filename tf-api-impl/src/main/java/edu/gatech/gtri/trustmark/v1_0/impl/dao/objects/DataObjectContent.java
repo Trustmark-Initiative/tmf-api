@@ -7,6 +7,7 @@ import com.j256.ormlite.table.DatabaseTable;
 import java.util.Calendar;
 import java.util.Date;
 
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.adio.AbstractDocumentJsonSerializer.*;
 /**
  * This object holds the larger String content for TDs, TIPs, and other objects.  It is a separate object to speed-up
  * loading the essential details like name, version and description.
@@ -25,7 +26,7 @@ public class DataObjectContent {
     //====================================================================================================================
     //  INSTANCE VARIABLES
     //====================================================================================================================
-    @DatabaseField(generatedId = true, columnName = "id", dataType = DataType.INTEGER_OBJ, useGetSet = true)
+    @DatabaseField(generatedId = true, columnName = ATTRIBUTE_KEY_JSON_ID, dataType = DataType.INTEGER_OBJ, useGetSet = true)
     private Integer id;
     @DatabaseField(canBeNull = false, columnName = "identifier_url", dataType = DataType.STRING, useGetSet = true, unique = true)
     private String identifierURL;

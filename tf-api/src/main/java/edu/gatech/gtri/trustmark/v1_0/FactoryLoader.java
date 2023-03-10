@@ -5,63 +5,76 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.ServiceLoader;
 
+import static java.util.Objects.requireNonNull;
+
 /**
- * Uses {@link ServiceLoader} to load Trustmark Framework API factories.
- * 
+ * Use ServiceLoader to instantiate implementations of Trustmark Framework API
+ * classes.
+ *
  * @author GTRI Trustmark Team
  */
 public class FactoryLoader {
 
-	// ==================================================================================================================
-	// Get Instance Capability...
-	// ==================================================================================================================
-	private static Boolean syncVar = Boolean.FALSE;
-	
-	/**
-	 * Cache of singleton factory instances.
-	 */
-	private static Map<Class<?>, Object> instanceCache = new HashMap<Class<?>, Object>();
+    private static final Map<Class<?>, Object> cache = new HashMap<>();
 
-	/**
-	 * Loads an instance of this factory, using java's service loader mechanism.
-	 */
-	@SuppressWarnings("unchecked")
-	public static <T> T getInstance(Class<T> classType) {
-		synchronized (syncVar) {
-			if (instanceCache.get(classType) != null) {
-				return (T) instanceCache.get(classType);
-			} else {
-				ServiceLoader<T> loader = ServiceLoader.load(classType);
-				Iterator<T> iterator = loader.iterator();
-				while (iterator.hasNext()) {
-					T factory = iterator.next();
-					instanceCache.put(classType, factory);
-					break;
-				}
-				return (T) instanceCache.get(classType);
-			}
-		}
-	}// end getInstance()
-
-
-	/**
-	 * Allows any operater in the system to register their own implementations of important classes used by the system.
+    /**
+     * If registered, return the instance for the type; if not registered and if
+     * constructable, construct, register, and return the constructed instance
+     * for the type; otherwise, return null.
+     *
+     * @param type the type
+     * @param <T1> the type of the instance
+     * @return if registered, the instance for the type; if not registered and
+     * if constructable, the constructed instance for the type; otherwise,
+     * return null
+     * @throws NullPointerException if type is null
      */
-	public static <T> void register(Class<T> classType, T object){
-		synchronized (syncVar){
-			if( object != null ){
-				instanceCache.put(classType, object);
-			}else{
-				throw new NullPointerException("This system does not support registering a null class.");
-			}
-		}
-	}//end register()
+    public static synchronized <T1> T1 getInstance(final Class<T1> type) {
+        requireNonNull(type, "type");
 
-	public static void unregister(Class classType){
-		synchronized (syncVar) {
-			if( instanceCache.containsKey(classType) )
-				instanceCache.remove(classType);
-		}
-	}
+        if (cache.containsKey(type)) {
+            return (T1) cache.get(type);
+        } else {
+            final Iterator<T1> iterator = ServiceLoader.load(type).iterator();
+            if (iterator.hasNext()) {
+                T1 factory = iterator.next();
+                cache.put(type, factory);
+            }
+            return (T1) cache.get(type);
+        }
+    }
 
+    /**
+     * Register the instance for the type.
+     *
+     * @param type     the type
+     * @param instance the instance
+     * @param <T1>     the type of the instance
+     * @throws NullPointerException if type is null
+     * @throws NullPointerException if instance is null
+     */
+    public static synchronized <T1> void register(
+            final Class<T1> type,
+            final T1 instance) {
+
+        requireNonNull(type, "type");
+        requireNonNull(instance, "instance");
+
+        cache.put(type, instance);
+    }
+
+    /**
+     * Unregister the instance for the type, if any.
+     *
+     * @param type the type
+     * @param <T1> the type of the instance
+     * @throws NullPointerException if type is null
+     */
+    public static synchronized <T1> void unregister(
+            final Class<T1> type) {
+
+        requireNonNull(type, "type");
+
+        cache.remove(type);
+    }
 }

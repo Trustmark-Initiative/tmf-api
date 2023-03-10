@@ -4,11 +4,11 @@
     <parent>
         <groupId>edu.gatech.gtri.trustmark</groupId>
         <artifactId>tf-api-maven</artifactId>
-        <version>1.4.39</version>
+        <version>1.4.44</version>
         <relativePath>../tf-api-maven</relativePath>
     </parent>
     <artifactId>tf-api</artifactId>
-    <version>1.4.39</version>
+    <version>1.4.44</version>
     <packaging>jar</packaging>
     <dependencies>
         <dependency>

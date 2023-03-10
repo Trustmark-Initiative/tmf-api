@@ -1,5 +1,6 @@
 package edu.gatech.gtri.trustmark.v1_0.impl.io.xml.producers;
 
+import edu.gatech.gtri.trustmark.v1_0.impl.util.ConformanceCriterionUtils;
 import edu.gatech.gtri.trustmark.v1_0.io.xml.XmlProducer;
 import edu.gatech.gtri.trustmark.v1_0.model.Artifact;
 import edu.gatech.gtri.trustmark.v1_0.model.AssessmentStep;
@@ -12,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.adio.AbstractDocumentJsonSerializer.*;
 import static edu.gatech.gtri.trustmark.v1_0.impl.TrustmarkFrameworkConstants.NAMESPACE_URI;
 
 /**
@@ -31,7 +33,7 @@ public class AssessmentStepXmlProducer implements XmlProducer<AssessmentStep> {
         log.debug("Writing XML for AssessmentStep #" + step.getNumber() + ": " + step.getName());
 
         String id = step.getId();
-        xmlWriter.writeAttribute("tf", NAMESPACE_URI, "id", id);
+        xmlWriter.writeAttribute("tf", NAMESPACE_URI, ATTRIBUTE_KEY_JSON_ID, id);
 
         xmlWriter.writeStartElement(NAMESPACE_URI, "Number");
         xmlWriter.writeCharacters(step.getNumber().toString());
@@ -47,7 +49,7 @@ public class AssessmentStepXmlProducer implements XmlProducer<AssessmentStep> {
 
         for (ConformanceCriterion crit : step.getConformanceCriteria()) {
             xmlWriter.writeStartElement(NAMESPACE_URI, "ConformanceCriterion");
-            String critId = "Criterion" + crit.getNumber();
+            String critId = ConformanceCriterionUtils.CRITERION_ID_PREFIX + crit.getNumber();
             xmlWriter.writeAttribute("tf", NAMESPACE_URI, "ref", critId);
             xmlWriter.writeAttribute("xsi", XmlProducerUtility.XSI_NS_URI, "nil", "true");
             xmlWriter.writeEndElement();

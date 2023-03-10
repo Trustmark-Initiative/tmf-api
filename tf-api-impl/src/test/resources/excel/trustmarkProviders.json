@@ -1,0 +1,129 @@
+{
+  "trustmarkDefinitions" : [
+
+  ],
+  "trustInteroperabilityProfiles" : [
+    {
+      "$TMF_VERSION": "1.4",
+      "PublicationDateTime": "2022-02-02T00:00:00.000Z",
+      "Description": "Profile of organizational security policy requirements for SAML Identity Providers (IDPs) that seek to connect to the Texas DPS TXMAP system and offer TXMAP access to their local users.",
+      "Keywords": [
+        "Texas DPS",
+        "TXMAP",
+        "Security Policy",
+        "CJIS",
+        "NIST SP 800-53"
+      ],
+      "Issuer" : {
+        "Identifier" : "http:///tdo.example/",
+        "Name" : "GTRI NSTIC Trustmark Pilot",
+        "PrimaryContact" : {
+          "Kind": "PRIMARY",
+          "Email" : "TrustmarkFeedback@gtri.gatech.edu",
+          "Telephone": "404-407-8956",
+          "MailingAddress": "75 5th Street NW, Suite 900, Atlanta, GA 30308"
+        }
+      },
+      "Terms": [
+        {
+          "Definition": "A software entity that performs user authentication each time an individual presents themselves to a federated identity trust framework or issues user assertions about the individual for a given information technology session.  An identity provider is the Federated ICAM counterpart to a service provider.",
+          "Abbreviations": ["IDP"],
+          "Name": "Identity Provider"
+        },
+        {
+          "Definition": "A set of rules or controls that is inteded to enforce security requirements for an organization or a system.",
+          "Name": "Security Policy"
+        },
+        {
+          "Definition": "A Common Operational Picture mapping application that provides access to multiple layers of data overlaid on an interactive map of the US State of Texas. TXMAP is owned and operated by the Texas Department of Public Safety.",
+          "Name": "TXMAP"
+        }
+      ],
+      "Sources": [],
+      "Name": "TXMAP Security Policy Profile for Partner IDPs",
+      "TrustExpression": "TIP_ref1 or TIP_ref2",
+      "Identifier": "https://trustmark.gtri.gatech.edu/operational-pilot/trust-interoperability-profiles/txmap-security-policy-profile-for-partner-idps/1.0/",
+      "Version": "1.0",
+      "References": {"TrustInteroperabilityProfileReferences": [
+        {
+          "Identifier": "https://artifacts.trustmarkinitiative.org/lib/tips/cjis-security-policy/5.9/",
+          "Description": "Profile of FBI Criminal Justice Information Services (CJIS) requirements as defined by the CJIS Security Policy, version 5.9.",
+          "Number": 1,
+          "Version": "5.9",
+          "$Type": "TrustInteroperabilityProfileReference",
+          "Name": "CJIS Security Policy",
+          "$id": "TIP_ref1"
+        },
+        {
+          "Identifier": "https://trustmark.nief.org/tpat/tips/nief-minimal-set-of-security-controls-for-systems-with-a-moderate-moderate-moderate-risk-profile/1.0/",
+          "Description": "Minimal profile of security controls from NIST Special Publication 800-53 r4 for systems that need to operate at a MODERATE-MODERATE-MODERATE impact level, as recommended by NIEF. Pertains to systems that operate at MODERATE confidentiality, MODERATE integrity, and MODERATE availability. Includes only those applicable security controls from NIST SP 800-53 r4 that have been marked by NIST as Priority P1. Incorporates security control downgrading guidance, as appropriate, based on recommendations on page 35 of NIST SP 800-53 r4.",
+          "Number": 2,
+          "Version": "1.0",
+          "$Type": "TrustInteroperabilityProfileReference",
+          "Name": "NIEF Minimal Set of Security Controls for Systems with a MODERATE-MODERATE-MODERATE Risk Profile",
+          "$id": "TIP_ref2"
+        }
+      ]},
+      "Primary": "true",
+      "LegalNotice" : "This document and the information contained herein is provided on an \"AS IS\" basis, and the Georgia Tech Research Institute disclaims all warranties, express or implied, including but not limited to any warranty that the use of the information herein will not infringe any rights or any implied warranties or merchantability or fitness for a particular purpose. In addition, the Georgia Tech Research Institute disclaims legal liability for any loss incurred as a result of the use or reliance on the document or the information contained herein.",
+      "RequiredProviders": [{"Identifier": "https://trustmarkinitiativeB.org/tp"}],
+      "$Type": "TrustInteroperabilityProfile",
+      "Notes": "The Georgia Tech Research Institute (GTRI) has published this document with the support of the National Strategy for Trusted Identities in Cyberspace (NSTIC) via the National Institute of Standards and Technology (NIST). The views expressed herein do not necessarily reflect the official policies of GTRI, NIST or NSTIC; nor does mention of trade names, commercial practices, or organizations imply endorsement by the U.S. Government."
+    },
+    {
+      "$TMF_VERSION": "1.4",
+      "PublicationDateTime": "2022-02-02T00:00:00.000Z",
+      "Description": "Profile of baseline technical requirements for SAML Identity Providers (IDPs) that seek to interoperate with the Texas DPS TXMAP system and offer TXMAP access to their local users.",
+      "Keywords": [
+        "Texas DPS",
+        "TXMAP",
+        "SAML"
+      ],
+      "Issuer" : {
+        "Identifier" : "http:///tdo.example/",
+        "Name" : "GTRI NSTIC Trustmark Pilot",
+        "PrimaryContact" : {
+          "Kind": "PRIMARY",
+          "Email" : "TrustmarkFeedback@gtri.gatech.edu",
+          "Telephone": "404-407-8956",
+          "MailingAddress": "75 5th Street NW, Suite 900, Atlanta, GA 30308"
+        }
+      },
+      "Terms": [
+        {
+          "Definition": "A software entity that performs user authentication each time an individual presents themselves to a federated identity trust framework or issues user assertions about the individual for a given information technology session.  An identity provider is the Federated ICAM counterpart to a service provider.",
+          "Abbreviations": ["IDP"],
+          "Name": "Identity Provider"
+        },
+        {
+          "Definition": "An open standard single sign-on protocol that enables a user to authenticate themselves to a single system and reuse the results of that authentication process at multiple partner systems that trust the authenticating system.",
+          "Abbreviations": ["SAML SSO"],
+          "Name": "Security Assertion Markup Language (SAML) Single Sign-On (SSO) Profile"
+        },
+        {
+          "Definition": "A Common Operational Picture mapping application that provides access to multiple layers of data overlaid on an interactive map of the US State of Texas. TXMAP is owned and operated by the Texas Department of Public Safety.",
+          "Name": "TXMAP"
+        }
+      ],
+      "Sources": [],
+      "Name": "TXMAP Technical Profile for Partner SAML IDPs",
+      "TrustExpression": "TIP_ref1",
+      "Identifier": "https://trustmark.gtri.gatech.edu/operational-pilot/trust-interoperability-profiles/txmap-technical-profile-for-partner-saml-idps/1.0/",
+      "Version": "1.0",
+      "References": {"TrustInteroperabilityProfileReferences": [{
+        "Identifier": "https://trustmark.nief.org/tpat/tips/nief-saml-idp-profile/1.0/",
+        "Description": "Profile of minimum protocol-level interoperability, attribute, and security requirements for NIEF SAML Identity Providers.",
+        "Number": 1,
+        "Version": "1.0",
+        "$Type": "TrustInteroperabilityProfileReference",
+        "Name": "NIEF SAML IDP Profile",
+        "$id": "TIP_ref1"
+      }]},
+      "Primary": "true",
+      "LegalNotice" : "This document and the information contained herein is provided on an \"AS IS\" basis, and the Georgia Tech Research Institute disclaims all warranties, express or implied, including but not limited to any warranty that the use of the information herein will not infringe any rights or any implied warranties or merchantability or fitness for a particular purpose. In addition, the Georgia Tech Research Institute disclaims legal liability for any loss incurred as a result of the use or reliance on the document or the information contained herein.",
+      "RequiredProviders": [{"Identifier": "https://nief.gfipm.net/"}],
+      "$Type": "TrustInteroperabilityProfile",
+      "Notes": "The Georgia Tech Research Institute (GTRI) has published this document with the support of the National Strategy for Trusted Identities in Cyberspace (NSTIC) via the National Institute of Standards and Technology (NIST). The views expressed herein do not necessarily reflect the official policies of GTRI, NIST or NSTIC; nor does mention of trade names, commercial practices, or organizations imply endorsement by the U.S. Government."
+    }
+  ]
+}

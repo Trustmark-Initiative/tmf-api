@@ -248,7 +248,7 @@ public class ConformanceCritTDDiff extends AbstractTDDiff {
      * Determines the overlapping set of all criteria that exist in list 1 and also in list 2.
      */
     private Set<ConformanceCriterion> getCriteriaOverlap(List<ConformanceCriterion> criteria1List, List<ConformanceCriterion> criteria2List){
-        Set<ConformanceCriterion> overlap = new HashSet<>();
+        Set<ConformanceCriterion> overlap = new LinkedHashSet<>();
         for(ConformanceCriterion td1Crit : criteria1List ){
             for( ConformanceCriterion td2Crit : criteria2List ){
                 int distance = loadComparator().getCriteriaSimilarity(td1Crit, td2Crit);
@@ -265,7 +265,7 @@ public class ConformanceCritTDDiff extends AbstractTDDiff {
      * Determines the underlapping set of criteria that exist in list 1 that do NOT exist in list 2.
      */
     private Set<ConformanceCriterion> getCriteriaDifference(List<ConformanceCriterion> criteria1List, List<ConformanceCriterion> criteria2List){
-        Set<ConformanceCriterion> difference = new HashSet<>();
+        Set<ConformanceCriterion> difference = new LinkedHashSet<>();
         for(ConformanceCriterion td1Crit : criteria1List ){
             if( getSimilarCriteria(td1Crit, criteria2List) == null ){
                 difference.add(td1Crit);

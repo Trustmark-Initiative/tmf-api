@@ -1,0 +1,1007 @@
+<!-- Serialized by the GTRI Trustmark Framework API, version: 1.4.58 -->
+<tf:TrustmarkDefinition xmlns:tf="https://trustmarkinitiative.org/specifications/trustmark-framework/1.4/schema/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+    <tf:Metadata>
+        <tf:Identifier>https://artifacts.trustmarkinitiative.org/lib/tds/cjis---local-policy-does-not-detract-from-cjis-security-policy/1.0/</tf:Identifier>
+        <tf:Name>CJIS - Local Policy Does Not Detract From CJIS Security Policy</tf:Name>
+        <tf:Version>1.0</tf:Version>
+        <tf:Description>Defines conformance and assessment criteria for verifying that an organization's policies do not permit anything prohibited by the CJIS Security Policy.</tf:Description>
+        <tf:PublicationDateTime>2017-05-10T00:00:00.000Z</tf:PublicationDateTime>
+        <tf:TrustmarkDefiningOrganization>
+            <tf:Identifier>https://trustmarkinitiative.org/</tf:Identifier>
+            <tf:Name>Trustmark Initiative</tf:Name>
+            <tf:Contact>
+                <tf:Kind>PRIMARY</tf:Kind>
+                <tf:Email>help@trustmarkinitiative.org</tf:Email>
+                <tf:Telephone>404-407-8956</tf:Telephone>
+                <tf:MailingAddress>75 5th Street NW, Suite 900, Atlanta, GA 30308</tf:MailingAddress>
+            </tf:Contact>
+        </tf:TrustmarkDefiningOrganization>
+        <tf:TargetStakeholderDescription>Organizations that are interested in implementing or making use of digital information systems in a manner that complies with information security standards such as NIST 800-53 and the FBI CJIS Security Policy.</tf:TargetStakeholderDescription>
+        <tf:TargetRecipientDescription>Organizations that want to demonstrate that they provide and/or consume digital information services in a manner that complies with information security standards such as NIST 800-53 and the FBI CJIS Security Policy.</tf:TargetRecipientDescription>
+        <tf:TargetRelyingPartyDescription>Organizations and individuals that desire their trusted partners' computer and information systems to comply with information security standards and practices such as ecurity standards such as NIST 800-53 and the FBI CJIS Security Policy.</tf:TargetRelyingPartyDescription>
+        <tf:TargetProviderDescription>Organizations that audit or evaluate other organizations for compliance with widely accepted information security standards and practices such as NIST Special Publication 800-53.</tf:TargetProviderDescription>
+        <tf:ProviderEligibilityCriteria>Any organization or business entity may act as a Trustmark Provider for trustmarks under this Trustmark Definition.</tf:ProviderEligibilityCriteria>
+        <tf:AssessorQualificationsDescription>Any individual employed or contracted by the Trustmark Provider may act as the assessor for trustmarks under this Trustmark Definition.</tf:AssessorQualificationsDescription>
+        <tf:TrustmarkRevocationCriteria>For any trustmark issued under this Trustmark Definition, the Trustmark Provider must revoke the trustmark upon any condition whereby one or more Conformance Criteria cease to be satisfied.</tf:TrustmarkRevocationCriteria>
+        <tf:ExtensionDescription>This Trustmark Definition requires no extension data.</tf:ExtensionDescription>
+        <tf:LegalNotice>This document and the information contained herein is provided on an "AS IS" basis, and the Georgia Tech Research Institute disclaims all warranties, express or implied, including but not limited to any warranty that the use of the information herein will not infringe any rights or any implied warranties or merchantability or fitness for a particular purpose. In addition, the Georgia Tech Research Institute disclaims legal liability for any loss incurred as a result of the use or reliance on the document or the information contained herein.</tf:LegalNotice>
+        <tf:Notes>This trustmark definition is not officially endorsed by the FBI CJIS Division. Receipt of a trustmark based on this trustmark definition is in no way a substitute for an actual FBI CJIS audit or evaluation.</tf:Notes>
+        <tf:Keywords>
+            <tf:Keyword>Security</tf:Keyword>
+            <tf:Keyword>Information Assurance</tf:Keyword>
+            <tf:Keyword>CJIS Security Policy</tf:Keyword>
+        </tf:Keywords>
+    </tf:Metadata>
+    <tf:Terms>
+        <tf:Term>
+            <tf:Name>Access to Criminal Justice Information</tf:Name>
+            <tf:Definition>
+                <![CDATA[ The physical or logical (electronic) ability, right or privilege to view, modify or make use of Criminal Justice Information. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Accreditation</tf:Name>
+            <tf:Definition>
+                <![CDATA[ The official management decision given by a senior organization official to authorize operation of an information system and to explicitly accept the risk to organization operations (including mission, functions, image, or reputation), organization assets, or individuals, based on the implementation of an agreed-upon set of security controls. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Administration of Criminal Justice</tf:Name>
+            <tf:Definition>
+                <![CDATA[ The detection, apprehension, detention, pretrial release, post-trial release, prosecution, adjudication, correctional supervision, or rehabilitation of accused persons or criminal offenders. It also includes criminal identification activities; the collection, storage, and dissemination of criminal history record information; and criminal justice employment. In addition, administration of criminal justice includes "crime prevention programs" to the extent access to criminal history record information is limited to law enforcement agencies for law enforcement programs (e.g. record checks of individuals who participate in Neighborhood Watch or "safe house" programs) and the result of such checks will not be disseminated outside the law enforcement agency. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Agency Controlled Mobile Device</tf:Name>
+            <tf:Definition>
+                <![CDATA[ A mobile device that is centrally managed by an agency for the purpose of securing the device for potential access to CJI. The device can be agency issued or BYOD (personally owned). ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Agency Coordinator</tf:Name>
+            <tf:Abbreviation>AC</tf:Abbreviation>
+            <tf:Definition>
+                <![CDATA[ A staff member of the Contracting Government Agency who manages the agreement between the Contractor and agency. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Agency Issued Mobile Device</tf:Name>
+            <tf:Definition>
+                <![CDATA[ A mobile device that is owned by an agency and issued to an individual for use. It is centrally managed by the agency for the purpose of securing the device for potential access to CJI. The device is not BYOD (personally owned). ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Agency Liaison</tf:Name>
+            <tf:Abbreviation>AL</tf:Abbreviation>
+            <tf:Definition>
+                <![CDATA[ Coordinator of activities between the criminal justice agency and the noncriminal justice agency when responsibility for a criminal justice system has been delegated by a criminal justice agency to a noncriminal justice agency, which has in turn entered into an agreement with a contractor. The agency liaison shall, inter alia, monitor compliance with system security requirements. In instances in which the noncriminal justice agency's authority is directly from the CJIS systems agency, there is no requirement for the appointment of an agency liaison. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Authorized Recipient</tf:Name>
+            <tf:Definition>
+                <![CDATA[ (1) A criminal justice agency or federal agency authorized to receive CHRI pursuant to federal statute or executive order; (2) A nongovernmental entity authorized by federal statute or executive order to receive CHRI for noncriminal justice purposes; or (3) A government agency authorized by federal statute or executive order, or state statute which has been approved by the United States Attorney General to receive CHRI for noncriminal justice purposes. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Authorized User/Personnel</tf:Name>
+            <tf:Definition>
+                <![CDATA[ An individual, or group of individuals, who have been appropriately vetted through a national fingerprint-based record check and have been granted access to CJI. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Authorizing Official</tf:Name>
+            <tf:Definition>
+                <![CDATA[ Official with the authority to formally assume responsibility for operating an information system at an acceptable level of risk to organization operations (including mission, functions, image, or reputation), organization assets, or individuals. Synonymous with Accreditation Authority. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Availability</tf:Name>
+            <tf:Definition>
+                <![CDATA[ Ensuring timely and reliable access to and use of information. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Biographic Data</tf:Name>
+            <tf:Definition>
+                <![CDATA[ Information collected about individuals associated with a unique case, and not necessarily connected to identity data. Biographic Data does not provide a history of an individual, only information related to a unique case. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Biometric Data</tf:Name>
+            <tf:Definition>
+                <![CDATA[ When applied to CJI, it is used to identify individuals, and includes the following types: fingerprints, palm prints, DNA, iris, and facial recognition. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Case / Incident History</tf:Name>
+            <tf:Definition>
+                <![CDATA[ All relevant information gathered about an individual, organization, incident, or combination thereof, arranged so as to serve as an organized record to provide analytic value for a criminal justice organization. In regards to CJI, it is the information about the history of criminal incidents. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Certificate Authority (CA) Certificate</tf:Name>
+            <tf:Definition>
+                <![CDATA[ Digital certificates required for certificate-based authentication that are issued to tell the client computers and servers that it can trust other certificates that are issued by this CA. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Certification</tf:Name>
+            <tf:Definition>
+                <![CDATA[ A comprehensive assessment of the management, operational, and technical security controls in an information system, made in support of security accreditation, to determine the extent to which the controls are implemented correctly, operating as intended, and producing the desired outcome with respect to meeting the security requirements for the system. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Channeler</tf:Name>
+            <tf:Definition>
+                <![CDATA[ A FBI approved contractor, who has entered into an agreement with an Authorized Recipient(s), to receive noncriminal justice applicant fingerprint submissions and collect the associated fees. The Channeler ensures fingerprint submissions are properly and adequately completed, electronically forwards fingerprint submissions to the FBI's CJIS Division for national noncriminal justice criminal history record check, and receives electronic record check results for dissemination to Authorized Recipients. A Channeler is essentially an "expediter" rather than a user of criminal history record check results. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>CJIS Advisory Policy Board</tf:Name>
+            <tf:Abbreviation>APB</tf:Abbreviation>
+            <tf:Definition>
+                <![CDATA[ The governing organization within the FBI CJIS Advisory Process composed of representatives from criminal justice and national security agencies within the United States. The APB reviews policy, technical, and operational issues relative to CJIS Division programs and makes subsequent recommendations to the Director of the FBI. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>CJIS Audit Unit</tf:Name>
+            <tf:Abbreviation>CAU</tf:Abbreviation>
+            <tf:Definition>
+                <![CDATA[ The organization within the FBI CJIS Division responsible to perform audits of CSAs to verify compliance with the CJIS Security Policy. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>CJIS Security Policy</tf:Name>
+            <tf:Definition>
+                <![CDATA[ The FBI CJIS Security Policy document as published by the FBI CJIS ISO; the document containing this glossary. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>CJIS Systems Agency</tf:Name>
+            <tf:Abbreviation>CSA</tf:Abbreviation>
+            <tf:Definition>
+                <![CDATA[ A duly authorized state, federal, international, tribal, or territorial criminal justice agency on the CJIS network providing statewide (or equivalent) service to its criminal justice users with respect to the CJI from various systems managed by the FBI CJIS Division. There shall be only one CSA per state or territory. In federal agencies, the CSA may be the interface or switch to other federal agencies connecting to the FBI CJIS systems. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>CJIS Systems Agency Information Security Officer</tf:Name>
+            <tf:Abbreviation>CSA ISO</tf:Abbreviation>
+            <tf:Definition>
+                <![CDATA[ The appointed FBI CJIS Division personnel responsible to coordinate information security efforts at all CJIS interface agencies. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>CJIS Systems Officer</tf:Name>
+            <tf:Abbreviation>CSO</tf:Abbreviation>
+            <tf:Definition>
+                <![CDATA[ The individual located within the CJIS Systems Agency responsible for the administration of the CJIS network on behalf of the CJIS Systems Agency. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Cloud Client</tf:Name>
+            <tf:Definition>
+                <![CDATA[ A machine or software application that accesses cloud services over a network connection, perhaps on behalf of a subscriber. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Cloud Computing</tf:Name>
+            <tf:Definition>
+                <![CDATA[ A distributed computing model that permits on-demand network access to a shared pool of configurable computing resources (i.e., networks, servers, storage, applications, and services), software, and information. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Cloud Provider</tf:Name>
+            <tf:Definition>
+                <![CDATA[ An organization that provides cloud computing services. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Cloud Subscriber</tf:Name>
+            <tf:Definition>
+                <![CDATA[ A person or organization that is a customer of a cloud computing service provider. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Compact Council</tf:Name>
+            <tf:Definition>
+                <![CDATA[ The entity created by the National Crime Prevention and Privacy Compact of 1998 that has the authority to promulgate rules and procedures governing the use of the III system for noncriminal justice purposes. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Compact Officers</tf:Name>
+            <tf:Definition>
+                <![CDATA[ The leadership of the Compact Council, oversees the infrastructure established by the National Crime Prevention and Privacy Compact Act of 1998, which is used by ratifying states to exchange criminal records for noncriminal justice purposes. Their primary responsibilities are to promulgate rules and procedures for the effective and appropriate use of the III system. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Compensating Controls</tf:Name>
+            <tf:Definition>
+                <![CDATA[ Compensating controls are temporary control measures implemented in lieu of the required control measures when an agency cannot meet the AA requirement due to legitimate technical or business constraints. The compensating controls must: 1. Meet the intent of the CJIS Security Policy AA requirement 2. Provide a similar level of protection or security as the original AA requirement 3. Not rely upon the existing requirements for AA as compensating controls Additionally, compensating controls may rely upon other, non-AA, existing requirements as compensating controls and/or be combined with new controls to create compensating controls. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Computer Security Incident Response Capability</tf:Name>
+            <tf:Abbreviation>CSIRC</tf:Abbreviation>
+            <tf:Definition>
+                <![CDATA[ A collection of personnel, systems, and processes that are used to efficiently and quickly manage a centralized response to any sort of computer security incident which may occur. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Confidentiality</tf:Name>
+            <tf:Definition>
+                <![CDATA[ Preserving authorized restrictions on information access and disclosure, including means for protecting personal privacy and proprietary information. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Contracting Government Agency</tf:Name>
+            <tf:Abbreviation>CGA</tf:Abbreviation>
+            <tf:Definition>
+                <![CDATA[ The government agency, whether a Criminal Justice Agency or a Noncriminal Justice Agency, which enters into an agreement with a private contractor. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Contractor</tf:Name>
+            <tf:Definition>
+                <![CDATA[ A private business, agency or individual which has entered into an agreement for the administration of criminal justice or noncriminal justice functions with a Criminal Justice Agency or a Noncriminal Justice Agency. Also, a private business approved by the FBI CJIS Division to contract with Noncriminal Justice Agencies to perform noncriminal justice functions associated with civil fingerprint submission for hiring purposes. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Crime Reports Data</tf:Name>
+            <tf:Definition>
+                <![CDATA[ The data collected through the Uniform Crime Reporting program and reported upon annually by the FBI CJIS division used to analyze the crime statistics for the United States. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Criminal History Record Information</tf:Name>
+            <tf:Abbreviation>CHRI</tf:Abbreviation>
+            <tf:Definition>
+                <![CDATA[ A subset of CJI. Any notations or other written or electronic evidence of an arrest, detention, complaint, indictment, information or other formal criminal charge relating to an identifiable person that includes identifying information regarding the individual as well as the disposition of any charges. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Criminal Justice Agency</tf:Name>
+            <tf:Abbreviation>CJA</tf:Abbreviation>
+            <tf:Definition>
+                <![CDATA[ The courts, a governmental agency, or any subunit of a governmental agency which performs the administration of criminal justice pursuant to a statute or executive order and which allocates a substantial part of its annual budget to the administration of criminal justice. State and federal Inspectors General Offices are included. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Criminal Justice Agency User Agreement</tf:Name>
+            <tf:Definition>
+                <![CDATA[ A terms-of-service agreement that must be signed prior to accessing CJI. This agreement is required by each CJA and spells out user's responsibilities, the forms and methods of acceptable use, penalties for their violation, disclaimers, and so on. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Criminal Justice Conveyance</tf:Name>
+            <tf:Definition>
+                <![CDATA[ A criminal justice conveyance is any enclosed mobile vehicle used for the purposes of criminal justice activities with the capability to comply, during operational periods, with the requirements of Section 5.9.1.3. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Criminal Justice Information (CJI)</tf:Name>
+            <tf:Definition>
+                <![CDATA[ Criminal Justice Information is the abstract term used to refer to all of the FBI CJIS provided data necessary for law enforcement agencies to perform their mission and enforce the laws, including but not limited to: biometric, identity history, person, organization, property (when accompanied by any personally identifiable information), and case/incident history data. In addition, CJI refers to the FBI CJIS-provided data necessary for civil agencies to perform their mission; including, but not limited to data used to make hiring decisions. The following type of data are exempt from the protection levels required for CJI: transaction control type numbers (e.g. ORI, NIC, FNU, etc.) when not accompanied by information that reveals CJI or PII. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Criminal Justice Information Services Division</tf:Name>
+            <tf:Abbreviation>FBI CJIS</tf:Abbreviation>
+            <tf:Abbreviation>CJIS</tf:Abbreviation>
+            <tf:Definition>
+                <![CDATA[ The FBI division responsible for the collection, warehousing, and timely dissemination of relevant CJI to the FBI and to qualified law enforcement, criminal justice, civilian, academic, employment, and licensing agencies. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Data</tf:Name>
+            <tf:Definition>
+                <![CDATA[ See Information and CJI. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Degauss</tf:Name>
+            <tf:Definition>
+                <![CDATA[ Neutralize a magnetic field to erase information from a magnetic disk or other storage device. In the field of information technology, degauss has become synonymous with erasing information whether or not the medium is magnetic. In the event the device to be degaussed is not magnetic (e.g. solid state drive, USB storage device), steps other than magnetic degaussing may be required to render the information irretrievable from the device. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Department of Justice</tf:Name>
+            <tf:Abbreviation>DoJ</tf:Abbreviation>
+            <tf:Definition>
+                <![CDATA[ The Department within the U.S. Government responsible to enforce the law and defend the interests of the United States according to the law, to ensure public safety against threats foreign and domestic, to provide federal leadership in preventing and controlling crime, to seek just punishment for those guilty of unlawful behavior, and to ensure fair and impartial administration of justice for all Americans. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Digital Media</tf:Name>
+            <tf:Definition>
+                <![CDATA[ Any form of electronic media designed to store data in a digital format. This includes, but is not limited to: memory device in laptops, computers, and mobile devices; and any removable, transportable electronic media, such as magnetic tape or disk, optical disk, flash drives, external hard drives, or digital memory card. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Digital Signature</tf:Name>
+            <tf:Definition>
+                <![CDATA[ A digital signature consists of three algorithms: (1) A key generation algorithm that selects a private key uniformly at random from a set of possible private keys. The algorithm outputs the private key and a corresponding public key. (2) A signing algorithm that, given a message and a private key, produces a signature. (3) A signature verifying algorithm that, given a message, public key, and a signature, either accepts or rejects the message's claim to authenticity. Two main properties are required. First, a signature generated from a fixed message and fixed private key should verify the authenticity of that message by using the corresponding public key. Secondly, it should be computationally infeasible to generate a valid signature for a party who does not possess the private key. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Direct Access</tf:Name>
+            <tf:Definition>
+                <![CDATA[ (1) Having the authority to access systems managed by the FBI CJIS Division, whether by manual or automated methods, not requiring the assistance of, or intervention by, any other party or agency (28 CFR, Chapter 1, Part 20). (2) Having the authority to query or update national databases maintained by the FBI CJIS Division including national queries and updates automatically or manually generated by the CSA. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Dissemination</tf:Name>
+            <tf:Definition>
+                <![CDATA[ The transmission/distribution of CJI to Authorized Recipients within an agency. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Environment</tf:Name>
+            <tf:Definition>
+                <![CDATA[ Aggregate of external procedures, conditions, and objects affecting the development, operation, and maintenance of an information system. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Escort</tf:Name>
+            <tf:Definition>
+                <![CDATA[ Authorized personnel who accompany a visitor at all times while within a physically secure location to ensure the protection and integrity of the physically secure location and any Criminal Justice Information therein. The use of cameras or other electronic means used to monitor a physically secure location does not constitute an escort. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>FBI CJIS Information Security Officer (FBI CJIS ISO)</tf:Name>
+            <tf:Definition>
+                <![CDATA[ The FBI personnel responsible for the maintenance and dissemination of the FBI CJIS Security Policy; the liaison between the FBI and the CSA's ISOs and other relevant security points-of-contact (POCs); the provider of technical guidance as to the intent and implementation of technical policy issues; the POC for computer incident notification which also disseminates security alerts to the CSOs and ISOs. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Federal Bureau of Investigation</tf:Name>
+            <tf:Abbreviation>FBI</tf:Abbreviation>
+            <tf:Definition>
+                <![CDATA[ The agency within the DOJ responsible to protect and defend the United States against terrorist and foreign intelligence threats, to uphold and enforce the criminal laws of the United States, and to provide leadership and criminal justice services to federal, state, municipal, and international agencies and partners. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Federal Information Security Management Act</tf:Name>
+            <tf:Abbreviation>FISMA</tf:Abbreviation>
+            <tf:Definition>
+                <![CDATA[ The Federal Information Security Management Act of 2002, a US Federal law that established information security standards for the protection of economic and national security interests of the United States. It requires each federal agency to develop, document, and implement an agency-wide program to provide information security for the information and information systems that support the operations and assets of the agency, including those provided or managed by another agency, contractor, or other source. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>For Official Use Only</tf:Name>
+            <tf:Abbreviation>FOUO</tf:Abbreviation>
+            <tf:Definition>
+                <![CDATA[ A caveat applied to unclassified sensitive information that may be exempt from mandatory release to the public under the Freedom of Information Act (FOIA), 5 U.S.C 522. In general, information marked FOUO shall not be disclosed to anybody except Government (Federal, State, tribal, or local) employees or contractors with a need to know. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Guest Operating System</tf:Name>
+            <tf:Definition>
+                <![CDATA[ An operating system that has emulated hardware presented to it by a host operating system. Also referred to as the virtual machine (VM). ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Hit Confirmation</tf:Name>
+            <tf:Definition>
+                <![CDATA[ Hit confirmation is a process that determines if the record in the hit response is current and valid and to alert the originating agency to the location of the person or property described in the NCIC record. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Host Operating System</tf:Name>
+            <tf:Definition>
+                <![CDATA[ In the context of virtualization, the operating system that interfaces with the actual physical hardware and arbitrates between it and the guest operating systems. It is also referred to as a hypervisor. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Hypervisor</tf:Name>
+            <tf:Definition>
+                <![CDATA[ See Host Operating System. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Identity History Data</tf:Name>
+            <tf:Definition>
+                <![CDATA[ Textual data that corresponds with an individual's biometric data, providing a history of criminal and/or civil events for the identified individual. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Incident</tf:Name>
+            <tf:Definition>
+                <![CDATA[ An occurrence that actually or potentially jeopardizes the confidentiality, integrity, or availability of an information system or the information the system processes, stores, or transmits or that constitutes a violation or imminent threat of violation of security policies, security procedures, or acceptable use policies. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Indirect Access</tf:Name>
+            <tf:Definition>
+                <![CDATA[ Having the authority to access systems containing CJI without providing the user the ability to conduct transactional activities (the capability to query or update) on state and national systems (e.g. CJIS Systems Agency (CSA), State Identification Bureau (SIB), or national repositories). ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Information</tf:Name>
+            <tf:Definition>
+                <![CDATA[ An instance of an information type; data. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Information Exchange Agreement</tf:Name>
+            <tf:Definition>
+                <![CDATA[ An agreement that codifies the rules by which two parties engage in the sharing of information. These agreements typically include language which establishes some general duty-of-care over the other party's information, whether and how it can be further disseminated, penalties for violations, the laws governing the agreement (which establishes venue), procedures for the handling of shared information at the termination of the agreement, and so on. This document will ensure consistency with applicable federal laws, directives, policies, regulations, standards and guidance. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Information Security</tf:Name>
+            <tf:Definition>
+                <![CDATA[ The protection of information and information systems from unauthorized access, use, disclosure, disruption, modification, or destruction in order to provide confidentiality, integrity, and availability. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Information Security Officer</tf:Name>
+            <tf:Abbreviation>ISO</tf:Abbreviation>
+            <tf:Definition>
+                <![CDATA[ Typically a member of an organization who has the responsibility to establish and maintain information security policy, assesses threats and vulnerabilities, performs risk and control assessments, oversees the governance of security operations, and establishes information security training and awareness programs. The ISO also usually interfaces with security operations to manage implementation details and with auditors to verify compliance to established policies. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Information System</tf:Name>
+            <tf:Definition>
+                <![CDATA[ A discrete set of information resources organized for the collection, processing, maintenance, use, sharing, dissemination, or disposition of information. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Information Technology</tf:Name>
+            <tf:Definition>
+                <![CDATA[ Any equipment or interconnected system or subsystem of equipment that is used in the automatic acquisition, storage, manipulation, management, movement, control, display, switching, interchange, transmission, or reception of data or information by the organization. For purposes of the preceding sentence, equipment is used by an organization if the equipment is used by the organization directly or is used by a contractor under a contract with the organization which: (i) requires the use of such equipment; or (ii) requires the use, to a significant extent, of such equipment in the performance of a service or the furnishing of a product. The term information technology includes computers, ancillary equipment, software, firmware and similar procedures, services (including support services), and related resources. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>InformationTypes</tf:Name>
+            <tf:Definition>
+                <![CDATA[ Verifying the identity of a user, process, or device, often as a prerequisite to allowing access to resources in an information system. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Integrated Automated Fingerprint Identification System</tf:Name>
+            <tf:Abbreviation>IAFIS</tf:Abbreviation>
+            <tf:Definition>
+                <![CDATA[ The national fingerprint and criminal history system maintained by the FBI CJIS Division that provides the law enforcement community with automated fingerprint search capabilities, latent searching capability, electronic image storage, and electronic exchange of fingerprints and responses. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Integrity</tf:Name>
+            <tf:Definition>
+                <![CDATA[ Guarding against improper information modification or destruction, and includes ensuring information non-repudiation and authenticity. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Interconnection Security Agreement</tf:Name>
+            <tf:Abbreviation>ISA</tf:Abbreviation>
+            <tf:Definition>
+                <![CDATA[ An agreement much like an Information Exchange Agreement as mentioned above, but concentrating more on formalizing the technical and security requirements pertaining to some sort of interface between the parties' information systems. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Interface Agency</tf:Name>
+            <tf:Definition>
+                <![CDATA[ A legacy term used to describe agencies with direct connections to the CSA. This term is now used predominantly in a common way to describe any sub-agency of a CSA or SIB that leverages the CSA or SIB as a conduit to FBI CJIS information. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Internet Protocol</tf:Name>
+            <tf:Abbreviation>IP</tf:Abbreviation>
+            <tf:Definition>
+                <![CDATA[ A protocol used for communicating data across a packet-switched internetwork using the Internet Protocol Suite, also referred to as TCP/IP. IP is the primary protocol in the Internet Layer of the Internet Protocol Suite and has the task of delivering distinguished protocol datagrams (packets) from the source host to the destination host solely based on their addresses. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Interstate Identification Index</tf:Name>
+            <tf:Abbreviation>III</tf:Abbreviation>
+            <tf:Definition>
+                <![CDATA[ The CJIS service that manages automated submission and requests for CHRI that is warehoused subsequent to the submission of fingerprint information. Subsequent requests are directed to the originating State as needed. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Jailbreak (Jailbroken)</tf:Name>
+            <tf:Definition>
+                <![CDATA[ The process of attaining privileged control (known as "root access") of a device running the Apple iOS operating system that ultimately allows a user the ability to alter or replace system applications and settings, run specialized applications that require administrator-level permissions, or perform other operations that are otherwise not allowed. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Laptop Devices</tf:Name>
+            <tf:Definition>
+                <![CDATA[ Laptop devices are mobile devices with a full-featured operating system (e.g. Microsoft Windows, Apple OS X, LINUX/UNIX, etc.). Laptops are typically intended for transport via vehicle mount or portfolio-sized carry case, but not on the body. This definition does not include pocket/handheld devices (e.g. smartphones), or mobile devices that feature a limited feature operating system (e.g. tablets). ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Law Enforcement Enterprise Portal</tf:Name>
+            <tf:Abbreviation>LEEP</tf:Abbreviation>
+            <tf:Definition>
+                <![CDATA[ A secure, Internet-based communications portal provided by the FBI CJIS Division for use by law enforcement, first responders, criminal justice professionals, and anti-terrorism and intelligence agencies around the globe. Its primary purpose is to provide a platform on which various law enforcement agencies can collaborate on FOUO matters. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Local Agency Security Officer</tf:Name>
+            <tf:Abbreviation>LASO</tf:Abbreviation>
+            <tf:Definition>
+                <![CDATA[ The primary Information Security contact between a local law enforcement agency and the CSA under which this agency interfaces with the FBI CJIS Division. The LASO actively represents their agency in all matters pertaining to Information Security, disseminates Information Security alerts and other material to their constituents, maintains Information Security documentation (including system configuration data), assists with Information Security audits of hardware and procedures, and keeps the CSA informed as to any Information Security needs and problems. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Logical Access</tf:Name>
+            <tf:Definition>
+                <![CDATA[ The technical means (e.g., read, create, modify, delete a file, execute a program, or use an external connection) for an individual or other computer system to utilize CJI or CJIS applications. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Logical Partitioning</tf:Name>
+            <tf:Definition>
+                <![CDATA[ When the host operating system, or hypervisor, allows multiple guest operating systems to share the same physical resources. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Management Control Agreement</tf:Name>
+            <tf:Abbreviation>MCA</tf:Abbreviation>
+            <tf:Definition>
+                <![CDATA[ An agreement between parties that wish to share or pool resources that codifies precisely who has administrative control over, versus overall management and legal responsibility for, assets covered under the agreement. An MCA must ensure the CJA's authority remains with regard to all aspects of Section 3.2.2. The MCA usually results in the CJA having ultimate authority over the CJI supporting infrastructure administered by the NCJA. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Management Controls</tf:Name>
+            <tf:Definition>
+                <![CDATA[ The security controls (i.e., safeguards or countermeasures) for an information system that focus on the management of risk and the management of information system security. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Media</tf:Name>
+            <tf:Definition>
+                <![CDATA[ Physical devices or writing surfaces including, but not limited to, magnetic tapes, optical disks, magnetic disks, Large-Scale Integration (LSI) memory chips, printouts (but not including display media) onto which information is recorded, stored, or printed within an information system. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Mobile Device</tf:Name>
+            <tf:Definition>
+                <![CDATA[ Any portable device used to access CJI via a wireless connection (e.g. cellular, WiFi, Bluetooth, etc.). ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Mobile Device Management</tf:Name>
+            <tf:Abbreviation>MDM</tf:Abbreviation>
+            <tf:Definition>
+                <![CDATA[ Centralized administration and control of mobile devices specifically including, but not limited to, cellular phones, smart phones, and tablets. Management typically includes the ability to configure device settings and prevent a user from changing them, remotely locating a device in the event of theft or loss, and remotely locking or wiping a device. Management can also include over-the-air distribution of applications and updating installed applications. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>National Crime Information Center</tf:Name>
+            <tf:Abbreviation>NCIC</tf:Abbreviation>
+            <tf:Definition>
+                <![CDATA[ An information system which stores CJI which can be queried by appropriate Federal, state, and local law enforcement and other criminal justice agencies. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>National Instant Criminal Background Check System</tf:Name>
+            <tf:Abbreviation>NICS</tf:Abbreviation>
+            <tf:Definition>
+                <![CDATA[ A system mandated by the Brady Handgun Violence Prevention Act of 1993 that is used by Federal Firearms Licensees (FFLs) to instantly determine via telephone or other electronic means whether the transfer of a firearm would be in violation of Section 922 (g) or (n) of Title 18, United States Code, or state law, by evaluating the prospective buyer's criminal history. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>National Institute of Standards and Technology</tf:Name>
+            <tf:Abbreviation>NIST</tf:Abbreviation>
+            <tf:Definition>
+                <![CDATA[ Founded in 1901, NIST is a non-regulatory federal agency within the U.S. Department of Commerce whose mission is to promote U.S. innovation and industrial competitiveness by advancing measurement science, standards, and technology in ways that enhance economic and national security. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>NCJA (Government)</tf:Name>
+            <tf:Definition>
+                <![CDATA[ A Federal, state, local, or tribal governmental agency or any subunit thereof whose charter does not include the responsibility to administer criminal justice, but may have a need to process CJI. An example would be the central IT organization within a state government that administers equipment on behalf of a state law-enforcement agency. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>NCJA (Private)</tf:Name>
+            <tf:Definition>
+                <![CDATA[ A private agency or subunit thereof whose charter does not include the responsibility to administer criminal justice, but may have a need to process CJI. An example would include a local bank. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>NCJA (Public)</tf:Name>
+            <tf:Definition>
+                <![CDATA[ A public agency or sub-unit thereof whose charter does not include the responsibility to administer criminal justice, but may have a need to process CJI. An example would include a county school board which uses CHRI to assist in employee hiring decisions. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Noncriminal Justice Agency</tf:Name>
+            <tf:Abbreviation>NCJA</tf:Abbreviation>
+            <tf:Definition>
+                <![CDATA[ A governmental agency, or any subunit thereof, that provides services primarily for purposes other than the administration of criminal justice. Examples of services include, but not limited to, employment suitability, licensing determinations, immigration and naturalization matters, and national security clearances. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Noncriminal Justice Purpose</tf:Name>
+            <tf:Definition>
+                <![CDATA[ The uses of criminal history records for purposes authorized by federal or state law other than purposes relating to the administration of criminal justice, including employment suitability, licensing determinations, immigration and naturalization matters, and national security clearances. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Office of Management and Budget</tf:Name>
+            <tf:Abbreviation>OMB</tf:Abbreviation>
+            <tf:Definition>
+                <![CDATA[ The agency within the Executive Branch of the Federal government responsible to oversee the preparation of the federal budget, to assist in the supervision of other Executive Branch agencies, and to oversee and coordinate the Presidential Administration's procurement, financial management, information, and regulatory policies. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Organization</tf:Name>
+            <tf:Definition>
+                <![CDATA[ An organized body of people with a particular purpose, especially a business, society, association, government agency, etc. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Outsourcing</tf:Name>
+            <tf:Definition>
+                <![CDATA[ The process of delegating in-house operations to a third-party. For instance, when the administration of criminal justice functions (network operations, dispatch functions, system administration operations, etc.) are performed for the criminal justice agency by a city or county information technology department or are contracted to be performed by a vendor. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Outsourcing Standard</tf:Name>
+            <tf:Definition>
+                <![CDATA[ National Crime Prevention and Privacy Compact Council's Outsourcing Standard. The Compact Council's uniform standards and processes for the interstate and Federal-State exchange of criminal history records for noncriminal justice purposes. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Partitioning</tf:Name>
+            <tf:Definition>
+                <![CDATA[ Managing guest operating system, or virtual machine, access to hardware so that each guest OS can access its own resources but cannot encroach on the other guest operating systems resources or any resources not allocated for virtualization use. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Personal Firewall</tf:Name>
+            <tf:Definition>
+                <![CDATA[ An application which controls network traffic to and from a computer, permitting or denying communications based on a security policy. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Personally Identifiable Information</tf:Name>
+            <tf:Abbreviation>PII</tf:Abbreviation>
+            <tf:Definition>
+                <![CDATA[ PII is information which can be used to distinguish or trace an individual's identity, such as name, social security number, or biometric records, alone or when combined with other personal or identifying information which is linked or linkable to a specific individual, such as date and place of birth, or mother's maiden name. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Physical Access</tf:Name>
+            <tf:Definition>
+                <![CDATA[ The physical ability, right or privilege to view, modify or make use of Criminal Justice Information (CJI) by means of physical presence within the proximity of computers and network devices (e.g. the ability to insert a boot disk or other device into the system, make a physical connection with electronic equipment, etc.). ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Physical Media</tf:Name>
+            <tf:Definition>
+                <![CDATA[ Physical media refers to media in printed form. This definition includes, but is not limited to, printed documents, printed imagery, printed facsimile. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Physical Partitioning</tf:Name>
+            <tf:Definition>
+                <![CDATA[ When the host operating system, or hypervisor, assigns separate physical resources to each guest operating systems, or virtual machine. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Physically Secure Location</tf:Name>
+            <tf:Definition>
+                <![CDATA[ A facility, a criminal justice conveyance, or an area, a room, or a group of rooms, within a facility with both the physical and personnel security controls sufficient to protect CJI and associated information systems. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Pocket/Handheld Mobile Device</tf:Name>
+            <tf:Definition>
+                <![CDATA[ Pocket/Handheld mobile devices (e.g. smartphones) are intended to be carried in a pocket or holster attached to the body and feature an operating system with limited functionality (e.g., iOS, Android, BlackBerry, etc.). This definition does not include tablet and laptop devices. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Portable Device</tf:Name>
+            <tf:Definition>
+                <![CDATA[ Any devices that can be easily moved or carried by design (i.e. laptops, handhelds, personal digital assistants, etc.). ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Potential Impact</tf:Name>
+            <tf:Definition>
+                <![CDATA[ The loss of confidentiality, integrity, or availability could be expected to have a limited adverse effect, a serious adverse effect, or a severe or catastrophic adverse effect on organizational operations, organizational assets, or individuals. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Property Data</tf:Name>
+            <tf:Definition>
+                <![CDATA[ Information about vehicles and property associated with a crime. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Rap Back</tf:Name>
+            <tf:Definition>
+                <![CDATA[ A NGI service that allows authorized agencies to receive notification of subsequent criminal activity reported to the FBI committed by persons of interest. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Receive-Only Terminal</tf:Name>
+            <tf:Abbreviation>ROT</tf:Abbreviation>
+            <tf:Definition>
+                <![CDATA[ A device that is configured to accept a limited type of data but is technically prohibited from forming or transmitting data, browsing or navigating internal or external networks, or otherwise performing outside the scope of receive only (e.g., a printer, dumb terminal, etc.). ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Records</tf:Name>
+            <tf:Definition>
+                <![CDATA[ All books, papers, maps, photographs, machine-readable materials, or other documentary materials, regardless of physical form or characteristics, made or received by an organization in connection with the transaction of business and preserved or appropriate for preservation by that organization or its legitimate successor as evidence of the organization, functions, policies, decisions, procedures, operations or other activities such as legal requirements or because of the informational value of the data in them. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Repository Manager, or Chief Administrator</tf:Name>
+            <tf:Definition>
+                <![CDATA[ The designated manager of the agency having oversight responsibility for a CSA's fingerprint identification services. If both state fingerprint identification services and CJIS systems control are managed within the same state agency, the repository manager and CSO may be the same person. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Risk</tf:Name>
+            <tf:Definition>
+                <![CDATA[ The level of impact on organizational operations (including mission, functions, image, or reputation), organizational assets, or individuals resulting from the operation of an information system given the potential impact of a threat and the likelihood of that threat occurring. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Risk Management</tf:Name>
+            <tf:Definition>
+                <![CDATA[ The process of managing risks to organizational operations (including mission, functions, image, or reputation), organizational assets, or individuals resulting from the operation of an information system, and includes: (i) the conduct of a risk assessment; (ii) the implementation of a risk mitigation strategy; and (iii) employment of techniques and procedures for the continuous monitoring of the security state of the information system. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Root (Rooting, Rooted)</tf:Name>
+            <tf:Definition>
+                <![CDATA[ The process of attaining privileged control (known as "root access") of a device running the Android operating system that ultimately allows a user the ability to alter or replace system applications and settings, run specialized applications that require administrator-level permissions, or perform other operations that are otherwise not allowed. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Safeguards</tf:Name>
+            <tf:Definition>
+                <![CDATA[ Protective measures prescribed to meet the security requirements (i.e., confidentiality, integrity, and availability) specified for an information system. Safeguards may include security features, management constraints, personnel security, and security of physical structures, areas, and devices. Synonymous with security controls and countermeasures. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Sanitization</tf:Name>
+            <tf:Definition>
+                <![CDATA[ Process to remove information from media such that information recovery is not possible. It includes removing all labels, markings, and activity logs. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Secondary Dissemination</tf:Name>
+            <tf:Definition>
+                <![CDATA[ The promulgation of CJI from a releasing agency to an authorized recipient agency when the recipient agency has not been previously identified in a formal information exchange agreement. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Security Addendum</tf:Name>
+            <tf:Abbreviation>SA</tf:Abbreviation>
+            <tf:Definition>
+                <![CDATA[ A uniform addendum to an agreement between the government agency and a private contractor, approved by the Attorney General of the United States, which specifically authorizes access to criminal history record information, limits the use of the information to the purposes for which it is provided, ensures the security and confidentiality of the information consistent with existing regulations and the CJIS Security Policy, provides for sanctions, and contains such other provisions as the Attorney General may require. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Security Category</tf:Name>
+            <tf:Definition>
+                <![CDATA[ The characterization of information or an information system based on an assessment of the potential impact that a loss of confidentiality, integrity, or availability of such information or information system would have on organizational operations, organizational assets, or individuals. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Security Controls</tf:Name>
+            <tf:Definition>
+                <![CDATA[ The management, operational, and technical controls (i.e., safeguards or countermeasures) prescribed for an information system to protect the confidentiality, integrity, and availability of the system and its information. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Security Plan</tf:Name>
+            <tf:Definition>
+                <![CDATA[ See System Security Plan. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Security Requirements</tf:Name>
+            <tf:Definition>
+                <![CDATA[ Requirements levied on an information system that are derived from applicable laws, orders, directives, policies, standards, instructions, regulations, or procedures, or organizational mission/business case needs to ensure the confidentiality, integrity, and availability of the information being processed, stored, or transmitted. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Sensitive But Unclassified</tf:Name>
+            <tf:Abbreviation>SBU</tf:Abbreviation>
+            <tf:Definition>
+                <![CDATA[ Designation of information in the United States federal government that, though unclassified, often requires strict controls over its distribution. SBU is a broad category of information that includes material covered by such designations as For Official Use Only (FOUO), Law Enforcement Sensitive (LES), Sensitive Homeland Security Information, Security Sensitive Information (SSI), Critical Infrastructure Information (CII), etc. Some categories of SBU information have authority in statute or regulation (e.g. SSI, CII) while others, including FOUO, do not. As of May 9, 2008, the more appropriate terminology to use is Controlled Unclassified Information (CUI). ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Server/Client Computer Certificate (device-based)</tf:Name>
+            <tf:Definition>
+                <![CDATA[ Digital certificates that are issued to servers or client computers or devices by a CA and used to prove device identity between server and/or client computer devices during the authentication process. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Service</tf:Name>
+            <tf:Definition>
+                <![CDATA[ The organized system of apparatus, appliances, personnel, etc, that supply some tangible benefit to the consumers of this service. In the context of CJI, this usually refers to one of the applications that can be used to process CJI. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Shredder</tf:Name>
+            <tf:Definition>
+                <![CDATA[ A device used for shredding documents, often as a security measure to prevent unapproved persons from reading them. Strip-cut shredders, also known as straight-cut or spaghetti-cut, slice the paper into long, thin strips but are not considered secure. Cross-cut shredders provide more security by cutting paper vertically and horizontally into confetti-like pieces. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Smartphone</tf:Name>
+            <tf:Definition>
+                <![CDATA[ See pocket/handheld mobile devices. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Social Engineering</tf:Name>
+            <tf:Definition>
+                <![CDATA[ The act of manipulating people into performing actions or divulging confidential information. While similar to a confidence trick or simple fraud, the term typically applies to trickery or deception for the purpose of information gathering, fraud, or computer system access; in most cases the attacker never comes face-to-face with the victim. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Software Patch</tf:Name>
+            <tf:Definition>
+                <![CDATA[ A piece of software designed to fix problems with, or update, a computer program or its supporting data. This includes fixing security vulnerabilities and other bugs and improving the usability or performance. Though meant to fix problems, poorly designed patches can sometimes introduce new problems. As such, patches should be installed in a test environment prior to being installed in a live, operational system. Patches often can be found in multiple locations but should be retrieved only from sources agreed upon through organizational policy. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Spam</tf:Name>
+            <tf:Definition>
+                <![CDATA[ Irrelevant or inappropriate messages sent on the Internet to a large number of recipients. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>State and Federal Agency User Agreement</tf:Name>
+            <tf:Definition>
+                <![CDATA[ A written agreement that each CSA or SIB Chief shall execute with the FBI CJIS Division stating their willingness to demonstrate conformance with the FBI CJIS Security Policy prior to the establishment of connectivity between organizations. This agreement includes the standards and sanctions governing use of CJIS systems, as well as verbiage to allow the FBI to periodically audit the CSA as well as to allow the FBI to penetration test its own network from the CSA's interfaces to it. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>State Compact Officer</tf:Name>
+            <tf:Definition>
+                <![CDATA[ The representative of a state that is party to the National Crime Prevention and Privacy Compact, and is the chief administrator of the state's criminal history record repository or a designee of the chief administrator who is a regular full-time employee of the repository. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>State Identification Bureau</tf:Name>
+            <tf:Abbreviation>SIB</tf:Abbreviation>
+            <tf:Definition>
+                <![CDATA[ The state agency with the responsibility for the state's fingerprint identification services. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>State Identification Bureau Chief</tf:Name>
+            <tf:Abbreviation>SIB Chief</tf:Abbreviation>
+            <tf:Definition>
+                <![CDATA[ The SIB Chief is the designated manager of state's SIB. If both state fingerprint identification services and CJIS systems control are managed within the same state agency, the SIB Chief and CSO may be the same person. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>State of Residency</tf:Name>
+            <tf:Definition>
+                <![CDATA[ A state of residency is the state in which an individual claims and can provide documented evidence as proof of being his/her permanent living domicile. CJIS Systems Officers have the latitude to determine what documentation constitutes acceptable proof of residency. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>System</tf:Name>
+            <tf:Definition>
+                <![CDATA[ See information system. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>System Security Plan</tf:Name>
+            <tf:Definition>
+                <![CDATA[ Formal document that provides an overview of the security requirements for an information system and describes the security controls in place or planned for meeting those requirements. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Tablet Devices</tf:Name>
+            <tf:Definition>
+                <![CDATA[ Tablet devices are mobile devices with a limited feature operating system (e.g. iOS, Android, Windows RT, etc.). Tablets typically consist of a touch screen without a permanently attached keyboard intended for transport via vehicle mount or portfolio-sized carry case but not on the body. This definition does not include pocket/handheld devices (e.g. smartphones) or mobile devices with full-featured operating systems (e.g. laptops). ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Terminal Agency Coordinator</tf:Name>
+            <tf:Abbreviation>TAC</tf:Abbreviation>
+            <tf:Definition>
+                <![CDATA[ Serves as the point-of-contact at the local agency for matters relating to CJIS information access. A TAC administers CJIS systems programs within the local agency and oversees the agency's compliance with CJIS systems policies. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Threat</tf:Name>
+            <tf:Definition>
+                <![CDATA[ Any circumstance or event with the potential to adversely impact organizational operations (including mission, functions, image, or reputation), organizational assets, or individuals through an information system via unauthorized access, destruction, disclosure, modification of information, and/or denial of service. Also, the potential for a threat-source to successfully exploit a particular information system vulnerability. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>User</tf:Name>
+            <tf:Definition>
+                <![CDATA[ Individual or (system) process authorized to access an information system. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>User Certificate (user-based)</tf:Name>
+            <tf:Definition>
+                <![CDATA[ Digital certificates that are unique and issued to individuals by a CA. Though not always required to do so, these specific certificates are often embedded on smart cards or other external devices as a means of distribution to specified users. This certificate is used when individuals need to prove their identity during the authentication process. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Virtual Escort</tf:Name>
+            <tf:Definition>
+                <![CDATA[ Authorized personnel who actively monitor a remote maintenance session on Criminal Justice Information (CJI)-processing systems. The escort must have the ability to end the session at any time deemed necessary to ensure the protection and integrity of CJI at all times. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Virtual Machine</tf:Name>
+            <tf:Abbreviation>VM</tf:Abbreviation>
+            <tf:Definition>
+                <![CDATA[ See Guest Operating System ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Virtualization</tf:Name>
+            <tf:Definition>
+                <![CDATA[ Refers to a methodology of dividing the resources of a computer (hardware and software) into multiple execution environments, by applying one or more concepts or technologies such as hardware and software partitioning, time-sharing, partial or complete machine simulation or emulation allowing multiple operating systems, or images, to run concurrently on the same hardware. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Voice over Internet Protocol</tf:Name>
+            <tf:Abbreviation>VoIP</tf:Abbreviation>
+            <tf:Definition>
+                <![CDATA[ A set of software, hardware, and standards designed to make it possible to transmit voice over packet switched networks, either an internal Local Area Network, or across the Internet. ]]>
+            </tf:Definition>
+        </tf:Term>
+        <tf:Term>
+            <tf:Name>Vulnerability</tf:Name>
+            <tf:Definition>
+                <![CDATA[ Weakness in an information system, system security procedures, internal controls, or implementation that could be exploited or triggered by a threat source. ]]>
+            </tf:Definition>
+        </tf:Term>
+    </tf:Terms>
+    <tf:Sources>
+        <tf:Source tf:id="Source-1122302982">
+            <tf:Identifier>CJIS-SP-V5-4</tf:Identifier>
+            <tf:Reference>Criminal Justice Information Services (CJIS) Security Policy Version 5.4, 10/06/2015, CJISD-ITS-DOC-08140-5.4</tf:Reference>
+        </tf:Source>
+    </tf:Sources>
+    <tf:ConformanceCriteria>
+        <tf:Preface>
+            <![CDATA[ If conformance criteria reference organization-defined elements (e.g. &ltorganization-defined personnel or roles&gt, &ltorganization-defined frequency&gt, etc.), these values must be defined and documented by the organization. <br><br>Similarly, if the criteria specify a "Selection" among multiple options (e.g. [Selection (one or more): as needed; <organization-defined frequency>]), the option(s) implemented by the organization must also be defined and documented. ]]>
+        </tf:Preface>
+        <tf:ConformanceCriterion tf:id="Criterion1">
+            <tf:Number>1</tf:Number>
+            <tf:Name>C1</tf:Name>
+            <tf:Description>An organization's local policy may augment, or increase the standards, but shall not detract from the CJIS Security Policy standards.</tf:Description>
+            <tf:Citation>
+                <tf:Source tf:ref="Source-1122302982" xsi:nil="true"/>
+                <tf:Description>
+                    <![CDATA[ <em>Section 1.3.</em> ]]>
+                </tf:Description>
+            </tf:Citation>
+        </tf:ConformanceCriterion>
+    </tf:ConformanceCriteria>
+    <tf:AssessmentSteps>
+        <tf:Preface>
+            <![CDATA[ If an assessment step references organization-defined elements (E.g. &ltorganization-defined personnel or roles&gt, &ltorganization-defined frequency&gt, etc.), corresponding citations/excerpts must be provided to confirm that the organization has established and documented these values and that they apply as referenced in the conformance criteria. <br><br>Similarly, if a "Selection" among multiple options (e.g. [Selection (one or more): as needed; <organization-defined frequency>]) is specified, evidence must be provided to establish that the option(s) implemented by the organization have been defined and documented. <br><br> The assessment step shall not be marked as satisfied without this evidence. ]]>
+        </tf:Preface>
+        <tf:AssessmentStep tf:id="LocalPolicyMeetsCJISPolicyAtAMinimum">
+            <tf:Number>1</tf:Number>
+            <tf:Name>Local Policy Meets CJIS Policy At A Minimum</tf:Name>
+            <tf:Description>Does the organization's policy permit anything prohibited by the CJIS security policy?</tf:Description>
+            <tf:ConformanceCriterion tf:ref="Criterion1" xsi:nil="true"/>
+            <tf:Artifact>
+                <tf:Name>A1</tf:Name>
+                <tf:Description>
+                    <![CDATA[ Provide evidence (e.g. organizational policies, procedures, compliance/assessment reports, etc.) that support the assessor's response to this assessment step. ]]>
+                </tf:Description>
+            </tf:Artifact>
+        </tf:AssessmentStep>
+    </tf:AssessmentSteps>
+    <tf:IssuanceCriteria>
+        <![CDATA[ yes(ALL) ]]>
+    </tf:IssuanceCriteria>
+</tf:TrustmarkDefinition>

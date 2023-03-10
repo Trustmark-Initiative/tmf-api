@@ -1,5 +1,6 @@
 package edu.gatech.gtri.trustmark.v1_0.impl.io.json.producers;
 
+import edu.gatech.gtri.trustmark.v1_0.impl.util.ConformanceCriterionUtils;
 import edu.gatech.gtri.trustmark.v1_0.io.json.JsonProducer;
 import edu.gatech.gtri.trustmark.v1_0.model.Artifact;
 import edu.gatech.gtri.trustmark.v1_0.model.AssessmentStep;
@@ -9,6 +10,7 @@ import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkDefinitionParameter;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.adio.AbstractDocumentJsonSerializer.*;
 import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.producers.JsonProducerUtility.toJson;
 
 /**
@@ -37,9 +39,9 @@ public final class AssessmentStepJsonProducer implements JsonProducer<Assessment
 
         JSONArray critArray = new JSONArray();
         for (ConformanceCriterion crit : step.getConformanceCriteria()) {
-            String id = "#criterion" + crit.getNumber();
+            String id = "#" + ConformanceCriterionUtils.CRITERION_ID_PREFIX + crit.getNumber();
             JSONObject critRef = new JSONObject();
-            critRef.put("$ref", id);
+            critRef.put(ATTRIBUTE_KEY_JSON_REF, id);
             critArray.put(critRef);
         }
         jsonObject.put("ConformanceCriteria", critArray);

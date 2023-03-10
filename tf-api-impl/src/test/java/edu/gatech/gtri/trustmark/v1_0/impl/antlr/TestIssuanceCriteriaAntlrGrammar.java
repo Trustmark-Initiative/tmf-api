@@ -21,6 +21,8 @@ import java.util.stream.Stream;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.adio.AbstractDocumentJsonSerializer.*;
+
 /**
  * A {@link Parameterized} test which will run all test cases for the Issuance
  * Criteria grammar found in the JSON files defined by the private static
@@ -74,8 +76,8 @@ public class TestIssuanceCriteriaAntlrGrammar extends AbstractAntlrGrammarTest {
 
     private static AssessmentStepResultImpl toResultImpl(JSONObject json, Integer index) {
         AssessmentStepResultImpl resultImpl = new AssessmentStepResultImpl();
-        if (json.optString("id", null) != null)
-            resultImpl.setAssessmentStepId(json.optString("id"));
+        if (json.optString(ATTRIBUTE_KEY_JSON_ID, null) != null)
+            resultImpl.setAssessmentStepId(json.optString(ATTRIBUTE_KEY_JSON_ID));
         else
             resultImpl.setAssessmentStepId("step" + (index + 1));
 

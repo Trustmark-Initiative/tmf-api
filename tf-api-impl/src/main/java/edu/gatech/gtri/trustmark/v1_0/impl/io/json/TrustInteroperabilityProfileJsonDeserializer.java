@@ -31,6 +31,7 @@ import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.JsonDeserializerUtilit
 import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.JsonDeserializerUtility.readStringList;
 import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.JsonDeserializerUtility.readStringOption;
 import static edu.gatech.gtri.trustmark.v1_0.impl.io.json.JsonDeserializerUtility.readURI;
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.adio.AbstractDocumentJsonSerializer.*;
 import static java.lang.Boolean.TRUE;
 import static java.util.Objects.requireNonNull;
 import static org.gtri.fj.data.Option.somes;
@@ -86,6 +87,7 @@ public final class TrustInteroperabilityProfileJsonDeserializer implements JsonD
 
         readJSONObjectList(jsonObject, "KnownConflicts").mapException(JsonDeserializerUtility::readTrustmarkDefinitionReference).forEach(trustInteroperabilityProfile::addToKnownConflict);
         readJSONObjectList(jsonObject, "Satisfies").mapException(JsonDeserializerUtility::readTrustmarkDefinitionReference).forEach(trustInteroperabilityProfile::addToSatisfies);
+        readJSONObjectList(jsonObject, "RequiredProviders").mapException(JsonDeserializerUtility::readEntityReference).forEach(trustInteroperabilityProfile::addRequiredProvider);
         readJSONObjectList(jsonObject, "Sources").mapException(JsonDeserializerUtility::readSource).forEach(trustInteroperabilityProfile::addSource);
         if (withTerms) {
             readJSONObjectList(jsonObject, "Terms").mapException(JsonDeserializerUtility::readTerm).forEach(trustInteroperabilityProfile::addTerm);
@@ -104,6 +106,7 @@ public final class TrustInteroperabilityProfileJsonDeserializer implements JsonD
         if (!jsonObject.has("TrustInteroperabilityProfileReferences") && !jsonObject.has("TrustmarkDefinitionRequirements"))
             throw new ParseException("The entity must have at least one of the following: TrustInteroperabilityProfileReferences, TrustmarkDefinitionRequirements.");
 
+        //ProviderReferences | ProviderReferences TODO review why are we searching for both
         final List<JSONObject> jsonObjectProviderReference1 = readJSONObjectList(jsonObject, "TrustmarkDefinitionRequirements")
                 .bindException(jsonObjectTrustmarkDefinitionRequirement -> readJSONObjectList(jsonObjectTrustmarkDefinitionRequirement, "ProviderReference"));
 
@@ -143,6 +146,7 @@ public final class TrustInteroperabilityProfileJsonDeserializer implements JsonD
             readStringOption(jsonObjectTrustmarkDefinitionReference, "Name").forEach(trustmarkDefinitionRequirement::setName);
             readStringOption(jsonObjectTrustmarkDefinitionReference, "Version").forEach(trustmarkDefinitionRequirement::setVersion);
 
+            //ProviderReference | ProviderReferences TODO review why are we searching for both
             readJSONObjectList(jsonObject, "ProviderReference").mapException(readFromMap(map, TrustInteroperabilityProfileJsonDeserializer::readIdOrRef)).forEach(trustmarkDefinitionRequirement::addProviderReference);
             readJSONObjectList(jsonObject, "ProviderReferences").mapException(readFromMap(map, TrustInteroperabilityProfileJsonDeserializer::readIdOrRef)).forEach(trustmarkDefinitionRequirement::addProviderReference);
 
@@ -171,13 +175,13 @@ public final class TrustInteroperabilityProfileJsonDeserializer implements JsonD
     private static String readIdOrRef(final JSONObject jsonObject) throws ParseException {
         requireNonNull(jsonObject);
 
-        if (jsonObject.has("$id")) {
-            return readString(jsonObject, "$id");
-        } else if (jsonObject.has("$ref")) {
-            if (readString(jsonObject, "$ref").startsWith("#")) {
-                return readString(jsonObject, "$ref").substring(1);
+        if (jsonObject.has("$id")) { //TODO use constant from edu.gatech.gtri.trustmark.v1_0.impl.io.adio.AbstractDocumentJsonSerializer.*
+            return readString(jsonObject, "$id"); //TODO use constant from edu.gatech.gtri.trustmark.v1_0.impl.io.adio.AbstractDocumentJsonSerializer.*
+        } else if (jsonObject.has(ATTRIBUTE_KEY_JSON_REF)) {
+            if (readString(jsonObject, ATTRIBUTE_KEY_JSON_REF).startsWith("#")) {
+                return readString(jsonObject, ATTRIBUTE_KEY_JSON_REF).substring(1);
             } else {
-                return readString(jsonObject, "$ref");
+                return readString(jsonObject, ATTRIBUTE_KEY_JSON_REF);
             }
         } else {
             throw new ParseException();

@@ -19,6 +19,8 @@ import static org.gtri.fj.data.List.list;
 import static org.gtri.fj.data.List.nil;
 import static org.gtri.fj.data.Option.fromNull;
 
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.adio.AbstractDocumentJsonSerializer.*;
+
 public final class TrustmarkUtility {
     private TrustmarkUtility() {
     }
@@ -123,7 +125,7 @@ public final class TrustmarkUtility {
 
             final Document document = documentBuilder.parse(new InputSource(new StringReader(trustmark.getOriginalSource())));
             // if setSchema worked, we could use this rather than require the client specify the attribute
-            document.getDocumentElement().setIdAttributeNode((Attr) document.getDocumentElement().getAttributes().getNamedItemNS("https://trustmarkinitiative.org/specifications/trustmark-framework/1.4/schema/", "id"), true);
+            document.getDocumentElement().setIdAttributeNode((Attr) document.getDocumentElement().getAttributes().getNamedItemNS("https://trustmarkinitiative.org/specifications/trustmark-framework/1.4/schema/", ATTRIBUTE_KEY_JSON_ID), true);
 
             return document;
         } catch (final ParserConfigurationException parserConfigurationException) {

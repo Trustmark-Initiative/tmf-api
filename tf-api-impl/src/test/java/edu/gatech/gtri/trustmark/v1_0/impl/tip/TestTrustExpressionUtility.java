@@ -32,7 +32,7 @@ import org.gtri.fj.product.P5;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 
 import static edu.gatech.gtri.trustmark.v1_0.tip.TrustExpression.and;
 import static edu.gatech.gtri.trustmark.v1_0.tip.TrustExpression.contains;
@@ -131,7 +131,7 @@ public class TestTrustExpressionUtility {
             }));
 
             final AssessmentStepImpl assessmentStep = new AssessmentStepImpl();
-            assessmentStep.setParameters(new HashSet<>(trustmarkDefinitionParameterList.toList().map(P2::_2).toJavaList()));
+            assessmentStep.setParameters(new LinkedHashSet<>(trustmarkDefinitionParameterList.toList().map(P2::_2).toJavaList()));
 
             final TrustmarkDefinitionImpl trustmarkDefinition = new TrustmarkDefinitionImpl();
             trustmarkDefinition.addAssessmentStep(assessmentStep);

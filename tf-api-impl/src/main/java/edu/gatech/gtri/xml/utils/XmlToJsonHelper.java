@@ -8,6 +8,7 @@ import org.dom4j.Element;
 import org.json.JSONObject;
 
 import java.util.*;
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.adio.AbstractDocumentJsonSerializer.*;
 
 /**
  * Performs some custom rules to convert XML to JSON.
@@ -311,7 +312,7 @@ public class XmlToJsonHelper {
     private static void _applyAttributesToMap(XmlToJsonConversionHelper xmlToJsonConversionHelper, Element element, Map map){
         if( element.attributeCount() > 0 ){
             if( isRefNode(element) ){
-                map.put("$ref", "#"+element.attributeValue("ref"));
+                map.put(ATTRIBUTE_KEY_JSON_REF, "#"+element.attributeValue("ref"));
                 return;
             }
 

@@ -23,7 +23,7 @@ import static org.hamcrest.Matchers.notNullValue;
 
 
 /**
- * Created by brad on 1/7/16.
+ * JSON -> TrustInteroperabilityProfile -> XML
  */
 public class TestTIPXmlProducer extends AbstractTest {
     private static final Logger logger = LoggerFactory.getLogger(TestTIPXmlProducer.class);
@@ -34,10 +34,10 @@ public class TestTIPXmlProducer extends AbstractTest {
     public void testXmlOutput() throws Exception {
         logger.info("Testing Simple Trustmark XML Output...");
 
-        logger.debug("Loading Trustmark from file...");
-        File xmlFile = new File(TIP_FULL_FILE);
-        String xml = FileUtils.readFileToString(xmlFile);
-        TrustInteroperabilityProfile tip = new TrustInteroperabilityProfileJsonDeserializer(true).deserialize(xml);
+        logger.debug("Loading Trustmark from file..." + TIP_FULL_FILE);
+        File jsonFile = new File(TIP_FULL_FILE);
+        String json = FileUtils.readFileToString(jsonFile);
+        TrustInteroperabilityProfile tip = new TrustInteroperabilityProfileJsonDeserializer(true).deserialize(json);
         assertThat(tip, notNullValue());
         assertTipFull(tip);
         logger.debug("Successfully loaded tip-full.json!");
@@ -54,11 +54,11 @@ public class TestTIPXmlProducer extends AbstractTest {
         StringWriter output = new StringWriter();
         serializer.serialize(tip, output);
 
-        String xml2 = output.toString();
-        XmlHelper.validateXml(xml2);
-        logger.debug("Successfully produced XML: \n" + xml2);
+        String xml = output.toString();
+        XmlHelper.validateXml(xml);
+        logger.debug("Successfully produced XML: \n" + xml);
 
-        TrustInteroperabilityProfile tip2 = new TrustInteroperabilityProfileXmlDeserializer(true).deserialize(xml2);
+        TrustInteroperabilityProfile tip2 = new TrustInteroperabilityProfileXmlDeserializer(true).deserialize(xml);
         assertThat(tip2, notNullValue());
         assertTipFull(tip2);
 

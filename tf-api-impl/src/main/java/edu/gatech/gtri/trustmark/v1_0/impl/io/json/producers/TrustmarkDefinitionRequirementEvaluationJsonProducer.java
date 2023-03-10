@@ -22,6 +22,7 @@ import org.kohsuke.MetaInfServices;
 import java.util.HashMap;
 
 import static org.gtri.fj.data.Either.reduce;
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.adio.AbstractDocumentJsonSerializer.*;
 
 @MetaInfServices
 public class TrustmarkDefinitionRequirementEvaluationJsonProducer implements JsonProducer<TrustmarkDefinitionRequirementEvaluation, JSONObject> {
@@ -51,7 +52,7 @@ public class TrustmarkDefinitionRequirementEvaluationJsonProducer implements Jso
     @Override
     public JSONObject serialize(final TrustmarkDefinitionRequirementEvaluation trustmarkDefinitionRequirementEvaluation) {
         return new JSONObject(new HashMap<String, Object>() {{
-            put("$Type", TrustmarkDefinitionRequirementEvaluation.class.getSimpleName());
+            put(ATTRIBUTE_KEY_JSON_TYPE, TrustmarkDefinitionRequirementEvaluation.class.getSimpleName());
             put("TrustExpressionEvaluatorFailureList", new JSONArray(trustmarkDefinitionRequirementEvaluation.getTrustExpressionEvaluatorFailureList().map(jsonProducerForTrustExpressionEvaluatorFailure::serialize).toCollection()));
             put("TrustmarkDefinitionRequirementSatisfactionListValidation", serialize(trustmarkDefinitionRequirementEvaluation.getTrustmarkDefinitionRequirementSatisfaction()));
         }});
@@ -61,11 +62,11 @@ public class TrustmarkDefinitionRequirementEvaluationJsonProducer implements Jso
 
         return reduce(trustmarkDefinitionRequirementSatisfaction.toEither().bimap(
                 failure -> new JSONObject(new HashMap<String, Object>() {{
-                    put("$Type", TrustExpressionFailure.class.getSimpleName());
+                    put(ATTRIBUTE_KEY_JSON_TYPE, TrustExpressionFailure.class.getSimpleName());
                     put("TrustExpressionFailureList", new JSONArray(failure.map(trustExpressionFailure -> jsonProducerForTrustExpressionFailure.serialize(trustExpressionFailure)).toCollection()));
                 }}),
                 success -> new JSONObject(new HashMap<String, Object>() {{
-                    put("$Type", success.getClass().getSimpleName());
+                    put(ATTRIBUTE_KEY_JSON_TYPE, success.getClass().getSimpleName());
                     put("TrustmarkDefinitionRequirementSatisfactionList", serialize(success));
                 }})));
     }
@@ -73,7 +74,7 @@ public class TrustmarkDefinitionRequirementEvaluationJsonProducer implements Jso
     public JSONArray serialize(final List<P2<TrustmarkDefinitionRequirement, List<Trustmark>>> trustmarkDefinitionRequirementSatisfactionList) {
 
         return new JSONArray(trustmarkDefinitionRequirementSatisfactionList.map(p -> new JSONObject(new HashMap<String, Object>() {{
-            put("$Type", p.getClass().getSimpleName());
+            put(ATTRIBUTE_KEY_JSON_TYPE, p.getClass().getSimpleName());
             put("TrustmarkDefinitionRequirement", jsonProducerForTrustmarkDefinitionRequirement.serialize(p._1()));
             put("TrustmarkList", p._2().map(trustmark -> jsonProducerForTrustmark.serialize(trustmark)));
         }})).toCollection());

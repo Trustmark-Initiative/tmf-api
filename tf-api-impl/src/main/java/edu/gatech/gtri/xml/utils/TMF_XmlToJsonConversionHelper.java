@@ -40,7 +40,7 @@ public class TMF_XmlToJsonConversionHelper implements XmlToJsonConversionHelper 
     //  STATIC METHODS
     //==================================================================================================================
     static {
-        PLURAL_PATHS = new HashSet<>();
+        PLURAL_PATHS = new LinkedHashSet<>();
         PLURAL_PATHS.add(toList("ConformanceCriteria", "Citation"));
         PLURAL_PATHS.add(toList("AssessmentSteps", "Artifact"));
         PLURAL_PATHS.add(toList("AssessmentSteps", "ConformanceCriterion"));

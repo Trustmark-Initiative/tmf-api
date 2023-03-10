@@ -1,6 +1,7 @@
 package edu.gatech.gtri.trustmark.v1_0.model;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Implementations represent a Trust Interoperability Profile (TIP) from the
@@ -44,6 +45,13 @@ public interface TrustInteroperabilityProfile extends TrustmarkFrameworkReferenc
      * and non-empty
      */
     Collection<AbstractTIPReference> getReferences();
+
+    /**
+     * Returns a list of references to the Required Providers
+     *
+     * @return TrustmarkProvider
+     */
+    List<Entity> getRequiredProviders();
 
     /**
      * Returns a boolean expression that indicates whether an entity satisfies

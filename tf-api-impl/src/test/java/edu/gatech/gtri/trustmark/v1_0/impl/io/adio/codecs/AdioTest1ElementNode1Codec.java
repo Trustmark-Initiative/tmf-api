@@ -29,7 +29,7 @@ public class AdioTest1ElementNode1Codec extends Codec<AdioTest1.ElementNode1> {
     
     @Override
     public Set<String> getCdataValueNames() {
-        return new HashSet<>(Arrays.asList(
+        return new LinkedHashSet<>(Arrays.asList(
             "ChildCdataValueNode1",
             "ChildCdataValueNode2"
         ));

@@ -20,6 +20,8 @@ public final class HttpResponseImpl implements HttpResponse {
     private String responseMessage;
     private byte[] data;
 
+    public HttpResponseImpl() {}
+
     public HttpResponseImpl(
             final Map<String, List<String>> headers,
             final String contentType,
@@ -42,6 +44,7 @@ public final class HttpResponseImpl implements HttpResponse {
         return headers;
     }
 
+    @Override
     public void setHeaders(final Map<String, List<String>> headers) {
 
         requireNonNull(headers);
@@ -54,6 +57,7 @@ public final class HttpResponseImpl implements HttpResponse {
         return contentType;
     }
 
+    @Override
     public void setContentType(final String contentType) {
         this.contentType = contentType;
     }
@@ -63,6 +67,7 @@ public final class HttpResponseImpl implements HttpResponse {
         return responseCode;
     }
 
+    @Override
     public void setResponseCode(final int responseCode) {
         this.responseCode = responseCode;
     }
@@ -72,6 +77,7 @@ public final class HttpResponseImpl implements HttpResponse {
         return responseMessage;
     }
 
+    @Override
     public void setResponseMessage(final String responseMessage) {
         this.responseMessage = responseMessage;
     }
@@ -94,6 +100,7 @@ public final class HttpResponseImpl implements HttpResponse {
         return data;
     }
 
+    @Override
     public void setData(final byte[] data) {
 
         requireNonNull(data);

@@ -86,9 +86,9 @@ public class IOUtils {
         return fetchJSON(url);
     }
 
-
     public static JSONObject fetchJSON(URL url) throws RemoteException {
         NetworkDownloader nd = resolveNetworkDownloader();
+
         HttpResponse httpResponse = null;
         try {
             log.debug("Resolving content from URL: "+url);
@@ -110,7 +110,6 @@ public class IOUtils {
             throw new RemoteException("Invalid Response Code["+httpResponse.getResponseCode()+"] when fetching URL: "+url);
         }
     }
-
 
     public static NetworkDownloader resolveNetworkDownloader(){
         NetworkDownloader downloader = FactoryLoader.getInstance(NetworkDownloader.class);

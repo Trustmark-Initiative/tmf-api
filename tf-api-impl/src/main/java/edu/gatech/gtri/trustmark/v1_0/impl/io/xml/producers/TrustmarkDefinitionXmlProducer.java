@@ -14,6 +14,7 @@ import javax.xml.stream.XMLStreamWriter;
 
 import static edu.gatech.gtri.trustmark.v1_0.impl.TrustmarkFrameworkConstants.NAMESPACE_URI;
 
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.adio.AbstractDocumentJsonSerializer.*;
 
 /**
  * Created by brad on 1/7/16.
@@ -32,7 +33,7 @@ public class TrustmarkDefinitionXmlProducer implements XmlProducer<TrustmarkDefi
         log.debug("Writing XML for TD[" + td.getMetadata().getIdentifier() + "]...");
 
         if (td.getId() != null) {
-            xmlWriter.writeAttribute(NAMESPACE_URI, "id", td.getId());
+            xmlWriter.writeAttribute(NAMESPACE_URI, ATTRIBUTE_KEY_JSON_ID, td.getId());
         }
 
         writeMetadata(td, td.getMetadata(), xmlWriter);

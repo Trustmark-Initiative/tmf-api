@@ -7,7 +7,7 @@ import edu.gatech.gtri.trustmark.v1_0.model.TrustmarkParameterBinding;
 import java.net.URI;
 import java.net.URL;
 import java.util.Date;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import static java.util.Objects.requireNonNull;
@@ -45,8 +45,8 @@ public class TrustmarkImpl extends TrustmarkFrameworkIdentifiedObjectImpl implem
         this.recipient = null;
         this.definitionExtension = null;
         this.providerExtension = null;
-        this.exceptionInfo = new HashSet<>();
-        this.parameterBindings = new HashSet<>();
+        this.exceptionInfo = new LinkedHashSet<>();
+        this.parameterBindings = new LinkedHashSet<>();
     }
 
     public TrustmarkImpl(

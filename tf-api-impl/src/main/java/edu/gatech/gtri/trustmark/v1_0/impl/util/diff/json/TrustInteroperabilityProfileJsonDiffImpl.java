@@ -5,6 +5,8 @@ import edu.gatech.gtri.trustmark.v1_0.impl.util.diff.json.field.RootNodeJsonDiff
 import edu.gatech.gtri.trustmark.v1_0.model.TrustInteroperabilityProfile;
 import edu.gatech.gtri.trustmark.v1_0.util.diff.DiffSeverity;
 
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.adio.AbstractDocumentJsonSerializer.*;
+
 /**
  * Created by Nicholas on 9/19/2016.
  */
@@ -16,8 +18,8 @@ public class TrustInteroperabilityProfileJsonDiffImpl extends AbstractJsonDiff<T
     public RootNodeJsonDiffField getRootNodeDiffField() {
         return JsonDiffField.rootNode(
             DiffSeverity.MINOR,
-            JsonDiffField.valueExact("$TMF_VERSION"),
-            JsonDiffField.valueExact("$Type"),
+            JsonDiffField.valueExact(ATTRIBUTE_KEY_JSON_TMF_VERSION),
+            JsonDiffField.valueExact(ATTRIBUTE_KEY_JSON_TYPE),
 
             // major metadata ID fields
             JsonDiffField.valueExact("Identifier"),
@@ -29,6 +31,7 @@ public class TrustInteroperabilityProfileJsonDiffImpl extends AbstractJsonDiff<T
             // minor metadata ID fields
             JsonDiffField.valueDistance("Description"),
             JsonDiffField.valueDistance("LegalNotice"),
+            JsonDiffField.valueDistance("RequiredProviders"),
             JsonDiffField.valueDistance("Notes"),
             JsonDiffField.minorSimpleCollection("Supersessions.SupersededBy"),
             JsonDiffField.minorSimpleCollection("Supersessions.Supersedes"),
@@ -51,7 +54,7 @@ public class TrustInteroperabilityProfileJsonDiffImpl extends AbstractJsonDiff<T
                 JsonDiffField.valueIgnore("Version"),
                 JsonDiffField.valueIgnore("Description"),
                 JsonDiffField.valueIgnore("$id"),
-                JsonDiffField.valueIgnore("$Type"),
+                JsonDiffField.valueIgnore(ATTRIBUTE_KEY_JSON_TYPE),
                 JsonDiffField.valueIgnore("TrustmarkDefinitionReference"),
                 JsonDiffField.valueIgnore("ProviderReferences")
             ),
@@ -62,7 +65,7 @@ public class TrustInteroperabilityProfileJsonDiffImpl extends AbstractJsonDiff<T
                 JsonDiffField.valueIgnore("Version"),
                 JsonDiffField.valueIgnore("Description"),
                 JsonDiffField.valueIgnore("$id"),
-                JsonDiffField.valueIgnore("$Type")
+                JsonDiffField.valueIgnore(ATTRIBUTE_KEY_JSON_TYPE)
             ),
             
             // terms

@@ -14,7 +14,7 @@ import org.dom4j.QName;
 
 import java.net.URI;
 import java.util.Arrays;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -43,7 +43,7 @@ public class AgreementResponsibilityTemplateCodec extends Codec<AgreementRespons
     
     @Override
     public Set<String> getCdataValueNames() {
-        return new HashSet<>(Arrays.asList(
+        return new LinkedHashSet<>(Arrays.asList(
             "Definition"
         ));
     }

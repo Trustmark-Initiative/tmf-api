@@ -113,8 +113,12 @@
     ]
   },
   "LegalNotice": "This is the legal notice.",
+  "RequiredProviders": [
+    {
+      "Identifier": "https://trustmarkinitiative.org/tp/tip/full"
+    }
+  ],
   "Notes": "Notes",
-
   "Terms": [
     {
       "Name": "Term1",
@@ -125,7 +129,6 @@
       "Definition": "Term1 Def"
     }
   ],
-
   "Sources": [
     {
       "Identifier": "Source1",

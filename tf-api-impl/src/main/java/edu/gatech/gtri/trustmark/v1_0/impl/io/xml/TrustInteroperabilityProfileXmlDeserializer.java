@@ -16,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -159,6 +160,18 @@ public class TrustInteroperabilityProfileXmlDeserializer implements XmlDeseriali
 
         trustInteroperabilityProfile.setTrustExpression(getString(element, "./tf:TrustExpression", true));
 
+        //RequiredProviders
+        List<Node> allRequiredProvidersEntries = element.selectNodes(".//tf:RequiredProviders/tf:ProviderReference");
+        if (allRequiredProvidersEntries != null && !allRequiredProvidersEntries.isEmpty()) {
+            List<Entity> requiredProvidersList = new ArrayList<>();
+            for (Node providerXml : allRequiredProvidersEntries) {
+                Entity entity = readEntityReference(providerXml);
+                requiredProvidersList.add(entity);
+            }
+            trustInteroperabilityProfile.setRequiredProviders(requiredProvidersList);
+        }
+
+
         HashMap<String, Entity> providerReferenceMap = new HashMap<>();
         List<Node> allFullProviderEntries = element.selectNodes(".//tf:ProviderReference[string-length(string(./@tf:id)) > 0]");
         if (allFullProviderEntries != null && !allFullProviderEntries.isEmpty()) {
@@ -189,6 +202,8 @@ public class TrustInteroperabilityProfileXmlDeserializer implements XmlDeseriali
                 }
             }
         }
+
+
 
 
         return trustInteroperabilityProfile;

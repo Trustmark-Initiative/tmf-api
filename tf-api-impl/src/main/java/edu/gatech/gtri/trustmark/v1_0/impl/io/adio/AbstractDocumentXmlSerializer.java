@@ -8,11 +8,7 @@ import org.dom4j.QName;
 
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 import java.util.regex.Pattern;
 
 /**
@@ -29,15 +25,8 @@ public class AbstractDocumentXmlSerializer<T> extends AbstractDocumentOutputSeri
     public static final Namespace NAMESPACE_TF = Namespace.get(NAMESPACE_TF_PREFIX, NAMESPACE_TF_URI);
     public static final String NAMESPACE_XSI_PREFIX = "xsi";
     public static final String NAMESPACE_XSI_URI = XmlProducerUtility.XSI_NS_URI;
-    public static final Namespace NAMESPACE_XSI = Namespace.get(NAMESPACE_XSI_PREFIX, NAMESPACE_XSI_URI);
     public static final QName ATTRIBUTE_KEY_XML_TD_ID = QName.get(ATTRIBUTE_KEY_ID, NAMESPACE_TF);     // tf:id
     public static final QName ATTRIBUTE_KEY_XML_TD_REF = QName.get(ATTRIBUTE_KEY_REF, NAMESPACE_TF);   // tf:ref
-    public static final QName ATTRIBUTE_KEY_XML_XSI_NIL = QName.get(ATTRIBUTE_KEY_NIL, NAMESPACE_XSI); // xsi:nil
-    public static final Set<QName> ATTRIBUTE_KEYS_XML_META = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(
-            ATTRIBUTE_KEY_XML_TD_ID,
-            ATTRIBUTE_KEY_XML_TD_REF,
-            ATTRIBUTE_KEY_XML_XSI_NIL
-    )));
 
     public static final String CDATA_START = "<![CDATA[";
     public static final String CDATA_END_BRACKETS = "]]";

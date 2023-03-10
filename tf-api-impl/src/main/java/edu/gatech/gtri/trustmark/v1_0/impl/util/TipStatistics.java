@@ -192,7 +192,7 @@ public class TipStatistics {
     
     public static class ProvidedTipStatisticsCache implements TipStatisticsCache {
         // Fields
-        protected final HashSet<URI> knownTdIdentifiers;
+        protected final LinkedHashSet<URI> knownTdIdentifiers;
         protected final HashMap<URI,TrustInteroperabilityProfile> knownTips;
         
         // Constructor
@@ -200,7 +200,7 @@ public class TipStatistics {
             Collection<? extends TrustInteroperabilityProfile> tips,
             Collection<? extends TrustmarkDefinition> tds
         ) throws Exception {
-            this.knownTdIdentifiers = new HashSet<>();
+            this.knownTdIdentifiers = new LinkedHashSet<>();
             for (TrustmarkDefinition td : tds) {
                 this.knownTdIdentifiers.add(td.getMetadata().getIdentifier());
             }

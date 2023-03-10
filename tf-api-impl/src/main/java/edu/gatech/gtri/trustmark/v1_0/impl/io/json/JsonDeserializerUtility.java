@@ -31,6 +31,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
+import static edu.gatech.gtri.trustmark.v1_0.impl.io.adio.AbstractDocumentJsonSerializer.*;
+
 import static java.lang.String.format;
 import static java.util.Objects.requireNonNull;
 import static org.gtri.fj.data.List.nil;
@@ -62,7 +64,7 @@ public abstract class JsonDeserializerUtility {
     }
 
     public static void assertSupportedVersion(JSONObject json) throws ParseException {
-        String tmfVersion = json.optString("$TMF_VERSION");
+        String tmfVersion = json.optString(ATTRIBUTE_KEY_JSON_TMF_VERSION);
         if (tmfVersion == null || tmfVersion.trim().length() == 0) {
             throw new ParseException("This JSON is not supported.  The JSON given cannot be parsed, because it is missing a '$TMF_VERSION' field to indicate which version of the library it works with.");
         }
@@ -76,7 +78,7 @@ public abstract class JsonDeserializerUtility {
     }
 
     private static void isSupportedType(JSONObject json) throws ParseException {
-        String type = json.optString("$Type");
+        String type = json.optString(ATTRIBUTE_KEY_JSON_TYPE);
         if (type == null || type.trim().length() == 0) {
             throw new ParseException("This JSON is not supported.  The JSON given cannot be parsed, because it is missing a '$Type' field to indicate which object this is.");
         }
