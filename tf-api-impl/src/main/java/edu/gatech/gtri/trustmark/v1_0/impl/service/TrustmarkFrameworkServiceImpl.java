@@ -50,7 +50,7 @@ public class TrustmarkFrameworkServiceImpl implements TrustmarkFrameworkService 
     @Override
     public RemoteStatusImpl getStatus()  throws RemoteException {
         log.debug(String.format("Getting remote server status for BaseURL[%s]...", this.baseUrl.toString()));
-        String statusUrlString = this.baseUrl.toString() + "/status?format=json";
+        String statusUrlString = ensureTrailingSlash(this.baseUrl.toString()) + "status?format=json";
         JSONObject statusJson = IOUtils.fetchJSON(statusUrlString);
         RemoteStatusImpl status = new RemoteStatusImpl(statusJson);
         return status;
@@ -329,6 +329,10 @@ public class TrustmarkFrameworkServiceImpl implements TrustmarkFrameworkService 
         downloadAllThread.start();
 
         return downloadAllThread;
+    }
+
+    private String ensureTrailingSlash(String url) {
+        return url.endsWith("/") ? url : url + "/";
     }
 
     private void fireDownloadAllStarted(DownloadAllListener[] listeners){
