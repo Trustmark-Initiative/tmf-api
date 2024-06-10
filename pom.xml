@@ -4,13 +4,27 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>edu.gatech.gtri.trustmark</groupId>
     <artifactId>tf-api-reactor</artifactId>
-    <version>1.4.44</version>
+    <version>1.4.46</version>
     <packaging>pom</packaging>
     <modules>
         <module>tf-api-maven</module>
         <module>tf-api</module>
         <module>tf-api-impl</module>
     </modules>
+
+    <distributionManagement>
+        <repository>
+            <id>central</id>
+            <name>ICL Artifactory-releases</name>
+            <url>https://artifactory.icl.gtri.org:443/artifactory/trustmark-maven</url>
+        </repository>
+        <snapshotRepository>
+            <id>snapshots</id>
+            <name>ICL Artifactory-snapshots</name>
+            <url>https://artifactory.icl.gtri.org:443/artifactory/trustmark-maven</url>
+        </snapshotRepository>
+
+    </distributionManagement>
 
     <build>
         <plugins>

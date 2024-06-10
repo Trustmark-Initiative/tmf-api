@@ -18,6 +18,12 @@ public class IssuanceCriteriaELContext extends ELContext {
 	public static final String ALL_PREDICATE_PARAM = "all";
 	public static final String NONE_PREDICATE_PARAM = "none";
 
+	public static final String ALL_PREDICATE_PARAM_PARENS = "(all)";
+	public static final String NONE_PREDICATE_PARAM_PARENS = "(none)";
+
+	private static final String WHITESPACE = "\\s";
+	private static final String EMPTY_STRING = "";
+
 	private final IssuanceCriteriaELFunctionMapperBase functionMapper;
 	private final ELResolver resolver = new SimpleResolver();
 	private final AssessmentResultsELVariableMapper variableMapper;
@@ -25,8 +31,8 @@ public class IssuanceCriteriaELContext extends ELContext {
 	public IssuanceCriteriaELContext(String expression, AssessmentResults results, ExpressionFactory exprFactory) {
 		variableMapper = new AssessmentResultsELVariableMapper(results, exprFactory);
 
-		if (expression.toLowerCase(Locale.ROOT).contains(ALL_PREDICATE_PARAM) ||
-				expression.toLowerCase().contains(NONE_PREDICATE_PARAM)) {
+		if (expression.replaceAll(WHITESPACE, EMPTY_STRING).toLowerCase(Locale.ROOT).contains(ALL_PREDICATE_PARAM_PARENS) ||
+				expression.replaceAll(WHITESPACE, EMPTY_STRING).toLowerCase().contains(NONE_PREDICATE_PARAM_PARENS)) {
 			functionMapper = IssuanceCriteriaELAllOrNoneFunctionMapper.getInstance();
 		} else if (expression.contains(",")) {
 			functionMapper = IssuanceCriteriaELStepListFunctionMapper.getInstance();

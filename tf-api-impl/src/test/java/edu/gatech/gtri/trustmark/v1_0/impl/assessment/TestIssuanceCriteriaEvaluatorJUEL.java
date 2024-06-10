@@ -428,6 +428,30 @@ public class TestIssuanceCriteriaEvaluatorJUEL extends AbstractTest {
     }
 
 
+    @Test
+    public void testStepIdWithALLSubString() throws Exception {
+        String name = "testStepIdWithALLSubString";
+
+        // ExponentialLimiting => Exponenti-alL-imiting
+        String issuanceCriteria = "yes(ExponentialLimiting)";
+        AssessmentResults results = new AssessmentResultsImpl();
+        results.put("ExponentialLimiting", StepResult.YES);
+        Boolean expectedEvaluation = true;
+        doTest(name, issuanceCriteria, results, expectedEvaluation);
+    }
+
+    @Test
+    public void testStepIdWithNONESubString() throws Exception {
+        String name = "testStepIdWithNONESubString";
+
+        // AdminOnetime => Admi-nOne-time
+        String issuanceCriteria = "yes(AdminOnetime)";
+        AssessmentResults results = new AssessmentResultsImpl();
+        results.put("AdminOnetime", StepResult.YES);
+        Boolean expectedEvaluation = true;
+        doTest(name, issuanceCriteria, results, expectedEvaluation);
+    }
+
     /**
      * Tests creation of a new {@link IssuanceCriteriaEvaluatorJUEL} instance.
      */

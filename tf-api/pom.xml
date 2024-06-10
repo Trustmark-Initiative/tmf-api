@@ -4,11 +4,11 @@
     <parent>
         <groupId>edu.gatech.gtri.trustmark</groupId>
         <artifactId>tf-api-maven</artifactId>
-        <version>1.4.44</version>
+        <version>1.4.46</version>
         <relativePath>../tf-api-maven</relativePath>
     </parent>
     <artifactId>tf-api</artifactId>
-    <version>1.4.44</version>
+    <version>1.4.46</version>
     <packaging>jar</packaging>
     <dependencies>
         <dependency>
@@ -17,11 +17,11 @@
         </dependency>
         <dependency>
             <groupId>org.bouncycastle</groupId>
-            <artifactId>bcpkix-jdk15on</artifactId>
+            <artifactId>bcpkix-jdk18on</artifactId>
         </dependency>
         <dependency>
             <groupId>org.bouncycastle</groupId>
-            <artifactId>bcprov-jdk15on</artifactId>
+            <artifactId>bcprov-jdk18on</artifactId>
         </dependency>
         <dependency>
             <groupId>org.gtri.functionaljava</groupId>
